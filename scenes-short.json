@@ -1,0 +1,90 @@
+[
+  {
+    "id": "hook",
+    "vo": "Your AI agent says the work is done. ... Is it?",
+    "min": 6,
+    "nocaption": true,
+    "title": "The manifesto"
+  },
+  {
+    "id": "stats",
+    "vo": "In real repositories, agents drift. Rule files that share almost nothing. Seventeen checks nobody ran. Thirty-two hundred files, changed at once.",
+    "min": 8,
+    "title": "Agents drift"
+  },
+  {
+    "id": "reveal",
+    "vo": "Meet Majordomus. The supervisory layer for your AI agents.",
+    "min": 5,
+    "title": "Meet Majordomus"
+  },
+  {
+    "id": "setup",
+    "vo": "Install it with one line. Initialise your repository. Then start a task with a scope, and let your agents work.",
+    "min": 8,
+    "title": "Three commands"
+  },
+  {
+    "id": "terminal",
+    "vo": "When an agent says it's finished, Majordomus checks the scope, the state, and the tests. And when anything fails, it refuses.",
+    "min": 8,
+    "title": "Done is a contract"
+  },
+  {
+    "id": "provenance",
+    "vo": "And every proof leaves a record. The test, the commit, the tree, the time, and the exact command. Provenance, not promises.",
+    "min": 9,
+    "title": "Provenance, not promises"
+  },
+  {
+    "id": "models",
+    "vo": "Models are declared data. Anthropic and OpenAI in the cloud, Ollama and LM Studio on your own machine. Routing picks one by need. Ask for local only, and it answers: nothing qualifies. Never a guess.",
+    "min": 13,
+    "title": "Models, declared"
+  },
+  {
+    "id": "mesh",
+    "vo": "Claude, Codex and Gemini share one board. When two reach for the same file, you hear about it before the merge.",
+    "min": 7.5,
+    "title": "One board, every agent"
+  },
+  {
+    "id": "machines",
+    "vo": "The mesh spans every machine you work on. The desktop at home. The rack in the datacenter, behind a TLS hub. The whole fleet across the company, on a private network.",
+    "min": 11,
+    "title": "Home, datacenter, company"
+  },
+  {
+    "id": "security",
+    "vo": "Every message is signed with the machine's own key. No one is trusted until you list them. A public address is reached over HTTPS only. And nothing a peer sends is ever executed.",
+    "min": 11,
+    "title": "Signed, listed, inert"
+  },
+  {
+    "id": "personal",
+    "vo": "Not your repository to change? Personal mode keeps the whole layer in your clone, and the team's tree stays byte for byte what they committed.",
+    "min": 10,
+    "title": "Personal mode"
+  },
+  {
+    "id": "beliefs",
+    "vo": "We believe done is a contract, not a feeling. That agents should prove, not promise. That the repository remembers what the chat forgets. ... AI agents were a leap forward. Trust is the next one.",
+    "min": 12,
+    "nocaption": true,
+    "title": "The manifesto, No. 02"
+  },
+  {
+    "id": "cta",
+    "vo": "Your agents say it's done. Majordomus makes them prove it. Majordomus dot dev.",
+    "min": 6.5,
+    "nocaption": true,
+    "title": "Make them prove it"
+  },
+  {
+    "id": "loop",
+    "vo": "Because tomorrow, again,",
+    "min": 2.4,
+    "nocaption": true,
+    "title": "Again"
+  }
+]

@@ -1,0 +1,1197 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root {
+    --bg: #070b16;
+    --panel: rgba(17, 26, 46, .82);
+    --line: rgba(148, 163, 184, .16);
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+    --violet: #a78bfa;
+    --sky: #38bdf8;
+    --green: #34d399;
+    --red: #f87171;
+    --amber: #fbbf24;
+    --grad: linear-gradient(90deg, #a78bfa, #38bdf8 55%, #34d399);
+    --sans: -apple-system, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif;
+    --mono: ui-monospace, 'SF Mono', Menlo, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--bg); }
+  body { font-family: var(--sans); color: var(--text); position: relative; -webkit-font-smoothing: antialiased; }
+
+  /* living background */
+  .layer { position: absolute; inset: 0; pointer-events: none; }
+  .blob { position: absolute; width: 1300px; height: 1300px; left: 0; top: 0; border-radius: 50%; }
+  .floor { position: absolute; left: -900px; width: 2880px; bottom: -40px; height: 1000px;
+    transform-origin: 50% 100%; transform: perspective(760px) rotateX(72deg);
+    background-image: linear-gradient(rgba(148,163,184,.16) 2px, transparent 2px),
+      linear-gradient(90deg, rgba(148,163,184,.16) 2px, transparent 2px);
+    background-size: 120px 120px;
+    -webkit-mask-image: linear-gradient(to top, #000 5%, transparent 85%); }
+  .p { position: absolute; border-radius: 50%; }
+  .grain { position: absolute; left: -200px; top: -200px; width: 1480px; height: 2320px; opacity: .07;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"); }
+  .vignette { background: radial-gradient(1100px 1500px at 50% 45%, transparent 55%, rgba(0,0,0,.6)); }
+  .sweep { position: absolute; top: -300px; left: 0; width: 520px; height: 2600px; opacity: 0;
+    background: linear-gradient(90deg, transparent, rgba(167,139,250,.22), rgba(56,189,248,.32),
+      rgba(52,211,153,.22), transparent); filter: blur(30px); }
+
+  .brand { position: absolute; top: 110px; left: 80px; display: flex; align-items: center; gap: 18px;
+    font-size: 32px; font-weight: 650; letter-spacing: -.5px; z-index: 5; }
+  .brand small { display: block; font-size: 15px; letter-spacing: 4px; opacity: .6; font-weight: 500; }
+
+  /* scenes */
+  .scene { position: absolute; inset: 0; padding: 280px 80px 560px; display: flex; flex-direction: column;
+    justify-content: center; opacity: 0; will-change: transform, opacity, filter; }
+  .scene::before { content: ''; position: absolute; inset: 0; z-index: -1;
+    background: radial-gradient(900px 700px at 50% 42%, rgba(var(--tint), .17), transparent 70%); }
+  [data-at], [data-cue] { opacity: 0; }
+  .w { display: inline-block; }
+  svg [data-fx] { transform-box: fill-box; transform-origin: center; }
+
+  h1 { font-size: 96px; line-height: 1.04; letter-spacing: -3px; font-weight: 850; text-wrap: balance; }
+  h2 { font-size: 84px; line-height: 1.04; letter-spacing: -2.5px; font-weight: 850; }
+  .kicker { font-size: 28px; letter-spacing: 6px; text-transform: uppercase; color: var(--muted);
+    font-weight: 650; margin-bottom: 22px; }
+  .accent { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .hot { color: var(--red); }
+  .center { text-align: center; }
+  .glass { background: var(--panel); border: 2px solid var(--line); border-radius: 34px;
+    box-shadow: 0 40px 100px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.06);
+    backdrop-filter: blur(6px); }
+
+  /* hook */
+  .chat { display: flex; flex-direction: column; gap: 22px; }
+  .msg { align-self: flex-start; padding: 30px 40px; font-size: 46px; line-height: 1.25; font-weight: 550;
+    border-radius: 34px 34px 34px 10px; }
+  .msg .who { font-size: 24px; letter-spacing: 3px; text-transform: uppercase; color: var(--muted);
+    margin-bottom: 12px; display: flex; gap: 12px; align-items: center; }
+  .msg .who i { width: 16px; height: 16px; border-radius: 50%; background: var(--green);
+    box-shadow: 0 0 16px var(--green); }
+  .msg.done { border-color: rgba(52,211,153,.5); }
+  .check { color: var(--green); font-weight: 800; }
+  .big-q { margin-top: 110px; text-align: center; font-size: 230px; font-weight: 900; letter-spacing: -8px;
+    line-height: 1; color: #fff; }
+
+
+  /* manifesto */
+  .manifesto { --serif: ui-serif, 'New York', 'Iowan Old Style', Georgia, serif; justify-content: center;
+    padding-top: 240px; }
+  .mf-meta { display: flex; justify-content: space-between; font-family: var(--sans); font-size: 22px;
+    font-weight: 600; letter-spacing: 6px; text-transform: uppercase; color: var(--muted); }
+  .mf-rule { height: 2px; margin: 26px 0 54px; background: rgba(226,232,240,.5); transform-origin: 0 50%; }
+  .mf-foot { margin-top: -26px; }
+  .mf-line { font-family: var(--serif); font-size: 124px; font-weight: 500; line-height: 1.04;
+    letter-spacing: -3px; color: #f1f5f9; }
+  .mf-line em, .mf-q em { font-style: italic; font-weight: 400; }
+  .mf-done { position: relative; display: inline-block; }
+  .mf-ul { position: absolute; left: 4px; right: 34px; bottom: 6px; height: 7px; border-radius: 4px;
+    background: var(--grad); transform-origin: 0 50%; }
+  .mf-q { margin-top: 90px; font-family: var(--serif); font-size: 228px; line-height: 1; letter-spacing: -6px;
+    color: #fff; }
+  .mf-q + .mf-rule { margin-top: 70px; }
+
+
+  .thesis { display: grid; grid-template-columns: 110px 1fr; align-items: baseline; margin-bottom: 44px; }
+  .thesis .num { font-family: var(--serif); font-size: 40px; font-style: italic; color: var(--violet); }
+  .thesis p { font-family: var(--serif); font-size: 70px; line-height: 1.08; letter-spacing: -1.5px;
+    font-weight: 500; color: #f1f5f9; text-wrap: balance; }
+  .thesis em, .leap em { font-style: italic; font-weight: 400; color: #cbd5e1; }
+  #beliefs .mf-rule:nth-of-type(2) { margin-top: 20px; }
+  .leap { text-wrap: balance; font-family: var(--serif); font-size: 92px; line-height: 1.04; letter-spacing: -2.5px;
+    font-weight: 500; color: #fff; }
+  .leap em.accent { color: transparent; padding-right: 8px; }
+
+  /* stats */
+  .stats { margin-top: 46px; display: flex; flex-direction: column; gap: 24px; }
+  .stat { display: flex; align-items: center; gap: 36px; padding: 34px 40px; }
+  .num { flex: none; width: 330px; font-size: 112px; font-weight: 900; letter-spacing: -4px; line-height: 1;
+    color: var(--red); font-variant-numeric: tabular-nums; text-shadow: 0 0 40px rgba(248,113,113,.35); }
+  .lbl { font-size: 36px; line-height: 1.25; color: var(--text); font-weight: 550; }
+  .foot { margin-top: 30px; font-size: 26px; color: var(--muted); }
+
+  /* reveal */
+  .rays { position: absolute; left: 50%; top: 42%; width: 2400px; height: 2400px; margin: -1200px 0 0 -1200px;
+    background: repeating-conic-gradient(from 0deg, rgba(167,139,250,.10) 0 4deg, transparent 4deg 12deg,
+      rgba(56,189,248,.09) 12deg 15deg, transparent 15deg 24deg);
+    -webkit-mask-image: radial-gradient(circle, #000 0, transparent 55%); }
+  .mark-big { align-self: center; width: 420px; height: 420px; overflow: visible;
+    filter: drop-shadow(0 0 30px rgba(56,189,248,.55)); }
+  .wordmark { text-align: center; margin-top: 40px; font-size: 128px; font-weight: 850; letter-spacing: -4px; }
+  .wordmark small { display: block; font-size: 30px; letter-spacing: 14px; font-weight: 600; color: var(--muted);
+    margin-bottom: 12px; }
+  .tag { text-align: center; font-size: 50px; line-height: 1.2; color: var(--muted); margin-top: 30px;
+    font-weight: 550; }
+
+  /* terminal */
+  .term { overflow: hidden; margin-top: 46px; background: rgba(4,7,15,.92); }
+  .term-bar { display: flex; gap: 14px; align-items: center; padding: 24px 28px; border-bottom: 2px solid var(--line); }
+  .term-bar i { width: 20px; height: 20px; border-radius: 50%; background: #334155; }
+  .term-bar span { margin-left: 18px; font-family: var(--mono); font-size: 24px; color: var(--muted); }
+  .term-body { padding: 34px 34px 40px; font-family: var(--mono); font-size: 31px; line-height: 1.62; white-space: pre-wrap; }
+  .prompt { color: var(--sky); }
+  .ok { color: var(--green); font-weight: 700; }
+  .fail { color: var(--red); font-weight: 700; }
+  .dim { color: var(--muted); }
+  .stamp { margin-top: 60px; align-self: center; font-size: 104px; font-weight: 900; letter-spacing: 10px;
+    color: var(--red); border: 11px solid var(--red); border-radius: 26px; padding: 12px 48px;
+    box-shadow: 0 0 90px rgba(248,113,113,.4), inset 0 0 40px rgba(248,113,113,.18);
+    text-shadow: 0 0 30px rgba(248,113,113,.5); }
+
+  /* mesh */
+  .mesh { position: relative; width: 920px; height: 660px; margin-top: 40px; }
+  .mesh svg { position: absolute; inset: 0; overflow: visible; }
+  .agent { position: absolute; width: 260px; height: 110px; padding: 20px 24px; border-radius: 26px; }
+  .agent b { display: flex; align-items: center; gap: 12px; font-size: 36px; letter-spacing: -.5px; }
+  .agent b i { width: 16px; height: 16px; border-radius: 50%; }
+  .agent span { display: block; font-family: var(--mono); font-size: 19px; color: var(--muted); margin-top: 8px; }
+  .hub { position: absolute; left: 380px; top: 210px; width: 160px; height: 160px; border-radius: 50%;
+    display: grid; place-items: center; background: rgba(10,16,32,.95); border: 2px solid rgba(56,189,248,.5);
+    box-shadow: 0 0 60px rgba(56,189,248,.35); }
+  .ring { position: absolute; left: 380px; top: 210px; width: 160px; height: 160px; border-radius: 50%;
+    border: 3px solid rgba(56,189,248,.5); }
+  .chip { position: absolute; left: 310px; top: 555px; width: 300px; height: 90px; border-radius: 22px;
+    display: grid; place-items: center; font-family: var(--mono); font-size: 30px; }
+  .chip.hot { border-color: var(--red); color: var(--red); box-shadow: 0 0 60px rgba(248,113,113,.45); }
+  .alert { margin-top: 30px; align-self: center; padding: 22px 34px; border-radius: 22px; font-size: 32px;
+    font-weight: 650; color: #fff; background: rgba(248,113,113,.16); border: 2px solid rgba(248,113,113,.6); }
+  .alert code { font-family: var(--mono); color: var(--red); }
+
+  .mesh-space { height: 760px; margin-top: 20px; }
+
+  .term.mini { margin-top: 36px; }
+  .term.mini .term-body { padding: 26px 30px; font-size: 29px; }
+  .tree-space { height: 760px; }
+  .lane-space { height: 560px; margin-top: 20px; }
+  .handoff-space { height: 520px; }
+  .feed { margin-top: 26px; padding: 26px 34px; }
+  .fl { font-family: var(--mono); font-size: 28px; line-height: 1.8; white-space: pre; }
+  #continuity .handover { margin-top: 10px; }
+
+  /* policy */
+  .src { align-self: center; margin-top: 46px; padding: 26px 40px; font-family: var(--mono); font-size: 36px;
+    border-color: rgba(167,139,250,.6); box-shadow: 0 0 60px rgba(167,139,250,.3); }
+  .fan { width: 920px; height: 120px; overflow: visible; }
+  .outs { display: flex; justify-content: space-between; }
+  .file { width: 280px; padding: 22px 0; text-align: center; font-family: var(--mono); font-size: 32px;
+    border-radius: 22px; }
+  .handover { margin-top: 50px; padding: 30px 38px; }
+  .handover .hd { display: flex; justify-content: space-between; align-items: center; font-family: var(--mono);
+    font-size: 26px; color: var(--muted); margin-bottom: 14px; }
+  .pill { font-family: var(--sans); font-size: 22px; font-weight: 700; letter-spacing: 2px; color: var(--green);
+    border: 2px solid rgba(52,211,153,.5); border-radius: 999px; padding: 6px 16px; }
+  .ln { font-family: var(--mono); font-size: 30px; line-height: 1.75; }
+  .ln b { color: var(--violet); }
+
+  /* local */
+  .badges { margin-top: 50px; display: flex; flex-direction: column; gap: 26px; }
+  .badge { display: flex; align-items: center; gap: 36px; padding: 34px 40px; }
+  .badge svg { flex: none; width: 108px; height: 108px; }
+  .badge b { display: block; font-size: 52px; letter-spacing: -1px; }
+  .badge span { display: block; font-size: 32px; color: var(--muted); margin-top: 6px; }
+
+  /* cta */
+  .mark-cta { align-self: center; width: 200px; height: 200px; overflow: visible; margin-bottom: 60px;
+    filter: drop-shadow(0 0 26px rgba(167,139,250,.6)); }
+  .install { margin-top: 70px; font-family: var(--mono); font-size: 30px; padding: 30px 34px; }
+  .url { margin-top: 56px; font-size: 84px; font-weight: 900; letter-spacing: -2px; text-align: center; }
+
+  /* captions */
+  .cap { position: absolute; left: 70px; right: 70px; bottom: 340px; text-align: center; z-index: 6;
+    font-size: 60px; font-weight: 850; line-height: 1.2; letter-spacing: -1px; color: #fff;
+    text-shadow: 0 6px 24px rgba(0,0,0,.75), 0 0 2px rgba(0,0,0,.9); }
+  .cap .cw { display: inline-block; padding: 0 .12em; margin: 0 -.02em; border-radius: .2em; color: rgba(255,255,255,.5); }
+  .cap .cw.said { color: #fff; }
+  .cap .cw.now { color: #071021; background: var(--grad); text-shadow: none;
+    box-shadow: 0 8px 30px rgba(56,189,248,.45); }
+
+  /* v4 — SIG NIHL controlled dark, Majordomus prism, p5 line work.
+     Two type layers: serif (Georgia) states, sans tells, mono records.
+     One accent: Signal Red, for what is critical. Colour otherwise lives only in the prism.
+     No gradients, no decorative noise, no shadows; 1px borders, radius <= 4px.
+     Shorts safe frame: content x 80..910, y 250..1300; captions above the bottom panel. */
+  :root {
+    --bg: #030712; --serif: Georgia, 'Times New Roman', serif;
+    --ink: #ffffff; --ink-2: #cccccc; --ink-3: #666666;
+    --signal: #ff2d2d; --proceed: #22c55e; --caution: #f59e0b; --halt: #ef4444;
+    --line: rgba(255,255,255,.1); --card: #111111;
+    --violet: #a78bfa; --sky: #38bdf8; --green: #34d399; --red: #ff2d2d; --amber: #f59e0b;
+  }
+  html, body { background: var(--bg); }
+  .blob, .floor, .grain, .sweep, .vignette, .rays { display: none !important; }
+  .scene::before { display: none; }
+  .scene { padding: 250px 170px 620px 80px; }
+  .brand { top: 170px; font-size: 26px; gap: 14px; }
+  .brand svg { width: 44px; height: 44px; }
+  .brand small { font-size: 12px; }
+
+  h1, h2 { font-family: var(--serif); font-weight: 400; color: var(--ink-2); text-wrap: balance; }
+  h2 { font-size: 84px; letter-spacing: -2px; line-height: 1.04; }
+  h1 { font-size: 92px; letter-spacing: -2.5px; line-height: 1.04; }
+  .accent, .accent * { background: none !important; color: var(--ink) !important; font-style: italic; }
+  .w[style*="background-clip"] { background-image: none !important; color: var(--ink) !important;
+    font-style: italic; padding-right: 4px; }
+  .wordmark .accent { font-style: normal; }
+  .hot { color: var(--signal) !important; font-style: italic; }
+  .kicker, .mf-meta, .pill, .term-bar span { font-family: var(--sans); text-transform: uppercase;
+    letter-spacing: .18em; font-weight: 600; }
+  .kicker { font-size: 22px; color: var(--ink-3); }
+
+  .glass, .term, .card, .badge, .stat, .agent, .file, .src, .handover, .feed, .install, .msg {
+    background: var(--card) !important; border: 1px solid var(--line) !important; border-radius: 4px !important;
+    box-shadow: none !important; backdrop-filter: none !important; }
+  .term { background: #0a0a0a !important; }
+  .term-bar { border-bottom: 1px solid var(--line); }
+  .term-bar i { background: #333; }
+  .ok { color: var(--proceed); } .fail, .refused { color: var(--halt); }
+  .prompt { color: var(--ink-3); }
+  .dim { color: var(--ink-3); }
+
+  .num { font-family: var(--sans); font-weight: 700; letter-spacing: -3px; color: var(--signal);
+    text-shadow: none; font-size: 104px; width: 300px; }
+  .lbl { color: var(--ink-2); font-size: 32px; }
+  .foot { color: var(--ink-3); font-size: 22px; }
+
+  .stamp { color: var(--signal); border: 6px solid var(--signal); border-radius: 2px; box-shadow: none;
+    text-shadow: none; letter-spacing: .2em; font-family: var(--sans); font-weight: 800; }
+  .alert { background: transparent; border: 1px solid var(--signal); border-radius: 2px; color: var(--ink);
+    font-size: 28px; text-transform: uppercase; letter-spacing: .12em; font-weight: 600; }
+  .alert code { color: var(--signal); text-transform: none; letter-spacing: 0; }
+  .pill { color: var(--proceed); border: 1px solid currentColor; border-radius: 2px; font-size: 18px; }
+  .ln b { color: var(--ink); font-weight: 600; }
+  .fl b { font-weight: 600; }
+  .badge b { font-family: var(--serif); font-weight: 400; font-size: 54px; color: var(--ink); }
+  .badge span { color: var(--ink-3); font-size: 28px; }
+  .card h3 { font-family: var(--serif); font-weight: 400; }
+
+  .mf-meta { color: var(--ink-3); }
+  .mf-rule { background: var(--line); height: 1px; }
+  .mf-line, .mf-q, .thesis p, .leap { font-family: var(--serif); font-weight: 400; color: var(--ink); }
+  .mf-line { font-size: 112px; letter-spacing: -3px; }
+  .mf-q { font-size: 210px; }
+  .mf-ul { background: var(--signal); height: 4px; border-radius: 0; }
+  .thesis p { font-size: 62px; letter-spacing: -1px; }
+  .thesis em, .leap em, .mf-line em { color: var(--ink-2); }
+  .thesis .num { all: unset; }
+  .thesis .num, .thesis > span { font-family: var(--serif); font-style: italic; color: var(--signal);
+    font-size: 36px; }
+  .leap { font-size: 84px; }
+
+  .install { color: var(--ink); }
+  .url { font-family: var(--serif); font-weight: 400; font-style: italic; color: var(--ink); font-size: 80px; }
+  .url .accent { color: var(--ink) !important; }
+  .mark-big, .mark-cta { filter: none; }
+  .wordmark { font-family: var(--sans); font-weight: 700; color: var(--ink); }
+  .tag { font-family: var(--serif); font-style: italic; color: var(--ink-2); }
+
+  .cap { left: 80px; right: 170px; bottom: 560px; font-family: var(--sans); font-style: normal; font-weight: 500;
+    font-size: 40px; letter-spacing: 0; line-height: 1.25; text-shadow: none; }
+  .cap .cw { padding: 0; margin: 0 .04em; border-radius: 0; color: rgba(255,255,255,.28); }
+  .cap .cw.said { color: rgba(255,255,255,.88); }
+  .cap .cw.now { color: #fff; background: none; box-shadow: none; text-shadow: none;
+    border-bottom: 2px solid var(--signal); }
+  .mesh-space { height: 600px; } .tree-space { height: 580px; } .lane-space { height: 440px; }
+  .handoff-space { height: 420px; } .zone-space { height: 640px; } .chain-space { height: 360px; }
+
+  .ledger { margin-top: 40px; padding: 26px 32px; }
+  .lg-hd { display: flex; justify-content: space-between; align-items: center; font-family: var(--sans);
+    font-size: 18px; letter-spacing: .18em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 12px; }
+  .lg { font-family: var(--mono); font-size: 28px; line-height: 1.7; color: var(--ink-2); white-space: pre; }
+  .lg b { color: var(--ink-3); font-weight: 500; }
+  .trust-space { height: 520px; }
+  .rules { border-top: 1px solid var(--line); }
+  .rl { display: grid; grid-template-columns: 210px 1fr; align-items: baseline; padding: 18px 0;
+    border-bottom: 1px solid var(--line); font-size: 30px; color: var(--ink-2); }
+  .rl span { font-size: 18px; font-weight: 600; letter-spacing: .18em; color: var(--ink); }
+  .fl b { color: var(--ink) !important; }
+
+  .term-body { font-size: 26px; }
+  .install { font-size: 26px; white-space: nowrap; }
+  .tag { font-weight: 400; }
+  .mesh-space { margin-top: 70px; height: 560px; }
+  .alert { font-size: 21px; letter-spacing: .1em; white-space: nowrap; }
+  .badge svg path, .badge svg rect, .badge svg circle { stroke: var(--ink) !important; }
+  .badge:nth-child(2) svg path:last-child { stroke: var(--signal) !important; }
+  .feed .fl { font-size: 25px; }
+
+  /* v4.1 — the site's own roles (share/design/tokens.yaml, dark), so the reel and majordomus.dev
+     are one identity: serif headings in fg, emphasis italic in fg-brand (accent blue-400), eyebrows
+     mono uppercase .18em in muted, cards raised gray-900 on gray-800 lines, status ok emerald /
+     bad rose / warn orange. Colour beyond these lives only in the prism. */
+  :root {
+    --bg: #030712; --raised: #101828; --sunken: #1e2939; --line: #1e2939;
+    --ink: #ffffff; --ink-2: #99a1af; --ink-3: #99a1af; --brand: #51a2ff;
+    --serif: ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif;
+    --ok: #5ee9b5; --ok-bg: #002c22; --ok-line: #004f3b; --ok-strong: #00d492;
+    --bad: #ffa1ad; --bad-bg: #4d0218; --bad-line: #8b0836; --bad-strong: #ff637e;
+    --warn: #ffb86a; --signal: #ff637e; --proceed: #00d492; --halt: #ff637e; --caution: #ff8904;
+    --card: #101828;
+  }
+  h1, h2 { color: var(--ink); font-weight: 500; }
+  .accent, .accent *, .w[style*="background-clip"] { color: var(--brand) !important; }
+  .wordmark .accent { color: var(--ink) !important; }
+  .url, .url .accent { color: var(--brand) !important; }
+  .kicker, .mf-meta, .lg-hd, .term-bar span { font-family: var(--mono); letter-spacing: .18em; color: var(--ink-3); }
+  .glass, .term, .card, .badge, .stat, .agent, .file, .src, .handover, .feed, .install, .msg, .ledger {
+    background: var(--raised) !important; border-color: var(--line) !important; }
+  .term { background: #0b1220 !important; }
+  .prompt { color: var(--brand); }
+  .ok { color: var(--ok-strong); } .fail, .refused { color: var(--bad-strong); }
+  .pill { color: var(--ok); background: var(--ok-bg); border-color: var(--ok-line); }
+  .num, .hot { color: var(--bad-strong) !important; }
+  .stamp { color: var(--bad-strong); border-color: var(--bad-strong); }
+  .alert { border-color: var(--bad-line); background: var(--bad-bg); color: var(--bad); }
+  .alert code { color: var(--bad-strong); }
+  .mf-ul { background: var(--brand); }
+  .mf-line em, .mf-q em, .thesis em, .leap em { color: var(--brand); }
+  .thesis .num, .thesis > span { color: var(--brand) !important; }
+  .mf-rule, .rules, .rl { border-color: var(--line); }
+  .mf-rule { background: var(--line); }
+  .badge:nth-child(2) svg path:last-child { stroke: var(--bad-strong) !important; }
+  .cap .cw.now { border-bottom-color: var(--brand); }
+  .lg b, .rl span { color: var(--ink-3); }
+  .rl span { color: var(--ink); }
+
+  /* series colours (tokens.yaml series-1..4): the same thing has the same colour in every scene */
+  .feed .fl:nth-child(1) b { color: #51a2ff !important; }
+  .feed .fl:nth-child(2) b { color: #ff8904 !important; }
+  .feed .fl:nth-child(3) b { color: #00d492 !important; }
+  .feed .fl:nth-child(4) b { color: #a684ff !important; }
+  .outs .file { border-top: 2px solid var(--line) !important; }
+  .outs .file:nth-child(1) { border-top-color: #ff8904 !important; }
+  .outs .file:nth-child(2) { border-top-color: #51a2ff !important; }
+  .outs .file:nth-child(3) { border-top-color: #00d492 !important; }
+
+  .orbit-space { height: 720px; }
+  .eyebrow-note { font-family: var(--mono); font-size: 19px; letter-spacing: .12em; color: var(--ink-3);
+    text-transform: uppercase; text-align: center; }
+  .vendors { margin-top: 34px; border-top: 1px solid var(--line); }
+  .vd { display: grid; grid-template-columns: 1fr 150px 150px; align-items: baseline; padding: 16px 0;
+    border-bottom: 1px solid var(--line); }
+  .vd b { font-family: var(--serif); font-weight: 500; font-size: 44px; color: var(--ink); }
+  .vd span { font-family: var(--mono); font-size: 18px; letter-spacing: .18em; text-transform: uppercase; color: var(--brand); }
+  .vd i { font-style: normal; font-family: var(--mono); font-size: 20px; color: var(--ink-3); text-align: right; }
+  #models .term.mini { margin-top: 30px; }
+  #models .term-body { font-size: 24px; }
+  .layers-space { height: 300px; }
+
+  .radar-space { height: 600px; }
+  .checks { display: flex; flex-wrap: wrap; gap: 10px; margin: 18px 0 22px; }
+  .checks span { font-family: var(--mono); font-size: 19px; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--ink-3); border: 1px solid var(--line); border-radius: 2px; padding: 6px 12px; }
+  .kb-stats { margin-top: 36px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 18px 0; }
+  .kb { display: flex; align-items: baseline; gap: 28px; }
+  .kb b { font-family: var(--serif); font-weight: 500; font-size: 104px; color: var(--ink); letter-spacing: -3px; }
+  .kb span { font-size: 30px; color: var(--ink-3); }
+  .kb-space { height: 560px; }
+
+  .fan-space { height: 640px; }
+  .server-space { height: 620px; }
+  .routes { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
+  .routes span { font-family: var(--mono); font-size: 24px; color: var(--brand); border: 1px solid var(--line);
+    border-radius: 2px; padding: 8px 14px; background: var(--raised); }
+  .board { margin-top: 36px; display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .ann { background: var(--raised); border: 1px solid var(--line); border-radius: 4px; padding: 22px 24px; }
+  .ann b { font-family: var(--mono); font-size: 20px; letter-spacing: .08em; }
+  .ann p { font-family: var(--serif); font-size: 38px; color: var(--ink); margin: 10px 0 12px; line-height: 1.1; }
+  .ann code { font-family: var(--mono); font-size: 22px; color: var(--ink-3); }
+  .ann em { display: block; margin-top: 10px; font-style: normal; font-family: var(--mono); font-size: 18px;
+    letter-spacing: .12em; text-transform: uppercase; color: #ffb86a; }
+  .ann.warn { border-color: #7c2d12; }
+  .talk-space { height: 480px; }
+  .talklog { margin-top: 14px; }
+
+  .chapter { position: absolute; top: 178px; right: 170px; z-index: 6; font-family: var(--mono); font-size: 17px;
+    letter-spacing: .18em; text-transform: uppercase; color: var(--ink-3); text-align: right; }
+  .chapter b { color: var(--brand); font-weight: 500; }
+  .ladder-space { height: 520px; }
+  .flow-space { height: 780px; }
+  .tree-list { margin-top: 36px; padding: 10px 28px; }
+  .tl { display: flex; justify-content: space-between; align-items: baseline; padding: 14px 0;
+    border-bottom: 1px solid var(--line); font-family: var(--mono); }
+  .tl:last-child { border-bottom: 0; }
+  .tl b { font-weight: 500; font-size: 24px; color: var(--ink); }
+  .tl span { font-size: 18px; letter-spacing: .1em; color: var(--ink-3); }
+  .branch-space { height: 240px; }
+  .ui { margin-top: 36px; overflow: hidden; }
+  .ui-bar { display: flex; gap: 10px; align-items: center; padding: 14px 18px; border-bottom: 1px solid var(--line); }
+  .ui-bar i { width: 12px; height: 12px; border-radius: 50%; background: #1e2939; }
+  .ui-bar span { margin-left: 10px; font-family: var(--mono); font-size: 18px; color: var(--ink-3); }
+  .ui-body { display: grid; grid-template-columns: 190px 1fr; min-height: 640px; }
+  .ui-nav { border-right: 1px solid var(--line); padding: 18px 0; display: flex; flex-direction: column; }
+  .ui-nav b, .ui-nav span { font-size: 22px; padding: 10px 20px; color: var(--ink-3); font-weight: 500; }
+  .ui-nav b { color: var(--brand); background: #162456; border-left: 2px solid var(--brand); }
+  .ui-main { padding: 18px 24px; }
+  .ui-row { display: grid; grid-template-columns: 120px 1fr auto; align-items: center; gap: 12px; padding: 14px 0;
+    border-bottom: 1px solid var(--line); }
+  .ui-row span { font-family: var(--mono); font-size: 16px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-3); }
+  .ui-row b { font-size: 24px; font-weight: 500; color: var(--ink); }
+  .ui-row em { font-style: normal; font-family: var(--mono); font-size: 16px; letter-spacing: .1em; text-transform: uppercase;
+    padding: 4px 10px; border: 1px solid; border-radius: 2px; }
+  .st-ok { color: #5ee9b5; background: #002c22; border-color: #004f3b !important; }
+  .st-warn { color: #ffb86a; background: #441306; border-color: #7e2a0c !important; }
+  .st-bad { color: #ffa1ad; background: #4d0218; border-color: #8b0836 !important; }
+  .ui-spark-space { height: 230px; }
+</style>
+</head>
+<body>
+<div class="layer" id="bg">
+  <div class="blob" data-blob="167,139,250"></div>
+  <div class="blob" data-blob="56,189,248"></div>
+  <div class="blob" data-blob="52,211,153"></div>
+  <div class="floor" id="floor"></div>
+  <div class="layer" id="particles"></div>
+</div>
+<canvas id="gen" class="layer" width="1080" height="1920"></canvas>
+
+<div class="brand" id="brand">
+  <svg width="60" height="60" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="4"
+    stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 32h16"/><path d="M32 12 46 52H18Z"/>
+    <path d="M44 24l16-8" stroke="#a78bfa"/><path d="M46 32h14" stroke="#38bdf8"/><path d="M44 40l16 8" stroke="#34d399"/>
+  </svg>
+  <div><small>PRISMATIC</small>Majordomus</div>
+</div>
+
+<!-- 1. hook -->
+<section class="scene manifesto" id="hook" data-nobrand style="--tint: 167,139,250">
+  <div class="mf-meta" data-at="-1" data-fx="line"><span>The Majordomus Manifesto</span><span>No. 01</span></div>
+  <div class="mf-rule" data-at="-1" data-fx="rule"></div>
+  <p class="mf-line" data-cue="your" data-at="-0.1" data-fx="line">Your AI agent</p>
+  <p class="mf-line" data-cue="says" data-at="-0.1" data-fx="line">says the work</p>
+  <p class="mf-line" data-cue="done" data-at="-0.25" data-fx="line">is <em class="mf-done">done.<i class="mf-ul" data-cue="done" data-at="0.25" data-fx="rule"></i></em></p>
+  <p class="mf-q" data-cue="is" data-at="-0.1" data-fx="line" data-sfx="soft"><em>Is it?</em></p>
+  <div class="mf-rule" data-cue="is" data-at="0.5" data-fx="rule"></div>
+  <div class="mf-meta mf-foot" data-cue="is" data-at="0.7" data-fx="line"><span>majordomus.dev</span><span>MMXXVI</span></div>
+</section>
+
+<!-- 2. stats -->
+<section class="scene" id="stats" style="--tint: 248,113,113">
+  <div class="kicker" data-at="0.05">Meanwhile, in real repositories</div>
+  <h2 data-fx="words" data-at="0.15">Agents <span class="hot">drift.</span></h2>
+  <div class="stats">
+    <div class="stat glass" data-cue="rule" data-sfx="tick">
+      <div class="num" data-fx="count" data-cue="rule" data-to="9" data-prefix="0&ndash;" data-suffix="%"></div>
+      <div class="lbl">of the rules two AI tools' instruction files had in common</div>
+    </div>
+    <div class="stat glass" data-cue="seventeen" data-sfx="tick">
+      <div class="num" data-fx="count" data-cue="seventeen" data-to="17"></div>
+      <div class="lbl">checks documented as blocking &mdash; invoked by nothing</div>
+    </div>
+    <div class="stat glass" data-cue="thirty" data-sfx="tick">
+      <div class="num" data-fx="count" data-cue="thirty" data-to="3200"></div>
+      <div class="lbl">files modified at once, across forty worktrees</div>
+    </div>
+  </div>
+  <div class="foot" data-at="0.6">Measured in the repositories Majordomus was distilled from.</div>
+</section>
+
+<!-- 3. reveal -->
+<section class="scene" id="reveal" data-nobrand data-enter="impact" data-riser style="--tint: 56,189,248">
+  <div class="rays" data-at="0" data-spin="6"></div>
+  <i hidden data-at="0.9" data-sfx="chime"></i>
+  <svg class="mark-big" viewBox="0 0 64 64" fill="none" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 32h16" stroke="#e2e8f0" data-fx="draw" data-at="0.05" data-dur="0.3"/>
+    <path d="M32 12 46 52H18Z" stroke="#e2e8f0" data-fx="draw" data-at="0.25" data-dur="0.55"/>
+    <path d="M44 24l16-8" stroke="#a78bfa" data-fx="draw" data-at="0.75" data-dur="0.25"/>
+    <path d="M46 32h14" stroke="#38bdf8" data-fx="draw" data-at="0.85" data-dur="0.25"/>
+    <path d="M44 40l16 8" stroke="#34d399" data-fx="draw" data-at="0.95" data-dur="0.25"/>
+    <circle cx="60" cy="16" r="2.6" fill="#a78bfa" stroke="none" data-fx="pop" data-at="1.0"/>
+    <circle cx="60" cy="32" r="2.6" fill="#38bdf8" stroke="none" data-fx="pop" data-at="1.1"/>
+    <circle cx="60" cy="48" r="2.6" fill="#34d399" stroke="none" data-fx="pop" data-at="1.2"/>
+  </svg>
+  <div class="wordmark" data-cue="majordomus" data-fx="up"><small>PRISMATIC</small><span class="accent">Majordomus</span></div>
+  <div class="tag" data-cue="supervisory" data-fx="up">The supervisory layer<br>for your AI agents.</div>
+</section>
+
+<!-- setup -->
+<section class="scene" id="setup" style="--tint: 52,211,153">
+  <h2 data-fx="words" data-at="0.05">Three commands. <span class="accent">That's it.</span></h2>
+  <div class="term glass" data-at="0.15">
+    <div class="term-bar"><i></i><i></i><i></i><span>~/repo</span></div>
+    <div class="term-body"><span class="prompt" data-cue="install" data-at="-0.1">$ </span><span data-type="curl -fsSL majordomus.dev/install.sh | sh" data-cue="install" data-cps="40"></span>
+<span data-cue="initiali" data-at="-0.3" data-sfx="ding"><span class="ok">&#10003;</span> <span class="dim">majordomus installed</span></span>
+<span class="prompt" data-cue="initiali">$ </span><span data-type="majordomus init" data-cue="initiali" data-cps="30"></span>
+<span data-cue="start" data-at="-0.3" data-sfx="ding"><span class="ok">&#10003;</span> <span class="dim">.ai/ layer created, policy in place</span></span>
+<span class="prompt" data-cue="start">$ </span><span data-type="majordomus start &quot;fix the tokenizer&quot; \&#10;    --scope src/parser/" data-cue="start" data-cps="40"></span>
+<span data-cue="work" data-sfx="ding"><span class="ok">&#10003;</span> <span class="dim">task open &middot; scope src/parser/</span></span></div>
+  </div>
+</section>
+
+<!-- intent -->
+<section class="scene" id="intent" style="--tint: 255,255,255">
+  <h2 data-fx="words" data-at="0.05">Work starts <span class="accent">from intent.</span></h2>
+  <i hidden data-cue="criteria" data-sfx="tick"></i><i hidden data-cue="milestones" data-sfx="tick"></i>
+  <i hidden data-cue="issues" data-sfx="tick"></i>
+  <div class="ladder-space"></div>
+  <div class="term glass mini" data-cue="plan" data-at="-0.3">
+    <div class="term-body"><span class="prompt">$ </span><span data-type="majordomus plan next" data-cue="plan" data-cps="35"></span>
+<span data-cue="names" data-sfx="ding">I0703 &mdash; Implement the decision and prove it holds</span>
+<span data-cue="names" data-at="0.3"><span class="dim">next: majordomus plan start I0703</span></span></div>
+  </div>
+</section>
+
+<!-- session context -->
+<section class="scene" id="session" style="--tint: 255,255,255">
+  <h2 data-fx="words" data-at="0.05">Every session <span class="accent">starts briefed.</span></h2>
+  <div class="term glass" data-at="0.15">
+    <div class="term-bar"><i></i><i></i><i></i><span>session start</span></div>
+    <div class="term-body"><span class="prompt">$ </span><span data-type="majordomus context" data-at="0.35" data-cps="30"></span>
+<span data-cue="briefed" data-at="0.3"><span class="dim">episode </span> s-20261023 &middot; master @ 2034d4a</span>
+<span data-cue="task" data-sfx="tick"><span class="dim">task    </span> t-parser &middot; partial</span>
+<span data-cue="scope" data-sfx="tick"><span class="dim">scope   </span> src/parser/</span>
+<span data-cue="handover" data-sfx="tick"><span class="dim">next    </span> rerun case 12, then finish</span>
+<span data-cue="working" data-sfx="tick"><span class="dim">peers   </span> 3 on the board &middot; mesh linked</span>
+<span data-cue="release" data-sfx="tick"><span class="dim">release </span> landed work waiting for a tag</span></div>
+  </div>
+  <div class="eyebrow-note" data-cue="rediscover" data-fx="up" style="margin-top: 30px">read from git and the repository, never from memory</div>
+</section>
+
+<!-- context -->
+<section class="scene" id="context" style="--tint: 167,139,250">
+  <h2 data-fx="words" data-at="0.05">Only the context <span class="accent">it needs.</span></h2>
+  <div class="term glass mini" data-at="0.2">
+    <div class="term-body"><span class="prompt">$ </span><span data-type="majordomus context resolve src/parser/lexer.rs" data-at="0.35" data-cps="45"></span></div>
+  </div>
+  <i hidden data-cue="path" data-sfx="riser-short"></i><i hidden data-cue="nothing" data-sfx="ding"></i>
+  <div class="tree-space"></div>
+</section>
+
+<!-- 4. terminal -->
+<section class="scene" id="terminal" style="--tint: 248,113,113">
+  <h2 data-fx="words" data-at="0.05">&ldquo;Done&rdquo; is a <span class="accent">contract.</span></h2>
+  <div class="term glass" data-at="0.15">
+    <div class="term-bar"><i></i><i></i><i></i><span>~/repo</span></div>
+    <div class="term-body"><span class="prompt">$ </span><span data-type="majordomus finish --outcome completed \&#10;    --verify-command 'sh test/parse.sh'" data-at="0.35" data-cps="62"></span>
+<span data-at="1.9" data-sfx="tick"><span class="ok">OK  </span> blockers  <span class="dim">none open</span></span>
+<span data-at="2.2" data-sfx="tick"><span class="ok">OK  </span> note      <span class="dim">handover written</span></span>
+<span data-cue="scope" data-sfx="ding"><span class="ok">OK  </span> scope     <span class="dim">1 file, in scope</span></span>
+<span data-cue="state" data-sfx="ding"><span class="ok">OK  </span> state     <span class="dim">exact</span></span>
+<span data-cue="tests" data-sfx="buzz"><span class="fail">FAIL</span> verify    <span class="dim">sh test/parse.sh &mdash; exit 1</span></span>
+<span data-cue="refuses" data-at="-0.2" class="fail">finish: refused, 1 unmet</span></div>
+  </div>
+  <div class="stamp" data-cue="refuses" data-at="0.1" data-fx="stamp" data-sfx="slam">REFUSED</div>
+</section>
+
+<!-- provenance -->
+<section class="scene" id="provenance" style="--tint: 255,255,255">
+  <h2 data-fx="words" data-at="0.05">Provenance, <span class="accent">not promises.</span></h2>
+  <div class="ledger glass" data-cue="record" data-at="-0.3" data-fx="up">
+    <div class="lg-hd"><span>evidence ledger</span><span class="pill">PROVEN</span></div>
+    <div class="lg" data-cue="test" data-sfx="tick"><b>test   </b> suite:parse</div>
+    <div class="lg" data-cue="commit" data-sfx="tick"><b>commit </b> 2034d4a3f0b</div>
+    <div class="lg" data-cue="tree" data-sfx="tick"><b>tree   </b> 9f1c07e2a4d1</div>
+    <div class="lg" data-cue="time" data-sfx="tick"><b>at     </b> 2026-10-23 01:39 CEST</div>
+    <div class="lg" data-cue="command" data-sfx="tick"><b>command</b> sh test/parse.sh</div>
+  </div>
+  <i hidden data-cue="provenance" data-sfx="soft"></i>
+  <div class="chain-space"></div>
+</section>
+
+<!-- reasoning -->
+<section class="scene" id="reasoning" style="--tint: 255,255,255">
+  <h2 data-fx="words" data-at="0.05">Uncertainty, <span class="accent">on the record.</span></h2>
+  <i hidden data-cue="evidence" data-sfx="tick"></i><i hidden data-cue="advisors" data-sfx="pop"></i>
+  <i hidden data-cue="verdicts" data-sfx="buzz"></i><i hidden data-cue="conclusion" data-sfx="chime"></i>
+  <div class="flow-space"></div>
+</section>
+
+<!-- generation -->
+<section class="scene" id="generate" style="--tint: 255,255,255">
+  <h2 data-fx="words" data-at="0.05">Declared once. <span class="accent">Projected everywhere.</span></h2>
+  <i hidden data-cue="command" data-sfx="pop"></i><i hidden data-cue="http" data-sfx="pop"></i>
+  <i hidden data-cue="mcp" data-sfx="pop"></i><i hidden data-cue="openapi" data-sfx="pop"></i>
+  <i hidden data-cue="docs" data-sfx="pop"></i><i hidden data-cue="skills" data-sfx="pop"></i>
+  <i hidden data-cue="drifts" data-sfx="buzz"></i>
+  <div class="fan-space"></div>
+  <div class="kb-stats"><div class="kb" data-cue="declared" data-fx="up"><b data-fx="count" data-cue="declared" data-at="0.2" data-to="3300"></b><span>capabilities, one registry</span></div></div>
+</section>
+
+<!-- shared MCP server -->
+<section class="scene" id="mcp" style="--tint: 255,255,255">
+  <h2 data-fx="words" data-at="0.05">One server. <span class="accent">Every client attached.</span></h2>
+  <i hidden data-cue="first" data-sfx="pop"></i><i hidden data-cue="attaches" data-sfx="pop"></i>
+  <div class="server-space"></div>
+  <div class="routes">
+    <span data-cue="http" data-fx="pop">/mcp</span><span data-cue="http" data-at="0.15" data-fx="pop">/openapi.json</span>
+    <span data-cue="swagger" data-fx="pop">/swagger</span><span data-cue="cockpit" data-fx="pop">/cockpit</span>
+    <span data-cue="cockpit" data-at="0.15" data-fx="pop">/ui</span>
+  </div>
+</section>
+
+<!-- providers -->
+<section class="scene" id="providers" style="--tint: 255,255,255">
+  <h2 data-fx="words" data-at="0.05">Every client. <span class="accent">One policy.</span></h2>
+  <i hidden data-cue="claude" data-sfx="pop"></i><i hidden data-cue="codex" data-sfx="pop"></i>
+  <i hidden data-cue="gemini" data-sfx="pop"></i><i hidden data-cue="zed" data-sfx="pop"></i>
+  <i hidden data-cue="antigravity" data-sfx="pop"></i><i hidden data-cue="bb" data-sfx="pop"></i>
+  <i hidden data-cue="mcp" data-sfx="pop"></i><i hidden data-cue="projection" data-sfx="soft"></i>
+  <div class="orbit-space"></div>
+  <div class="eyebrow-note" data-cue="projection" data-fx="up">CLAUDE.md &middot; AGENTS.md &middot; GEMINI.md &middot; .claude/skills &middot; .agents/skills</div>
+</section>
+
+<!-- models -->
+<section class="scene" id="models" style="--tint: 255,255,255">
+  <h2 data-fx="words" data-at="0.05">Models, <span class="accent">declared.</span></h2>
+  <div class="vendors">
+    <div class="vd" data-cue="anthropic" data-fx="up" data-sfx="tick"><b>Anthropic</b><span>remote</span><i>8 models</i></div>
+    <div class="vd" data-cue="openai" data-fx="up" data-sfx="tick"><b>OpenAI</b><span>remote</span><i>1 model</i></div>
+    <div class="vd" data-cue="ollama" data-fx="up" data-sfx="tick"><b>Ollama</b><span>local</span><i>vendor</i></div>
+    <div class="vd" data-cue="studio" data-fx="up" data-sfx="tick"><b>LM Studio</b><span>local</span><i>vendor</i></div>
+  </div>
+  <div class="term glass mini" data-cue="routing" data-at="-0.3">
+    <div class="term-body"><span class="prompt">$ </span><span data-type="majordomus models route --require tools,reasoning" data-cue="routing" data-cps="55"></span>
+<span data-cue="need" data-sfx="ding"><span class="ok">selected </span> claude-opus-5</span>
+<span data-cue="need" data-at="0.3"><span class="dim">excluded  gpt-4o &mdash; missing capability: tools</span></span>
+<span class="prompt" data-cue="local">$ </span><span data-type="majordomus models route --local-only" data-cue="local" data-cps="50"></span>
+<span data-cue="nothing" data-sfx="buzz"><span class="fail">selected </span> nothing qualifies</span></div>
+  </div>
+</section>
+
+<!-- discovery -->
+<section class="scene" id="discovery" style="--tint: 255,255,255">
+  <h2 data-fx="words" data-at="0.05">First, they <span class="accent">find each other.</span></h2>
+  <i hidden data-cue="beacon" data-sfx="tick"></i><i hidden data-cue="rendezvous" data-sfx="tick"></i>
+  <div class="radar-space"></div>
+  <div class="checks"><span data-cue="checked" data-at="0.00" data-fx="pop" data-sfx="tick">size</span><span data-cue="checked" data-at="0.16" data-fx="pop">shape</span><span data-cue="checked" data-at="0.32" data-fx="pop" data-sfx="tick">version</span><span data-cue="checked" data-at="0.48" data-fx="pop">bounds</span><span data-cue="checked" data-at="0.64" data-fx="pop" data-sfx="tick">staleness</span><span data-cue="checked" data-at="0.80" data-fx="pop">signature</span><span data-cue="checked" data-at="0.96" data-fx="pop" data-sfx="tick">trust</span></div>
+  <div class="eyebrow-note" data-cue="secret" data-fx="up">signed &middot; at most 1200 bytes &middot; never a secret, a path or your code</div>
+</section>
+
+<!-- blackboard -->
+<section class="scene" id="blackboard" style="--tint: 255,255,255">
+  <h2 data-fx="words" data-at="0.05">Intent, <span class="accent">on the blackboard.</span></h2>
+  <div class="board">
+    <div class="ann" data-cue="intends" data-fx="up" data-sfx="tick"><b style="color: #ff8904">claude-code</b><p>fix the tokenizer</p><code>src/parser/</code></div>
+    <div class="ann" data-cue="paths" data-fx="up" data-sfx="tick"><b style="color: #51a2ff">codex</b><p>CLI help text</p><code>src/cli/</code></div>
+    <div class="ann" data-cue="paths" data-at="0.35" data-fx="up" data-sfx="tick"><b style="color: #00d492">gemini</b><p>README tour</p><code>docs/</code></div>
+    <div class="ann warn" data-cue="overlaps" data-at="-0.2" data-fx="up" data-sfx="alert"><b style="color: #51a2ff">codex</b><p>parser fast path</p><code>src/parser/</code><em>overlaps claude-code</em></div>
+  </div>
+  <div class="eyebrow-note" data-cue="claim" data-fx="up" style="margin-top: 28px">a claim, not a lock</div>
+</section>
+
+<!-- 5. mesh -->
+<section class="scene" id="mesh" style="--tint: 56,189,248">
+  <h2 data-fx="words" data-at="0.05">One board. <span class="accent">Every agent.</span></h2>
+  <i hidden data-at="0.2" data-sfx="tick"></i><i hidden data-at="0.4" data-sfx="tick"></i><i hidden data-at="0.6" data-sfx="tick"></i>
+  <i hidden data-cue="claude" data-sfx="pop"></i><i hidden data-cue="codex" data-sfx="pop"></i>
+  <i hidden data-cue="gemini" data-sfx="pop"></i><i hidden data-cue="same" data-sfx="buzz"></i>
+  <div class="mesh-space"></div>
+  <div class="alert" data-cue="hear" data-fx="pop" data-sfx="alert">&#9888; overlap on <code>src/parser.rs</code> &middot; Claude + Codex</div>
+</section>
+
+<!-- worktrees -->
+<section class="scene" id="worktrees" style="--tint: 255,255,255">
+  <h2 data-fx="words" data-at="0.05">One branch, <span class="accent">one worktree.</span></h2>
+  <div class="tree-list glass" data-at="0.2" data-fx="up">
+    <div class="tl" data-cue="primary" data-sfx="tick"><b>~/dev/repo</b><span>the trunk, never moves</span></div>
+    <div class="tl" data-cue="beside" data-sfx="tick"><b>~/dev/repo-wt/feature/parser</b><span style="color: #ff8904">claude-code</span></div>
+    <div class="tl" data-cue="beside" data-at="0.3" data-sfx="tick"><b>~/dev/repo-wt/feature/cli-help</b><span style="color: #51a2ff">codex</span></div>
+    <div class="tl" data-cue="beside" data-at="0.6" data-sfx="tick"><b>~/dev/repo-wt/docs/tour</b><span style="color: #00d492">gemini</span></div>
+  </div>
+  <div class="term glass mini" data-cue="wrong" data-at="-0.3">
+    <div class="term-body"><span class="prompt">$ </span><span data-type="git commit -m 'parser: fast path'" data-cue="wrong" data-cps="45"></span>
+<span data-cue="refused" data-sfx="buzz"><span class="fail">refused</span> <span class="dim">feature/parser belongs in repo-wt/feature/parser</span></span></div>
+  </div>
+  <div class="branch-space"></div>
+</section>
+
+<!-- machines + security -->
+<section class="scene" id="machines" style="--tint: 255,255,255">
+  <h2 data-fx="words" data-at="0.05">Home. Datacenter. <span class="accent">Company.</span></h2>
+  <i hidden data-cue="home" data-sfx="tick"></i><i hidden data-cue="datacenter" data-sfx="tick"></i>
+  <i hidden data-cue="company" data-sfx="tick"></i>
+  <div class="zone-space"></div>
+</section>
+
+<section class="scene" id="security" style="--tint: 255,255,255">
+  <h2 data-fx="words" data-at="0.05">Signed. Listed. <span class="accent">Inert.</span></h2>
+  <div class="trust-space"></div>
+  <div class="rules">
+    <div class="rl" data-cue="signed" data-fx="up" data-sfx="tick"><span>ED25519</span>every message signed by its machine's key</div>
+    <div class="rl" data-cue="trusted" data-fx="up" data-sfx="buzz"><span>ALLOWLIST</span>an unknown key is trusted for nothing</div>
+    <div class="rl" data-cue="public" data-fx="up" data-sfx="tick"><span>TLS</span>a public address is reached over https only</div>
+    <div class="rl" data-cue="nothing" data-fx="up" data-sfx="tick"><span>INERT</span>nothing a peer sends is ever executed</div>
+  </div>
+</section>
+
+<!-- cross-communication -->
+<section class="scene" id="crosstalk" style="--tint: 255,255,255">
+  <h2 data-fx="words" data-at="0.05">Sessions <span class="accent">talk to each other.</span></h2>
+  <i hidden data-cue="review" data-sfx="pop"></i><i hidden data-cue="answers" data-sfx="ding"></i>
+  <i hidden data-cue="handover" data-sfx="pop"></i><i hidden data-cue="consumed" data-sfx="chime"></i>
+  <div class="talk-space"></div>
+  <div class="feed glass talklog">
+    <div class="fl" data-cue="review" data-at="0.1"><b style="color: #51a2ff">review?</b>  codex asks: parser fast path</div>
+    <div class="fl" data-cue="answers" data-at="0.1"><b style="color: #ff8904">answered</b> claude: approve, one change</div>
+    <div class="fl" data-cue="handover" data-at="0.3"><b style="color: #a684ff">handover</b> published on the laptop</div>
+    <div class="fl" data-cue="consumed" data-at="0.1"><b style="color: #00d492">consumed</b> on the workstation</div>
+  </div>
+</section>
+
+<!-- monitor -->
+<section class="scene" id="monitor" style="--tint: 52,211,153">
+  <h2 data-fx="words" data-at="0.05">Every machine. <span class="accent">One stream.</span></h2>
+  <div class="lane-space"></div>
+  <div class="feed glass" data-at="0.3">
+    <div class="fl" data-cue="session" data-sfx="tick"><span class="dim">22:41</span> <b style="color: var(--violet)">session</b> claude opened on laptop</div>
+    <div class="fl" data-cue="claim" data-sfx="tick"><span class="dim">22:42</span> <b style="color: var(--sky)">claim</b>   codex took src/cli/</div>
+    <div class="fl" data-cue="review" data-sfx="tick"><span class="dim">22:44</span> <b style="color: var(--green)">review</b>  gemini asks for a review</div>
+    <div class="fl" data-cue="machine" data-sfx="tick"><span class="dim">22:45</span> <b style="color: var(--amber)">merged</b>  #1184 landed on master</div>
+  </div>
+</section>
+
+<!-- cockpit -->
+<section class="scene" id="cockpit" style="--tint: 255,255,255">
+  <h2 data-fx="words" data-at="0.05">For a person: <span class="accent">the Cockpit.</span></h2>
+  <div class="ui glass" data-cue="cockpit" data-at="-0.3" data-fx="up">
+    <div class="ui-bar"><i></i><i></i><i></i><span>localhost:8741/cockpit</span></div>
+    <div class="ui-body">
+      <div class="ui-nav"><b>Overview</b><span>Plan</span><span>Peers</span><span>Mesh</span><span>Monitor</span><span>Evidence</span><span>Models</span></div>
+      <div class="ui-main">
+        <div class="ui-row" data-cue="server" data-sfx="tick"><span>task</span><b>t-parser</b><em class="st-ok">partial</em></div>
+        <div class="ui-row" data-cue="server" data-at="0.25" data-sfx="tick"><span>claims</span><b>3 on the board</b><em class="st-warn">1 overlap</em></div>
+        <div class="ui-row" data-cue="registry" data-sfx="tick"><span>evidence</span><b>suite:parse</b><em class="st-ok">proven</em></div>
+        <div class="ui-row" data-cue="person" data-sfx="tick"><span>release</span><b>landed, untagged</b><em class="st-bad">overdue</em></div>
+        <div class="ui-spark-space"></div>
+      </div>
+    </div>
+  </div>
+  <div class="eyebrow-note" data-cue="drift" data-fx="up" style="margin-top: 26px">a projection of the registry &middot; ADR 0012</div>
+</section>
+
+<!-- 6. policy -->
+<section class="scene" id="policy" style="--tint: 167,139,250">
+  <h2 data-fx="words" data-at="0.05">Rules, <span class="accent">written once.</span></h2>
+  <div class="src glass" data-at="0.3" data-fx="pop" data-sfx="pop">.ai/repo/policy.yaml</div>
+  <svg class="fan" viewBox="0 0 920 120" fill="none" stroke-width="4" stroke-linecap="round">
+    <path d="M460 0 C460 70 140 50 140 120" stroke="#a78bfa" stroke-opacity=".35" data-fx="draw" data-cue="writes" data-dur="0.45"/>
+    <path d="M460 0 V120" stroke="#38bdf8" stroke-opacity=".35" data-fx="draw" data-cue="writes" data-at="0.1" data-dur="0.45"/>
+    <path d="M460 0 C460 70 780 50 780 120" stroke="#34d399" stroke-opacity=".35" data-fx="draw" data-cue="writes" data-at="0.2" data-dur="0.45"/>
+  </svg>
+  <div class="outs">
+    <div class="file glass" data-cue="every" data-fx="pop" data-sfx="pop">CLAUDE.md</div>
+    <div class="file glass" data-cue="every" data-at="0.15" data-fx="pop" data-sfx="pop">AGENTS.md</div>
+    <div class="file glass" data-cue="every" data-at="0.3" data-fx="pop" data-sfx="pop">GEMINI.md</div>
+  </div>
+  <div class="handover glass" data-cue="tasks" data-fx="up">
+    <div class="hd"><span>task &middot; t-parser</span><span class="pill">IN GIT</span></div>
+    <div class="ln" data-cue="tasks" data-at="0.2" data-sfx="tick"><b>goal  </b> fix the tokenizer</div>
+    <div class="ln" data-cue="repository" data-sfx="tick"><b>scope </b> src/parser/</div>
+    <div class="ln" data-cue="repository" data-at="0.3" data-sfx="tick"><b>done  </b> when sh test/parse.sh passes</div>
+  </div>
+</section>
+
+<!-- continuity -->
+<section class="scene" id="continuity" style="--tint: 56,189,248">
+  <h2 data-fx="words" data-at="0.05">Work that <span class="accent">outlives the chat.</span></h2>
+  <i hidden data-cue="close" data-sfx="thump"></i><i hidden data-cue="picks" data-sfx="chime"></i>
+  <div class="handoff-space"></div>
+  <div class="handover glass" data-cue="exactly" data-at="-0.2" data-fx="up">
+    <div class="hd"><span>handover &middot; feature/parser</span><span class="pill">RESUMED</span></div>
+    <div class="ln" data-cue="exactly" data-sfx="tick"><b># Objective</b>     fix the tokenizer</div>
+    <div class="ln" data-cue="exactly" data-at="0.3" data-sfx="tick"><b># Current State</b> case 12 red</div>
+    <div class="ln" data-cue="exactly" data-at="0.6" data-sfx="tick"><b># Next Action</b>   rerun, then finish</div>
+  </div>
+</section>
+
+<!-- decisions and knowledge -->
+<section class="scene" id="knowledge" style="--tint: 255,255,255">
+  <h2 data-fx="words" data-at="0.05">What it learns <span class="accent">stays learned.</span></h2>
+  <div class="kb-stats">
+    <div class="kb" data-cue="hundred" data-at="-0.2" data-fx="up"><b data-fx="count" data-cue="hundred" data-to="160"></b><span>architecture decisions, each a record in git</span></div>
+  </div>
+  <i hidden data-cue="decisions" data-sfx="tick"></i><i hidden data-cue="knowledge" data-sfx="tick"></i>
+  <i hidden data-cue="person" data-sfx="chime"></i>
+  <div class="kb-space"></div>
+</section>
+
+<!-- personal -->
+<section class="scene" id="personal" style="--tint: 255,255,255">
+  <h2 data-fx="words" data-at="0.05">Not your repository? <span class="accent">Personal mode.</span></h2>
+  <div class="term glass" data-cue="personal" data-at="-0.4">
+    <div class="term-bar"><i></i><i></i><i></i><span>~/client-repo</span></div>
+    <div class="term-body"><span class="prompt">$ </span><span data-type="majordomus init --personal" data-cue="personal" data-cps="40"></span>
+<span data-cue="clone" data-sfx="ding"><span class="ok">&#10003;</span> <span class="dim">layer in your clone, excluded by .git/info/exclude</span></span>
+<span class="prompt" data-cue="team">$ </span><span data-type="git status" data-cue="team" data-cps="30"></span>
+<span data-cue="byte" data-sfx="ding"><span class="ok">nothing to commit, working tree clean</span></span></div>
+  </div>
+  <div class="layers-space"></div>
+</section>
+
+<!-- 7. local -->
+<section class="scene" id="local" style="--tint: 52,211,153">
+  <h2 data-fx="words" data-at="0.05">Yours. <span class="accent">Entirely.</span></h2>
+  <div class="badges">
+    <div class="badge glass" data-cue="machine" data-fx="pop" data-sfx="pop">
+      <svg viewBox="0 0 64 64" fill="none" stroke="#a78bfa" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="10" y="14" width="44" height="28" rx="4"/><path d="M4 50h56"/><path d="M26 28l4 4 8-8" stroke="#34d399"/></svg>
+      <div><b>Runs locally</b><span>your machine, your repository</span></div>
+    </div>
+    <div class="badge glass" data-cue="never" data-fx="pop" data-sfx="pop">
+      <svg viewBox="0 0 64 64" fill="none" stroke="#38bdf8" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M32 8l5 15 15 5-15 5-5 15-5-15-15-5 15-5z"/><path d="M10 54L54 10" stroke="#f87171"/></svg>
+      <div><b>Zero model calls</b><span>it supervises; it never prompts</span></div>
+    </div>
+    <div class="badge glass" data-cue="any" data-fx="pop" data-sfx="pop">
+      <svg viewBox="0 0 64 64" fill="none" stroke="#34d399" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="32" cy="32" r="7"/><circle cx="12" cy="14" r="5"/><circle cx="52" cy="14" r="5"/><circle cx="32" cy="56" r="5"/>
+        <path d="M27 27L16 18M37 27l11-9M32 39v12"/></svg>
+      <div><b>Any agent</b><span>Claude &middot; Codex &middot; Gemini &middot; &hellip;</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- beliefs: the manifesto's second page -->
+<section class="scene manifesto" id="beliefs" data-nobrand style="--tint: 167,139,250">
+  <div class="mf-meta" data-at="0.1" data-fx="line"><span>The Majordomus Manifesto</span><span>No. 02</span></div>
+  <div class="mf-rule" data-at="0.2" data-fx="rule"></div>
+  <div class="thesis" data-cue="contract" data-at="-0.6" data-fx="line" data-sfx="tick">
+    <span class="num">I.</span><p>Done is a contract, <em>not a feeling.</em></p></div>
+  <div class="thesis" data-cue="prove" data-at="-0.5" data-fx="line" data-sfx="tick">
+    <span class="num">II.</span><p>Agents prove; <em>they do not promise.</em></p></div>
+  <div class="thesis" data-cue="repository" data-at="-0.5" data-fx="line" data-sfx="tick">
+    <span class="num">III.</span><p>The repository remembers <em>what the chat forgets.</em></p></div>
+  <div class="mf-rule" data-cue="leap" data-at="-0.6" data-fx="rule"></div>
+  <p class="leap" data-cue="leap" data-at="-0.5" data-fx="line" data-sfx="soft">Agents were a leap forward.</p>
+  <p class="leap" data-cue="trust" data-at="-0.2" data-fx="line"><em class="accent">Trust is the next one.</em></p>
+</section>
+
+<!-- 8. cta -->
+<section class="scene" id="cta" data-nobrand data-enter="impact" style="--tint: 167,139,250">
+  <svg class="mark-cta" viewBox="0 0 64 64" fill="none" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 32h16" stroke="#e2e8f0" data-fx="draw" data-at="0" data-dur="0.25"/>
+    <path d="M32 12 46 52H18Z" stroke="#e2e8f0" data-fx="draw" data-at="0.15" data-dur="0.4"/>
+    <path d="M44 24l16-8" stroke="#a78bfa" data-fx="draw" data-at="0.5" data-dur="0.2"/>
+    <path d="M46 32h14" stroke="#38bdf8" data-fx="draw" data-at="0.58" data-dur="0.2"/>
+    <path d="M44 40l16 8" stroke="#34d399" data-fx="draw" data-at="0.66" data-dur="0.2"/>
+  </svg>
+  <h1 class="center" data-fx="words" data-at="0.2">Your agents say it's done.</h1>
+  <h1 class="center" data-fx="words" data-cue="majordomus" style="margin-top: 34px">
+    <span class="accent">Majordomus makes them prove it.</span></h1>
+  <div class="install glass" data-cue="majordomus#2" data-at="-0.4" data-fx="up">
+    <span class="prompt">$ </span>curl -fsSL majordomus.dev/install.sh | sh</div>
+  <div class="url" data-cue="majordomus#2" data-fx="pop" data-sfx="chime"><span class="accent">majordomus.dev</span></div>
+</section>
+
+<!-- loop: the last frame is the first -->
+<section class="scene manifesto" id="loop" data-nobrand style="--tint: 167,139,250">
+  <div class="mf-meta" data-at="-1" data-fx="line"><span>The Majordomus Manifesto</span><span>No. 01</span></div>
+  <div class="mf-rule" data-at="-1" data-fx="rule"></div>
+  <p class="mf-line" data-at="999" data-fx="line">Your AI agent</p>
+  <p class="mf-line" data-at="999" data-fx="line">says the work</p>
+  <p class="mf-line" data-at="999" data-fx="line">is <em class="mf-done">done.<i class="mf-ul" data-at="999" data-fx="rule"></i></em></p>
+  <p class="mf-q" data-at="999" data-fx="line"><em>Is it?</em></p>
+  <div class="mf-rule" data-at="999" data-fx="rule"></div>
+  <div class="mf-meta mf-foot" data-at="999" data-fx="line"><span>majordomus.dev</span><span>MMXXVI</span></div>
+</section>
+
+<div class="layer"><div class="sweep" id="sweep"></div></div>
+<div class="chapter" id="chapter"></div>
+<div class="cap" id="cap"></div>
+<div class="layer vignette"></div>
+<div class="layer" style="overflow: hidden"><div class="grain" id="grain"></div></div>
+
+<script src="gen.js"></script>
+<script>
+  const ENTER = 0.32;
+  const EXIT = 0.34;
+  const VO_LEAD = 0.25;
+  const clamp = (v, a = 0, b = 1) => Math.max(a, Math.min(b, v));
+  const easeOut = (x) => 1 - Math.pow(1 - x, 3);
+  const backOut = (x) => 1 + 2.4 * Math.pow(x - 1, 3) + 1.4 * Math.pow(x - 1, 2);
+  const norm = (s) => s.toLowerCase().replace(/[^a-z0-9]/g, '');
+  const rng = (seed) => () => {
+    seed |= 0; seed = (seed + 0x6d2b79f5) | 0;
+    let r = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+    r = (r + Math.imul(r ^ (r >>> 7), 61 | r)) ^ r;
+    return ((r ^ (r >>> 14)) >>> 0) / 4294967296;
+  };
+
+  let scenes = [];
+  let captions = [];
+  let particles = [];
+  let shownChunk = -1;
+  let chapterTitles = [];
+  let shownChapter = -1;
+
+  function splitWords(root) {
+    const walk = (node) => {
+      [...node.childNodes].forEach((child) => {
+        if (child.nodeType === 3) {
+          const frag = document.createDocumentFragment();
+          child.textContent.split(/(\s+)/).forEach((part) => {
+            if (!part) return;
+            if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(part)); return; }
+            const span = document.createElement('span');
+            span.className = 'w';
+            span.textContent = part;
+            frag.appendChild(span);
+          });
+          child.replaceWith(frag);
+        } else if (child.nodeType === 1 && child.tagName !== 'BR') {
+          walk(child);
+        }
+      });
+    };
+    walk(root);
+    // Keep one continuous gradient across words that move independently.
+    root.querySelectorAll('.accent').forEach((acc) => {
+      const box = acc.getBoundingClientRect();
+      acc.classList.remove('accent');
+      acc.querySelectorAll('.w').forEach((w) => {
+        const r = w.getBoundingClientRect();
+        Object.assign(w.style, {
+          backgroundImage: 'linear-gradient(90deg, #a78bfa, #38bdf8 55%, #34d399)',
+          backgroundSize: `${box.width}px ${box.height}px`,
+          backgroundPosition: `${box.left - r.left}px ${box.top - r.top}px`,
+          webkitBackgroundClip: 'text', backgroundClip: 'text', color: 'transparent',
+        });
+      });
+    });
+    return [...root.querySelectorAll('.w')];
+  }
+
+  function cueTime(words, cue, warnings, id) {
+    const [name, nth] = cue.split('#');
+    let seen = 0;
+    for (const w of words) {
+      if (norm(w.text).startsWith(name) && ++seen === Number(nth || 1)) return w.start + VO_LEAD;
+    }
+    warnings.push(`${id}: cue "${cue}" not spoken`);
+    return 0;
+  }
+
+  window.setup = ({ durations, words, chunks, ids, titles }) => {
+    const warnings = [];
+    const events = [];
+    let start = 0;
+    captions = chunks;
+    const all = [...document.querySelectorAll('.scene')];
+    all.forEach((el) => { if (ids && !ids.includes(el.id)) el.style.display = 'none'; });
+    chapterTitles = titles || [];
+    scenes = all.filter((el) => !ids || ids.includes(el.id)).map((el, i) => {
+      const s = { el, start, dur: durations[i], items: [], shakes: [] };
+      el.querySelectorAll('[data-at], [data-cue]').forEach((e) => {
+        let at = parseFloat(e.dataset.at || '0');
+        if (e.dataset.cue) at += cueTime(words[i], e.dataset.cue, warnings, el.id);
+        const item = { e, at, fx: e.dataset.fx || 'up' };
+        if (e.dataset.classCue) item.classAt = cueTime(words[i], e.dataset.classCue, warnings, el.id);
+        if (item.fx === 'words') item.words = splitWords(e);
+        if (item.fx === 'draw') {
+          item.paths = e.matches('path, line, rect, circle, polyline') ? [e] : [...e.querySelectorAll('path')];
+          item.paths.forEach((p) => { p.setAttribute('pathLength', '1'); p.style.strokeDasharray = '1'; });
+        }
+        if (item.fx === 'stamp') s.shakes.push(at);
+        if (e.dataset.sfx) events.push({ type: e.dataset.sfx, t: start + at });
+        if (e.dataset.type !== undefined) {
+          const cps = parseFloat(e.dataset.cps);
+          [...e.dataset.type].forEach((ch, k) => {
+            if (ch.trim()) events.push({ type: 'key', t: start + at + k / cps });
+          });
+        }
+        s.items.push(item);
+      });
+      if (i > 0) events.push({ type: el.dataset.enter || 'whoosh', t: start });
+      if (el.dataset.riser !== undefined) events.push({ type: 'riser', t: start });
+      start += durations[i];
+      return s;
+    });
+
+    document.querySelectorAll('[data-blob]').forEach((b) => {
+      b.style.background = `radial-gradient(circle, rgba(${b.dataset.blob}, .26), transparent 62%)`;
+    });
+    const r = rng(42);
+    const colors = ['167,139,250', '56,189,248', '52,211,153', '226,232,240'];
+    const host = document.getElementById('particles');
+    particles = Array.from({ length: 0 }, () => {
+      const d = document.createElement('div');
+      const size = 2 + r() * 5;
+      d.className = 'p';
+      Object.assign(d.style, { width: `${size}px`, height: `${size}px`,
+        background: `rgba(${colors[Math.floor(r() * 4)]}, .9)`, boxShadow: `0 0 ${size * 3}px currentColor` });
+      host.appendChild(d);
+      return { d, x: r() * 1080, y: r() * 1920, v: 20 + r() * 60, ph: r() * 6.28, sw: 10 + r() * 30 };
+    });
+    window.genSetup({ scenes: scenes.map((s, i) => ({
+      id: s.el.id, el: s.el, cue: (name) => cueTime(words[i], name, warnings, s.el.id),
+    })) });
+    return { total: start, events: events.sort((a, b) => a.t - b.t), warnings };
+  };
+
+  function animate(item, lt) {
+    const { e, at, fx } = item;
+    if (item.classAt !== undefined) e.classList.toggle(e.dataset.class, lt >= item.classAt);
+    if (e.dataset.spin) e.style.transform = `rotate(${lt * parseFloat(e.dataset.spin)}deg)`;
+    if (e.dataset.ripple !== undefined) {
+      const u = ((lt - at) % 1.6) / 1.6;
+      e.style.opacity = lt < at ? 0 : 0.8 * (1 - u);
+      e.style.transform = `scale(${1 + u * 0.9})`;
+      return;
+    }
+    const raw = clamp((lt - at) / 0.5);
+    const p = easeOut(raw);
+    if (e.dataset.type !== undefined) {
+      const text = e.dataset.type;
+      const n = clamp(Math.floor((lt - at) * parseFloat(e.dataset.cps)), 0, text.length);
+      const caret = lt >= at && (n < text.length || Math.floor(lt * 2.5) % 2 === 0) ? '█' : '';
+      e.textContent = text.slice(0, n) + caret;
+      e.style.opacity = 1;
+      return;
+    }
+    if (fx === 'words') {
+      e.style.opacity = 1;
+      item.words.forEach((w, k) => {
+        const q = easeOut(clamp((lt - at - k * 0.07) / 0.45));
+        w.style.opacity = q;
+        w.style.transform = `translateY(${(1 - q) * 40}px)`;
+        w.style.filter = q < 1 ? `blur(${(1 - q) * 12}px)` : 'none';
+      });
+      return;
+    }
+    if (fx === 'draw') {
+      const dur = parseFloat(e.dataset.dur || '0.5');
+      const q = easeOut(clamp((lt - at) / dur));
+      item.paths.forEach((path) => { path.style.strokeDashoffset = 1 - q; });
+      e.style.opacity = lt >= at ? 1 : 0;
+      return;
+    }
+    if (fx === 'count') {
+      const to = parseFloat(e.dataset.to);
+      const q = easeOut(clamp((lt - at) / 1.1));
+      e.textContent = `${e.dataset.prefix || ''}${Math.round(to * q).toLocaleString('en-US')}${e.dataset.suffix || ''}`;
+      e.style.opacity = clamp((lt - at) / 0.2);
+      return;
+    }
+    if (fx === 'line') {
+      const q = easeOut(clamp((lt - at) / 0.9));
+      e.style.opacity = q;
+      e.style.transform = `translateY(${(1 - q) * 26}px)`;
+      return;
+    }
+    if (fx === 'rule') {
+      const q = easeOut(clamp((lt - at) / 0.9));
+      e.style.opacity = 1;
+      e.style.transform = `scaleX(${q})`;
+      return;
+    }
+    e.style.opacity = p;
+    if (fx === 'pop') {
+      const q = backOut(clamp((lt - at) / 0.45));
+      e.style.transform = `scale(${0.55 + 0.45 * q})`;
+      e.style.opacity = clamp((lt - at) / 0.18);
+    } else if (fx === 'stamp') {
+      const q = easeOut(clamp((lt - at) / 0.22));
+      e.style.transform = `scale(${2.6 - 1.6 * q}) rotate(${-7 * q}deg)`;
+      e.style.opacity = clamp((lt - at) / 0.1);
+    } else if (fx === 'glitch') {
+      const g = 1 - clamp((lt - at) / 0.55);
+      const jr = rng(Math.floor(lt * 30) + 7);
+      const dx = (jr() - 0.5) * 60 * g;
+      e.style.opacity = clamp((lt - at) / 0.08);
+      e.style.transform = `translateX(${dx}px) scale(${1 + 0.15 * g})`;
+      e.style.textShadow = `${-18 * g}px 0 rgba(167,139,250,.9), ${18 * g}px 0 rgba(56,189,248,.9), `
+        + '0 0 80px rgba(167,139,250,.55)';
+    } else if (!e.closest('.term-body')) {
+      e.style.transform = `translateY(${(1 - p) * 60}px)`;
+      e.style.filter = p < 1 ? `blur(${(1 - p) * 10}px)` : 'none';
+    }
+  }
+
+  function renderBackground(t) {
+    document.querySelectorAll('[data-blob]').forEach((b, i) => {
+      const x = [180, 900, 820][i] + Math.sin(t * [0.21, 0.17, 0.13][i] + i * 2) * [220, 200, 160][i];
+      const y = [380, 1450, 700][i] + Math.cos(t * [0.16, 0.19, 0.11][i] + i) * [200, 240, 260][i];
+      b.style.transform = `translate(${x - 650}px, ${y - 650}px)`;
+    });
+    document.getElementById('floor').style.backgroundPosition = `0 ${t * 70}px`;
+    particles.forEach((q) => {
+      const y = ((q.y - t * q.v) % 1920 + 1920) % 1920;
+      const x = q.x + Math.sin(t * 0.6 + q.ph) * q.sw;
+      q.d.style.transform = `translate(${x}px, ${y}px)`;
+      q.d.style.opacity = 0.25 + 0.55 * (0.5 + 0.5 * Math.sin(t * 2 + q.ph));
+    });
+    const g = rng(Math.floor(t * 30));
+    document.getElementById('grain').style.transform = `translate(${g() * 200}px, ${g() * 200}px)`;
+  }
+
+  function renderCaption(t) {
+    const cap = document.getElementById('cap');
+    const idx = captions.findIndex((c) => t >= c.start && t < c.end);
+    if (idx !== shownChunk) {
+      shownChunk = idx;
+      cap.innerHTML = idx < 0 ? '' : captions[idx].words.map((w) => `<span class="cw">${w.text}</span>`).join(' ');
+    }
+    if (idx < 0) return;
+    const c = captions[idx];
+    const pop = easeOut(clamp((t - c.start) / 0.14));
+    cap.style.transform = `translateY(${(1 - pop) * 24}px) scale(${0.94 + 0.06 * pop})`;
+    cap.style.opacity = pop;
+    cap.querySelectorAll('.cw').forEach((el, k) => {
+      const w = c.words[k];
+      el.classList.toggle('said', t >= w.start);
+      el.classList.toggle('now', t >= w.start && t < (c.words[k + 1]?.start ?? c.end));
+    });
+  }
+
+  window.renderAt = (t) => {
+    renderBackground(t);
+    let brand = 0;
+    const states = [];
+    scenes.forEach((s, i) => {
+      const lt = t - s.start;
+      const last = i === scenes.length - 1;
+      // The outgoing scene fades across the boundary so the cut never shows an empty frame.
+      const visible = lt >= -ENTER && (last || lt < s.dur + EXIT);
+      if (!visible) { s.el.style.opacity = 0; states.push({ lt, opacity: 0 }); return; }
+      const e = i === 0 ? 1 : easeOut(clamp((lt + ENTER) / (2 * ENTER)));
+      const x = last ? 0 : clamp((lt - s.dur + EXIT * 0.2) / EXIT);
+      const opacity = e * (1 - x);
+      let shakeX = 0;
+      let shakeY = 0;
+      s.shakes.forEach((at) => {
+        const k = lt - at - 0.2;
+        if (k > 0 && k < 0.4) {
+          const j = rng(Math.floor(lt * 60));
+          const amp = 22 * (1 - k / 0.4);
+          shakeX += (j() - 0.5) * amp;
+          shakeY += (j() - 0.5) * amp;
+        }
+      });
+      const scale = 1.07 - 0.07 * e - 0.05 * x;
+      const blur = 16 * (1 - e) + 12 * x;
+      s.el.style.opacity = opacity;
+      states.push({ lt, opacity });
+      s.el.style.transform = `translate(${shakeX}px, ${shakeY}px) scale(${scale})`;
+      s.el.style.filter = blur > 0.2 ? `blur(${blur}px)` : 'none';
+      if (s.el.dataset.nobrand === undefined) brand += opacity;
+      s.items.forEach((item) => animate(item, lt));
+    });
+    document.getElementById('brand').style.opacity = clamp(brand);
+    window.genRender(t, states);
+    const ch = scenes.findIndex((sc, i) => t >= sc.start && (i === scenes.length - 1 || t < scenes[i + 1].start));
+    const chapterEl = document.getElementById('chapter');
+    if (ch !== shownChapter) {
+      shownChapter = ch;
+      const quiet = ch < 0 || scenes[ch].el.dataset.nobrand !== undefined;
+      chapterEl.innerHTML = quiet ? '' : `<b>${String(ch + 1).padStart(2, '0')}</b> / ${String(scenes.length).padStart(2, '0')}&nbsp;&nbsp;${chapterTitles[ch] || ''}`;
+    }
+    chapterEl.style.opacity = ch < 0 ? 0 : clamp(Math.min(t - scenes[ch].start, scenes[ch].dur - (t - scenes[ch].start)) / 0.35);
+
+    const sweep = document.getElementById('sweep');
+    const b = scenes.slice(1).map((s) => s.start).find((st) => Math.abs(t - st) < 0.4);
+    if (b === undefined) {
+      sweep.style.opacity = 0;
+    } else {
+      const u = (t - b + 0.4) / 0.8;
+      sweep.style.opacity = Math.sin(Math.PI * u) * 0.9;
+      sweep.style.transform = `translateX(${-700 + 2500 * u}px) rotate(14deg)`;
+    }
+    renderCaption(t);
+  };
+</script>
+</body>
+</html>

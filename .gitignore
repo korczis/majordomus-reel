@@ -1,0 +1,12 @@
+# renders and their intermediates: reproducible from source with ./make-reel.sh
+build*/
+*.mp4
+node_modules/
+.DS_Store
+.ai/local/
+.ai/repo/**/.tmp.*
+# thumbnails and stills: rendered by thumb.mjs and render.mjs PREVIEW
+/*.jpg
+/*.png
+# the Pages build: site/build.mjs writes it, site/deploy.sh publishes it
+_site/
