@@ -57,6 +57,13 @@
     "act": "MESH"
   },
   {
+    "id": "seats",
+    "title": "Work moves through seats",
+    "act": "MESH",
+    "min": 14,
+    "vo": "Work moves through seats. One seat lands green work in combined tops. One releases whenever master is ahead of the last tag. Repair lanes bring stale branches current, and each worker holds one issue. A seat is a claim, so it falls vacant when its holder stops beating."
+  },
+  {
     "id": "machines",
     "vo": "The mesh spans every machine you work on. The desktop at home. The rack in the datacenter, behind a TLS hub. The whole fleet across the company, on a private network.",
     "min": 11,

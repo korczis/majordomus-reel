@@ -240,3 +240,75 @@ Source, MIT → https://github.com/korczis/prismatic-majordomus
 
 Title: Done is a contract, not a feeling. #shorts
 Description: the Video 5 description without chapters; thumbnail-v4.jpg; pinned comment as Video 3.
+
+## Video 7: majordomus-reel-v5.5.mp4 (535 s, 40 chapters, loops; the hybrid: graphs modern, v5.1 motion back)
+
+Replaces yW6PcUe6oFg (v5.1), which goes Unlisted with a link to this one (owner, 2026-10-23).
+Regular vertical video. Title (63/100):
+
+Majordomus: every AI agent, every machine, one contract of done
+
+**Description**
+
+Your AI agent says the work is done. Majordomus makes it prove it.
+
+00:00 The manifesto
+00:06 Agents drift
+00:18 Meet Majordomus
+00:24 Done is a contract
+00:34 Provenance, not promises
+00:45 Written down is not enforced
+01:02 The repository checks itself
+01:18 Two hooks hold the line
+01:31 Numbers, measured or absent
+01:50 Uncertainty, reasoned on the record
+02:06 Three commands
+02:15 Work starts from intent
+02:29 Status, derived
+02:46 Every session starts briefed
+02:59 Hierarchical context
+03:15 Rules, written once
+03:23 Every client, one policy
+03:36 Models, declared
+03:53 Declared once, projected everywhere
+04:08 Versions, measured
+04:25 One shared MCP server
+04:39 The Cockpit
+04:49 Peer discovery
+05:03 The blackboard
+05:16 One board, every agent
+05:25 Checked before it is built
+05:43 One claim, one winner
+06:03 One branch, one worktree
+06:19 Work moves through seats
+06:39 Home, datacenter, company
+06:52 Signed, listed, inert
+07:06 Sessions talk to each other
+07:20 One stream
+07:35 Work that outlives the chat
+07:43 What it learns stays learned
+07:59 What is yours stays yours
+08:15 Personal mode
+08:25 Yours, entirely
+08:31 The manifesto, No. 02
+08:45 Make them prove it
+
+Intent to commit, a status derived from evidence, scoped context, a finish contract held by two git hooks, provenance, reasoning on the record, one shared MCP server, Claude Code / Codex / Gemini, models declared, a signed mesh from home to datacenter to company with exclusive claims and seats, the Cockpit, knowledge that outlives the session, a local half that is never committed, and personal mode. Runs locally and never calls a model.
+
+Watch it refuse an agent → https://majordomus.dev/challenge/
+Install → curl -fsSL https://majordomus.dev/install.sh | sh
+Source, MIT → https://github.com/korczis/prismatic-majordomus
+The film's own source → https://github.com/korczis/majordomus-reel
+
+#AIagents #ClaudeCode #DevTools #AgenticCoding #OpenSource
+
+**Tags**: the shared list above, plus: multi-agent coordination, MCP server (495/500)
+
+**Thumbnail**: thumbnail-v5.jpg ("Done means proven.")
+
+**Pinned comment**: Forty chapters, one contract: done means proven. New in this cut: status derived from evidence, a path checked against every branch before it is built, one claim with one winner across machines, and the seats work moves through. Chapters are in the description. https://majordomus.dev/challenge/
+
+## Video 8: majordomus-reel-v5.5-short.mp4 (162 s Short, loops)
+
+Title: Done is a contract, not a feeling. #shorts
+Description: the Video 7 description without chapters; thumbnail.jpg.

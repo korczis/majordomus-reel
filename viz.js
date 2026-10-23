@@ -84,31 +84,209 @@
     { selector: 'edge.ink', style: { 'line-color': T.ink } },
   ];
 
-  function graph(env, sel, elements, style = []) {
+  // Networks are drawn modern: a dot of light with its label beside it, thin curved edges,
+  // depth by alpha. Pipelines keep the card; both share the motion below.
+  const NET_STYLE = [
+    { selector: 'node', style: { shape: 'ellipse', width: 22, height: 22, padding: 0, 'border-width': 0,
+      'background-color': T.ink, 'font-family': SANS, 'font-weight': 600, 'font-size': 30, color: T.ink,
+      'text-valign': 'bottom', 'text-halign': 'center', 'text-margin-y': 12, 'text-max-width': 320,
+      'line-height': 1.25, 'text-background-color': T.bg, 'text-background-opacity': 0.82,
+      'text-background-padding': 3, 'text-background-shape': 'round-rectangle' } },
+    ...[['s1', T.s1], ['s2', T.s2], ['s3', T.s3], ['s4', T.s4], ['s5', T.s5], ['brand', T.brand], ['ok', T.ok],
+      ['bad', T.bad], ['faint', T.faint]].map(([c, v]) => ({ selector: `node.${c}`, style: { 'background-color': v } })),
+    { selector: 'node.ok', style: { color: T.okFg } },
+    { selector: 'node.bad', style: { color: T.badFg } },
+    { selector: 'node.faint', style: { color: T.muted } },
+    { selector: 'node.big', style: { width: 34, height: 34 } },
+    { selector: 'node.hub', style: { width: 46, height: 46, 'background-color': T.bg, 'border-width': 2,
+      'border-color': T.ink, 'font-family': MONO, 'font-weight': 500, 'font-size': 20, color: T.muted } },
+    { selector: 'node.caps', style: { width: 1, height: 1, 'background-opacity': 0, 'font-family': MONO,
+      'font-weight': 500, 'font-size': 22, color: T.muted, 'text-valign': 'center', 'text-margin-y': 0,
+      'text-background-opacity': 0 } },
+    { selector: 'node.side', style: { 'text-halign': 'right', 'text-valign': 'center', 'text-margin-x': 18, 'text-margin-y': 0 } },
+    { selector: 'node.left', style: { 'text-halign': 'left', 'text-valign': 'center', 'text-margin-x': -18, 'text-margin-y': 0 } },
+    { selector: 'node.top', style: { 'text-valign': 'top', 'text-margin-y': -12 } },
+    { selector: ':parent', style: { shape: 'round-rectangle', 'corner-radius': 4, 'background-opacity': 0,
+      'border-width': 1, 'border-color': T.line2, padding: '34px', 'text-valign': 'top', 'text-halign': 'center',
+      'text-margin-y': -12, 'font-family': MONO, 'font-weight': 500, 'font-size': 22, color: T.muted,
+      'text-background-opacity': 0 } },
+    { selector: 'edge', style: { width: 1.2, 'curve-style': 'unbundled-bezier', 'control-point-distances': 'data(bend)',
+      'control-point-weights': 0.5 } },
+    { selector: 'edge.strong', style: { width: 2.2 } },
+    { selector: 'edge.bad', style: { width: 2.2 } },
+  ];
+
+  const hash = (str) => { let h = 2166136261; for (const ch of str) h = Math.imul(h ^ ch.charCodeAt(0), 16777619); return h >>> 0; };
+  const rgbOf = (css) => { const m = String(css).match(/\d+(\.\d+)?/g); return m ? m.slice(0, 3).join(',') : '255,255,255'; };
+  const NEUTRAL = rgbOf(`rgb(${rgb(T.line2)})`);
+
+  // The edge as drawn, as a polyline in the graph's own coordinates: straight, taxi or curved.
+  function edgePath(edge) {
+    const rs = edge._private.rscratch || {};
+    const s = edge.sourceEndpoint();
+    const d = edge.targetEndpoint();
+    if (rs.edgeType === 'segments' && rs.segpts && rs.segpts.length) {
+      const pts = [s];
+      for (let i = 0; i + 1 < rs.segpts.length; i += 2) pts.push({ x: rs.segpts[i], y: rs.segpts[i + 1] });
+      pts.push(d);
+      return pts;
+    }
+    if ((rs.edgeType === 'bezier' || rs.edgeType === 'multibezier') && rs.ctrlpts && rs.ctrlpts.length >= 2) {
+      const c = { x: rs.ctrlpts[0], y: rs.ctrlpts[1] };
+      return Array.from({ length: 17 }, (_, k) => {
+        const u = k / 16;
+        return { x: (1 - u) * (1 - u) * s.x + 2 * (1 - u) * u * c.x + u * u * d.x,
+          y: (1 - u) * (1 - u) * s.y + 2 * (1 - u) * u * c.y + u * u * d.y };
+      });
+    }
+    return [s, d];
+  }
+  const lengthOf = (pts) => pts.reduce((L, p, i) => (i ? L + Math.hypot(p.x - pts[i - 1].x, p.y - pts[i - 1].y) : 0), 0);
+  function pointOn(pts, u) {
+    const L = lengthOf(pts);
+    let want = clamp(u) * L;
+    for (let i = 1; i < pts.length; i++) {
+      const seg = Math.hypot(pts[i].x - pts[i - 1].x, pts[i].y - pts[i - 1].y);
+      if (want <= seg || i === pts.length - 1) {
+        const v = seg ? clamp(want / seg) : 0;
+        return [lerp(pts[i - 1].x, pts[i].x, v), lerp(pts[i - 1].y, pts[i].y, v)];
+      }
+      want -= seg;
+    }
+    return [pts[0].x, pts[0].y];
+  }
+
+  function graph(env, sel, elements, style = [], opts = {}) {
     const { el, r } = mount(env, sel);
+    const net = !!opts.net;
+    if (net) {
+      elements.forEach((e) => {
+        if (e.data.source && e.data.bend === undefined) {
+          const h = hash(e.data.id);
+          e.data.bend = (h % 2 ? 1 : -1) * (16 + (h % 26));
+        }
+      });
+    }
     const cy = cytoscape({
-      container: el, elements, style: CY_STYLE.concat(style), layout: { name: 'preset', fit: false },
+      container: el, elements, style: CY_STYLE.concat(net ? NET_STYLE : [], style), layout: { name: 'preset', fit: false },
       zoom: 1, pan: { x: 0, y: 0 }, userZoomingEnabled: false, userPanningEnabled: false, boxSelectionEnabled: false,
       autoungrabify: true, autounselectify: true, motionBlur: false, textureOnViewport: false, pixelRatio: 1,
     });
-    const show = (lt) => {
+    // a network settles in: each node drifts home from a little way in, and keeps breathing
+    const home = new Map();
+    let cx = 0;
+    let cyy = 0;
+    const leaves = cy.nodes().filter((n) => !n.isParent());
+    leaves.forEach((n) => { const p = n.position(); home.set(n.id(), { x: p.x, y: p.y }); cx += p.x; cyy += p.y; });
+    cx /= Math.max(1, leaves.length);
+    cyy /= Math.max(1, leaves.length);
+    const settle = (lt) => {
+      leaves.forEach((n) => {
+        if (n.hasClass('caps')) return;
+        const h = home.get(n.id());
+        const at = n.data('t') === undefined ? 0 : n.data('t');
+        const q = easeOut(clamp((lt - at) / 0.9));
+        const k = hash(n.id());
+        const jx = ((k % 37) / 37 - 0.5) * 36;
+        const jy = (((k >> 8) % 37) / 37 - 0.5) * 36;
+        const sx = cx + (h.x - cx) * 0.8 + jx;
+        const sy = cyy + (h.y - cyy) * 0.8 + jy;
+        const nz = G().noise3;
+        n.position({ x: lerp(sx, h.x, q) + nz(k % 97, lt * 0.22, 1) * 2.2, y: lerp(sy, h.y, q) + nz(k % 97, lt * 0.22, 5) * 2.2 });
+      });
+    };
+    const fx = () => G().fx;
+    const show = (lt, a = 1) => {
       cy.batch(() => {
+        if (net) settle(lt);
         cy.elements().forEach((e) => {
           const at = e.data('t');
           const until = e.data('until');
-          let q = at === undefined ? 1 : fade(lt, at);
+          const drawn = e.isEdge() && at !== undefined && !e.hasClass('dashed');
+          let q = at === undefined ? 1 : drawn ? clamp((lt - at) / 0.12) : fade(lt, at);
           if (until !== undefined) q *= 1 - fade(lt, until, 0.4);
           if (e.data('dim') !== undefined && lt > e.data('dim')) q *= 1 - 0.55 * fade(lt, e.data('dim'), 0.8);
+          if (net && e.isEdge()) q *= 0.85;
           e.style('opacity', q);
+          if (!drawn) return;
+          // an edge draws itself from its source to its target, and only then shows its arrow
+          const f = easeOut(clamp((lt - at) / 0.7));
+          if (f < 1) {
+            // before the first render an edge has no path yet: its length is not a number
+            const L0 = lengthOf(edgePath(e));
+            const L = Number.isFinite(L0) && L0 > 1 ? L0 : 1000;
+            e.style({ 'line-style': 'dashed', 'line-dash-pattern': [Math.max(0.5, f * L), L + 80], 'line-dash-offset': 0,
+              'target-arrow-shape': 'none' });
+          } else {
+            e.removeStyle('line-style line-dash-pattern line-dash-offset target-arrow-shape');
+          }
         });
       });
       if (cy.forceRender) cy.forceRender();
+      const c = fx();
+      // the motion: a packet runs every drawn edge, a node pulses as it arrives, a network glows
+      cy.edges().forEach((e, i) => {
+        const at = e.data('t') === undefined ? 0 : e.data('t');
+        if (lt < at + 0.7 || parseFloat(e.style('opacity')) < 0.6 || e.data('quiet')) return;
+        const pts = edgePath(e);
+        const L = lengthOf(pts);
+        if (!Number.isFinite(L)) return;
+        const period = Math.max(1.3, L / 230);
+        const u = ((lt - at - 0.7) / period + (hash(e.id()) % 100) / 100) % 1;
+        const col = rgbOf(e.style('line-color'));
+        const neutral = col === NEUTRAL;
+        const [x, y] = pointOn(pts, u);
+        G().fxDot(r.left + x, r.top + y, 3.5, neutral ? G().C.white : col, a * (neutral ? 0.55 : 0.9) * Math.sin(Math.PI * u));
+      });
+      cy.nodes().forEach((n, i) => {
+        if (n.isParent() || n.hasClass('caps') || n.hasClass('ghost')) return;
+        const op = parseFloat(n.style('opacity'));
+        if (op < 0.05) return;
+        const at = n.data('t') === undefined ? 0 : n.data('t');
+        const p = n.renderedPosition();
+        const x = r.left + p.x;
+        const y = r.top + p.y;
+        const fill = rgbOf(n.style(net && !n.hasClass('hub') ? 'background-color' : 'border-color'));
+        const col = fill === NEUTRAL ? G().C.white : fill;
+        const u = (lt - at) / 0.9;
+        if (u > 0 && u < 1) {
+          c.save();
+          c.globalCompositeOperation = 'lighter';
+          c.lineWidth = 1.5;
+          c.strokeStyle = `rgba(${col}, ${(1 - u) * 0.6 * a})`;
+          c.beginPath();
+          if (net) {
+            c.arc(x, y, n.renderedWidth() / 2 + 6 + 30 * easeOut(u), 0, Math.PI * 2);
+          } else {
+            const w = n.renderedOuterWidth() / 2 + 14 * easeOut(u);
+            const h = n.renderedOuterHeight() / 2 + 14 * easeOut(u);
+            c.rect(x - w, y - h, 2 * w, 2 * h);
+          }
+          c.stroke();
+          c.restore();
+        }
+        if (net && !n.hasClass('hub')) {
+          const breathe = 0.8 + 0.2 * Math.sin(lt * 2.1 + (hash(n.id()) % 60) / 10);
+          G().fxDot(x, y, n.renderedWidth() * 0.34, col, 0.42 * a * op * breathe);
+        }
+      });
+      // every visible node, label included, is ink for the layout gate: a graph whose labels
+      // collide or leave the frame fails like any other text
+      cy.nodes().forEach((n) => {
+        if (parseFloat(n.style('opacity')) < 0.6) return;
+        const b = n.renderedBoundingBox({ includeLabels: true });
+        const label = String(n.data('label') || '').replace(/\n/g, ' ');
+        if (b.x1 < -2 || b.y1 < -2 || b.x2 > r.width + 2 || b.y2 > r.height + 2) {
+          G().inks.push({ clip: true, text: `graph clipped by its space: ${label || n.id()}` });
+        }
+        G().inks.push({ shape: n.isParent() || !label, text: 'graph: ' + (label || n.id()),
+          x0: r.left + b.x1, x1: r.left + b.x2, y0: r.top + b.y1, y1: r.top + b.y2 });
+      });
     };
-    // particles along an edge, in page coordinates, drawn by the p5 layer
+    // a point along an edge as drawn, in page coordinates, for what travels it
     const travel = (edge, u) => {
-      const s = edge.sourceEndpoint();
-      const d = edge.targetEndpoint();
-      return [r.left + lerp(s.x, d.x, u), r.top + lerp(s.y, d.y, u)];
+      const [x, y] = pointOn(edgePath(edge), u);
+      return [r.left + x, r.top + y];
     };
     return { cy, el, r, W: r.width, H: r.height, show, travel };
   }
@@ -167,7 +345,7 @@
     ]);
     const path = ['repo', 'l1-1', 'l2-1-1', 'l3-0'];
     return (lt, a) => {
-      g.show(lt);
+      g.show(lt, a);
       g.cy.batch(() => {
         for (let k = 1; k < path.length; k++) {
           const e = g.cy.getElementById(`${path[k - 1]}-${path[k]}`);
@@ -181,7 +359,7 @@
         const seg = Math.min(path.length - 2, Math.floor(u * (path.length - 1)));
         const v = u * (path.length - 1) - seg;
         const e = g.cy.getElementById(`${path[seg]}-${path[seg + 1]}`);
-        G().glowDot(...g.travel(e, v), 10, G().C.white, a);
+        G().fxDot(...g.travel(e, v), 10, G().C.white, a);
       }
     };
   };
@@ -200,11 +378,11 @@
     const g = graph(env, '.chain-space', els, [{ selector: 'node', style: { 'font-size': 21, 'text-max-width': 180, width: 168 } }]);
     const done = env.cue('provenance') + 0.6;
     return (lt, a) => {
-      g.show(lt);
+      g.show(lt, a);
       if (lt > done) {
         const u = ((lt - done) % 1.8) / 1.8;
         const k = Math.min(2, Math.floor(u * 3));
-        G().glowDot(...g.travel(g.cy.getElementById(`e${k + 1}`), u * 3 - k), 6, G().C.green, a);
+        G().fxDot(...g.travel(g.cy.getElementById(`e${k + 1}`), u * 3 - k), 6, G().C.green, a);
       }
     };
   };
@@ -236,13 +414,13 @@
       { selector: 'node.caps.bad', style: { color: T.badFg, 'font-family': MONO, padding: '12px' } },
     ]);
     return (lt, a) => {
-      g.show(lt);
+      g.show(lt, a);
       const lit = names.filter(([, cue]) => !cue || lt >= env.cue(cue)).length;
       for (let k = 0; k < 5; k++) {
         const u = ((lt * 0.2 + k / 5) % 1);
         const seg = Math.min(lit - 2, Math.floor(u * (lit - 1)));
         if (seg < 0) break;
-        G().glowDot(...g.travel(g.cy.getElementById(`ge${seg + 1}`), u * (lit - 1) - seg), 5, G().C.white, a);
+        G().fxDot(...g.travel(g.cy.getElementById(`ge${seg + 1}`), u * (lit - 1) - seg), 5, G().C.white, a);
       }
     };
   };
@@ -273,7 +451,7 @@
     });
     const g = graph(env, '.flow-space', els, [{ selector: 'node', style: { 'font-size': 22, 'text-max-width': 190 } },
       { selector: '#as, #co', style: { 'text-max-width': 520 } }]);
-    return (lt) => g.show(lt);
+    return (lt, a) => g.show(lt, a);
   };
 
   // Generation: one declaration fans out into every projection; a drifted one is caught.
@@ -286,13 +464,13 @@
     [['CLI', 'majordomus models route', 'command'], ['HTTP', 'GET /api/v1/models/route', 'http'], ['MCP', 'majordomus_models_route', 'mcp'],
       ['OpenAPI', 'operation models.route', 'openapi'], ['Docs', 'docs/generated/cli.md', 'docs'], ['Skill', '/mj-models', 'skills']].forEach(([n, what, cue], i) => {
       const t = env.cue(cue);
-      els.push({ data: { id: n, label: `${n.toUpperCase()}\n${what}`, t }, position: { x: W * 0.36, y: H * (0.25 + i * 0.145) } });
+      els.push({ data: { id: n, label: `${n.toUpperCase()}\n${what}`, t }, position: { x: W * 0.36, y: H * (0.2 + i * 0.14) } });
       els.push({ data: { id: `f-${n}`, source: 'src', target: n, t }, classes: 'taxi-h arrow' });
     });
     const g = graph(env, '.fan-space', els, [{ selector: 'node', style: { 'font-size': 23, 'text-halign': 'center', width: 520, 'text-max-width': 520 } },
       { selector: '#src', style: { width: 'label' } }]);
     return (lt, a) => {
-      g.show(lt);
+      g.show(lt, a);
       const drift = lt > tDrift && lt < tDrift + 1.8;
       g.cy.getElementById('Docs').style({ 'border-color': drift ? T.bad : T.line2, color: drift ? T.badFg : T.ink });
       g.cy.getElementById('Docs').data('label', drift ? 'DOCS · STALE\ngenerate --check fails' : 'DOCS\ndocs/generated/cli.md');
@@ -309,21 +487,21 @@
     const tAttach = env.cue('attaches');
     const tSees = env.cue('sees');
     const cl = [['Claude Code', 's2', 0.16, 0.16], ['Codex', 's1', 0.84, 0.16], ['Gemini', 's3', 0.84, 0.86], ['Zed', 's4', 0.16, 0.86]];
-    const els = [{ data: { id: 'srv', label: 'majordomus serve\n:8741 · loopback', t: tFirst + 0.2 }, position: { x: W / 2, y: H / 2 }, classes: 'brand' }];
+    const els = [{ data: { id: 'srv', label: 'majordomus serve\n:8741 · loopback', t: tFirst + 0.2 }, position: { x: W / 2, y: H / 2 }, classes: 'brand big' }];
     cl.forEach(([n, s, fx, fy], i) => {
       const t = i === 0 ? tFirst : tAttach + (i - 1) * 0.35;
       els.push({ data: { id: `c${i}`, label: n, t }, position: { x: W * fx, y: H * fy }, classes: s });
       els.push({ data: { id: `k${i}`, source: `c${i}`, target: 'srv', t }, classes: `${s} strong` });
     });
     [[0, 1], [1, 2], [2, 3], [3, 0]].forEach(([i, j]) => els.push({ data: { id: `m${i}${j}`, source: `c${i}`, target: `c${j}`, t: tSees }, classes: 'dashed' }));
-    const g = graph(env, '.server-space', els, [{ selector: '#srv', style: { 'font-size': 22 } }]);
+    const g = graph(env, '.server-space', els, [], { net: true });
     return (lt, a) => {
-      g.show(lt);
+      g.show(lt, a);
       cl.forEach(([, s], i) => {
         const e = g.cy.getElementById(`k${i}`);
         const t0 = e.data('t');
         if (lt < t0 + 0.4) return;
-        G().glowDot(...g.travel(e, ((lt - t0) * 0.8) % 1), 4, G().C[s], a);
+        G().fxDot(...g.travel(e, ((lt - t0) * 0.8) % 1), 4, G().C[s], a);
       });
     };
   };
@@ -335,24 +513,24 @@
     const H = host.height;
     const list = [['Claude Code', 'claude', 's2'], ['Codex', 'codex', 's1'], ['Gemini', 'gemini', 's3'], ['Zed', 'zed', 's4'],
       ['Antigravity', 'antigravity', 's5'], ['bb', 'bb', ''], ['any MCP client', 'mcp', '']];
-    const els = [{ data: { id: 'pol', label: 'policy.yaml', t: 0.2 }, position: { x: W / 2, y: H / 2 }, classes: 'brand' }];
+    const els = [{ data: { id: 'pol', label: 'policy.yaml', t: 0.2 }, position: { x: W / 2, y: H / 2 }, classes: 'brand big' }];
     list.forEach(([n, cue, s], i) => {
       const ang = -Math.PI / 2 + (i * Math.PI * 2) / list.length;
       const t = env.cue(cue);
       els.push({ data: { id: `p${i}`, label: n, t }, position: { x: W / 2 + Math.cos(ang) * W * 0.36, y: H / 2 + Math.sin(ang) * H * 0.4 }, classes: s });
       els.push({ data: { id: `q${i}`, source: 'pol', target: `p${i}`, t }, classes: `${s} ${n === 'any MCP client' ? 'dashed' : ''}` });
     });
-    const g = graph(env, '.orbit-space', els, [{ selector: 'node', style: { 'font-size': 24 } }]);
+    const g = graph(env, '.orbit-space', els, [], { net: true });
     const tProj = env.cue('projection');
     return (lt, a) => {
-      g.show(lt);
+      g.show(lt, a);
       list.forEach(([, , s], i) => {
         const e = g.cy.getElementById(`q${i}`);
         const t0 = e.data('t');
         if (lt < t0 + 0.4) return;
         for (let k = 0; k < 3; k++) {
           const u = ((lt - t0) * (lt > tProj ? 0.9 : 0.45) + k / 3) % 1;
-          G().glowDot(...g.travel(e, u), 3.5, s ? G().C[s] : G().C.white, a * Math.sin(Math.PI * u));
+          G().fxDot(...g.travel(e, u), 3.5, s ? G().C[s] : G().C.white, a * Math.sin(Math.PI * u));
         }
       });
     };
@@ -378,14 +556,13 @@
     els.push({ data: { id: 'file', label: 'src/parser.rs', t: c.same - 0.2 }, position: { x: W * 0.5, y: H * 0.42 }, classes: 'bad' });
     els.push({ data: { id: 'x1', source: 'Claude', target: 'file', t: c.same }, classes: 'bad arrow' });
     els.push({ data: { id: 'x2', source: 'Codex', target: 'file', t: c.same + 0.1 }, classes: 'bad arrow' });
-    const g = graph(env, '.mesh-space', els, [{ selector: 'node', style: { 'font-size': 30, padding: '22px' } },
-      { selector: '#file', style: { 'font-size': 30, padding: '24px' } }, { selector: 'node.hub', style: { 'border-color': T.line2, width: 46, height: 46 } }]);
+    const g = graph(env, '.mesh-space', els, [{ selector: '#file', style: { 'font-family': MONO, 'font-weight': 500 } }], { net: true });
     return (lt, a) => {
-      g.show(lt);
+      g.show(lt, a);
       for (let e = 0; e < 3; e++) {
         const edge = g.cy.getElementById(`hh${e}`);
         if (lt < 1.4 + e * 0.15) continue;
-        for (let k = 0; k < 3; k++) G().glowDot(...g.travel(edge, (lt * 0.3 + k / 3 + e * 0.13) % 1), 4, G().C.white, a);
+        for (let k = 0; k < 3; k++) G().fxDot(...g.travel(edge, (lt * 0.3 + k / 3 + e * 0.13) % 1), 4, G().C.white, a);
       }
     };
   };
@@ -401,26 +578,29 @@
     const els = [];
     const hubs = {};
     z.forEach(([id, label, t, n, x0, x1, fy]) => {
-      els.push({ data: { id, label, t } });
+      els.push({ data: { id, label, t: 0.2 } });
       for (let k = 0; k < n; k++) {
         const nid = `${id}${k}`;
         els.push({ data: { id: nid, parent: id, label: '', t: t + 0.1 * k }, position: { x: W * lerp(x0 + 0.04, x1 - 0.04, n === 1 ? 0.5 : k / (n - 1)), y: H * fy + (k % 2 ? 28 : -28) },
           classes: 'machine' });
         if (k) els.push({ data: { id: `${nid}l`, source: `${id}${k - 1}`, target: nid, t: t + 0.1 * k } });
       }
-      hubs[id] = `${id}${Math.floor(n / 2)}`;
+      // each zone's link leaves from the machine facing the zone it reaches
+      hubs[id] = `${id}${{ home: n - 1, dc: 0, co: Math.floor(n / 2) }[id]}`;
     });
-    const link = (a, b, cls, t) => els.push({ data: { id: `${a}-${b}`, source: hubs[a], target: hubs[b], t }, classes: cls });
+    const link = (a, b, cls, t) => els.push({ data: { id: `${a}-${b}`, source: hubs[a], target: hubs[b], t, bend: 0 }, classes: cls });
     link('home', 'dc', 'brand strong', z[1][2] + 0.4);
     link('dc', 'co', 'brand strong', z[2][2] + 0.4);
     link('home', 'co', 'ink dashed', z[2][2] + 0.6);
-    const g = graph(env, '.zone-space', els, [{ selector: 'node.machine', style: { width: 34, height: 34, padding: 0, label: '', 'border-color': T.ink } }]);
+    // links arrive at the company from above, so its title sits below its box
+    const g = graph(env, '.zone-space', els, [{ selector: 'node.machine', style: { width: 16, height: 16 } },
+      { selector: '#co', style: { 'text-valign': 'bottom', 'text-margin-y': 12 } }], { net: true });
     return (lt, a) => {
-      g.show(lt);
+      g.show(lt, a);
       [['home-dc', 0], ['dc-co', 1], ['home-co', 2]].forEach(([id, e]) => {
         const edge = g.cy.getElementById(id);
         if (lt < edge.data('t') + 0.5) return;
-        for (let k = 0; k < 3; k++) G().glowDot(...g.travel(edge, (lt * 0.45 + k / 3 + e * 0.21) % 1), 4, k ? G().C.white : G().C.brand, a);
+        for (let k = 0; k < 3; k++) G().fxDot(...g.travel(edge, (lt * 0.45 + k / 3 + e * 0.21) % 1), 4, k ? G().C.white : G().C.brand, a);
       });
     };
   };
@@ -478,11 +658,212 @@
     const g = graph(env, '.hooks-space', els, [{ selector: 'node', style: { 'font-size': 30, 'text-max-width': 300 } }]);
     const path = ['e1', 'e2', 'e3', 'e4', 'e5'];
     return (lt, a) => {
-      g.show(lt);
+      g.show(lt, a);
       if (lt < tp + 1) return;
       const u = ((lt - tp - 1) % 2.5) / 2.5;
       const seg = Math.min(path.length - 1, Math.floor(u * path.length));
-      G().glowDot(...g.travel(g.cy.getElementById(path[seg]), u * path.length - seg), 6, G().C.white, a);
+      G().fxDot(...g.travel(g.cy.getElementById(path[seg]), u * path.length - seg), 6, G().C.white, a);
+    };
+  };
+
+  // A plan issue's status, derived: READY, ACTIVE, VERIFY, DONE from the stamps its transitions
+  // wrote; done is refused until the evidence a token requires is recorded.
+  VIZ.states = (env) => {
+    const host = env.el.querySelector('.state-space').getBoundingClientRect();
+    const W = host.width;
+    const H = host.height;
+    const t0 = env.cue('derived');
+    const tS = env.cue('started');
+    const tV = env.cue('verified');
+    const tC = env.cue('completed');
+    const tE = env.cue('evidence');
+    const tR = env.cue('refused');
+    const tM = env.cue('missing') + 0.8;
+    const els = [
+      { data: { id: 'blocked', label: 'BLOCKED', t: t0 - 0.3 }, position: { x: W * 0.11, y: H * 0.1 }, classes: 'faint' },
+      { data: { id: 'why', label: 'a dependency is not DONE', t: t0 - 0.3 }, position: { x: W * 0.43, y: H * 0.1 }, classes: 'caps ghost' },
+      { data: { id: 'ready', label: 'READY', t: t0 }, position: { x: W * 0.1, y: H * 0.42 } },
+      { data: { id: 'active', label: 'ACTIVE', t: tS }, position: { x: W * 0.37, y: H * 0.42 } },
+      { data: { id: 'verify', label: 'VERIFY', t: tV }, position: { x: W * 0.63, y: H * 0.42 } },
+      { data: { id: 'done', label: 'DONE', t: tC }, position: { x: W * 0.9, y: H * 0.42 } },
+      { data: { id: 's1', label: 'started_at', t: tS }, position: { x: W * 0.235, y: H * 0.6 }, classes: 'caps ghost' },
+      { data: { id: 's2', label: 'verified_at', t: tV }, position: { x: W * 0.5, y: H * 0.6 }, classes: 'caps ghost' },
+      { data: { id: 's3', label: 'completed_at', t: tC }, position: { x: W * 0.765, y: H * 0.6 }, classes: 'caps ghost' },
+      { data: { id: 'refused', label: 'refused\nproof missing', t: tR }, position: { x: W * 0.5, y: H * 0.88 }, classes: 'bad' },
+      { data: { id: 'proof', label: '+ evidence\ndoctrine_test', t: tM }, position: { x: W * 0.85, y: H * 0.88 }, classes: 'ok' },
+      { data: { id: 'b', source: 'blocked', target: 'ready', t: t0 }, classes: 'arrow dashed' },
+      { data: { id: 'e1', source: 'ready', target: 'active', t: tS }, classes: 'arrow' },
+      { data: { id: 'e2', source: 'active', target: 'verify', t: tV }, classes: 'arrow' },
+      { data: { id: 'e3', source: 'verify', target: 'done', t: tC }, classes: 'arrow' },
+      { data: { id: 'r', source: 'verify', target: 'refused', t: tR }, classes: 'arrow bad' },
+      { data: { id: 'p', source: 'refused', target: 'proof', t: tM }, classes: 'arrow ok' },
+      { data: { id: 'q', source: 'proof', target: 'done', t: tM + 0.3 }, classes: 'arrow ok' },
+    ];
+    const g = graph(env, '.state-space', els, [
+      { selector: 'node', style: { 'font-size': 26 } },
+      { selector: 'node.faint', style: { color: T.muted, 'border-style': 'dashed' } },
+      { selector: 'node.caps', style: { 'font-size': 20 } },
+    ]);
+    const order = [['ready', t0], ['active', tS], ['verify', tV], ['refused', tR], ['done', tM + 0.3]];
+    return (lt, a) => {
+      g.show(lt, a);
+      let now = null;
+      order.forEach(([id, at]) => { if (lt > at) now = id; });
+      g.cy.batch(() => {
+        ['ready', 'active', 'verify'].forEach((id) => g.cy.getElementById(id).style('border-color', id === now ? T.brand : T.line2));
+        g.cy.getElementById('done').style({ 'border-color': lt > tM + 0.3 ? T.ok : T.line2, color: lt > tM + 0.3 ? T.okFg : T.ink });
+        g.cy.getElementById('e3').style('opacity', lt > tR ? 0.3 : g.cy.getElementById('e3').style('opacity'));
+      });
+      if (g.cy.forceRender) g.cy.forceRender();
+      if (lt > tE && lt < tR) {
+        const u = ((lt - tE) % 1.2) / 1.2;
+        G().fxDot(...g.travel(g.cy.getElementById('e2'), u), 6, G().C.white, a);
+      }
+      if (lt > tM + 0.6) {
+        const u = ((lt - tM - 0.6) % 1.4) / 1.4;
+        const e = u < 0.5 ? 'p' : 'q';
+        G().fxDot(...g.travel(g.cy.getElementById(e), (u % 0.5) * 2), 6, G().C.green, a);
+      }
+    };
+  };
+
+  // Checked before it is built: a new path asked of every branch, local and remote.
+  VIZ.scan = (env) => {
+    const host = env.el.querySelector('.scan-space').getBoundingClientRect();
+    const W = host.width;
+    const H = host.height;
+    const tB = env.cue('branch');
+    const tC = env.cue('claims');
+    const refs = [['master', ''], ['feature/cli-help', 'local'], ['origin/feature/parser', 'remote'],
+      ['origin/int/land-all', 'remote'], ['origin/docs/tour', 'remote']];
+    const els = [
+      { data: { id: 'path', label: 'src/release/\nnew', t: env.cue('module') }, position: { x: W * 0.16, y: H * 0.5 }, classes: 'brand' },
+    ];
+    refs.forEach(([name], i) => {
+      const t = tB + i * 0.25;
+      els.push({ data: { id: `r${i}`, label: name, t }, position: { x: W * 0.69, y: H * (0.1 + i * 0.2) } });
+      els.push({ data: { id: `e${i}`, source: 'path', target: `r${i}`, t }, classes: 'taxi-h' });
+    });
+    const g = graph(env, '.scan-space', els, [
+      { selector: 'node', style: { 'font-size': 25 } },
+      { selector: 'edge', style: { 'taxi-turn': '40%' } },
+    ]);
+    const hit = 3;
+    return (lt, a) => {
+      g.show(lt, a);
+      const found = lt > tC;
+      g.cy.batch(() => {
+        g.cy.getElementById(`r${hit}`).style({ 'border-color': found ? T.bad : T.line2, color: found ? T.badFg : T.ink });
+        g.cy.getElementById(`e${hit}`).style({ 'line-color': found ? T.bad : T.line2, width: found ? 3 : 1.5 });
+      });
+      if (g.cy.forceRender) g.cy.forceRender();
+      if (lt > tB && !found) {
+        refs.forEach((_, i) => {
+          const u = ((lt - tB - i * 0.25) % 1.3) / 1.3;
+          if (u > 0) G().fxDot(...g.travel(g.cy.getElementById(`e${i}`), u), 5, G().C.white, a);
+        });
+      }
+    };
+  };
+
+  // One claim, one winner: two machines claim one scope in the same heartbeat; the fold names the
+  // same winner everywhere; the holder stops beating and the claim expires.
+  VIZ.claim = (env) => {
+    const host = env.el.querySelector('.claim-space').getBoundingClientRect();
+    const W = host.width;
+    const H = host.height;
+    const tX = env.cue('exclusively');
+    const tS = env.cue('second');
+    const tM = env.cue('meets');
+    const tH = env.cue('heartbeat');
+    const tB = env.cue('beating');
+    const els = [
+      { data: { id: 'lap', label: 'laptop\nclaude', t: tX - 0.4 }, position: { x: W * 0.17, y: H * 0.16 }, classes: 's2' },
+      { data: { id: 'studio', label: 'studio\ncodex', t: tS - 0.3 }, position: { x: W * 0.83, y: H * 0.16 }, classes: 's1' },
+      { data: { id: 'scope', label: 'src/parser/\nexclusive', t: tX }, position: { x: W * 0.5, y: H * 0.5 }, classes: 'brand big' },
+      { data: { id: 'conflict', label: 'claim_conflict\nmeets laptop', t: tM }, position: { x: W * 0.8, y: H * 0.76 }, classes: 'bad' },
+      { data: { id: 'held', label: 'held', t: tX + 0.4 }, position: { x: W * 0.2, y: H * 0.76 }, classes: 'ok' },
+      { data: { id: 'a', source: 'lap', target: 'scope', t: tX }, classes: 'arrow strong' },
+      { data: { id: 'b', source: 'studio', target: 'scope', t: tS }, classes: 'arrow' },
+      { data: { id: 'c', source: 'scope', target: 'conflict', t: tM }, classes: 'arrow bad' },
+      { data: { id: 'd', source: 'scope', target: 'held', t: tX + 0.4 }, classes: 'arrow ok' },
+    ];
+    const g = graph(env, '.claim-space', els, [], { net: true });
+    return (lt, a) => {
+      g.show(lt, a);
+      const gone = fade(lt, tB, 0.8);
+      g.cy.batch(() => {
+        g.cy.getElementById('a').style({ 'line-color': lt > tX ? T.s2 : T.line2, opacity: 1 - 0.8 * gone });
+        g.cy.getElementById('lap').style('opacity', Math.min(fade(lt, tX - 0.4), 1 - 0.55 * gone));
+        g.cy.getElementById('held').data('label', lt > tB ? 'expired' : 'held');
+        g.cy.getElementById('held').style({ 'background-color': lt > tB ? T.warn : T.ok, color: lt > tB ? '#ffb86a' : T.okFg });
+      });
+      if (g.cy.forceRender) g.cy.forceRender();
+      // the same heartbeat: both claims travel at once
+      if (lt > tH && lt < tB) {
+        const u = ((lt - tH) % 1.1) / 1.1;
+        G().fxDot(...g.travel(g.cy.getElementById('a'), u), 7, G().C.white, a);
+        G().fxDot(...g.travel(g.cy.getElementById('b'), u), 7, G().C.white, a);
+      }
+    };
+  };
+
+  // Work moves through seats: workers into the landing seat's combined top, master, the release
+  // seat and its tag; a repair lane brings a stale branch current; a seat whose holder stops
+  // beating falls vacant.
+  VIZ.seats = (env) => {
+    const host = env.el.querySelector('.seat-space').getBoundingClientRect();
+    const W = host.width;
+    const H = host.height;
+    const tL = env.cue('lands');
+    const tR = env.cue('releases');
+    const tP = env.cue('repair');
+    const tW = env.cue('worker');
+    const tV = env.cue('vacant');
+    const els = [
+      { data: { id: 'w1', label: 'worker\nI0703', t: tL - 0.8 }, position: { x: W * 0.16, y: H * 0.08 }, classes: 's2' },
+      { data: { id: 'w2', label: 'worker\nI3941', t: tL - 0.6 }, position: { x: W * 0.5, y: H * 0.08 }, classes: 's1' },
+      { data: { id: 'w3', label: 'worker\nI3952', t: tL - 0.4 }, position: { x: W * 0.84, y: H * 0.08 }, classes: 's3' },
+      { data: { id: 'land', label: 'landing seat\ncombined top', t: tL }, position: { x: W * 0.5, y: H * 0.37 }, classes: 'brand big' },
+      { data: { id: 'kland', label: 'campaign/…/landing', t: tL + 0.3 }, position: { x: W * 0.5, y: H * 0.37 + 118 }, classes: 'caps ghost' },
+      { data: { id: 'master', label: 'master', t: tL + 0.5 }, position: { x: W * 0.5, y: H * 0.63 }, classes: 'ok' },
+      { data: { id: 'repair', label: 'repair lane\nmerges master in', t: tP }, position: { x: W * 0.16, y: H * 0.63 }, classes: 's4' },
+      { data: { id: 'krepair', label: 'refs/heads/<branch>', t: tP + 0.3 }, position: { x: W * 0.16, y: H * 0.63 + 112 }, classes: 'caps ghost' },
+      { data: { id: 'rel', label: 'release seat', t: tR }, position: { x: W * 0.5, y: H * 0.86 }, classes: 'brand big' },
+      { data: { id: 'krel', label: 'release/seat', t: tR + 0.3 }, position: { x: W * 0.5, y: H * 0.86 + 82 }, classes: 'caps ghost' },
+      { data: { id: 'tag', label: 'tag', t: tR + 0.5 }, position: { x: W * 0.84, y: H * 0.86 }, classes: 'ok' },
+      { data: { id: 'a1', source: 'w1', target: 'land', t: tL }, classes: 'arrow s2' },
+      { data: { id: 'a2', source: 'w2', target: 'land', t: tL }, classes: 'arrow s1' },
+      { data: { id: 'a3', source: 'w3', target: 'land', t: tL }, classes: 'arrow s3' },
+      { data: { id: 'a4', source: 'land', target: 'master', t: tL + 0.5 }, classes: 'arrow strong brand' },
+      { data: { id: 'a5', source: 'master', target: 'rel', t: tR }, classes: 'arrow' },
+      { data: { id: 'a6', source: 'rel', target: 'tag', t: tR + 0.5 }, classes: 'arrow ok' },
+      { data: { id: 'a7', source: 'master', target: 'repair', t: tP, bend: 0 }, classes: 'arrow dashed s4' },
+      { data: { id: 'a8', source: 'repair', target: 'w1', t: tP + 0.3, bend: 0 }, classes: 'arrow dashed s4' },
+    ];
+    // each seat's claim key is a third line under its label: the seat is the claim
+    const g = graph(env, '.seat-space', els, [{ selector: 'node.caps', style: { 'text-background-opacity': 0.82 } }], { net: true });
+    const path = ['a2', 'a4', 'a5', 'a6'];
+    return (lt, a) => {
+      g.show(lt, a);
+      const vacant = lt > tV;
+      g.cy.batch(() => {
+        ['w1', 'w2', 'w3'].forEach((id) => g.cy.getElementById(id).style({ width: lt > tW ? 30 : 22, height: lt > tW ? 30 : 22 }));
+        const land = g.cy.getElementById('land');
+        land.data('label', vacant ? 'landing seat\nvacant' : 'landing seat\ncombined top');
+        land.style({ 'background-color': vacant ? T.faint : T.brand, color: vacant ? T.muted : T.ink });
+      });
+      if (g.cy.forceRender) g.cy.forceRender();
+      if (lt > tR + 0.8 && !vacant) {
+        const u = ((lt - tR - 0.8) % 2.4) / 2.4;
+        const k = Math.min(path.length - 1, Math.floor(u * path.length));
+        G().fxDot(...g.travel(g.cy.getElementById(path[k]), u * path.length - k), 6, G().C.white, a);
+      }
+      if (lt > tP + 0.6) {
+        const u = ((lt - tP - 0.6) % 1.8) / 1.8;
+        const e = u < 0.5 ? 'a7' : 'a8';
+        G().fxDot(...g.travel(g.cy.getElementById(e), (u % 0.5) * 2), 5, G().C.s4, a);
+      }
     };
   };
 
@@ -502,11 +883,38 @@
       yAxis: { type: 'category', data: models, inverse: true, ...axisQuiet,
         axisLabel: { fontFamily: MONO, fontSize: 24, color: T.ink } },
       visualMap: { show: false, type: 'piecewise', dimension: 2,
-        pieces: [{ value: 0, color: T.raised }, { value: 1, color: T.s2 }, { value: 2, color: T.s1 }] },
+        pieces: [{ value: 0, color: T.raised }, { value: 1, color: `rgba(${rgb(T.s2)}, 0.55)` },
+          { value: 2, color: `rgba(${rgb(T.s1)}, 0.7)` }] },
       series: [{ type: 'heatmap', data: [], itemStyle: { borderColor: T.bg, borderWidth: 12 } }],
     });
-    return (lt) => {
+    return (lt, a) => {
       const rows = Math.floor(clamp((lt - t0) / 1.2) * models.length + 0.0001);
+      // each row lights up as it is declared: a ripple of light across its cells
+      models.forEach((m, i) => {
+        const tr = t0 + (i / models.length) * 1.2;
+        const age = lt - tr;
+        if (age < 0 || age > 0.9 || i >= rows) return;
+        caps.forEach((cap, j) => {
+          if (!value(m, j)) return;
+          const [x, y] = c.ch.convertToPixel({ xAxisIndex: 0, yAxisIndex: 0 }, [cap, m]);
+          const u = clamp(age * 2.4 - j * 0.18);
+          G().fxDot(c.r.left + x, c.r.top + y, 9, rgb(value(m, j) === 2 ? T.s1 : T.s2), a * Math.sin(Math.PI * u));
+        });
+      });
+      // once declared, the catalogue is read: a light passes along one row after another
+      const tAll = t0 + 1.2 + 0.9;
+      if (lt > tAll) {
+        const k = (lt - tAll) / 1.3;
+        const i = Math.floor(k) % models.length;
+        const u = k - Math.floor(k);
+        caps.forEach((cap, j) => {
+          if (!value(models[i], j)) return;
+          const w = Math.max(0, 1 - Math.abs(u * (caps.length + 1) - 0.5 - j));
+          if (w <= 0) return;
+          const [x, y] = c.ch.convertToPixel({ xAxisIndex: 0, yAxisIndex: 0 }, [cap, models[i]]);
+          G().fxDot(c.r.left + x, c.r.top + y, 8, rgb(value(models[i], j) === 2 ? T.s1 : T.s2), a * 0.8 * w);
+        });
+      }
       const data = [];
       models.forEach((m, i) => caps.forEach((cap, j) => { if (i < rows) data.push([j, i, value(m, j)]); }));
       const hot = lt > tTools;
@@ -531,11 +939,23 @@
         axisLabel: { fontFamily: SANS, fontWeight: 700, fontSize: 15, color: T.muted } },
       series: [{ type: 'bar', barWidth: 26, data: [], label: { show: true, position: 'right', fontFamily: MONO, fontSize: 20, color: T.ink } }],
     });
-    return (lt) => {
+    return (lt, a) => {
       c.paint({ series: [{ data: rows.map(([, v, col], i) => {
         const q = fade(lt, t0 + i * 0.2, 0.8);
         return { value: Math.round(v * q), itemStyle: { color: col } };
       }) }] });
+      rows.forEach(([name, v, col], i) => {
+        const q = fade(lt, t0 + i * 0.2, 0.8);
+        if (q <= 0) return;
+        const [x, y] = c.ch.convertToPixel({ xAxisIndex: 0, yAxisIndex: 0 }, [v * q, name]);
+        const [x0] = c.ch.convertToPixel({ xAxisIndex: 0, yAxisIndex: 0 }, [0, name]);
+        const color = rgb(col);
+        if (q < 1) G().fxDot(c.r.left + x - 10, c.r.top + y, 6, color, a * 0.9);
+        else {
+          const u = ((lt - t0 - i * 0.2 - 0.8) / 1.6) % 1;
+          G().fxDot(c.r.left + lerp(x0, x - 24, u), c.r.top + y, 5, color, a * 0.8 * Math.sin(Math.PI * u));
+        }
+      });
     };
   };
 
@@ -555,7 +975,7 @@
       series: lanes.map((l, i) => ({ type: 'scatter', data: [], itemStyle: { color: cols[i] } })),
     });
     const rand = (s) => { let x = Math.sin(s * 127.1) * 43758.5453; return x - Math.floor(x); };
-    return (lt) => {
+    return (lt, a) => {
       const series = lanes.map((l, i) => {
         const data = [];
         for (let k = Math.max(0, Math.floor((lt - span) / 0.3)); k <= Math.floor(lt / 0.3); k++) {
@@ -568,6 +988,13 @@
           lineStyle: { color: T.ink, type: 'solid', width: 1.5 }, data: [{ xAxis: lt }] } };
       });
       c.paint({ xAxis: { min: lt - span, max: lt + 0.2 }, series });
+      series.forEach((ser, i) => ser.data.forEach((d) => {
+        const age = lt - d.value[0];
+        if (age > 1.2) return;
+        const [x, y] = c.ch.convertToPixel({ xAxisIndex: 0, yAxisIndex: 0 }, [d.value[0], lanes[i].toUpperCase()]);
+        const big = d.symbolSize > 20;
+        G().fxDot(c.r.left + x, c.r.top + y, big ? 10 : 5, big ? rgb(T.brand) : G().C.white, a * (1 - age / 1.2) * (big ? 1 : 0.7));
+      }));
     };
   };
 

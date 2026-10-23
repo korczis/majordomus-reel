@@ -74,20 +74,31 @@
     prismV: '167,139,250', prismS: '56,189,248', prismE: '52,211,153',
   };
 
-  function glowDot(x, y, r, color, alpha) {
+  // v5.1's light: a soft halo around a bright core, drawn additively. Moving things glow; the
+  // graphs, boxes and type stay flat.
+  function glowDot(x, y, r, color, alpha, c = ctx) {
+    if (!(alpha > 0.004) || !Number.isFinite(x + y + r)) return;
     if (alpha > 0.5 && r >= 6) inks.push({ shape: true, text: 'node', x0: x - r, y0: y - r, x1: x + r, y1: y + r });
-    ctx.fillStyle = `rgba(${color}, ${alpha})`;
-    ctx.beginPath();
-    ctx.arc(x, y, Math.max(1.5, r * 0.75), 0, TAU);
-    ctx.fill();
-    if (r >= 6) {
-      ctx.lineWidth = 1;
-      ctx.strokeStyle = `rgba(${color}, ${alpha * 0.45})`;
-      ctx.beginPath();
-      ctx.arc(x, y, r * 1.6, 0, TAU);
-      ctx.stroke();
-    }
+    const g = c.createRadialGradient(x, y, 0, x, y, r * 4);
+    g.addColorStop(0, `rgba(${color}, ${alpha})`);
+    g.addColorStop(0.25, `rgba(${color}, ${alpha * 0.35})`);
+    g.addColorStop(1, `rgba(${color}, 0)`);
+    c.fillStyle = g;
+    c.beginPath();
+    c.arc(x, y, r * 4, 0, TAU);
+    c.fill();
+    c.fillStyle = `rgba(255,255,255, ${alpha})`;
+    c.beginPath();
+    c.arc(x, y, r * 0.55, 0, TAU);
+    c.fill();
   }
+
+  // The motion layer above the scenes: graphs and charts mask the background, so what moves
+  // along them is drawn here, over them, and cleared every frame.
+  const fxCanvas = document.getElementById('fx');
+  const fx = fxCanvas.getContext('2d');
+  fx.globalCompositeOperation = 'lighter';
+  const fxDot = (x, y, r, color, alpha) => glowDot(x, y, r, color, alpha, fx);
 
 
   const ink = (text, x, y, size, align) => {
@@ -213,19 +224,19 @@
     const tTrusted = env.cue('trusted');
     const tNothing = env.cue('nothing');
     const me = [box.left + box.width * 0.42, box.top + box.height * 0.5];
-    const R = Math.min(box.width, box.height) * 0.36;
+    const R = Math.min(box.width, box.height) * 0.42;
     const peers = [-2.4, -0.9, 2.3].map((ang) => [me[0] + Math.cos(ang) * R * 1.15, me[1] + Math.sin(ang) * R]);
+    const names = ['laptop', 'studio', 'dc-01'];
     const strangerHome = [box.left + box.width * 1.05, box.top + box.height * 0.82];
     const strangerStop = [box.left + box.width * 0.86, box.top + box.height * 0.74];
-    const node = (p, r, stroke, alpha) => solid(() => {
-      ctx.globalAlpha = alpha;
-      ctx.fillStyle = '#101828';
-      ctx.strokeStyle = stroke;
-      ctx.lineWidth = 1.5;
-      ctx.fillRect(p[0] - r, p[1] - r, 2 * r, 2 * r);
-      ctx.strokeRect(p[0] - r, p[1] - r, 2 * r, 2 * r);
-      ctx.globalAlpha = 1;
-    });
+    // networks are dots of light, as in every other mesh scene
+    const node = (p, r, color, alpha) => {
+      if (alpha <= 0.01) return;
+      glowDot(p[0], p[1], r * 0.9, color, 0.45 * alpha);
+      ctx.fillStyle = `rgba(${color}, ${alpha})`;
+      ctx.beginPath(); ctx.arc(p[0], p[1], r, 0, TAU); ctx.fill();
+      if (alpha > 0.5) inks.push({ shape: true, text: 'node', x0: p[0] - r, y0: p[1] - r, x1: p[0] + r, y1: p[1] + r });
+    };
     return (lt, a, t) => {
       if (a <= 0.01) return;
       const q = easeOut(clamp((lt - 0.3) / 0.6));
@@ -234,22 +245,28 @@
         ctx.lineWidth = 1.5;
         ctx.strokeStyle = `rgba(0,212,146, ${0.6 * a * f})`;
         ctx.beginPath(); ctx.moveTo(...me); ctx.lineTo(lerp(me[0], p[0], f), lerp(me[1], p[1], f)); ctx.stroke();
-        node(p, 16, 'rgba(255,255,255,.8)', a * f);
+        node(p, 11, C.white, a * f);
+        // a name sits on the far side of its peer, away from the path its signatures travel
+        mono(names[k], p[0], p[1] < me[1] ? p[1] - 30 : p[1] + 44, C.gray, 0.9 * a * f, 22, 'center');
         if (lt > tSigned) {
           const u = ((lt - tSigned) * 0.6 + k / 3) % 1;
           const x = lerp(p[0], me[0], u);
           const y = lerp(p[1], me[1], u);
           glowDot(x, y, 4, C.green, a);
-          if (u < 0.6) mono('sig', x + 12, y - 12, C.green, 0.8 * a * Math.sin(Math.PI * u), 18);
+          // the label rides mid-way, clear of the peer's name and of this machine
+          if (u > 0.2 && u < 0.68) mono('sig', x + 14, y - 14, C.green, 0.9 * a * Math.sin(Math.PI * (u - 0.2) / 0.48), 22);
         }
       });
-      node(me, 26, 'rgba(255,255,255,1)', a * q);
-      label('THIS MACHINE', me[0] + 44, me[1] + 7, C.white, 0.85 * a * q, 20, 700, 'left');
+      node(me, 16, C.brand, a * q);
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = `rgba(${C.brand}, ${a * q})`;
+      ctx.beginPath(); ctx.arc(me[0], me[1], 26, 0, TAU); ctx.stroke();
+      label('THIS MACHINE', me[0] + 44, me[1] + 8, C.white, 0.9 * a * q, 22, 700, 'left');
       // the stranger
       const s0 = clamp((lt - tTrusted + 0.8) / 1.0);
       if (s0 > 0) {
         const p = [lerp(strangerHome[0], strangerStop[0], easeOut(s0)), lerp(strangerHome[1], strangerStop[1], easeOut(s0))];
-        node(p, 16, 'rgba(255,99,126,.9)', a);
+        node(p, 11, C.red, a);
         const k = lt - tTrusted;
         if (k > 0) {
           ctx.lineWidth = 2;
@@ -261,7 +278,7 @@
             ctx.strokeStyle = `rgba(255,99,126, ${(1 - ring) * a})`;
             ctx.beginPath(); ctx.arc(p[0], p[1], 20 + ring * 70, 0, TAU); ctx.stroke();
           }
-          label('UNTRUSTED', p[0], p[1] + 52, C.red, a * clamp(k / 0.3), 20, 700);
+          label('UNTRUSTED', p[0], p[1] + 52, C.red, a * clamp(k / 0.3), 22, 700);
         }
       }
       // a shield: what arrives is checked and stored, never run
@@ -270,7 +287,7 @@
         const ring = (k % 1.4) / 1.4;
         ctx.lineWidth = 1.5;
         ctx.strokeStyle = `rgba(255,255,255, ${(1 - ring) * 0.8 * a})`;
-        ctx.strokeRect(me[0] - 26 - ring * 40, me[1] - 26 - ring * 40, 52 + ring * 80, 52 + ring * 80);
+        ctx.beginPath(); ctx.arc(me[0], me[1], 26 + ring * 60, 0, TAU); ctx.stroke();
       }
     };
   }
@@ -735,7 +752,7 @@
     + noise3(x * 0.002, y * 0.002, t * 0.1) * 1.2;
 
   let painters = [];
-  window.GEN = { glowDot, label, mono, solid, noise3, rivers, flow, C, inks, get ctx() { return ctx; } };
+  window.GEN = { glowDot, fxDot, fx, label, mono, solid, noise3, rivers, flow, C, inks, get ctx() { return ctx; } };
   window.genSetup = ({ scenes }) => {
     const V = window.VIZ;
     painters = scenes.map((s) => {
@@ -777,6 +794,10 @@
         cockpit: () => [...rivers(47, [C.white, C.sky], { alpha: 0.08, count: 90 })],
         doctrine: () => [...rivers(48, [C.white, C.sky], { bands: [[0.35, 0.02], [0.8, -0.02]], alpha: 0.08 }), V.doctrine(env)],
         hooks: () => [...rivers(52, [C.white, C.sky], { alpha: 0.06, count: 90 }), V.hooks(env)],
+        plan: () => [...rivers(54, [C.white, C.sky], { alpha: 0.08, count: 90 }), V.states(env)],
+        collision: () => [...rivers(55, [C.white, C.sky], { bands: [[0.3, 0.02], [0.75, -0.02]], alpha: 0.08 }), V.scan(env)],
+        claims: () => [...rivers(56, [C.s2, C.s1], { alpha: 0.12, count: 100 }), V.claim(env)],
+        seats: () => [...rivers(57, [C.s2, C.s1, C.s3, C.s4], { alpha: 0.12, count: 110 }), V.seats(env)],
         privacy: () => [...rivers(53, [C.white, C.sky], { alpha: 0.06, count: 90 })],
         economics: () => [...rivers(51, [C.white, C.sky], { bands: [[0.3, 0.02], [0.75, -0.02]], alpha: 0.08 })],
         doctor: () => [...rivers(49, [C.white, C.sky], { bands: [[0.3, 0.02], [0.75, -0.02]], alpha: 0.1 }), V.doctor(env)],
@@ -797,10 +818,15 @@
     frame = () => {
       inks.length = 0;
       ctx.clearRect(0, 0, W, H);
+      fx.clearRect(0, 0, W, H);
       ctx.globalCompositeOperation = 'lighter';
       states.forEach((st, i) => {
         if (st.opacity <= 0.005) return;
-        painters[i].forEach((paint) => paint(st.lt, st.opacity, t));
+        try {
+          painters[i].forEach((paint) => paint(st.lt, st.opacity, t));
+        } catch (e) {
+          throw new Error(`painter of scene ${i} at lt ${st.lt.toFixed(2)}: ${e.stack}`);
+        }
       });
       ctx.globalCompositeOperation = 'source-over';
     };

@@ -85,6 +85,13 @@
     "act": "WORKFLOW"
   },
   {
+    "id": "plan",
+    "title": "Status, derived",
+    "act": "WORKFLOW",
+    "min": 13,
+    "vo": "No issue stores its status. It is derived from what happened to it: started, verified, completed, and the evidence each step carries. Done is refused while a required proof is missing, and plan next recomputes the one issue to take."
+  },
+  {
     "id": "session",
     "vo": "Every session starts briefed. The task, its scope, the last handover's next action, who else is working, and what the release still owes. Nothing to rediscover.",
     "min": 11,
@@ -169,11 +176,32 @@
     "act": "MESH"
   },
   {
+    "id": "collision",
+    "title": "Checked before it is built",
+    "act": "MESH",
+    "min": 14,
+    "vo": "The board says who is working now. Git says what was already built. Before a new module is written, every branch, local and remote, is asked what already claims its paths. And a decision number another branch already carries is refused at commit."
+  },
+  {
+    "id": "claims",
+    "title": "One claim, one winner",
+    "act": "MESH",
+    "min": 14,
+    "vo": "When work must not overlap across machines, it is claimed exclusively. A second session is refused, and told which claim it meets. When two machines claim in the same heartbeat, every runtime names the same winner, never the last packet. A holder that stops beating loses its claim."
+  },
+  {
     "id": "worktrees",
     "title": "One branch, one worktree",
     "vo": "Parallel work needs parallel trees. Every branch has exactly one worktree, derived from git: the primary checkout keeps the trunk, every other branch lives beside it. A commit from the wrong place is refused.",
     "min": 13,
     "act": "MESH"
+  },
+  {
+    "id": "seats",
+    "title": "Work moves through seats",
+    "act": "MESH",
+    "min": 14,
+    "vo": "Work moves through seats. One seat lands green work in combined tops. One releases whenever master is ahead of the last tag. Repair lanes bring stale branches current, and each worker holds one issue. A seat is a claim, so it falls vacant when its holder stops beating."
   },
   {
     "id": "machines",
@@ -198,8 +226,8 @@
   },
   {
     "id": "monitor",
-    "vo": "One stream follows every session, every claim and every review, on every machine.",
-    "min": 7,
+    "vo": "One stream follows every session, claim, handover and review on every linked machine, with the merges and the GitHub runs beside them. What names you comes first, and the noise is folded away.",
+    "min": 11,
     "title": "One stream",
     "act": "MESH"
   },

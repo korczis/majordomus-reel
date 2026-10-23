@@ -121,11 +121,16 @@ const stamp = (t) => `${String(Math.floor(t / 60)).padStart(2, '0')}:${String(Ma
 writeFileSync(join(BUILD, 'chapters.txt'),
   scenes.filter((sc) => sc.id !== 'loop').map((sc, i) => `${stamp(starts[i])} ${sc.title || sc.id}`).join('\n') + '\n');
 
-// CHECK=1 walks every scene at the middle and the end of its time and reports any text that
-// overlaps another or leaves the safe frame, with a still of each frame that fails.
+// CHECK=1 renders every scene's first frames (a painter that throws fails the gate) and walks it
+// at the middle and the end of its time, reporting any text that overlaps another or leaves the
+// safe frame, with a still of each frame that fails.
 if (process.env.CHECK) {
   let failures = 0;
   for (let i = 0; i < scenes.length; i++) {
+    // a scene's first frames, across the cut, must render at all (layout is judged later in it)
+    for (const t of [Math.max(0, starts[i] - 0.3), starts[i] + 0.05]) {
+      await pages[0].evaluate((x) => window.renderAt(x), t);
+    }
     for (const t of [starts[i] + durations[i] * 0.55, starts[i] + durations[i] - 0.45]) {
       await pages[0].evaluate((x) => window.renderAt(x), t);
       const issues = await pages[0].evaluate(() => window.layoutCheck());
