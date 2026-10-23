@@ -69,7 +69,7 @@ function captionChunks(starts) {
       const word = { text: w.text, start: starts[i] + VO_LEAD + w.start, end: starts[i] + VO_LEAD + w.end };
       const chars = cur ? cur.words.reduce((a, x) => a + x.text.length + 1, 0) : 0;
       const gap = cur ? word.start - cur.words[cur.words.length - 1].end : 0;
-      if (!cur || cur.words.length >= 4 || chars + word.text.length > 22 || gap > 0.3) {
+      if (!cur || cur.words.length >= 8 || chars + word.text.length > 40 || gap > 0.35) {
         cur = { words: [], scene: i };
         chunks.push(cur);
       }
@@ -109,6 +109,7 @@ for (let w = 0; w < WORKERS; w++) {
   await page.goto(pathToFileURL(join(DIR, 'reel.html')).href, { waitUntil: 'load' });
   timeline = await page.evaluate((d) => window.setup(d), {
     durations, words, chunks, ids: scenes.map((sc) => sc.id), titles: scenes.map((sc) => sc.title || sc.id),
+    acts: scenes.map((sc) => sc.act || ''),
   });
   pages.push(page);
 }
@@ -119,9 +120,32 @@ const stamp = (t) => `${String(Math.floor(t / 60)).padStart(2, '0')}:${String(Ma
 writeFileSync(join(BUILD, 'chapters.txt'),
   scenes.filter((sc) => sc.id !== 'loop').map((sc, i) => `${stamp(starts[i])} ${sc.title || sc.id}`).join('\n') + '\n');
 
+// CHECK=1 walks every scene at the middle and the end of its time and reports any text that
+// overlaps another or leaves the safe frame, with a still of each frame that fails.
+if (process.env.CHECK) {
+  let failures = 0;
+  for (let i = 0; i < scenes.length; i++) {
+    for (const t of [starts[i] + durations[i] * 0.55, starts[i] + durations[i] - 0.45]) {
+      await pages[0].evaluate((x) => window.renderAt(x), t);
+      const issues = await pages[0].evaluate(() => window.layoutCheck());
+      if (!issues.length) continue;
+      failures += issues.length;
+      await pages[0].screenshot({ path: join(BUILD, `check-${scenes[i].id}-${t.toFixed(1)}.png`) });
+      console.log(`FAIL ${scenes[i].id} @ ${t.toFixed(1)}s`);
+      issues.forEach((x) => console.log(`     ${x}`));
+    }
+  }
+  console.log(failures ? `layout: ${failures} finding(s)` : 'layout: clean');
+  await browser.close();
+  process.exit(failures ? 1 : 0);
+}
+
 // PREVIEW=3.2,12,20 writes stills at those seconds and stops; quick for layout work.
 if (process.env.PREVIEW) {
-  for (const t of process.env.PREVIEW.split(',').map(Number)) {
+  const times = process.env.PREVIEW === 'ends'
+    ? starts.map((st, i) => +(st + durations[i] - 0.45).toFixed(2))
+    : process.env.PREVIEW.split(',').map(Number);
+  for (const t of times) {
     await pages[0].evaluate((x) => window.renderAt(x), t);
     await pages[0].screenshot({ path: join(BUILD, `preview-${t}.png`) });
   }
