@@ -27,6 +27,7 @@ Overrides: `VOICE` (Edge neural voice, default `en-US-AndrewMultilingualNeural`)
 | `tts.py` | Edge TTS with word boundaries (free, no key) |
 | `thumb*.html`, `thumb.mjs` | thumbnails, 1080x1920 |
 | `youtube-metadata.md` | titles, descriptions, tags, chapters, pinned comments, and what is published |
+| `site/` | the GitHub Pages site: `index.html`, `build.mjs` (video + chapters into `_site/`), `deploy.sh` |
 
 Timing is derived, never typed: a scene lasts as long as its narration needs, and an element
 appears on the word it belongs to (`data-cue="word"`, `data-cue="word#2"` for the second one,
@@ -55,6 +56,15 @@ The last scene, `loop`, is the first frame again: the reel loops without a seam,
 narration bridges it ("Because tomorrow, again," / "Your AI agent says the work is done.").
 
 ## Publishing
+
+The site at https://korczis.github.io/majordomus-reel/ is `site/index.html` with the chapter list
+filled in and the cut re-encoded for the web (720x1280). `site/deploy.sh` builds it into `_site/`
+and force-pushes a single orphan commit to `gh-pages`, so a video never accumulates in history:
+
+```sh
+VIDEO=$PWD/majordomus-reel-v5.1.mp4 CHAPTERS=$PWD/build-v51/chapters.txt \
+  POSTER=$PWD/thumbnail-v5.jpg site/deploy.sh
+```
 
 YouTube Studio, channel UCToRpxVyOCAnIN73ZuyXyMA. A video longer than three minutes is a regular
 video (chapters in the description); the short cut is a Short. Browser automation can upload a
