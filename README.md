@@ -81,8 +81,8 @@ filled in and the cut re-encoded for the web (720x1280). `site/deploy.sh` builds
 and force-pushes a single orphan commit to `gh-pages`, so a video never accumulates in history:
 
 ```sh
-VIDEO=$PWD/majordomus-reel-v5.3.mp4 CHAPTERS=$PWD/build-v53/chapters.txt \
-  POSTER=$PWD/thumbnail-v5.jpg SHORT=$PWD/majordomus-reel-v5.3-short.mp4 \
+VIDEO=$PWD/majordomus-reel-v5.5.mp4 CHAPTERS=$PWD/build-v55/chapters.txt \
+  POSTER=$PWD/thumbnail-v5.jpg SHORT=$PWD/majordomus-reel-v5.5-short.mp4 \
   SHORT_POSTER=$PWD/thumbnail.jpg site/deploy.sh
 ```
 
