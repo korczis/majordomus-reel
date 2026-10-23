@@ -18,7 +18,7 @@ Overrides: `VOICE` (Edge neural voice, default `en-US-AndrewMultilingualNeural`)
 
 | file | what it holds |
 |---|---|
-| `scenes.json` | one entry per scene, in screen order: `id`, `title` (the chapter), `vo` (the narration), `min` (seconds), `nocaption` |
+| `scenes.json` | one entry per scene, in screen order: `id`, `title` (the chapter), `act` (one of six: PROBLEM, CONTRACT, PLATFORM, MESH, MEMORY, MANIFESTO; drawn as the rail of acts), `vo` (the narration), `min` (seconds), `nocaption` |
 | `scenes-short.json` | a subset of the same entries: the Shorts cut |
 | `reel.html` | every scene as a `<section>`, the CSS, the timeline (`setup`, `renderAt`) |
 | `gen.js` | the generative layer: one painter per idea (flow, rivers, prism, meshGraph, tree, lanes, handoff, chain, zones, trust, radar, kbFlow, orbit, personalLayers, fan, server, talk, ladder, decide, branches, spark, shock) |
@@ -43,6 +43,20 @@ emphasis in italic blue-400; eyebrows mono uppercase. From the Prismatic brand (
 discipline: no gradients, no decorative noise, no shadows, 1px lines, radius at most 4px. Colour
 beyond that lives only in the prism. Content stays in the Shorts safe frame: x 80-910, captions
 above the bottom 560px.
+
+## Checking a cut
+
+```sh
+BUILD=$PWD/build-x CHECK=1 node render.mjs        # layout gate: exit 1 on any finding
+BUILD=$PWD/build-x PREVIEW=ends node render.mjs   # every scene's last frame, for the eye
+```
+
+`CHECK=1` renders every scene at the middle and at the end of its time and fails on text that
+overlaps other text and on ink outside the Shorts safe frame: DOM text, canvas labels, boxes and
+graph nodes alike (the canvas records what it draws). Scenes with a rail of acts must stay above
+it; the manifesto pages may use the full height. Each failing frame is saved as
+`$BUILD/check-<scene>-<t>.png`. Run it on every cut (`SCENES=scenes-short.json` too) before a
+render, then read the `PREVIEW=ends` stills: the gate proves geometry, the eye judges the rest.
 
 ## Adding a scene
 
