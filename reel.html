@@ -436,6 +436,58 @@
   .st-warn { color: #ffb86a; background: #441306; border-color: #7e2a0c !important; }
   .st-bad { color: #ffa1ad; background: #4d0218; border-color: #8b0836 !important; }
   .ui-spark-space { height: 230px; }
+
+  /* v5.1 — one typographic system, poster composition.
+     Grid: 80px left axis, content column 830px, everything flush left on it.
+     Scale (1.25 steps from 22px): eyebrow 18 mono .18em caps · caption 34 · body 30 · lead 40 ·
+     H2 88 serif · display 120 serif. Headlines hang from one baseline at the top of the frame
+     instead of floating to the centre, so every cut opens on the same composition.
+     Figures are tabular, quotes curly, rags balanced, no widows. */
+  .scene { justify-content: flex-start; padding-top: 268px; }
+  .scene:not(.manifesto) > h2:first-child, .scene:not(.manifesto) > .kicker:first-child { margin-top: 0; }
+  #reveal, #cta { justify-content: center; }
+  h2 { font-size: 88px; line-height: 1.02; letter-spacing: -0.028em; text-wrap: balance; max-width: 830px;
+    hanging-punctuation: first; font-feature-settings: "kern", "liga", "onum" 0; }
+  h1 { text-wrap: balance; letter-spacing: -0.03em; }
+  p, .lbl, .rl, .tl, .vd, .ann p { text-wrap: pretty; }
+  .num, .kb b, .lg, .fl, .term-body, .vd i, .ui-row b { font-variant-numeric: tabular-nums lining-nums; }
+  .kicker, .mf-meta, .lg-hd, .eyebrow-note, .label, .ui-row span, .rl span { letter-spacing: .18em; }
+
+  /* subtitles: the phrase, whole and steady, on the site's raised ground */
+  .cap { left: 80px; right: 170px; bottom: 560px; text-align: center; font-family: var(--sans);
+    font-style: normal; font-weight: 500; font-size: 34px; line-height: 1.34; letter-spacing: 0; text-shadow: none; }
+  .cap .line { display: inline; padding: 5px 14px; background: rgba(16,24,40,.94); color: #fff;
+    box-decoration-break: clone; -webkit-box-decoration-break: clone; border-radius: 4px;
+    box-shadow: 0 0 0 1px #1e2939; }
+
+  /* information architecture: six acts, one dot per chapter, the current one filling */
+  .rail { position: absolute; left: 80px; right: 170px; bottom: 655px; display: flex; gap: 14px; z-index: 6; }
+  .rail .act span { display: block; font-family: var(--mono); font-size: 14px; letter-spacing: .18em; color: #4a5565;
+    margin-bottom: 8px; white-space: nowrap; overflow: hidden; }
+  .rail .act.now span { color: var(--ink); }
+  .rail .dots { display: flex; gap: 4px; }
+  .rail i { flex: 1; height: 3px; background: #1e2939; position: relative; overflow: hidden; }
+  .rail i.done { background: #4a5565; }
+  .rail i.now { background: #1e2939; }
+  .rail i.now::after { content: ''; position: absolute; inset: 0; background: var(--brand);
+    transform-origin: 0 50%; transform: scaleX(var(--p, 0)); }
+  .vendors.compact { display: grid; grid-template-columns: 1fr 1fr; column-gap: 28px; border-top: 0; margin-top: 30px; }
+  .vendors.compact .vd { grid-template-columns: 1fr auto; padding: 10px 0; }
+  .vendors.compact .vd b { font-size: 34px; }
+  .vendors.compact .vd i { display: none; }
+  .matrix-space { height: 250px; margin-top: 24px; }
+  #models .term-body { font-size: 21px; padding: 20px 24px; }
+  .chain-space { height: 230px; }
+  .states { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
+  .states span { font-family: var(--mono); font-size: 17px; letter-spacing: .1em; text-transform: uppercase;
+    padding: 6px 12px; border: 1px solid; border-radius: 2px; }
+  .st-n { color: var(--ink-3); background: var(--raised); border-color: var(--line) !important; }
+
+  .fan-space { height: 520px; }
+  .ui-body { min-height: 540px; }
+  .ui-spark-space { height: 170px; }
+
+  .matrix-space { height: 290px; }
 </style>
 </head>
 <body>
@@ -590,6 +642,15 @@
   </div>
   <i hidden data-cue="provenance" data-sfx="soft"></i>
   <div class="chain-space"></div>
+  <div class="states">
+    <span class="st-ok" data-cue="provenance" data-at="0.2" data-fx="pop">proven</span>
+    <span class="st-n" data-cue="provenance" data-at="0.3" data-fx="pop">inputs unchanged</span>
+    <span class="st-warn" data-cue="provenance" data-at="0.4" data-fx="pop">stale</span>
+    <span class="st-bad" data-cue="provenance" data-at="0.5" data-fx="pop">failing</span>
+    <span class="st-n" data-cue="provenance" data-at="0.6" data-fx="pop">not run</span>
+    <span class="st-n" data-cue="provenance" data-at="0.7" data-fx="pop">unrunnable</span>
+    <span class="st-n" data-cue="provenance" data-at="0.8" data-fx="pop">no test</span>
+  </div>
 </section>
 
 <!-- reasoning -->
@@ -637,7 +698,7 @@
 <!-- models -->
 <section class="scene" id="models" style="--tint: 255,255,255">
   <h2 data-fx="words" data-at="0.05">Models, <span class="accent">declared.</span></h2>
-  <div class="vendors">
+  <div class="vendors compact">
     <div class="vd" data-cue="anthropic" data-fx="up" data-sfx="tick"><b>Anthropic</b><span>remote</span><i>8 models</i></div>
     <div class="vd" data-cue="openai" data-fx="up" data-sfx="tick"><b>OpenAI</b><span>remote</span><i>1 model</i></div>
     <div class="vd" data-cue="ollama" data-fx="up" data-sfx="tick"><b>Ollama</b><span>local</span><i>vendor</i></div>
@@ -650,6 +711,7 @@
 <span class="prompt" data-cue="local">$ </span><span data-type="majordomus models route --local-only" data-cue="local" data-cps="50"></span>
 <span data-cue="nothing" data-sfx="buzz"><span class="fail">selected </span> nothing qualifies</span></div>
   </div>
+  <div class="matrix-space"></div>
 </section>
 
 <!-- discovery -->
@@ -891,6 +953,7 @@
 
 <div class="layer"><div class="sweep" id="sweep"></div></div>
 <div class="chapter" id="chapter"></div>
+<div class="rail" id="rail"></div>
 <div class="cap" id="cap"></div>
 <div class="layer vignette"></div>
 <div class="layer" style="overflow: hidden"><div class="grain" id="grain"></div></div>
@@ -916,6 +979,7 @@
   let particles = [];
   let shownChunk = -1;
   let chapterTitles = [];
+  let chapterActs = [];
   let shownChapter = -1;
 
   function splitWords(root) {
@@ -965,14 +1029,18 @@
     return 0;
   }
 
-  window.setup = ({ durations, words, chunks, ids, titles }) => {
+  window.setup = ({ durations, words, chunks, ids, titles, acts }) => {
     const warnings = [];
     const events = [];
+    document.querySelectorAll('[data-fx="count"]').forEach((e) => {
+      e.textContent = `${e.dataset.prefix || ''}${Number(e.dataset.to).toLocaleString('en-US')}${e.dataset.suffix || ''}`;
+    });
     let start = 0;
     captions = chunks;
     const all = [...document.querySelectorAll('.scene')];
     all.forEach((el) => { if (ids && !ids.includes(el.id)) el.style.display = 'none'; });
     chapterTitles = titles || [];
+    chapterActs = acts || [];
     scenes = all.filter((el) => !ids || ids.includes(el.id)).map((el, i) => {
       const s = { el, start, dur: durations[i], items: [], shakes: [] };
       el.querySelectorAll('[data-at], [data-cue]').forEach((e) => {
@@ -1123,19 +1191,64 @@
     const idx = captions.findIndex((c) => t >= c.start && t < c.end);
     if (idx !== shownChunk) {
       shownChunk = idx;
-      cap.innerHTML = idx < 0 ? '' : captions[idx].words.map((w) => `<span class="cw">${w.text}</span>`).join(' ');
+      cap.innerHTML = idx < 0 ? '' : `<span class="line">${captions[idx].words.map((w) => w.text).join(' ')}</span>`;
     }
     if (idx < 0) return;
     const c = captions[idx];
-    const pop = easeOut(clamp((t - c.start) / 0.14));
-    cap.style.transform = `translateY(${(1 - pop) * 24}px) scale(${0.94 + 0.06 * pop})`;
-    cap.style.opacity = pop;
-    cap.querySelectorAll('.cw').forEach((el, k) => {
-      const w = c.words[k];
-      el.classList.toggle('said', t >= w.start);
-      el.classList.toggle('now', t >= w.start && t < (c.words[k + 1]?.start ?? c.end));
-    });
+    cap.style.transform = 'none';
+    cap.style.opacity = Math.min(clamp((t - c.start) / 0.12), clamp((c.end - t) / 0.12));
   }
+
+
+  // Layout check: every visible text box, DOM and canvas, must sit inside the safe frame and
+  // must not overlap another. Answers the findings for the frame last rendered.
+  window.layoutCheck = () => {
+    const boxes = [];
+    const visible = (el) => {
+      for (let e = el; e && e !== document.body; e = e.parentElement) {
+        const cs = getComputedStyle(e);
+        if (cs.display === 'none' || cs.visibility === 'hidden' || parseFloat(cs.opacity) < 0.6) return false;
+      }
+      return true;
+    };
+    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+    for (let n = walker.nextNode(); n; n = walker.nextNode()) {
+      if (!n.textContent.trim() || !visible(n.parentElement)) continue;
+      const host = n.parentElement.closest('.scene, .cap, .chapter, .brand, .rail');
+      if (!host) continue;
+      const range = document.createRange();
+      range.selectNodeContents(n);
+      [...range.getClientRects()].forEach((r) => {
+        if (r.width < 2 || r.height < 2) return;
+        boxes.push({ text: n.textContent.trim().slice(0, 40), el: n.parentElement, host,
+          x0: r.left, x1: r.right, y0: r.top + r.height * 0.18, y1: r.bottom - r.height * 0.18 });
+      });
+    }
+    window.genInk().forEach((k) => boxes.push({ ...k, text: 'canvas: ' + k.text, el: null, host: null, canvas: true }));
+    const out = [];
+    boxes.forEach((b) => {
+      const isCap = b.host && b.host.classList.contains('cap');
+      const isRail = b.host && b.host.classList.contains('rail');
+      const isTop = b.host && (b.host.classList.contains('chapter') || b.host.classList.contains('brand'));
+      if (isTop) return;
+      if (b.x0 < 60 || b.x1 > 925) out.push(`outside the frame (x ${Math.round(b.x0)}-${Math.round(b.x1)}): ${b.text}`);
+      const floor = b.host && b.host.dataset && b.host.dataset.nobrand !== undefined ? 1290 : 1215;
+      if (!isCap && !isRail && (b.y0 < 230 || b.y1 > floor)) out.push(`outside the frame (y ${Math.round(b.y0)}-${Math.round(b.y1)}): ${b.text}`);
+    });
+    for (let i = 0; i < boxes.length; i++) {
+      for (let j = i + 1; j < boxes.length; j++) {
+        const a = boxes[i];
+        const b = boxes[j];
+        if (a.el && b.el && (a.el === b.el || a.el.contains(b.el) || b.el.contains(a.el))) continue;
+        if (a.shape && b.shape) continue;                       // graphs may cross graphs
+        if ((a.shape && b.canvas) || (b.shape && a.canvas)) continue; // a label sits in its own box
+        const w = Math.min(a.x1, b.x1) - Math.max(a.x0, b.x0);
+        const h = Math.min(a.y1, b.y1) - Math.max(a.y0, b.y0);
+        if (w > 4 && h > 4) out.push(`overlap: "${a.text}" × "${b.text}"`);
+      }
+    }
+    return [...new Set(out)];
+  };
 
   window.renderAt = (t) => {
     renderBackground(t);
@@ -1180,6 +1293,26 @@
       chapterEl.innerHTML = quiet ? '' : `<b>${String(ch + 1).padStart(2, '0')}</b> / ${String(scenes.length).padStart(2, '0')}&nbsp;&nbsp;${chapterTitles[ch] || ''}`;
     }
     chapterEl.style.opacity = ch < 0 ? 0 : clamp(Math.min(t - scenes[ch].start, scenes[ch].dur - (t - scenes[ch].start)) / 0.35);
+    const rail = document.getElementById('rail');
+    if (!rail.dataset.built && chapterActs.length) {
+      const order = [...new Set(chapterActs)];
+      rail.innerHTML = order.map((a) => {
+        const members = chapterActs.map((x, i) => [x, i]).filter(([x]) => x === a).map(([, i]) => i);
+        return `<div class="act" data-act="${a}" style="flex: ${members.length}"><span>${a}</span>`
+          + `<div class="dots">${members.map((i) => `<i data-i="${i}"></i>`).join('')}</div></div>`;
+      }).join('');
+      rail.dataset.built = '1';
+    }
+    if (ch >= 0) {
+      const quiet = scenes[ch].el.dataset.nobrand !== undefined;
+      rail.style.opacity = quiet ? 0 : chapterEl.style.opacity;
+      rail.querySelectorAll('.act').forEach((el) => el.classList.toggle('now', el.dataset.act === chapterActs[ch]));
+      rail.querySelectorAll('i').forEach((el) => {
+        const i = Number(el.dataset.i);
+        el.className = i < ch ? 'done' : i === ch ? 'now' : '';
+        if (i === ch) el.style.setProperty('--p', clamp((t - scenes[ch].start) / scenes[ch].dur));
+      });
+    }
 
     const sweep = document.getElementById('sweep');
     const b = scenes.slice(1).map((s) => s.start).find((st) => Math.abs(t - st) < 0.4);

@@ -4,189 +4,220 @@
     "vo": "Your AI agent says the work is done. ... Is it?",
     "min": 6,
     "nocaption": true,
-    "title": "The manifesto"
+    "title": "The manifesto",
+    "act": "PROBLEM"
   },
   {
     "id": "stats",
     "vo": "In real repositories, agents drift. Rule files that share almost nothing. Seventeen checks nobody ran. Thirty-two hundred files, changed at once.",
     "min": 8,
-    "title": "Agents drift"
+    "title": "Agents drift",
+    "act": "PROBLEM"
   },
   {
     "id": "reveal",
     "vo": "Meet Majordomus. The supervisory layer for your AI agents.",
     "min": 5,
-    "title": "Meet Majordomus"
+    "title": "Meet Majordomus",
+    "act": "CONTRACT"
   },
   {
     "id": "setup",
     "vo": "Install it with one line. Initialise your repository. Then start a task with a scope, and let your agents work.",
     "min": 8,
-    "title": "Three commands"
+    "title": "Three commands",
+    "act": "CONTRACT"
   },
   {
     "id": "intent",
     "title": "Work starts from intent",
     "vo": "Work starts from intent: what must become true, and the criteria that prove it. Intents become milestones, milestones become issues, and plan next names the one issue to take now.",
-    "min": 13
+    "min": 13,
+    "act": "CONTRACT"
   },
   {
     "id": "session",
     "vo": "Every session starts briefed. The task, its scope, the last handover's next action, who else is working, and what the release still owes. Nothing to rediscover.",
     "min": 11,
-    "title": "Every session starts briefed"
+    "title": "Every session starts briefed",
+    "act": "CONTRACT"
   },
   {
     "id": "context",
     "vo": "Context is a tree. Each agent reads the documents from the root down to the path it works on. The nearest adds to its ancestors, and siblings never see each other. Nothing more, and nothing less.",
     "min": 12,
-    "title": "Hierarchical context"
+    "title": "Hierarchical context",
+    "act": "CONTRACT"
   },
   {
     "id": "terminal",
     "vo": "When an agent says it's finished, Majordomus checks the scope, the state, and the tests. And when anything fails, it refuses.",
     "min": 8,
-    "title": "Done is a contract"
+    "title": "Done is a contract",
+    "act": "CONTRACT"
   },
   {
     "id": "provenance",
     "vo": "And every proof leaves a record. The test, the commit, the tree, the time, and the exact command. Provenance, not promises.",
     "min": 9,
-    "title": "Provenance, not promises"
+    "title": "Provenance, not promises",
+    "act": "CONTRACT"
   },
   {
     "id": "reasoning",
     "title": "Uncertainty, reasoned on the record",
     "vo": "When a decision is uncertain, it is reasoned on the record. Evidence first. Advisors, if any are present, and their answers are evidence, never verdicts. The conclusion stays for the next session to read.",
-    "min": 13
+    "min": 13,
+    "act": "CONTRACT"
   },
   {
     "id": "generate",
     "vo": "Every operation is declared once. The command line, the HTTP API, the MCP tools, the OpenAPI document, the docs and the skills are generated from it, and a check fails the moment one drifts.",
     "min": 13,
-    "title": "Declared once, projected everywhere"
+    "title": "Declared once, projected everywhere",
+    "act": "PLATFORM"
   },
   {
     "id": "mcp",
     "vo": "One shared server per repository. The first client starts it, every next one attaches, and each sees the others. The same server answers over HTTP, with Swagger and the Cockpit.",
     "min": 12,
-    "title": "One shared MCP server"
+    "title": "One shared MCP server",
+    "act": "PLATFORM"
   },
   {
     "id": "providers",
     "vo": "Claude Code, Codex, Gemini, Zed, Antigravity, bb, or any client that speaks MCP. Each reads its own projection of the same policy.",
     "min": 9,
-    "title": "Every client, one policy"
+    "title": "Every client, one policy",
+    "act": "PLATFORM"
   },
   {
     "id": "models",
     "vo": "Models are declared data. Anthropic and OpenAI in the cloud, Ollama and LM Studio on your own machine. Routing picks one by need. Ask for local only, and it answers: nothing qualifies. Never a guess.",
     "min": 13,
-    "title": "Models, declared"
+    "title": "Models, declared",
+    "act": "PLATFORM"
   },
   {
     "id": "discovery",
     "vo": "Before they share a board, runtimes find each other. A signed beacon on the local network, a rendezvous hub further out. Every one is checked before it is heard, and none carries a secret.",
     "min": 12,
-    "title": "Peer discovery"
+    "title": "Peer discovery",
+    "act": "MESH"
   },
   {
     "id": "blackboard",
     "vo": "Before work starts, every worker writes on the blackboard what it intends, and the paths it expects to touch. A claim, not a lock. Overlaps surface the moment they are written.",
     "min": 12,
-    "title": "The blackboard"
+    "title": "The blackboard",
+    "act": "MESH"
   },
   {
     "id": "mesh",
     "vo": "Claude, Codex and Gemini share one board. When two reach for the same file, you hear about it before the merge.",
     "min": 7.5,
-    "title": "One board, every agent"
+    "title": "One board, every agent",
+    "act": "MESH"
   },
   {
     "id": "worktrees",
     "title": "One branch, one worktree",
     "vo": "Parallel work needs parallel trees. Every branch has exactly one worktree, derived from git: the primary checkout keeps the trunk, every other branch lives beside it. A commit from the wrong place is refused.",
-    "min": 13
+    "min": 13,
+    "act": "MESH"
   },
   {
     "id": "machines",
     "vo": "The mesh spans every machine you work on. The desktop at home. The rack in the datacenter, behind a TLS hub. The whole fleet across the company, on a private network.",
     "min": 11,
-    "title": "Home, datacenter, company"
+    "title": "Home, datacenter, company",
+    "act": "MESH"
   },
   {
     "id": "security",
     "vo": "Every message is signed with the machine's own key. No one is trusted until you list them. A public address is reached over HTTPS only. And nothing a peer sends is ever executed.",
     "min": 11,
-    "title": "Signed, listed, inert"
+    "title": "Signed, listed, inert",
+    "act": "MESH"
   },
   {
     "id": "crosstalk",
     "vo": "Sessions talk to each other through the mesh. One asks for a review, another answers it from a different machine. A handover published tonight is consumed tomorrow, wherever the work resumes.",
     "min": 13,
-    "title": "Sessions talk to each other"
+    "title": "Sessions talk to each other",
+    "act": "MESH"
   },
   {
     "id": "monitor",
     "vo": "One stream follows every session, every claim and every review, on every machine.",
     "min": 7,
-    "title": "One stream"
+    "title": "One stream",
+    "act": "MESH"
   },
   {
     "id": "cockpit",
     "title": "The Cockpit",
     "vo": "And a person sees all of it in the Cockpit. The same server, the same registry, rendered for a person, with nothing of its own to drift.",
-    "min": 10
+    "min": 10,
+    "act": "MESH"
   },
   {
     "id": "policy",
     "vo": "One policy writes every agent's instructions. Tasks live in the repository, not in a chat window.",
     "min": 7,
-    "title": "Rules, written once"
+    "title": "Rules, written once",
+    "act": "MEMORY"
   },
   {
     "id": "continuity",
     "vo": "Close the laptop tonight. Tomorrow, any agent picks up the handover, exactly where the work stopped.",
     "min": 8,
-    "title": "Work that outlives the chat"
+    "title": "Work that outlives the chat",
+    "act": "MEMORY"
   },
   {
     "id": "knowledge",
     "vo": "And what a session learns outlives it too. Decisions become records: a hundred and sixty architecture decisions so far. Knowledge is derived at the end of every session, without a model, and a person promotes what deserves to stay.",
     "min": 13,
-    "title": "What it learns stays learned"
+    "title": "What it learns stays learned",
+    "act": "MEMORY"
   },
   {
     "id": "personal",
     "vo": "Not your repository to change? Personal mode keeps the whole layer in your clone, and the team's tree stays byte for byte what they committed.",
     "min": 10,
-    "title": "Personal mode"
+    "title": "Personal mode",
+    "act": "MEMORY"
   },
   {
     "id": "local",
     "vo": "It runs on your machine, never calls a model, and works with any agent.",
     "min": 5.5,
-    "title": "Yours, entirely"
+    "title": "Yours, entirely",
+    "act": "MEMORY"
   },
   {
     "id": "beliefs",
     "vo": "We believe done is a contract, not a feeling. That agents should prove, not promise. That the repository remembers what the chat forgets. ... AI agents were a leap forward. Trust is the next one.",
     "min": 12,
     "nocaption": true,
-    "title": "The manifesto, No. 02"
+    "title": "The manifesto, No. 02",
+    "act": "MANIFESTO"
   },
   {
     "id": "cta",
     "vo": "Your agents say it's done. Majordomus makes them prove it. Majordomus dot dev.",
     "min": 6.5,
     "nocaption": true,
-    "title": "Make them prove it"
+    "title": "Make them prove it",
+    "act": "MANIFESTO"
   },
   {
     "id": "loop",
     "vo": "Because tomorrow, again,",
     "min": 2.4,
     "nocaption": true,
-    "title": "Again"
+    "title": "Again",
+    "act": "MANIFESTO"
   }
 ]

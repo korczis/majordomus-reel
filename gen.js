@@ -6,7 +6,20 @@
   const DT = 1 / 30;
   const TAU = Math.PI * 2;
   const canvas = document.getElementById('gen');
+  const inks = [];
+  window.genInk = () => inks;
   const ctx = canvas.getContext('2d');
+  // boxes and nodes are ink too: a layout check sees a graph that leaves its frame
+  const fillRect = ctx.fillRect.bind(ctx);
+  ctx.fillRect = (x, y, w, h) => {
+    if (ctx.globalAlpha > 0.5 && w * h < (W * H) / 4) {
+      const m = ctx.getTransform();
+      const pts = [[x, y], [x + w, y + h]].map(([px, py]) => [m.a * px + m.c * py + m.e, m.b * px + m.d * py + m.f]);
+      inks.push({ shape: true, text: 'box', x0: Math.min(pts[0][0], pts[1][0]), y0: Math.min(pts[0][1], pts[1][1]),
+        x1: Math.max(pts[0][0], pts[1][0]), y1: Math.max(pts[0][1], pts[1][1]) });
+    }
+    fillRect(x, y, w, h);
+  };
 
   const mulberry = (seed) => () => {
     seed |= 0; seed = (seed + 0x6d2b79f5) | 0;
@@ -63,6 +76,7 @@
   };
 
   function glowDot(x, y, r, color, alpha) {
+    if (alpha > 0.5 && r >= 6) inks.push({ shape: true, text: 'node', x0: x - r, y0: y - r, x1: x + r, y1: y + r });
     const g = ctx.createRadialGradient(x, y, 0, x, y, r * 4);
     g.addColorStop(0, `rgba(${color}, ${alpha})`);
     g.addColorStop(0.25, `rgba(${color}, ${alpha * 0.35})`);
@@ -78,15 +92,23 @@
   }
 
 
+  const ink = (text, x, y, size, align) => {
+    const w = ctx.measureText(text).width;
+    const x0 = align === 'center' ? x - w / 2 : align === 'right' ? x - w : x;
+    const mid = ctx.textBaseline === 'middle';
+    inks.push({ text, x0, x1: x0 + w, y0: mid ? y - size * 0.55 : y - size * 0.8, y1: mid ? y + size * 0.45 : y + size * 0.22 });
+  };
   const label = (text, x, y, color, alpha, size = 30, weight = 700, align = 'center') => {
     ctx.font = `${weight} ${size}px -apple-system, 'SF Pro Display', sans-serif`;
     ctx.textAlign = align;
+    if (alpha > 0.5) ink(text, x, y, size, align);
     ctx.fillStyle = `rgba(${color}, ${alpha})`;
     ctx.fillText(text, x, y);
   };
   const mono = (text, x, y, color, alpha, size = 26, align = 'left') => {
     ctx.font = `600 ${size}px ui-monospace, 'SF Mono', Menlo, monospace`;
     ctx.textAlign = align;
+    if (alpha > 0.5) ink(text, x, y, size, align);
     ctx.fillStyle = `rgba(${color}, ${alpha})`;
     ctx.fillText(text, x, y);
   };
@@ -773,7 +795,7 @@
       const col2 = i % 3;
       const row = Math.floor(i / 3);
       return { name, col, t: env.cue(cue),
-        p: [box.left + box.width * (0.17 + col2 * 0.33), box.top + 330 + row * 190] };
+        p: [box.left + box.width * (0.17 + col2 * 0.33), box.top + box.height * (0.56 + row * 0.3)] };
     });
     const tDecl = env.cue('declared');
     const tDrift = env.cue('drifts');
@@ -1107,6 +1129,58 @@
         }
         ctx.stroke();
       });
+    };
+  }
+
+
+  // The catalogue as a matrix: every declared model against every capability word.
+  function matrix(env) {
+    const box = env.rect('.matrix-space');
+    const caps = ['text', 'vision', 'tools', 'structured', 'streaming', 'reasoning'];
+    const rows = ['claude-opus-5', 'claude-fable-5', 'claude-sonnet-5', 'claude-opus-4-8', 'claude-opus-4-7',
+      'claude-opus-4-6', 'claude-sonnet-4-6', 'claude-haiku-4-5', 'gpt-4o'];
+    const has = (r, c) => (r === 'gpt-4o' ? c === 0 : true);
+    const t0 = env.cue('declared');
+    const tTools = env.cue('need');
+    const labelW = 250;
+    const cw = (box.width - labelW) / caps.length;
+    const rh = (box.height - 34) / rows.length;
+    return (lt, a) => {
+      if (a <= 0.01) return;
+      const q = easeOut(clamp((lt - t0) / 0.6));
+      caps.forEach((c, j) => {
+        const x = box.left + labelW + j * cw + cw / 2;
+        mono(c.toUpperCase().slice(0, 6), x, box.top + 16, j === 2 && lt > tTools ? C.brand : C.gray, a * q, 14, 'center');
+      });
+      rows.forEach((r, i) => {
+        const y = box.top + 34 + i * rh;
+        const rq = easeOut(clamp((lt - t0 - i * 0.07) / 0.4));
+        if (rq <= 0) return;
+        mono(r, box.left, y + rh * 0.66, r === 'gpt-4o' && lt > tTools ? C.red : C.white, a * rq, 17);
+        caps.forEach((c, j) => {
+          const s = Math.min(14, rh - 8);
+          const x = box.left + labelW + j * cw + cw / 2 - s / 2;
+          const on = has(r, j);
+          const col = r === 'gpt-4o' ? C.s1 : C.s2;
+          solid(() => {
+            ctx.globalAlpha = a * rq * (on ? 1 : 0.4);
+            ctx.fillStyle = on ? `rgb(${col})` : '#101828';
+            ctx.strokeStyle = on ? `rgb(${col})` : '#1e2939';
+            ctx.lineWidth = 1;
+            ctx.fillRect(x, y + (rh - s) / 2, s, s);
+            ctx.strokeRect(x + 0.5, y + (rh - s) / 2 + 0.5, s - 1, s - 1);
+            ctx.globalAlpha = 1;
+          });
+        });
+      });
+      // the requirement column the route asked for
+      if (lt > tTools) {
+        const f = easeOut(clamp((lt - tTools) / 0.4));
+        const x = box.left + labelW + 2 * cw + 4;
+        ctx.lineWidth = 1.5;
+        ctx.strokeStyle = `rgba(81,162,255, ${a * f})`;
+        ctx.strokeRect(x, box.top + 24, cw - 8, box.height - 24);
+      }
     };
   }
 
@@ -1463,7 +1537,7 @@
         security: () => [...rivers(28, [C.s3, C.s1, C.s4], { alpha: 0.12, count: 120 }), flow({ colors: [C.white], count: 140, speed: 1.2, alpha: 0.08, seed: 17 }), trust(env)],
         monitor: () => [...rivers(29, [C.s1, C.s2, C.s3, C.s4], { bands: [[0.2, 0], [0.4, 0], [0.6, 0], [0.8, 0]], count: 130, alpha: 0.18 }), flow({ colors: [C.white], count: 160, speed: 1.4, alpha: 0.08, seed: 12 }), lanes(env)],
         providers: () => [...rivers(34, [C.s2, C.s1, C.s3], { alpha: 0.12, count: 110 }), orbit(env)],
-        models: () => [...rivers(35, [C.s2, C.s1, C.s3, C.s4], { bands: [[0.2, 0.02], [0.45, -0.03], [0.7, 0.03], [0.9, -0.02]], alpha: 0.12, count: 110 })],
+        models: () => [...rivers(35, [C.s2, C.s1, C.s3, C.s4], { bands: [[0.2, 0.02], [0.45, -0.03], [0.7, 0.03], [0.9, -0.02]], alpha: 0.1, count: 100 }), matrix(env)],
         personal: () => [...rivers(36, [C.s1, C.s4], { bands: [[0.25, 0.03], [0.75, -0.03]], alpha: 0.12 }), personalLayers(env)],
         discovery: () => [...rivers(37, [C.s2, C.s1, C.s3], { alpha: 0.1, count: 100 }), radar(env)],
         knowledge: () => [...rivers(38, [C.s4, C.s1], { bands: [[0.3, 0.03], [0.7, -0.03]], alpha: 0.12 }), kbFlow(env)],
@@ -1489,6 +1563,7 @@
   };
 
   window.genRender = (t, states) => {
+    inks.length = 0;
     ctx.clearRect(0, 0, W, H);
     ctx.globalCompositeOperation = 'lighter';
     states.forEach((st, i) => {
