@@ -15,4 +15,11 @@ range=$(curl -fsS -o /dev/null -w '%{http_code}' -r 0-1023 "${URL}reel.mp4")
 [ "$range" = 206 ] || { echo "reel.mp4 ignores byte ranges ($range)" >&2; exit 1; }
 curl -fsSI "${URL}poster.jpg" | grep -qi '^content-type: image/jpeg' || { echo "no poster" >&2; exit 1; }
 
-echo "ok: $URL, $chapters chapters, reel.mp4 seekable, poster served"
+short=""
+if printf '%s' "$page" | grep -q 'src="short.mp4"'; then
+  curl -fsSI "${URL}short.mp4" | grep -qi '^content-type: video/mp4' || { echo "short.mp4 missing" >&2; exit 1; }
+  curl -fsSI "${URL}short-poster.jpg" | grep -qi '^content-type: image/jpeg' || { echo "no short poster" >&2; exit 1; }
+  short=", short cut served"
+fi
+
+echo "ok: $URL, $chapters chapters, reel.mp4 seekable, poster served$short"

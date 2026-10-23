@@ -35,6 +35,7 @@
     align-items: start; }
   video { display: block; width: 100%; aspect-ratio: 9 / 16; background: var(--raised);
     border: 1px solid var(--line); border-radius: 4px; }
+  .short video { max-width: 405px; }
   .chapters { border-top: 1px solid var(--line); margin: 0; padding: 0; list-style: none;
     max-height: 720px; overflow-y: auto; }
   .chapters button { all: unset; box-sizing: border-box; display: grid; grid-template-columns: 56px 1fr;
@@ -71,6 +72,7 @@
     <video id="reel" controls playsinline preload="metadata" poster="poster.jpg" src="reel.mp4"></video>
     <ol class="chapters" id="chapters"><!-- chapters --></ol>
   </div>
+<!-- short -->
 
   <section>
     <h2>Rendered from <em>code</em></h2>
