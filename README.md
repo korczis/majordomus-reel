@@ -27,7 +27,7 @@ Overrides: `VOICE` (Edge neural voice, default `en-US-AndrewMultilingualNeural`)
 | `tts.py` | Edge TTS with word boundaries (free, no key) |
 | `thumb*.html`, `thumb.mjs` | thumbnails, 1080x1920 |
 | `youtube-metadata.md` | titles, descriptions, tags, chapters, pinned comments, and what is published |
-| `site/` | the GitHub Pages site: `index.html`, `build.mjs` (video + chapters into `_site/`), `deploy.sh` |
+| `site/` | the GitHub Pages site: `index.html`, `build.mjs` (video + chapters into `_site/`), `deploy.sh`, `verify.sh` |
 
 Timing is derived, never typed: a scene lasts as long as its narration needs, and an element
 appears on the word it belongs to (`data-cue="word"`, `data-cue="word#2"` for the second one,
@@ -65,6 +65,9 @@ and force-pushes a single orphan commit to `gh-pages`, so a video never accumula
 VIDEO=$PWD/majordomus-reel-v5.1.mp4 CHAPTERS=$PWD/build-v51/chapters.txt \
   POSTER=$PWD/thumbnail-v5.jpg site/deploy.sh
 ```
+
+`site/verify.sh` checks the live site: the chapters are on the page, `reel.mp4` is served as
+`video/mp4` with byte ranges (so the chapters can seek), and the poster is there.
 
 YouTube Studio, channel UCToRpxVyOCAnIN73ZuyXyMA. A video longer than three minutes is a regular
 video (chapters in the description); the short cut is a Short. Browser automation can upload a
