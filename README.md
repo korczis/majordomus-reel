@@ -78,7 +78,7 @@ and force-pushes a single orphan commit to `gh-pages`, so a video never accumula
 ```sh
 VIDEO=$PWD/majordomus-reel-v5.1.mp4 CHAPTERS=$PWD/build-v51/chapters.txt \
   POSTER=$PWD/thumbnail-v5.jpg SHORT=$PWD/majordomus-reel-v5.1-short.mp4 \
-  SHORT_POSTER=$PWD/thumbnail-v5s.jpg site/deploy.sh
+  SHORT_POSTER=$PWD/thumbnail.jpg site/deploy.sh
 ```
 
 `site/verify.sh` checks the live site: the chapters are on the page, `reel.mp4` is served as
