@@ -312,3 +312,12 @@ The film's own source → https://github.com/korczis/majordomus-reel
 
 Title: Done is a contract, not a feeling. #shorts
 Description: the Video 7 description without chapters; thumbnail.jpg.
+
+## Published, 2026-10-23 evening
+
+- v5.5 (Video 7): https://youtu.be/zcDgXorKhjs, Public. Uploaded by the owner and filled from Video 7
+  (36 tags, 486/500: "AI pair programming" dropped). The Video 7 comment is pinned.
+- v5.3: https://youtu.be/8n1vo05YMlw, Unlisted. Uploaded Public with no metadata; retitled
+  "Majordomus reel v5.3 (superseded, see the current cut)", and its description links zcDgXorKhjs.
+- v5.1: https://youtu.be/yW6PcUe6oFg, Unlisted. Its description opens with a link to zcDgXorKhjs,
+  and a comment linking it is pinned in place of the old one.
