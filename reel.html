@@ -488,6 +488,120 @@
   .ui-spark-space { height: 170px; }
 
   .matrix-space { height: 290px; }
+
+  .gates-space { height: 740px; }
+  .bars-space { height: 190px; margin-top: 18px; }
+  .surface-space { height: 330px; margin-top: 10px; }
+  .implies { border-top: 1px solid var(--line); margin-top: 6px; }
+  .im { display: grid; grid-template-columns: 120px 1fr; align-items: center; padding: 12px 0;
+    border-bottom: 1px solid var(--line); font-size: 28px; color: var(--ink-2); }
+  .im span { justify-self: start; font-family: var(--mono); font-size: 16px; letter-spacing: .12em; text-transform: uppercase;
+    padding: 4px 10px; border: 1px solid; border-radius: 2px; }
+  #release .term.mini { margin-top: 22px; }
+  .warn { color: #ffb86a; font-weight: 700; }
+
+  /* subtitles, v5.2: set in the content column like every other block — flush left on the 80px
+     axis, 830px wide, below the rail of acts; plain text, no box, no colouring */
+  .cap { left: 80px; right: 170px; bottom: 548px; text-align: left; font-family: var(--sans); font-style: normal;
+    font-weight: 500; font-size: 30px; line-height: 1.3; letter-spacing: 0; color: #fff; text-shadow: none;
+    text-wrap: balance; }
+  .cap .line { display: inline; padding: 0; background: none; box-shadow: none; border-radius: 0; color: #fff; }
+
+  /* v5.2: no burned-in subtitles (YouTube generates captions); the rail sits on the safe frame's
+     floor and every scene's visual area grows into the room that frees */
+  .cap { display: none !important; }
+  .rail { bottom: 585px; }
+  .scene { padding-bottom: 640px; }
+  [class$="-space"] { flex: 1 1 auto; }
+  .prose-claim { margin-top: 40px; display: flex; align-items: center; gap: 22px; }
+  .prose-claim q { font-family: var(--serif); font-style: italic; font-size: 44px; color: var(--ink-3);
+    text-decoration: line-through; text-decoration-color: #ff637e; text-decoration-thickness: 3px; quotes: "\201C" "\201D"; }
+  .prose-claim span { font-family: var(--mono); font-size: 18px; letter-spacing: .12em; text-transform: uppercase;
+    padding: 6px 12px; border: 1px solid; border-radius: 2px; }
+  .pairs { border-top: 1px solid var(--line); }
+  .pr { display: grid; grid-template-columns: 1.1fr 1fr 1fr 1.3fr; align-items: center; padding: 16px 0;
+    border-bottom: 1px solid var(--line); font-family: var(--mono); font-size: 24px; color: var(--ink); }
+  .pr.hd span { font-size: 15px; letter-spacing: .18em; text-transform: uppercase; color: var(--ink-3); }
+  .pr b { font-weight: 600; }
+  .pr em { justify-self: start; font-style: normal; font-size: 16px; letter-spacing: .1em; text-transform: uppercase;
+    padding: 4px 10px; border: 1px solid; border-radius: 2px; }
+  .econ-space { min-height: 40px; }
+
+  #gen-host canvas { position: absolute; inset: 0; }
+
+  /* the intent cascade: a Flowbite vertical timeline, mono caps over a serif line */
+  .ladder-space ol { margin-top: 30px; }
+  .tl-name { font-family: var(--mono); font-size: 18px; letter-spacing: .18em; text-transform: uppercase;
+    color: var(--ink-3); margin: 0 0 6px; padding-top: 2px; }
+  .tl-what { font-family: var(--serif); font-style: italic; font-size: 44px; line-height: 1.1; color: var(--ink); }
+
+  /* Flowbite's vertical timeline, as a recipe in the site's tokens: a 1px rail, a marker ringed
+     by the page colour, a mono caps eyebrow over a serif line */
+  .fb-timeline { position: relative; margin: 34px 0 0 12px; border-left: 1px solid var(--line); }
+  .fb-timeline li { position: relative; margin: 0 0 30px 44px; list-style: none; }
+  .fb-timeline .mk { position: absolute; left: -57px; top: 0; width: 26px; height: 26px; border-radius: 50%;
+    box-shadow: 0 0 0 8px var(--bg); }
+
+  /* v5.2 pass 3 — one scale for phone legibility: data 30-36px, labels 18-20px mono caps */
+  .term-body { font-size: 29px; line-height: 1.55; }
+  .term.mini .term-body { font-size: 27px; }
+  .lg { font-size: 30px; } .fl, .feed .fl { font-size: 27px; }
+  .lbl { font-size: 34px; } .foot { font-size: 24px; color: var(--ink-3); } .num { font-size: 112px; width: 290px; }
+  .kicker, .eyebrow-note, .mf-meta, .lg-hd { font-size: 20px; }
+  .im { font-size: 32px; } .im span { font-size: 18px; }
+  .rl { font-size: 32px; grid-template-columns: 220px 1fr; } .rl span { font-size: 18px; }
+  .tl b { font-size: 28px; } .tl span { font-size: 19px; }
+  .vd b { font-size: 42px; }
+  .ui-row b { font-size: 30px; } .ui-row span { font-size: 17px; } .ui-row em { font-size: 17px; }
+  .ui-nav b, .ui-nav span { font-size: 24px; }
+  .pr { font-size: 30px; } .pr.hd span { font-size: 17px; }
+  .tl-name { font-family: var(--sans); font-size: 34px; letter-spacing: 0; text-transform: none; color: var(--ink);
+    font-weight: 600; margin: 0 0 4px; }
+  .tl-what { font-family: var(--sans); font-style: normal; font-size: 28px; color: var(--ink-3); }
+  .steps { list-style: none; margin: 0; padding: 0; border-left: 1px solid var(--line); margin-left: 22px; }
+  .steps li { position: relative; display: flex; gap: 30px; padding: 0 0 40px 40px; }
+  .steps .n { position: absolute; left: -22px; top: 0; width: 44px; height: 44px; border-radius: 50%; display: grid;
+    place-items: center; background: var(--raised); border: 1px solid var(--brand); color: var(--brand);
+    font-family: var(--mono); font-size: 22px; box-shadow: 0 0 0 8px var(--bg); }
+  .steps .done .n { border-color: var(--ok); color: var(--ok); }
+  .steps b { display: block; font-size: 34px; font-weight: 600; color: var(--ink); margin: 2px 0 10px; }
+  .steps code { display: block; font-family: var(--mono); font-size: 27px; color: var(--brand); line-height: 1.4; }
+  .steps .done code { color: var(--ink-3); }
+  .claims { display: flex; flex-direction: column; gap: 16px; }
+  .cl { display: grid; grid-template-columns: 200px 1fr; grid-template-rows: auto auto; column-gap: 20px; padding: 22px 26px;
+    background: var(--raised); border: 1px solid var(--line); border-radius: 4px; }
+  .cl b { grid-row: 1 / 3; font-family: var(--mono); font-weight: 500; font-size: 22px; letter-spacing: .06em; padding-top: 6px; }
+  .cl p { font-size: 36px; font-weight: 600; color: var(--ink); margin: 0; }
+  .cl code { font-family: var(--mono); font-size: 25px; color: var(--ink-3); }
+  .cl em { grid-column: 1 / 3; margin-top: 12px; font-style: normal; font-family: var(--mono); font-size: 19px;
+    letter-spacing: .1em; text-transform: uppercase; color: #ffb86a; }
+  .cl.warn { border-color: #7e2a0c; }
+  .a1 { color: #51a2ff; } .a2 { color: #ff8904; } .a3 { color: #00d492; }
+  .brief { border-top: 1px solid var(--line); }
+  .brief .eyebrow-note { margin: 18px 0 6px; }
+  .bf { display: grid; grid-template-columns: 170px 1fr; align-items: baseline; padding: 20px 0; border-bottom: 1px solid var(--line); }
+  .bf span { font-family: var(--mono); font-size: 19px; letter-spacing: .18em; text-transform: uppercase; color: var(--ink-3); }
+  .bf b { font-size: 38px; font-weight: 600; color: var(--ink); }
+  .decision { list-style: none; margin: 0 0 30px; padding: 0; border-top: 1px solid var(--line); }
+  .decision li { display: grid; grid-template-columns: 260px 1fr; align-items: baseline; padding: 22px 0; border-bottom: 1px solid var(--line); }
+  .decision span { font-family: var(--mono); font-size: 19px; letter-spacing: .18em; text-transform: uppercase; color: var(--ink-3); }
+  .decision b { font-size: 38px; font-weight: 600; color: var(--ink); }
+  .decision b.v { font-family: var(--mono); font-size: 52px; color: var(--brand); font-weight: 500; }
+  .fill { flex: 1 1 0; min-height: 0; }
+
+  /* pass 4 */
+  .ui-body.one { display: block; min-height: 0; padding: 10px 28px 18px; }
+  .ui-body.one .ui-row { grid-template-columns: 170px 1fr auto; padding: 24px 0; }
+  .ui-body.one .ui-row b { font-size: 34px; }
+  .ui-body.one .ui-row span { font-size: 19px; }
+  .ui-body.one .ui-row em { font-size: 18px; padding: 6px 12px; }
+  .tag { font-style: normal !important; font-family: var(--sans) !important; font-size: 44px; color: var(--ink-3); }
+  .url, .url .accent, .url * { font-style: normal !important; font-family: var(--sans) !important; font-weight: 600 !important; }
+  .mf-foot { font-size: 30px !important; letter-spacing: .08em; }
+  .mf-foot span:first-child { color: var(--brand); text-transform: none; }
+  /* information areas are masked from the background line work */
+  .lane-space, .matrix-space, .zone-space, .tree-space, .mesh-space, .orbit-space,
+  .server-space, .fan-space, .flow-space, .gates-space, .chain-space { background: var(--bg); }
 </style>
 </head>
 <body>
@@ -498,7 +612,7 @@
   <div class="floor" id="floor"></div>
   <div class="layer" id="particles"></div>
 </div>
-<canvas id="gen" class="layer" width="1080" height="1920"></canvas>
+<div id="gen-host" class="layer"></div>
 
 <div class="brand" id="brand">
   <svg width="60" height="60" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="4"
@@ -517,14 +631,14 @@
   <p class="mf-line" data-cue="says" data-at="-0.1" data-fx="line">says the work</p>
   <p class="mf-line" data-cue="done" data-at="-0.25" data-fx="line">is <em class="mf-done">done.<i class="mf-ul" data-cue="done" data-at="0.25" data-fx="rule"></i></em></p>
   <p class="mf-q" data-cue="is" data-at="-0.1" data-fx="line" data-sfx="soft"><em>Is it?</em></p>
-  <div class="mf-rule" data-cue="is" data-at="0.5" data-fx="rule"></div>
-  <div class="mf-meta mf-foot" data-cue="is" data-at="0.7" data-fx="line"><span>majordomus.dev</span><span>MMXXVI</span></div>
+  <div class="mf-rule" data-at="-1" data-fx="rule"></div>
+  <div class="mf-meta mf-foot" data-at="-1" data-fx="line"><span>majordomus.dev</span><span>MMXXVI</span></div>
 </section>
 
 <!-- 2. stats -->
 <section class="scene" id="stats" style="--tint: 248,113,113">
   <div class="kicker" data-at="0.05">Meanwhile, in real repositories</div>
-  <h2 data-fx="words" data-at="0.15">Agents <span class="hot">drift.</span></h2>
+  <h2 data-fx="words" data-at="0.15">Agents <span class="accent">drift.</span></h2>
   <div class="stats">
     <div class="stat glass" data-cue="rule" data-sfx="tick">
       <div class="num" data-fx="count" data-cue="rule" data-to="9" data-prefix="0&ndash;" data-suffix="%"></div>
@@ -560,59 +674,6 @@
   <div class="tag" data-cue="supervisory" data-fx="up">The supervisory layer<br>for your AI agents.</div>
 </section>
 
-<!-- setup -->
-<section class="scene" id="setup" style="--tint: 52,211,153">
-  <h2 data-fx="words" data-at="0.05">Three commands. <span class="accent">That's it.</span></h2>
-  <div class="term glass" data-at="0.15">
-    <div class="term-bar"><i></i><i></i><i></i><span>~/repo</span></div>
-    <div class="term-body"><span class="prompt" data-cue="install" data-at="-0.1">$ </span><span data-type="curl -fsSL majordomus.dev/install.sh | sh" data-cue="install" data-cps="40"></span>
-<span data-cue="initiali" data-at="-0.3" data-sfx="ding"><span class="ok">&#10003;</span> <span class="dim">majordomus installed</span></span>
-<span class="prompt" data-cue="initiali">$ </span><span data-type="majordomus init" data-cue="initiali" data-cps="30"></span>
-<span data-cue="start" data-at="-0.3" data-sfx="ding"><span class="ok">&#10003;</span> <span class="dim">.ai/ layer created, policy in place</span></span>
-<span class="prompt" data-cue="start">$ </span><span data-type="majordomus start &quot;fix the tokenizer&quot; \&#10;    --scope src/parser/" data-cue="start" data-cps="40"></span>
-<span data-cue="work" data-sfx="ding"><span class="ok">&#10003;</span> <span class="dim">task open &middot; scope src/parser/</span></span></div>
-  </div>
-</section>
-
-<!-- intent -->
-<section class="scene" id="intent" style="--tint: 255,255,255">
-  <h2 data-fx="words" data-at="0.05">Work starts <span class="accent">from intent.</span></h2>
-  <i hidden data-cue="criteria" data-sfx="tick"></i><i hidden data-cue="milestones" data-sfx="tick"></i>
-  <i hidden data-cue="issues" data-sfx="tick"></i>
-  <div class="ladder-space"></div>
-  <div class="term glass mini" data-cue="plan" data-at="-0.3">
-    <div class="term-body"><span class="prompt">$ </span><span data-type="majordomus plan next" data-cue="plan" data-cps="35"></span>
-<span data-cue="names" data-sfx="ding">I0703 &mdash; Implement the decision and prove it holds</span>
-<span data-cue="names" data-at="0.3"><span class="dim">next: majordomus plan start I0703</span></span></div>
-  </div>
-</section>
-
-<!-- session context -->
-<section class="scene" id="session" style="--tint: 255,255,255">
-  <h2 data-fx="words" data-at="0.05">Every session <span class="accent">starts briefed.</span></h2>
-  <div class="term glass" data-at="0.15">
-    <div class="term-bar"><i></i><i></i><i></i><span>session start</span></div>
-    <div class="term-body"><span class="prompt">$ </span><span data-type="majordomus context" data-at="0.35" data-cps="30"></span>
-<span data-cue="briefed" data-at="0.3"><span class="dim">episode </span> s-20261023 &middot; master @ 2034d4a</span>
-<span data-cue="task" data-sfx="tick"><span class="dim">task    </span> t-parser &middot; partial</span>
-<span data-cue="scope" data-sfx="tick"><span class="dim">scope   </span> src/parser/</span>
-<span data-cue="handover" data-sfx="tick"><span class="dim">next    </span> rerun case 12, then finish</span>
-<span data-cue="working" data-sfx="tick"><span class="dim">peers   </span> 3 on the board &middot; mesh linked</span>
-<span data-cue="release" data-sfx="tick"><span class="dim">release </span> landed work waiting for a tag</span></div>
-  </div>
-  <div class="eyebrow-note" data-cue="rediscover" data-fx="up" style="margin-top: 30px">read from git and the repository, never from memory</div>
-</section>
-
-<!-- context -->
-<section class="scene" id="context" style="--tint: 167,139,250">
-  <h2 data-fx="words" data-at="0.05">Only the context <span class="accent">it needs.</span></h2>
-  <div class="term glass mini" data-at="0.2">
-    <div class="term-body"><span class="prompt">$ </span><span data-type="majordomus context resolve src/parser/lexer.rs" data-at="0.35" data-cps="45"></span></div>
-  </div>
-  <i hidden data-cue="path" data-sfx="riser-short"></i><i hidden data-cue="nothing" data-sfx="ding"></i>
-  <div class="tree-space"></div>
-</section>
-
 <!-- 4. terminal -->
 <section class="scene" id="terminal" style="--tint: 248,113,113">
   <h2 data-fx="words" data-at="0.05">&ldquo;Done&rdquo; is a <span class="accent">contract.</span></h2>
@@ -634,6 +695,7 @@
   <h2 data-fx="words" data-at="0.05">Provenance, <span class="accent">not promises.</span></h2>
   <div class="ledger glass" data-cue="record" data-at="-0.3" data-fx="up">
     <div class="lg-hd"><span>evidence ledger</span><span class="pill">PROVEN</span></div>
+    <div class="lg" data-cue="record" data-at="0.2" data-sfx="tick"><b>outcome</b> <span class="ok">passed</span>, rerun after the fix</div>
     <div class="lg" data-cue="test" data-sfx="tick"><b>test   </b> suite:parse</div>
     <div class="lg" data-cue="commit" data-sfx="tick"><b>commit </b> 2034d4a3f0b</div>
     <div class="lg" data-cue="tree" data-sfx="tick"><b>tree   </b> 9f1c07e2a4d1</div>
@@ -653,6 +715,48 @@
   </div>
 </section>
 
+<!-- doctrine -->
+<section class="scene" id="doctrine" style="--tint: 255,255,255">
+  <h2 data-fx="words" data-at="0.05">Written down <span class="accent">is not enforced.</span></h2>
+  <i hidden data-cue="declared" data-sfx="tick"></i><i hidden data-cue="validated" data-sfx="tick"></i>
+  <i hidden data-cue="wired" data-sfx="tick"></i><i hidden data-cue="fails" data-sfx="tick"></i>
+  <i hidden data-cue="tested" data-sfx="tick"></i><i hidden data-cue="blocks" data-sfx="tick"></i>
+  <i hidden data-cue="claim" data-sfx="chime"></i><i hidden data-cue="documentation" data-sfx="buzz"></i>
+  <div class="gates-space"></div>
+</section>
+
+<!-- doctor -->
+<section class="scene" id="doctor" style="--tint: 255,255,255">
+  <h2 data-fx="words" data-at="0.05">The repository <span class="accent">checks itself.</span></h2>
+  <div class="term glass" data-cue="doctor" data-at="-0.3">
+    <div class="term-bar"><i></i><i></i><i></i><span>git commit &rarr; pre-commit</span></div>
+    <div class="term-body"><span class="prompt">$ </span><span data-type="majordomus doctor" data-cue="doctor" data-cps="30"></span>
+<span data-cue="rule" data-sfx="tick"><span class="ok">OK  </span> rules       61, in one order</span>
+<span data-cue="rule" data-at="0.3" data-sfx="tick"><span class="ok">OK  </span> blocking    all 44 carry a validator</span>
+<span data-cue="projection" data-sfx="tick"><span class="ok">OK  </span> projection  AGENTS.md as stamped</span>
+<span data-cue="hook" data-sfx="tick"><span class="ok">OK  </span> wiring      commit and push hooks</span>
+<span data-cue="hook" data-at="0.3" data-sfx="tick"><span class="warn">WARN</span> clone       commits on no remote</span>
+<span data-cue="zero" data-sfx="ding" class="ok">doctor: 0 failure(s)</span></div>
+  </div>
+  <div class="bars-space"></div>
+</section>
+
+<!-- economics -->
+<section class="scene" id="economics" style="--tint: 255,255,255">
+  <h2 data-fx="words" data-at="0.05">Numbers, <span class="accent">measured or absent.</span></h2>
+  <div class="prose-claim" data-at="0.4" data-fx="up"><q>Saves N% of your tokens.</q>
+    <span class="st-bad" data-cue="typed" data-fx="stamp" data-sfx="slam">refused</span></div>
+  <div class="eyebrow-note" data-cue="typed" data-at="0.4" data-fx="up" style="text-align: left; margin: 14px 0 34px">majordomus economics check &middot; a number in prose is not a measurement</div>
+  <div class="pairs">
+    <div class="pr hd"><span>task</span><span>without it</span><span>with it</span><span>in the measure</span></div>
+    <div class="pr" data-cue="pairs" data-fx="up" data-sfx="tick"><span>task-01</span><b class="ok">passed</b><b class="ok">passed</b><em class="st-ok">counted</em></div>
+    <div class="pr" data-cue="pairs" data-at="0.3" data-fx="up" data-sfx="tick"><span>task-02</span><b class="ok">passed</b><b class="ok">passed</b><em class="st-ok">counted</em></div>
+    <div class="pr" data-cue="failing" data-fx="up" data-sfx="buzz"><span>task-03</span><b class="ok">passed</b><b class="fail">failed</b><em class="st-bad">excluded</em></div>
+  </div>
+  <div class="eyebrow-note" data-cue="both" data-fx="up" style="text-align: left; margin-top: 26px">tokens per successfully completed task &middot; a failed run is never a saving</div>
+  <div class="econ-space"></div>
+</section>
+
 <!-- reasoning -->
 <section class="scene" id="reasoning" style="--tint: 255,255,255">
   <h2 data-fx="words" data-at="0.05">Uncertainty, <span class="accent">on the record.</span></h2>
@@ -661,26 +765,72 @@
   <div class="flow-space"></div>
 </section>
 
-<!-- generation -->
-<section class="scene" id="generate" style="--tint: 255,255,255">
-  <h2 data-fx="words" data-at="0.05">Declared once. <span class="accent">Projected everywhere.</span></h2>
-  <i hidden data-cue="command" data-sfx="pop"></i><i hidden data-cue="http" data-sfx="pop"></i>
-  <i hidden data-cue="mcp" data-sfx="pop"></i><i hidden data-cue="openapi" data-sfx="pop"></i>
-  <i hidden data-cue="docs" data-sfx="pop"></i><i hidden data-cue="skills" data-sfx="pop"></i>
-  <i hidden data-cue="drifts" data-sfx="buzz"></i>
-  <div class="fan-space"></div>
-  <div class="kb-stats"><div class="kb" data-cue="declared" data-fx="up"><b data-fx="count" data-cue="declared" data-at="0.2" data-to="3300"></b><span>capabilities, one registry</span></div></div>
+<!-- setup -->
+<section class="scene" id="setup" style="--tint: 255,255,255">
+  <h2 data-fx="words" data-at="0.05">Three commands. <span class="accent">That's it.</span></h2>
+  <ol class="steps">
+    <li data-cue="install" data-at="-0.2" data-fx="up" data-sfx="tick"><span class="n">1</span><div><b>Install</b><code>curl -fsSL majordomus.dev/install.sh | sh</code></div></li>
+    <li data-cue="initiali" data-at="-0.2" data-fx="up" data-sfx="tick"><span class="n">2</span><div><b>Initialise the repository</b><code>majordomus init</code></div></li>
+    <li data-cue="start" data-at="-0.2" data-fx="up" data-sfx="tick"><span class="n">3</span><div><b>Start a task with a scope</b><code>majordomus start "fix the tokenizer" --scope src/parser/</code></div></li>
+    <li data-cue="work" data-fx="up" data-sfx="ding" class="done"><span class="n">&#10003;</span><div><b>Your agents work inside it</b><code>task open &middot; scope src/parser/</code></div></li>
+  </ol>
 </section>
 
-<!-- shared MCP server -->
-<section class="scene" id="mcp" style="--tint: 255,255,255">
-  <h2 data-fx="words" data-at="0.05">One server. <span class="accent">Every client attached.</span></h2>
-  <i hidden data-cue="first" data-sfx="pop"></i><i hidden data-cue="attaches" data-sfx="pop"></i>
-  <div class="server-space"></div>
-  <div class="routes">
-    <span data-cue="http" data-fx="pop">/mcp</span><span data-cue="http" data-at="0.15" data-fx="pop">/openapi.json</span>
-    <span data-cue="swagger" data-fx="pop">/swagger</span><span data-cue="cockpit" data-fx="pop">/cockpit</span>
-    <span data-cue="cockpit" data-at="0.15" data-fx="pop">/ui</span>
+<!-- intent -->
+<section class="scene" id="intent" style="--tint: 255,255,255">
+  <h2 data-fx="words" data-at="0.05">Work starts <span class="accent">from intent.</span></h2>
+  <i hidden data-cue="criteria" data-sfx="tick"></i><i hidden data-cue="milestones" data-sfx="tick"></i>
+  <i hidden data-cue="issues" data-sfx="tick"></i>
+  <div class="ladder-space"></div>
+  <div class="term glass mini" data-cue="plan" data-at="-0.3">
+    <div class="term-body"><span class="prompt">$ </span><span data-type="majordomus plan next" data-cue="plan" data-cps="35"></span>
+<span data-cue="names" data-sfx="ding">I0703 &mdash; Implement the decision and prove it holds</span>
+<span data-cue="names" data-at="0.3"><span class="dim">next: majordomus plan start I0703</span></span></div>
+  </div>
+</section>
+
+<!-- session context -->
+<section class="scene" id="session" style="--tint: 255,255,255">
+  <h2 data-fx="words" data-at="0.05">Every session <span class="accent">starts briefed.</span></h2>
+  <div class="brief">
+    <div class="eyebrow-note" data-at="0.3" data-fx="up" style="text-align: left">$ majordomus context</div>
+    <div class="bf" data-cue="task" data-fx="up" data-sfx="tick"><span>task</span><b>fix the tokenizer</b></div>
+    <div class="bf" data-cue="scope" data-fx="up" data-sfx="tick"><span>scope</span><b>src/parser/</b></div>
+    <div class="bf" data-cue="handover" data-fx="up" data-sfx="tick"><span>next</span><b>rerun case 12, then finish</b></div>
+    <div class="bf" data-cue="working" data-fx="up" data-sfx="tick"><span>peers</span><b>3 on the board &middot; mesh linked</b></div>
+  </div>
+  <div class="eyebrow-note" data-cue="rediscover" data-fx="up" style="margin-top: 34px; text-align: left">read from git and the repository, never from memory</div>
+</section>
+
+<!-- context -->
+<section class="scene" id="context" style="--tint: 167,139,250">
+  <h2 data-fx="words" data-at="0.05">Only the context <span class="accent">it needs.</span></h2>
+  <div class="term glass mini" data-at="0.2">
+    <div class="term-body"><span class="prompt">$ </span><span data-type="majordomus context resolve src/parser/lexer.rs" data-at="0.35" data-cps="45"></span></div>
+  </div>
+  <i hidden data-cue="path" data-sfx="riser-short"></i><i hidden data-cue="nothing" data-sfx="ding"></i>
+  <div class="tree-space"></div>
+</section>
+
+<!-- 6. policy -->
+<section class="scene" id="policy" style="--tint: 167,139,250">
+  <h2 data-fx="words" data-at="0.05">Rules, <span class="accent">written once.</span></h2>
+  <div class="src glass" data-at="0.3" data-fx="pop" data-sfx="pop">.ai/repo/policy.yaml</div>
+  <svg class="fan" viewBox="0 0 920 120" fill="none" stroke-width="4" stroke-linecap="round">
+    <path d="M460 0 C460 70 140 50 140 120" stroke="#a78bfa" stroke-opacity=".35" data-fx="draw" data-cue="writes" data-dur="0.45"/>
+    <path d="M460 0 V120" stroke="#38bdf8" stroke-opacity=".35" data-fx="draw" data-cue="writes" data-at="0.1" data-dur="0.45"/>
+    <path d="M460 0 C460 70 780 50 780 120" stroke="#34d399" stroke-opacity=".35" data-fx="draw" data-cue="writes" data-at="0.2" data-dur="0.45"/>
+  </svg>
+  <div class="outs">
+    <div class="file glass" data-cue="every" data-fx="pop" data-sfx="pop">CLAUDE.md</div>
+    <div class="file glass" data-cue="every" data-at="0.15" data-fx="pop" data-sfx="pop">AGENTS.md</div>
+    <div class="file glass" data-cue="every" data-at="0.3" data-fx="pop" data-sfx="pop">GEMINI.md</div>
+  </div>
+  <div class="handover glass" data-cue="tasks" data-fx="up">
+    <div class="hd"><span>task &middot; t-parser</span><span class="pill">IN GIT</span></div>
+    <div class="ln" data-cue="tasks" data-at="0.2" data-sfx="tick"><b>goal  </b> fix the tokenizer</div>
+    <div class="ln" data-cue="repository" data-sfx="tick"><b>scope </b> src/parser/</div>
+    <div class="ln" data-cue="repository" data-at="0.3" data-sfx="tick"><b>done  </b> when sh test/parse.sh passes</div>
   </div>
 </section>
 
@@ -714,25 +864,77 @@
   <div class="matrix-space"></div>
 </section>
 
+<!-- generation -->
+<section class="scene" id="generate" style="--tint: 255,255,255">
+  <h2 data-fx="words" data-at="0.05">Declared once. <span class="accent">Projected everywhere.</span></h2>
+  <i hidden data-cue="command" data-sfx="pop"></i><i hidden data-cue="http" data-sfx="pop"></i>
+  <i hidden data-cue="mcp" data-sfx="pop"></i><i hidden data-cue="openapi" data-sfx="pop"></i>
+  <i hidden data-cue="docs" data-sfx="pop"></i><i hidden data-cue="skills" data-sfx="pop"></i>
+  <i hidden data-cue="drifts" data-sfx="buzz"></i><i hidden data-cue="declared" data-sfx="pop"></i>
+  <div class="fan-space"></div>
+</section>
+
+<!-- release -->
+<section class="scene" id="release" style="--tint: 255,255,255">
+  <h2 data-fx="words" data-at="0.05">No surface change. <span class="accent">No version bump.</span></h2>
+  <ol class="decision">
+    <li data-cue="compares" data-fx="up" data-sfx="tick"><span>last release</span><b class="v">1.0.0-alpha.6</b></li>
+    <li data-cue="compares" data-at="0.4" data-fx="up" data-sfx="tick"><span>this tree</span><b>the same public surface</b></li>
+    <li data-cue="nothing" data-at="0.3" data-fx="up" data-sfx="tick"><span>result</span><b>no bump owed</b></li>
+    <li data-cue="changelog" data-fx="up" data-sfx="ding"><span>next</span><b class="v">1.0.0-alpha.6</b></li>
+  </ol>
+  <div class="implies">
+    <div class="im" data-cue="gone" data-fx="up" data-sfx="buzz"><span class="st-bad">major</span>something a caller held is gone</div>
+    <div class="im" data-cue="new" data-fx="up" data-sfx="tick"><span class="st-ok">minor</span>something arrived</div>
+    <div class="im" data-cue="nothing" data-fx="up" data-sfx="tick"><span class="st-n">none</span>the surface is equal</div>
+  </div>
+</section>
+
+<!-- shared MCP server -->
+<section class="scene" id="mcp" style="--tint: 255,255,255">
+  <h2 data-fx="words" data-at="0.05">One server. <span class="accent">Every client attached.</span></h2>
+  <i hidden data-cue="first" data-sfx="pop"></i><i hidden data-cue="attaches" data-sfx="pop"></i>
+  <div class="server-space"></div>
+  <div class="routes">
+    <span data-cue="http" data-fx="pop">/mcp</span><span data-cue="http" data-at="0.15" data-fx="pop">/openapi.json</span>
+    <span data-cue="swagger" data-fx="pop">/swagger</span><span data-cue="cockpit" data-fx="pop">/cockpit</span>
+    <span data-cue="cockpit" data-at="0.15" data-fx="pop">/ui</span>
+  </div>
+</section>
+
+<!-- cockpit -->
+<section class="scene" id="cockpit" style="--tint: 255,255,255">
+  <h2 data-fx="words" data-at="0.05">For a person: <span class="accent">the Cockpit.</span></h2>
+  <div class="ui glass" data-cue="cockpit" data-at="-0.3" data-fx="up">
+    <div class="ui-bar"><i></i><i></i><i></i><span>localhost:8741/cockpit</span></div>
+    <div class="ui-body one">
+      <div class="ui-row" data-cue="server" data-sfx="tick"><span>task</span><b>fix the tokenizer</b><em class="st-ok">partial</em></div>
+      <div class="ui-row" data-cue="server" data-at="0.25" data-sfx="tick"><span>scope</span><b>src/parser/</b><em class="st-warn">1 overlap</em></div>
+      <div class="ui-row" data-cue="registry" data-sfx="tick"><span>evidence</span><b>suite:parse</b><em class="st-ok">proven</em></div>
+      <div class="ui-row" data-cue="person" data-sfx="tick"><span>release</span><b>landed, untagged</b><em class="st-bad">overdue</em></div></div>
+  </div>
+  <div class="eyebrow-note" data-cue="drift" data-fx="up" style="margin-top: 26px">a projection of the registry &middot; ADR 0012</div>
+</section>
+
 <!-- discovery -->
 <section class="scene" id="discovery" style="--tint: 255,255,255">
   <h2 data-fx="words" data-at="0.05">First, they <span class="accent">find each other.</span></h2>
   <i hidden data-cue="beacon" data-sfx="tick"></i><i hidden data-cue="rendezvous" data-sfx="tick"></i>
   <div class="radar-space"></div>
   <div class="checks"><span data-cue="checked" data-at="0.00" data-fx="pop" data-sfx="tick">size</span><span data-cue="checked" data-at="0.16" data-fx="pop">shape</span><span data-cue="checked" data-at="0.32" data-fx="pop" data-sfx="tick">version</span><span data-cue="checked" data-at="0.48" data-fx="pop">bounds</span><span data-cue="checked" data-at="0.64" data-fx="pop" data-sfx="tick">staleness</span><span data-cue="checked" data-at="0.80" data-fx="pop">signature</span><span data-cue="checked" data-at="0.96" data-fx="pop" data-sfx="tick">trust</span></div>
-  <div class="eyebrow-note" data-cue="secret" data-fx="up">signed &middot; at most 1200 bytes &middot; never a secret, a path or your code</div>
+  <div class="eyebrow-note" data-cue="secret" data-fx="up">signed &middot; &le; 1200 bytes &middot; no secret, path or code</div>
 </section>
 
 <!-- blackboard -->
 <section class="scene" id="blackboard" style="--tint: 255,255,255">
   <h2 data-fx="words" data-at="0.05">Intent, <span class="accent">on the blackboard.</span></h2>
-  <div class="board">
-    <div class="ann" data-cue="intends" data-fx="up" data-sfx="tick"><b style="color: #ff8904">claude-code</b><p>fix the tokenizer</p><code>src/parser/</code></div>
-    <div class="ann" data-cue="paths" data-fx="up" data-sfx="tick"><b style="color: #51a2ff">codex</b><p>CLI help text</p><code>src/cli/</code></div>
-    <div class="ann" data-cue="paths" data-at="0.35" data-fx="up" data-sfx="tick"><b style="color: #00d492">gemini</b><p>README tour</p><code>docs/</code></div>
-    <div class="ann warn" data-cue="overlaps" data-at="-0.2" data-fx="up" data-sfx="alert"><b style="color: #51a2ff">codex</b><p>parser fast path</p><code>src/parser/</code><em>overlaps claude-code</em></div>
+  <div class="claims">
+    <div class="cl" data-cue="intends" data-fx="up" data-sfx="tick"><b class="a2">claude-code</b><p>fix the tokenizer</p><code>src/parser/</code></div>
+    <div class="cl" data-cue="paths" data-fx="up" data-sfx="tick"><b class="a1">codex</b><p>CLI help text</p><code>src/cli/</code></div>
+    <div class="cl" data-cue="paths" data-at="0.35" data-fx="up" data-sfx="tick"><b class="a3">gemini</b><p>README tour</p><code>docs/</code></div>
+    <div class="cl warn" data-cue="overlaps" data-at="-0.2" data-fx="up" data-sfx="alert"><b class="a1">codex</b><p>parser fast path</p><code>src/parser/</code><em>overlaps claude-code on src/parser/</em></div>
   </div>
-  <div class="eyebrow-note" data-cue="claim" data-fx="up" style="margin-top: 28px">a claim, not a lock</div>
+  <div class="eyebrow-note" data-cue="claim" data-fx="up" style="margin-top: 30px; text-align: left">a claim, not a lock</div>
 </section>
 
 <!-- 5. mesh -->
@@ -806,47 +1008,6 @@
   </div>
 </section>
 
-<!-- cockpit -->
-<section class="scene" id="cockpit" style="--tint: 255,255,255">
-  <h2 data-fx="words" data-at="0.05">For a person: <span class="accent">the Cockpit.</span></h2>
-  <div class="ui glass" data-cue="cockpit" data-at="-0.3" data-fx="up">
-    <div class="ui-bar"><i></i><i></i><i></i><span>localhost:8741/cockpit</span></div>
-    <div class="ui-body">
-      <div class="ui-nav"><b>Overview</b><span>Plan</span><span>Peers</span><span>Mesh</span><span>Monitor</span><span>Evidence</span><span>Models</span></div>
-      <div class="ui-main">
-        <div class="ui-row" data-cue="server" data-sfx="tick"><span>task</span><b>t-parser</b><em class="st-ok">partial</em></div>
-        <div class="ui-row" data-cue="server" data-at="0.25" data-sfx="tick"><span>claims</span><b>3 on the board</b><em class="st-warn">1 overlap</em></div>
-        <div class="ui-row" data-cue="registry" data-sfx="tick"><span>evidence</span><b>suite:parse</b><em class="st-ok">proven</em></div>
-        <div class="ui-row" data-cue="person" data-sfx="tick"><span>release</span><b>landed, untagged</b><em class="st-bad">overdue</em></div>
-        <div class="ui-spark-space"></div>
-      </div>
-    </div>
-  </div>
-  <div class="eyebrow-note" data-cue="drift" data-fx="up" style="margin-top: 26px">a projection of the registry &middot; ADR 0012</div>
-</section>
-
-<!-- 6. policy -->
-<section class="scene" id="policy" style="--tint: 167,139,250">
-  <h2 data-fx="words" data-at="0.05">Rules, <span class="accent">written once.</span></h2>
-  <div class="src glass" data-at="0.3" data-fx="pop" data-sfx="pop">.ai/repo/policy.yaml</div>
-  <svg class="fan" viewBox="0 0 920 120" fill="none" stroke-width="4" stroke-linecap="round">
-    <path d="M460 0 C460 70 140 50 140 120" stroke="#a78bfa" stroke-opacity=".35" data-fx="draw" data-cue="writes" data-dur="0.45"/>
-    <path d="M460 0 V120" stroke="#38bdf8" stroke-opacity=".35" data-fx="draw" data-cue="writes" data-at="0.1" data-dur="0.45"/>
-    <path d="M460 0 C460 70 780 50 780 120" stroke="#34d399" stroke-opacity=".35" data-fx="draw" data-cue="writes" data-at="0.2" data-dur="0.45"/>
-  </svg>
-  <div class="outs">
-    <div class="file glass" data-cue="every" data-fx="pop" data-sfx="pop">CLAUDE.md</div>
-    <div class="file glass" data-cue="every" data-at="0.15" data-fx="pop" data-sfx="pop">AGENTS.md</div>
-    <div class="file glass" data-cue="every" data-at="0.3" data-fx="pop" data-sfx="pop">GEMINI.md</div>
-  </div>
-  <div class="handover glass" data-cue="tasks" data-fx="up">
-    <div class="hd"><span>task &middot; t-parser</span><span class="pill">IN GIT</span></div>
-    <div class="ln" data-cue="tasks" data-at="0.2" data-sfx="tick"><b>goal  </b> fix the tokenizer</div>
-    <div class="ln" data-cue="repository" data-sfx="tick"><b>scope </b> src/parser/</div>
-    <div class="ln" data-cue="repository" data-at="0.3" data-sfx="tick"><b>done  </b> when sh test/parse.sh passes</div>
-  </div>
-</section>
-
 <!-- continuity -->
 <section class="scene" id="continuity" style="--tint: 56,189,248">
   <h2 data-fx="words" data-at="0.05">Work that <span class="accent">outlives the chat.</span></h2>
@@ -863,9 +1024,7 @@
 <!-- decisions and knowledge -->
 <section class="scene" id="knowledge" style="--tint: 255,255,255">
   <h2 data-fx="words" data-at="0.05">What it learns <span class="accent">stays learned.</span></h2>
-  <div class="kb-stats">
-    <div class="kb" data-cue="hundred" data-at="-0.2" data-fx="up"><b data-fx="count" data-cue="hundred" data-to="160"></b><span>architecture decisions, each a record in git</span></div>
-  </div>
+  <div class="eyebrow-note" data-cue="hundred" data-fx="up" style="text-align: left">160 decisions so far, each a record in git</div>
   <i hidden data-cue="decisions" data-sfx="tick"></i><i hidden data-cue="knowledge" data-sfx="tick"></i>
   <i hidden data-cue="person" data-sfx="chime"></i>
   <div class="kb-space"></div>
@@ -947,8 +1106,8 @@
   <p class="mf-line" data-at="999" data-fx="line">says the work</p>
   <p class="mf-line" data-at="999" data-fx="line">is <em class="mf-done">done.<i class="mf-ul" data-at="999" data-fx="rule"></i></em></p>
   <p class="mf-q" data-at="999" data-fx="line"><em>Is it?</em></p>
-  <div class="mf-rule" data-at="999" data-fx="rule"></div>
-  <div class="mf-meta mf-foot" data-at="999" data-fx="line"><span>majordomus.dev</span><span>MMXXVI</span></div>
+  <div class="mf-rule" data-at="-1" data-fx="rule"></div>
+  <div class="mf-meta mf-foot" data-at="-1" data-fx="line"><span>majordomus.dev</span><span>MMXXVI</span></div>
 </section>
 
 <div class="layer"><div class="sweep" id="sweep"></div></div>
@@ -958,7 +1117,11 @@
 <div class="layer vignette"></div>
 <div class="layer" style="overflow: hidden"><div class="grain" id="grain"></div></div>
 
+<script src="https://cdn.jsdelivr.net/npm/p5@1.11.3/lib/p5.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/cytoscape@3.30.4/dist/cytoscape.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.6.0/dist/echarts.min.js"></script>
 <script src="gen.js"></script>
+<script src="viz.js"></script>
 <script>
   const ENTER = 0.32;
   const EXIT = 0.34;
@@ -1032,6 +1195,22 @@
   window.setup = ({ durations, words, chunks, ids, titles, acts }) => {
     const warnings = [];
     const events = [];
+    document.querySelectorAll('.scene').forEach((sc) => {
+      if (sc.classList.contains('manifesto') || sc.id === 'reveal' || sc.id === 'cta') return;
+      if (sc.querySelector('[class$="-space"]')) return;
+      const h = sc.querySelector(':scope > h2');
+      if (!h) return;
+      const a = document.createElement('div'); a.className = 'fill';
+      const b = document.createElement('div'); b.className = 'fill';
+      h.after(a);
+      sc.appendChild(b);
+    });
+    // one rhythm: the first visible block after a headline sits 44px below it, in every scene
+    document.querySelectorAll('.scene > h2').forEach((h) => {
+      let n = h.nextElementSibling;
+      while (n && (n.hidden || n.tagName === 'I')) n = n.nextElementSibling;
+      if (n) n.style.marginTop = '44px';
+    });
     document.querySelectorAll('[data-fx="count"]').forEach((e) => {
       e.textContent = `${e.dataset.prefix || ''}${Number(e.dataset.to).toLocaleString('en-US')}${e.dataset.suffix || ''}`;
     });
@@ -1232,7 +1411,7 @@
       const isTop = b.host && (b.host.classList.contains('chapter') || b.host.classList.contains('brand'));
       if (isTop) return;
       if (b.x0 < 60 || b.x1 > 925) out.push(`outside the frame (x ${Math.round(b.x0)}-${Math.round(b.x1)}): ${b.text}`);
-      const floor = b.host && b.host.dataset && b.host.dataset.nobrand !== undefined ? 1290 : 1215;
+      const floor = b.host && b.host.dataset && b.host.dataset.nobrand !== undefined ? 1300 : 1295;
       if (!isCap && !isRail && (b.y0 < 230 || b.y1 > floor)) out.push(`outside the frame (y ${Math.round(b.y0)}-${Math.round(b.y1)}): ${b.text}`);
     });
     for (let i = 0; i < boxes.length; i++) {

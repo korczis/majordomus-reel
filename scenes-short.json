@@ -22,13 +22,6 @@
     "act": "CONTRACT"
   },
   {
-    "id": "setup",
-    "vo": "Install it with one line. Initialise your repository. Then start a task with a scope, and let your agents work.",
-    "min": 8,
-    "title": "Three commands",
-    "act": "CONTRACT"
-  },
-  {
     "id": "terminal",
     "vo": "When an agent says it's finished, Majordomus checks the scope, the state, and the tests. And when anything fails, it refuses.",
     "min": 8,
@@ -43,11 +36,18 @@
     "act": "CONTRACT"
   },
   {
+    "id": "setup",
+    "vo": "Install it with one line. Initialise your repository. Then start a task with a scope, and let your agents work.",
+    "min": 8,
+    "title": "Three commands",
+    "act": "WORKFLOW"
+  },
+  {
     "id": "models",
     "vo": "Models are declared data. Anthropic and OpenAI in the cloud, Ollama and LM Studio on your own machine. Routing picks one by need. Ask for local only, and it answers: nothing qualifies. Never a guess.",
     "min": 13,
     "title": "Models, declared",
-    "act": "PLATFORM"
+    "act": "WORKFLOW"
   },
   {
     "id": "mesh",

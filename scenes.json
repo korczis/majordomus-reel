@@ -22,34 +22,6 @@
     "act": "CONTRACT"
   },
   {
-    "id": "setup",
-    "vo": "Install it with one line. Initialise your repository. Then start a task with a scope, and let your agents work.",
-    "min": 8,
-    "title": "Three commands",
-    "act": "CONTRACT"
-  },
-  {
-    "id": "intent",
-    "title": "Work starts from intent",
-    "vo": "Work starts from intent: what must become true, and the criteria that prove it. Intents become milestones, milestones become issues, and plan next names the one issue to take now.",
-    "min": 13,
-    "act": "CONTRACT"
-  },
-  {
-    "id": "session",
-    "vo": "Every session starts briefed. The task, its scope, the last handover's next action, who else is working, and what the release still owes. Nothing to rediscover.",
-    "min": 11,
-    "title": "Every session starts briefed",
-    "act": "CONTRACT"
-  },
-  {
-    "id": "context",
-    "vo": "Context is a tree. Each agent reads the documents from the root down to the path it works on. The nearest adds to its ancestors, and siblings never see each other. Nothing more, and nothing less.",
-    "min": 12,
-    "title": "Hierarchical context",
-    "act": "CONTRACT"
-  },
-  {
     "id": "terminal",
     "vo": "When an agent says it's finished, Majordomus checks the scope, the state, and the tests. And when anything fails, it refuses.",
     "min": 8,
@@ -64,11 +36,81 @@
     "act": "CONTRACT"
   },
   {
+    "id": "doctrine",
+    "title": "Written down is not enforced",
+    "act": "CONTRACT",
+    "vo": "A rule is not enforced because it is written down. It is enforced when it is declared, validated, wired into a command, fails that command, is tested, blocks CI, and backs a claim. Anything less is documentation.",
+    "min": 14
+  },
+  {
+    "id": "doctor",
+    "title": "The repository checks itself",
+    "act": "CONTRACT",
+    "vo": "And the repository checks itself. Majordomus doctor reads every rule, every projection and every hook, on every commit. Forty-four blocking rules, each with a validator. Zero failures.",
+    "min": 12
+  },
+  {
+    "id": "economics",
+    "title": "Numbers, measured or absent",
+    "act": "CONTRACT",
+    "vo": "It will not sell you a number it never measured. Savings come only from recorded pairs of runs, with it and without it, on the same task, and both must pass. A run that saves tokens by failing is not a saving. And a number typed into prose is refused.",
+    "min": 15
+  },
+  {
     "id": "reasoning",
     "title": "Uncertainty, reasoned on the record",
     "vo": "When a decision is uncertain, it is reasoned on the record. Evidence first. Advisors, if any are present, and their answers are evidence, never verdicts. The conclusion stays for the next session to read.",
     "min": 13,
     "act": "CONTRACT"
+  },
+  {
+    "id": "setup",
+    "vo": "Install it with one line. Initialise your repository. Then start a task with a scope, and let your agents work.",
+    "min": 8,
+    "title": "Three commands",
+    "act": "WORKFLOW"
+  },
+  {
+    "id": "intent",
+    "title": "Work starts from intent",
+    "vo": "Work starts from intent: what must become true, and the criteria that prove it. Intents become milestones, milestones become issues, and plan next names the one issue to take now.",
+    "min": 13,
+    "act": "WORKFLOW"
+  },
+  {
+    "id": "session",
+    "vo": "Every session starts briefed. The task, its scope, the last handover's next action, who else is working, and what the release still owes. Nothing to rediscover.",
+    "min": 11,
+    "title": "Every session starts briefed",
+    "act": "WORKFLOW"
+  },
+  {
+    "id": "context",
+    "vo": "Context is a tree. Each agent reads the documents from the root down to the path it works on. The nearest adds to its ancestors, and siblings never see each other. Nothing more, and nothing less.",
+    "min": 12,
+    "title": "Hierarchical context",
+    "act": "WORKFLOW"
+  },
+  {
+    "id": "policy",
+    "vo": "One policy writes every agent's instructions. Tasks live in the repository, not in a chat window.",
+    "min": 7,
+    "title": "Rules, written once",
+    "act": "WORKFLOW"
+  },
+  {
+    "id": "providers",
+    "vo": "Claude Code, Codex, Gemini, Zed, Antigravity, bb, or any client that speaks MCP. Each reads its own projection of the same policy.",
+    "min": 9,
+    "title": "Every client, one policy",
+    "act": "WORKFLOW"
+  },
+  {
+    "id": "models",
+    "vo": "Models are declared data. Anthropic and OpenAI in the cloud, Ollama and LM Studio on your own machine. Routing picks one by need. Ask for local only, and it answers: nothing qualifies. Never a guess.",
+    "min": 13,
+    "title": "Models, declared",
+    "act": "WORKFLOW"
   },
   {
     "id": "generate",
@@ -78,6 +120,13 @@
     "act": "PLATFORM"
   },
   {
+    "id": "release",
+    "title": "Versions, measured",
+    "act": "PLATFORM",
+    "vo": "Versions are measured, not claimed. Every release compares the public surface with the last one. Something gone is a major, something new is a minor, and nothing changed owes nothing. The changelog writes itself.",
+    "min": 13
+  },
+  {
     "id": "mcp",
     "vo": "One shared server per repository. The first client starts it, every next one attaches, and each sees the others. The same server answers over HTTP, with Swagger and the Cockpit.",
     "min": 12,
@@ -85,17 +134,10 @@
     "act": "PLATFORM"
   },
   {
-    "id": "providers",
-    "vo": "Claude Code, Codex, Gemini, Zed, Antigravity, bb, or any client that speaks MCP. Each reads its own projection of the same policy.",
-    "min": 9,
-    "title": "Every client, one policy",
-    "act": "PLATFORM"
-  },
-  {
-    "id": "models",
-    "vo": "Models are declared data. Anthropic and OpenAI in the cloud, Ollama and LM Studio on your own machine. Routing picks one by need. Ask for local only, and it answers: nothing qualifies. Never a guess.",
-    "min": 13,
-    "title": "Models, declared",
+    "id": "cockpit",
+    "title": "The Cockpit",
+    "vo": "And a person sees all of it in the Cockpit. The same server, the same registry, rendered for a person, with nothing of its own to drift.",
+    "min": 10,
     "act": "PLATFORM"
   },
   {
@@ -153,20 +195,6 @@
     "min": 7,
     "title": "One stream",
     "act": "MESH"
-  },
-  {
-    "id": "cockpit",
-    "title": "The Cockpit",
-    "vo": "And a person sees all of it in the Cockpit. The same server, the same registry, rendered for a person, with nothing of its own to drift.",
-    "min": 10,
-    "act": "MESH"
-  },
-  {
-    "id": "policy",
-    "vo": "One policy writes every agent's instructions. Tasks live in the repository, not in a chat window.",
-    "min": 7,
-    "title": "Rules, written once",
-    "act": "MEMORY"
   },
   {
     "id": "continuity",

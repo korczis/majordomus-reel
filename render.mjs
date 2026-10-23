@@ -92,7 +92,8 @@ const durations = scenes.map((s, i) => Math.max(s.min, VO_LEAD + voDur[i] + TAIL
 const starts = durations.reduce((acc, d, i) => [...acc, acc[i] + d], [0]).slice(0, -1);
 const total = durations.reduce((a, b) => a + b, 0);
 console.log(`   ${durations.map((d) => d.toFixed(1)).join(' + ')} = ${total.toFixed(1)} s`);
-const chunks = captionChunks(starts);
+// burned-in subtitles are off unless CAPTIONS=1: YouTube generates captions, the frame keeps its room
+const chunks = process.env.CAPTIONS ? captionChunks(starts) : [];
 const words = clips.map((c) => c.words);
 
 console.log(`2/5 frames (${WORKERS} workers)`);
