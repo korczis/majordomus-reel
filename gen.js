@@ -776,6 +776,8 @@
         worktrees: () => [...rivers(46, [C.s2, C.s1, C.s3], { alpha: 0.12 }), branches(env)],
         cockpit: () => [...rivers(47, [C.white, C.sky], { alpha: 0.08, count: 90 })],
         doctrine: () => [...rivers(48, [C.white, C.sky], { bands: [[0.35, 0.02], [0.8, -0.02]], alpha: 0.08 }), V.doctrine(env)],
+        hooks: () => [...rivers(52, [C.white, C.sky], { alpha: 0.06, count: 90 }), V.hooks(env)],
+        privacy: () => [...rivers(53, [C.white, C.sky], { alpha: 0.06, count: 90 })],
         economics: () => [...rivers(51, [C.white, C.sky], { bands: [[0.3, 0.02], [0.75, -0.02]], alpha: 0.08 })],
         doctor: () => [...rivers(49, [C.white, C.sky], { bands: [[0.3, 0.02], [0.75, -0.02]], alpha: 0.1 }), V.doctor(env)],
         release: () => [...rivers(50, [C.white, C.sky], { alpha: 0.06, count: 90 })],

@@ -50,6 +50,13 @@
     "min": 12
   },
   {
+    "id": "hooks",
+    "title": "Two hooks hold the line",
+    "act": "CONTRACT",
+    "vo": "Two hooks hold the line. Every commit runs doctor. Every push runs the finish contract, and an unmet one stops the push. Until the first task starts, both stay quiet.",
+    "min": 12
+  },
+  {
     "id": "economics",
     "title": "Numbers, measured or absent",
     "act": "CONTRACT",
@@ -209,6 +216,13 @@
     "min": 13,
     "title": "What it learns stays learned",
     "act": "MEMORY"
+  },
+  {
+    "id": "privacy",
+    "title": "What is yours stays yours",
+    "act": "MEMORY",
+    "vo": "What is yours stays yours. Session state lives in the local half of the layer, which git ignores. Handovers, checkpoints and open sessions are written readable by their owner only, and none of them is ever committed.",
+    "min": 13
   },
   {
     "id": "personal",

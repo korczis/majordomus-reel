@@ -451,6 +451,41 @@
     };
   };
 
+
+  // The two hooks: every commit passes doctor, every push the finish contract; an unmet one stops it.
+  VIZ.hooks = (env) => {
+    const host = env.el.querySelector('.hooks-space').getBoundingClientRect();
+    const W = host.width;
+    const H = host.height;
+    const tc = env.cue('commit');
+    const tp = env.cue('push');
+    const ts = env.cue('stops');
+    const els = [
+      { data: { id: 'edit', label: 'edit', t: tc - 0.4 }, position: { x: W * 0.12, y: H * 0.16 } },
+      { data: { id: 'commit', label: 'git commit', t: tc }, position: { x: W * 0.45, y: H * 0.16 } },
+      { data: { id: 'doctor', label: 'pre-commit\ndoctor', t: tc + 0.4 }, position: { x: W * 0.82, y: H * 0.16 }, classes: 'brand' },
+      { data: { id: 'push', label: 'git push', t: tp }, position: { x: W * 0.12, y: H * 0.56 } },
+      { data: { id: 'finish', label: 'pre-push\nfinish --check', t: tp + 0.3 }, position: { x: W * 0.47, y: H * 0.56 }, classes: 'brand' },
+      { data: { id: 'origin', label: 'origin', t: tp + 0.7 }, position: { x: W * 0.85, y: H * 0.56 }, classes: 'ok' },
+      { data: { id: 'refused', label: 'refused\ncontract unmet', t: ts }, position: { x: W * 0.47, y: H * 0.9 }, classes: 'bad' },
+      { data: { id: 'e1', source: 'edit', target: 'commit', t: tc }, classes: 'arrow' },
+      { data: { id: 'e2', source: 'commit', target: 'doctor', t: tc + 0.4 }, classes: 'arrow brand' },
+      { data: { id: 'e3', source: 'doctor', target: 'push', t: tp }, classes: 'arrow taxi' },
+      { data: { id: 'e4', source: 'push', target: 'finish', t: tp + 0.3 }, classes: 'arrow brand' },
+      { data: { id: 'e5', source: 'finish', target: 'origin', t: tp + 0.7 }, classes: 'arrow ok' },
+      { data: { id: 'e6', source: 'finish', target: 'refused', t: ts }, classes: 'arrow bad' },
+    ];
+    const g = graph(env, '.hooks-space', els, [{ selector: 'node', style: { 'font-size': 30, 'text-max-width': 300 } }]);
+    const path = ['e1', 'e2', 'e3', 'e4', 'e5'];
+    return (lt, a) => {
+      g.show(lt);
+      if (lt < tp + 1) return;
+      const u = ((lt - tp - 1) % 2.5) / 2.5;
+      const seg = Math.min(path.length - 1, Math.floor(u * path.length));
+      G().glowDot(...g.travel(g.cy.getElementById(path[seg]), u * path.length - seg), 6, G().C.white, a);
+    };
+  };
+
   // ---- charts ----
 
   // The model catalogue as a heatmap: every declared model against every capability word.

@@ -602,6 +602,19 @@
   /* information areas are masked from the background line work */
   .lane-space, .matrix-space, .zone-space, .tree-space, .mesh-space, .orbit-space,
   .server-space, .fan-space, .flow-space, .gates-space, .chain-space { background: var(--bg); }
+
+  .hooks-space { height: 520px; }
+  .hooklist { display: flex; flex-direction: column; gap: 14px; margin-top: 18px; }
+  .hk { padding: 18px 24px; background: var(--raised); border: 1px solid var(--line); border-radius: 4px; }
+  .hk span { display: block; font-family: var(--mono); font-size: 19px; letter-spacing: .1em; color: var(--ink-3); margin-bottom: 6px; }
+  .hk code { font-family: var(--mono); font-size: 28px; color: var(--brand); }
+  .files { border-top: 1px solid var(--line); }
+  .fr { display: grid; grid-template-columns: 1fr 230px 110px; align-items: center; gap: 14px; padding: 20px 0;
+    border-bottom: 1px solid var(--line); }
+  .fr.hd span { font-family: var(--mono); font-size: 18px; letter-spacing: .18em; text-transform: uppercase; color: var(--ink-3); }
+  .fr code { font-family: var(--mono); font-size: 29px; color: var(--ink); }
+  .fr em { justify-self: start; font-style: normal; font-family: var(--mono); font-size: 18px; letter-spacing: .08em;
+    text-transform: uppercase; padding: 5px 10px; border: 1px solid; border-radius: 2px; }
 </style>
 </head>
 <body>
@@ -739,6 +752,18 @@
 <span data-cue="zero" data-sfx="ding" class="ok">doctor: 0 failure(s)</span></div>
   </div>
   <div class="bars-space"></div>
+</section>
+
+<!-- hooks -->
+<section class="scene" id="hooks" style="--tint: 255,255,255">
+  <h2 data-fx="words" data-at="0.05">Two hooks <span class="accent">hold the line.</span></h2>
+  <i hidden data-cue="commit" data-sfx="tick"></i><i hidden data-cue="push" data-sfx="tick"></i>
+  <i hidden data-cue="stops" data-sfx="buzz"></i><i hidden data-cue="quiet" data-sfx="soft"></i>
+  <div class="hooks-space"></div>
+  <div class="hooklist">
+    <div class="hk" data-cue="commit" data-fx="up"><span>.git/hooks/pre-commit</span><code>majordomus doctor || exit $?</code></div>
+    <div class="hk" data-cue="push" data-fx="up"><span>.git/hooks/pre-push</span><code>majordomus finish --check || exit $?</code></div>
+  </div>
 </section>
 
 <!-- economics -->
@@ -1028,6 +1053,19 @@
   <i hidden data-cue="decisions" data-sfx="tick"></i><i hidden data-cue="knowledge" data-sfx="tick"></i>
   <i hidden data-cue="person" data-sfx="chime"></i>
   <div class="kb-space"></div>
+</section>
+
+<!-- local state -->
+<section class="scene" id="privacy" style="--tint: 255,255,255">
+  <h2 data-fx="words" data-at="0.05">What is yours <span class="accent">stays yours.</span></h2>
+  <div class="files">
+    <div class="fr hd"><span>path</span><span>git</span><span>mode</span></div>
+    <div class="fr" data-cue="local" data-fx="up" data-sfx="tick"><code>.ai/local/</code><em class="st-n">ignored</em><em class="st-n">&mdash;</em></div>
+    <div class="fr" data-cue="handovers" data-fx="up" data-sfx="tick"><code>state/handovers/*.md</code><em class="st-n">never committed</em><em class="st-ok">0600</em></div>
+    <div class="fr" data-cue="checkpoints" data-fx="up" data-sfx="tick"><code>state/checkpoints/*.md</code><em class="st-n">never committed</em><em class="st-ok">0600</em></div>
+    <div class="fr" data-cue="sessions" data-fx="up" data-sfx="tick"><code>state/sessions-open/*.yaml</code><em class="st-n">never committed</em><em class="st-ok">0600</em></div>
+  </div>
+  <div class="eyebrow-note" data-cue="owner" data-fx="up" style="margin-top: 30px; text-align: left">0600 &middot; its owner reads and writes it, nobody else</div>
 </section>
 
 <!-- personal -->
@@ -1469,7 +1507,7 @@
     if (ch !== shownChapter) {
       shownChapter = ch;
       const quiet = ch < 0 || scenes[ch].el.dataset.nobrand !== undefined;
-      chapterEl.innerHTML = quiet ? '' : `<b>${String(ch + 1).padStart(2, '0')}</b> / ${String(scenes.length).padStart(2, '0')}&nbsp;&nbsp;${chapterTitles[ch] || ''}`;
+      chapterEl.innerHTML = quiet ? '' : `${chapterActs[ch] || ''}&nbsp;&nbsp;<b>${String(ch + 1).padStart(2, '0')}</b> / ${String(scenes.length).padStart(2, '0')}`;
     }
     chapterEl.style.opacity = ch < 0 ? 0 : clamp(Math.min(t - scenes[ch].start, scenes[ch].dur - (t - scenes[ch].start)) / 0.35);
     const rail = document.getElementById('rail');
