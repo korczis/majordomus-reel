@@ -867,6 +867,105 @@
     };
   };
 
+  // A train: three stacked links over master. Every link's checks run at once, then the links land
+  // bottom up, each only after the one it names; git, not the stacking, says the merge is safe.
+  VIZ.trains = (env) => {
+    const host = env.el.querySelector('.train-space').getBoundingClientRect();
+    const W = host.width;
+    const H = host.height;
+    const tT = env.cue('train');
+    const tS = env.cue('stacked');
+    const tC = env.cue('same');
+    const tP = env.cue('several');
+    const tM = env.cue('merges');
+    const tG = env.cue('git');
+    const links = [['l3', '#2501', 's3', 0.07], ['l2', '#2403', 's1', 0.28], ['l1', '#1840', 's2', 0.49]];
+    const els = [];
+    links.forEach(([id, pr, cls, y], i) => {
+      els.push({ data: { id, label: `${pr}\nlink ${3 - i}`, t: tT + (2 - i) * 0.25 }, position: { x: W * 0.3, y: H * y }, classes: cls });
+      els.push({ data: { id: `c${id}`, label: 'checks', t: tC }, position: { x: W * 0.78, y: H * y }, classes: 'faint' });
+      els.push({ data: { id: `k${id}`, source: id, target: `c${id}`, t: tC }, classes: 'arrow dashed' });
+    });
+    els.push({ data: { id: 'master', label: 'master', t: tT }, position: { x: W * 0.3, y: H * 0.71 }, classes: 'brand big' });
+    els.push({ data: { id: 'run', label: 'one run\nfor three', t: tP }, position: { x: W * 0.78, y: H * 0.71 }, classes: 'ok' });
+    els.push({ data: { id: 'e3', source: 'l3', target: 'l2', t: tS }, classes: 'arrow' });
+    els.push({ data: { id: 'e2', source: 'l2', target: 'l1', t: tS + 0.2 }, classes: 'arrow' });
+    els.push({ data: { id: 'e1', source: 'l1', target: 'master', t: tS + 0.4 }, classes: 'arrow strong' });
+    els.push({ data: { id: 'kg', label: 'git: the merge writes the link\'s own tree', t: tG }, position: { x: W * 0.5, y: H * 0.9 }, classes: 'caps ghost' });
+    const g = graph(env, '.train-space', els, [{ selector: 'node', style: { 'font-size': 26 } }], { net: true });
+    // the links land bottom up, one after the one it names
+    const land = [['l1', 'e1', tM], ['l2', 'e2', tM + 0.9], ['l3', 'e3', tM + 1.8]];
+    return (lt, a) => {
+      g.show(lt, a);
+      const ran = lt > tC + 0.6;
+      g.cy.batch(() => {
+        links.forEach(([id]) => {
+          const c = g.cy.getElementById(`c${id}`);
+          c.data('label', ran ? 'checks passed' : 'checks');
+          c.style({ 'border-color': ran ? T.ok : T.line2, color: ran ? T.okFg : T.muted });
+        });
+        land.forEach(([id, , at]) => {
+          if (lt > at + 0.6) g.cy.getElementById(id).style({ 'border-color': T.ok, color: T.okFg });
+        });
+      });
+      if (g.cy.forceRender) g.cy.forceRender();
+      // every link's checks at the same time: one pulse on each dashed edge at once
+      if (lt > tC && lt < tM) {
+        const u = ((lt - tC) % 1.2) / 1.2;
+        links.forEach(([id]) => G().fxDot(...g.travel(g.cy.getElementById(`k${id}`), u), 6, G().C.white, a));
+      }
+      // landing: a dot runs each link's edge down, in order
+      land.forEach(([, e, at]) => {
+        const u = (lt - at) / 0.6;
+        if (u > 0 && u < 1) G().fxDot(...g.travel(g.cy.getElementById(e), u), 7, G().C.green, a);
+      });
+    };
+  };
+
+  // The mesh build cache: what one machine compiled the next one reuses; a store that is down
+  // leaves the build local, saying why.
+  VIZ.cache = (env) => {
+    const host = env.el.querySelector('.cache-space').getBoundingClientRect();
+    const W = host.width;
+    const H = host.height;
+    const tM = env.cue('mesh');
+    const tC = env.cue('compiled');
+    const tR = env.cue('reuses');
+    const tD = env.cue('down');
+    const tL = env.cue('local');
+    const els = [
+      { data: { id: 'lap', label: 'laptop', t: tM - 0.2 }, position: { x: W * 0.14, y: H * 0.14 }, classes: 's2' },
+      { data: { id: 'studio', label: 'studio', t: tM }, position: { x: W * 0.86, y: H * 0.14 }, classes: 's1' },
+      { data: { id: 'rack', label: 'rack', t: tM + 0.2 }, position: { x: W * 0.14, y: H * 0.82 }, classes: 's3' },
+      { data: { id: 'store', label: 'mesh cache\nsccache', t: tM }, position: { x: W * 0.5, y: H * 0.48 }, classes: 'brand big' },
+      { data: { id: 'solo', label: 'local-only\nsays why', t: tL }, position: { x: W * 0.86, y: H * 0.82 }, classes: 'faint' },
+      { data: { id: 'a', source: 'lap', target: 'store', t: tM }, classes: 'arrow s2' },
+      { data: { id: 'b', source: 'store', target: 'studio', t: tR - 0.2 }, classes: 'arrow s1' },
+      { data: { id: 'c', source: 'rack', target: 'store', t: tM + 0.2 }, classes: 'arrow dashed s3' },
+      { data: { id: 'd', source: 'rack', target: 'solo', t: tL }, classes: 'arrow dashed' },
+    ];
+    const g = graph(env, '.cache-space', els, [{ selector: 'node', style: { 'font-size': 26 } }], { net: true });
+    return (lt, a) => {
+      g.show(lt, a);
+      const down = lt > tD;
+      g.cy.batch(() => {
+        g.cy.getElementById('c').style({ 'line-color': down ? T.bad : T.s3, opacity: down ? 0.35 : 1 });
+        g.cy.getElementById('solo').style({ 'border-color': lt > tL ? T.warn : T.line2, color: lt > tL ? '#ffb86a' : T.muted });
+      });
+      if (g.cy.forceRender) g.cy.forceRender();
+      // compiled once: objects flow from the laptop into the store, then out to the studio
+      if (lt > tC && lt < tD + 2) {
+        const u = ((lt - tC) % 1.4) / 1.4;
+        G().fxDot(...g.travel(g.cy.getElementById('a'), u), 6, G().C.s2, a);
+        if (lt > tR) G().fxDot(...g.travel(g.cy.getElementById('b'), u), 6, G().C.s1, a);
+      }
+      if (lt > tL) {
+        const u = ((lt - tL) % 1.6) / 1.6;
+        G().fxDot(...g.travel(g.cy.getElementById('d'), u), 5, G().C.white, a);
+      }
+    };
+  };
+
   // ---- charts ----
 
   // The model catalogue as a heatmap: every declared model against every capability word.

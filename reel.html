@@ -620,9 +620,12 @@
   .scan-space { height: 520px; margin-top: 20px; }
   .claim-space { height: 460px; }
   .seat-space { height: 780px; }
+  /* v5.6: trains, cache */
+  .train-space { height: 780px; }
+  .cache-space { height: 470px; }
   .lane-space, .matrix-space, .zone-space, .tree-space, .mesh-space, .orbit-space, .server-space,
   .fan-space, .flow-space, .gates-space, .chain-space, .state-space, .scan-space, .claim-space,
-  .seat-space, .hooks-space { background: var(--bg); }
+  .seat-space, .hooks-space, .train-space, .cache-space { background: var(--bg); }
   .ask { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
   .ak { padding: 18px 24px; background: var(--raised); border: 1px solid var(--line); border-radius: 4px; }
   .ak span { display: block; font-family: var(--mono); font-size: 18px; letter-spacing: .18em; text-transform: uppercase;
@@ -1059,11 +1062,32 @@
 </section>
 
 <!-- machines + security -->
+<section class="scene" id="trains" style="--tint: 255,255,255">
+  <h2 data-fx="words" data-at="0.05">Many pull requests. <span class="accent">One run.</span></h2>
+  <i hidden data-cue="train" data-sfx="pop"></i><i hidden data-cue="stacked" data-sfx="tick"></i>
+  <i hidden data-cue="same" data-sfx="pop"></i><i hidden data-cue="several" data-sfx="tick"></i>
+  <i hidden data-cue="merges" data-sfx="tick"></i><i hidden data-cue="git" data-sfx="soft"></i>
+  <div class="train-space"></div>
+</section>
+
 <section class="scene" id="machines" style="--tint: 255,255,255">
   <h2 data-fx="words" data-at="0.05">Home. Datacenter. <span class="accent">Company.</span></h2>
   <i hidden data-cue="home" data-sfx="tick"></i><i hidden data-cue="datacenter" data-sfx="tick"></i>
   <i hidden data-cue="company" data-sfx="tick"></i>
   <div class="zone-space"></div>
+</section>
+
+<section class="scene" id="cache" style="--tint: 255,255,255">
+  <h2 data-fx="words" data-at="0.05">Built once. <span class="accent">Reused everywhere.</span></h2>
+  <i hidden data-cue="mesh" data-sfx="pop"></i><i hidden data-cue="down" data-sfx="buzz"></i>
+  <i hidden data-cue="local" data-sfx="soft"></i><i hidden data-cue="gate" data-sfx="buzz"></i>
+  <div class="cache-space"></div>
+  <div class="files fold">
+    <div class="fr hd"><span>build</span><span>the cache</span><span>verdict</span></div>
+    <div class="fr" data-cue="compiled" data-fx="up" data-sfx="tick"><code>laptop &middot; cargo build</code><code>compiled</code><em class="st-ok">stored</em></div>
+    <div class="fr" data-cue="reuses" data-fx="up" data-sfx="tick"><code>studio &middot; cargo build</code><code>reused</code><em class="st-ok">hit</em></div>
+    <div class="fr" data-cue="refused" data-fx="up" data-sfx="tick"><code>npm ci, no reason</code><code>bypass</code><em class="st-bad">refused</em></div>
+  </div>
 </section>
 
 <section class="scene" id="security" style="--tint: 255,255,255">

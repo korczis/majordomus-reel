@@ -204,11 +204,25 @@
     "vo": "Work moves through seats. One seat lands green work in combined tops. One releases whenever master is ahead of the last tag. Repair lanes bring stale branches current, and each worker holds one issue. A seat is a claim, so it falls vacant when its holder stops beating."
   },
   {
+    "id": "trains",
+    "title": "Many pull requests, one run",
+    "act": "MESH",
+    "min": 14,
+    "vo": "Pull requests land as a train. Each link is stacked on the one below, and every link's checks run at the same time. One run pays for several. A link merges only after the one it names, and git decides it is safe, never the stacking."
+  },
+  {
     "id": "machines",
     "vo": "The mesh spans every machine you work on. The desktop at home. The rack in the datacenter, behind a TLS hub. The whole fleet across the company, on a private network.",
     "min": 11,
     "title": "Home, datacenter, company",
     "act": "MESH"
+  },
+  {
+    "id": "cache",
+    "title": "Built once, reused everywhere",
+    "act": "MESH",
+    "min": 13,
+    "vo": "Every build goes through the mesh cache. What one machine compiled, the next one reuses, and nobody sets a variable. When the store is down, the build stays local and says why. A script that goes around the cache is refused by a gate."
   },
   {
     "id": "security",

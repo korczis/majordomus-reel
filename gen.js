@@ -798,6 +798,8 @@
         collision: () => [...rivers(55, [C.white, C.sky], { bands: [[0.3, 0.02], [0.75, -0.02]], alpha: 0.08 }), V.scan(env)],
         claims: () => [...rivers(56, [C.s2, C.s1], { alpha: 0.12, count: 100 }), V.claim(env)],
         seats: () => [...rivers(57, [C.s2, C.s1, C.s3, C.s4], { alpha: 0.12, count: 110 }), V.seats(env)],
+        trains: () => [...rivers(58, [C.s3, C.s1, C.s2], { alpha: 0.12, count: 110 }), V.trains(env)],
+        cache: () => [...rivers(59, [C.s2, C.s1, C.s3], { alpha: 0.12, count: 100 }), flow({ colors: [C.white], count: 140, speed: 1.3, alpha: 0.08, seed: 18 }), V.cache(env)],
         privacy: () => [...rivers(53, [C.white, C.sky], { alpha: 0.06, count: 90 })],
         economics: () => [...rivers(51, [C.white, C.sky], { bands: [[0.3, 0.02], [0.75, -0.02]], alpha: 0.08 })],
         doctor: () => [...rivers(49, [C.white, C.sky], { bands: [[0.3, 0.02], [0.75, -0.02]], alpha: 0.1 }), V.doctor(env)],
