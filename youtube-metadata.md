@@ -391,3 +391,78 @@ The film's own source → https://github.com/korczis/majordomus-reel
 **Thumbnail**: thumbnail-v5.jpg ("Done means proven.")
 
 **Pinned comment**: Forty-two chapters, one contract: done means proven. New in this cut: pull requests that land as a train, one run for several, and a build cache every machine shares, with a gate that refuses a bypass. Chapters are in the description. https://majordomus.dev/challenge/
+
+## Video 10: majordomus-reel-v5.7.mp4 (613 s, 44 chapters, loops; majordomus 1.0.0-alpha.8)
+
+New since v5.6: "Only an explicit build builds" (ADR 0224: a stale executable exits 12 naming the
+build, or a release of the same generation answers; hooks and gates never call cargo) and
+"Deployed from one commit" (ADR 0219 and 0223: a deployment names its provider, its provider files
+are derived, what ships is assembled at one commit, and a site from another commit is refused).
+The release scene reads 1.0.0-alpha.8; 166 decisions. Whether it replaces zcDgXorKhjs is the
+owner's call. Regular vertical video. Title (63/100):
+
+Majordomus: every AI agent, every machine, one contract of done
+
+**Description**
+
+Your AI agent says the work is done. Majordomus makes it prove it.
+
+00:00 The manifesto
+00:06 Agents drift
+00:18 Meet Majordomus
+00:24 Done is a contract
+00:34 Provenance, not promises
+00:45 Written down is not enforced
+01:02 The repository checks itself
+01:18 Two hooks hold the line
+01:31 Numbers, measured or absent
+01:50 Uncertainty, reasoned on the record
+02:06 Three commands
+02:14 Work starts from intent
+02:28 Status, derived
+02:46 Every session starts briefed
+02:59 Hierarchical context
+03:15 Rules, written once
+03:23 Every client, one policy
+03:36 Models, declared
+03:53 Declared once, projected everywhere
+04:08 Versions, measured
+04:24 Only an explicit build builds
+04:46 One shared MCP server
+05:01 The Cockpit
+05:11 Deployed from one commit
+05:32 Peer discovery
+05:46 The blackboard
+05:59 One board, every agent
+06:08 Checked before it is built
+06:25 One claim, one winner
+06:46 One branch, one worktree
+07:02 Work moves through seats
+07:22 Many pull requests, one run
+07:39 Home, datacenter, company
+07:52 Built once, reused everywhere
+08:09 Signed, listed, inert
+08:24 Sessions talk to each other
+08:37 One stream
+08:52 Work that outlives the chat
+09:00 What it learns stays learned
+09:17 What is yours stays yours
+09:32 Personal mode
+09:43 Yours, entirely
+09:48 The manifesto, No. 02
+10:03 Make them prove it
+
+Intent to commit, a status derived from evidence, scoped context, a finish contract held by two git hooks, provenance, reasoning on the record, one shared MCP server, Claude Code / Codex / Gemini, models declared, a signed mesh from home to datacenter to company with exclusive claims, seats and trains of pull requests, a build cache every machine shares, no command that builds behind your back, deployments assembled from one commit, the Cockpit, knowledge that outlives the session, a local half that is never committed, and personal mode. Runs locally and never calls a model.
+
+Watch it refuse an agent → https://majordomus.dev/challenge/
+Install → curl -fsSL https://majordomus.dev/install.sh | sh
+Source, MIT → https://github.com/korczis/prismatic-majordomus
+The film's own source → https://github.com/korczis/majordomus-reel
+
+#AIagents #ClaudeCode #DevTools #AgenticCoding #OpenSource
+
+**Tags**: as Video 7 (486/500)
+
+**Thumbnail**: thumbnail-v5.jpg ("Done means proven.")
+
+**Pinned comment**: Forty-four chapters, one contract: done means proven. New in this cut: no ordinary command builds (a stale tool stops and names the build, or a release of the same generation answers), and a deployment assembled from one commit, its site included. Chapters are in the description. https://majordomus.dev/challenge/

@@ -141,6 +141,13 @@
     "min": 13
   },
   {
+    "id": "builds",
+    "title": "Only an explicit build builds",
+    "act": "PLATFORM",
+    "min": 14,
+    "vo": "No ordinary command builds. When the executable is stale, a command stops with exit twelve and names the one build to run, or a release of the same generation answers for it. A version string is not a build. Hooks and gates call the built tool, never cargo, so a push no longer compiles in its gates."
+  },
+  {
     "id": "mcp",
     "vo": "One shared server per repository. The first client starts it, every next one attaches, and each sees the others. The same server answers over HTTP, with Swagger and the Cockpit.",
     "min": 12,
@@ -153,6 +160,13 @@
     "vo": "And a person sees all of it in the Cockpit. The same server, the same registry, rendered for a person, with nothing of its own to drift.",
     "min": 10,
     "act": "PLATFORM"
+  },
+  {
+    "id": "deploy",
+    "title": "Deployed from one commit",
+    "act": "PLATFORM",
+    "min": 14,
+    "vo": "A deployment is declared once. It names its provider, and every file the provider reads is derived from it. What ships is assembled at one commit, never the repository: the inputs, the executable built there, and the site built there too. A site from any other commit is refused."
   },
   {
     "id": "discovery",
@@ -254,7 +268,7 @@
   },
   {
     "id": "knowledge",
-    "vo": "And what a session learns outlives it too. Decisions become records: a hundred and sixty architecture decisions so far. Knowledge is derived at the end of every session, without a model, and a person promotes what deserves to stay.",
+    "vo": "And what a session learns outlives it too. Decisions become records: a hundred and sixty-six architecture decisions so far. Knowledge is derived at the end of every session, without a model, and a person promotes what deserves to stay.",
     "min": 13,
     "title": "What it learns stays learned",
     "act": "MEMORY"

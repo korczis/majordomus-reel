@@ -623,9 +623,13 @@
   /* v5.6: trains, cache */
   .train-space { height: 780px; }
   .cache-space { height: 470px; }
+  /* v5.7: builds, deploy */
+  .build-space { height: 470px; }
+  .deploy-space { height: 700px; }
   .lane-space, .matrix-space, .zone-space, .tree-space, .mesh-space, .orbit-space, .server-space,
   .fan-space, .flow-space, .gates-space, .chain-space, .state-space, .scan-space, .claim-space,
-  .seat-space, .hooks-space, .train-space, .cache-space { background: var(--bg); }
+  .seat-space, .hooks-space, .train-space, .cache-space, .build-space,
+  .deploy-space { background: var(--bg); }
   .ask { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
   .ak { padding: 18px 24px; background: var(--raised); border: 1px solid var(--line); border-radius: 4px; }
   .ak span { display: block; font-family: var(--mono); font-size: 18px; letter-spacing: .18em; text-transform: uppercase;
@@ -937,15 +941,29 @@
 <section class="scene" id="release" style="--tint: 255,255,255">
   <h2 data-fx="words" data-at="0.05">No surface change. <span class="accent">No version bump.</span></h2>
   <ol class="decision">
-    <li data-cue="compares" data-fx="up" data-sfx="tick"><span>last release</span><b class="v">1.0.0-alpha.6</b></li>
+    <li data-cue="compares" data-fx="up" data-sfx="tick"><span>last release</span><b class="v">1.0.0-alpha.8</b></li>
     <li data-cue="compares" data-at="0.4" data-fx="up" data-sfx="tick"><span>this tree</span><b>the same public surface</b></li>
     <li data-cue="nothing" data-at="0.3" data-fx="up" data-sfx="tick"><span>result</span><b>no bump owed</b></li>
-    <li data-cue="changelog" data-fx="up" data-sfx="ding"><span>next</span><b class="v">1.0.0-alpha.6</b></li>
+    <li data-cue="changelog" data-fx="up" data-sfx="ding"><span>next</span><b class="v">1.0.0-alpha.8</b></li>
   </ol>
   <div class="implies">
     <div class="im" data-cue="gone" data-fx="up" data-sfx="buzz"><span class="st-bad">major</span>something a caller held is gone</div>
     <div class="im" data-cue="new" data-fx="up" data-sfx="tick"><span class="st-ok">minor</span>something arrived</div>
     <div class="im" data-cue="nothing" data-fx="up" data-sfx="tick"><span class="st-n">none</span>the surface is equal</div>
+  </div>
+</section>
+
+<!-- no ordinary command builds -->
+<section class="scene" id="builds" style="--tint: 255,255,255">
+  <h2 data-fx="words" data-at="0.05">No command builds. <span class="accent">Only the build.</span></h2>
+  <i hidden data-cue="builds" data-sfx="pop"></i><i hidden data-cue="stale" data-sfx="buzz"></i>
+  <i hidden data-cue="version" data-sfx="soft"></i><i hidden data-cue="cargo" data-sfx="buzz"></i>
+  <div class="build-space"></div>
+  <div class="files fold">
+    <div class="fr hd"><span>caller</span><span>executable</span><span>answer</span></div>
+    <div class="fr" data-cue="twelve" data-fx="up" data-sfx="tick"><code>git push</code><code>stale</code><em class="st-bad">exit 12</em></div>
+    <div class="fr" data-cue="build" data-fx="up" data-sfx="tick"><code>just build</code><code>explicit</code><em class="st-ok">builds</em></div>
+    <div class="fr" data-cue="generation" data-fx="up" data-sfx="tick"><code>majordomus plan</code><code>stale</code><em class="st-ok">a release</em></div>
   </div>
 </section>
 
@@ -973,6 +991,16 @@
       <div class="ui-row" data-cue="person" data-sfx="tick"><span>release</span><b>landed, untagged</b><em class="st-bad">overdue</em></div></div>
   </div>
   <div class="eyebrow-note" data-cue="drift" data-fx="up" style="margin-top: 26px">a projection of the registry &middot; ADR 0012</div>
+</section>
+
+<!-- a deployment from one commit -->
+<section class="scene" id="deploy" style="--tint: 255,255,255">
+  <h2 data-fx="words" data-at="0.05">One commit. <span class="accent">Everything it ships.</span></h2>
+  <i hidden data-cue="declared" data-sfx="pop"></i><i hidden data-cue="derived" data-sfx="tick"></i>
+  <i hidden data-cue="assembled" data-sfx="pop"></i><i hidden data-cue="repository" data-sfx="buzz"></i>
+  <i hidden data-cue="refused" data-sfx="buzz"></i>
+  <div class="deploy-space"></div>
+  <div class="eyebrow-note" data-cue="derived" data-at="0.4" data-fx="up" style="margin-top: 22px">provider files: generated, never hand-edited</div>
 </section>
 
 <!-- discovery -->
@@ -1143,7 +1171,7 @@
 <!-- decisions and knowledge -->
 <section class="scene" id="knowledge" style="--tint: 255,255,255">
   <h2 data-fx="words" data-at="0.05">What it learns <span class="accent">stays learned.</span></h2>
-  <div class="eyebrow-note" data-cue="hundred" data-fx="up" style="text-align: left">160 decisions so far, each a record in git</div>
+  <div class="eyebrow-note" data-cue="hundred" data-fx="up" style="text-align: left">166 decisions so far, each a record in git</div>
   <i hidden data-cue="decisions" data-sfx="tick"></i><i hidden data-cue="knowledge" data-sfx="tick"></i>
   <i hidden data-cue="person" data-sfx="chime"></i>
   <div class="kb-space"></div>

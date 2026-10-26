@@ -966,6 +966,113 @@
     };
   };
 
+  // No ordinary command builds: hooks, gates and the MCP launcher call the tree's executable. A stale
+  // one exits 12 naming the build, or a release of the same generation answers; cargo is refused.
+  VIZ.builds = (env) => {
+    const host = env.el.querySelector('.build-space').getBoundingClientRect();
+    const W = host.width;
+    const H = host.height;
+    const tB = env.cue('builds');
+    const tS = env.cue('stale');
+    const tX = env.cue('twelve');
+    const tR = env.cue('generation');
+    const tV = env.cue('version');
+    const tC = env.cue('cargo');
+    const els = [
+      { data: { id: 'hook', label: 'hook', t: tB - 0.2 }, position: { x: W * 0.12, y: H * 0.14 }, classes: 's2' },
+      { data: { id: 'gate', label: 'gate', t: tB }, position: { x: W * 0.12, y: H * 0.46 }, classes: 's1' },
+      { data: { id: 'mcp', label: 'mcp', t: tB + 0.2 }, position: { x: W * 0.12, y: H * 0.78 }, classes: 's3' },
+      { data: { id: 'exe', label: 'the tree\'s\nexecutable', t: tB }, position: { x: W * 0.47, y: H * 0.42 }, classes: 'brand big' },
+      { data: { id: 'cargo', label: 'cargo build', t: tC }, position: { x: W * 0.47, y: H * 0.06 }, classes: 'faint' },
+      { data: { id: 'x12', label: 'exit 12\nnames the build', t: tX }, position: { x: W * 0.8, y: H * 0.14 }, classes: 'bad' },
+      { data: { id: 'rel', label: 'a release of\nthe same generation', t: tR }, position: { x: W * 0.8, y: H * 0.62 }, classes: 'ok' },
+      { data: { id: 'a', source: 'hook', target: 'exe', t: tB }, classes: 'arrow s2' },
+      { data: { id: 'b', source: 'gate', target: 'exe', t: tB + 0.2 }, classes: 'arrow s1' },
+      { data: { id: 'c', source: 'mcp', target: 'exe', t: tB + 0.4 }, classes: 'arrow s3' },
+      { data: { id: 'x', source: 'exe', target: 'x12', t: tX }, classes: 'arrow bad' },
+      { data: { id: 'r', source: 'exe', target: 'rel', t: tR }, classes: 'arrow ok' },
+      { data: { id: 'k', source: 'gate', target: 'cargo', t: tC, quiet: true }, classes: 'dashed bad' },
+      { data: { id: 'kv', label: 'a version string is not a build', t: tV }, position: { x: W * 0.47, y: H * 0.9 }, classes: 'caps ghost' },
+    ];
+    const g = graph(env, '.build-space', els, [{ selector: 'node', style: { 'font-size': 26 } },
+      { selector: 'node.caps', style: { 'text-max-width': 640 } }], { net: true });
+    return (lt, a) => {
+      g.show(lt, a);
+      g.cy.batch(() => {
+        g.cy.getElementById('exe').style({ 'background-color': lt > tS ? T.warn : T.brand });
+      });
+      if (g.cy.forceRender) g.cy.forceRender();
+      // the callers ask the executable; once it is stale, the answer leaves by one of two edges
+      if (lt > tB + 0.7) {
+        const u = ((lt - tB) % 1.3) / 1.3;
+        ['a', 'b', 'c'].forEach((id, i) => G().fxDot(...g.travel(g.cy.getElementById(id), u), 5, [G().C.s2, G().C.s1, G().C.s3][i], a));
+      }
+      [['x', tX, G().C.red], ['r', tR, G().C.green]].forEach(([id, at, col]) => {
+        if (lt < at + 0.7) return;
+        const u = ((lt - at - 0.7) % 1.2) / 1.2;
+        G().fxDot(...g.travel(g.cy.getElementById(id), u), 7, col, a);
+      });
+    };
+  };
+
+  // A deployment from one commit: declared once, its provider's files derived, what ships assembled
+  // from the inputs, the executable and the site of that commit; the repository and a site from
+  // another commit never reach the provider.
+  VIZ.deploy = (env) => {
+    const host = env.el.querySelector('.deploy-space').getBoundingClientRect();
+    const W = host.width;
+    const H = host.height;
+    const tD = env.cue('declared');
+    const tP = env.cue('provider');
+    const tF = env.cue('derived');
+    const tA = env.cue('assembled');
+    const tR = env.cue('repository');
+    const tI = env.cue('inputs');
+    const tE = env.cue('executable');
+    const tS = env.cue('site');
+    const tO = env.cue('other');
+    const tC = env.cue('commit');
+    const els = [
+      { data: { id: 'obj', label: 'deployment\ndeclared once', t: tD }, position: { x: W * 0.2, y: H * 0.07 }, classes: 'brand big' },
+      { data: { id: 'commit', label: 'one commit', t: tC }, position: { x: W * 0.72, y: H * 0.07 }, classes: 'brand' },
+      { data: { id: 'in', label: 'inputs', t: tI }, position: { x: W * 0.14, y: H * 0.38 }, classes: 's2' },
+      { data: { id: 'exe', label: 'executable', t: tE }, position: { x: W * 0.38, y: H * 0.38 }, classes: 's1' },
+      { data: { id: 'site', label: 'site', t: tS }, position: { x: W * 0.62, y: H * 0.38 }, classes: 's3' },
+      { data: { id: 'pf', label: 'provider\nfiles', t: tF }, position: { x: W * 0.86, y: H * 0.38 }, classes: 's4' },
+      { data: { id: 'ships', label: 'what ships', t: tA }, position: { x: W * 0.5, y: H * 0.66 }, classes: 'brand big' },
+      { data: { id: 'repo', label: 'the repository', t: tR }, position: { x: W * 0.15, y: H * 0.66 }, classes: 'faint' },
+      { data: { id: 'other', label: 'a site from\nanother commit', t: tO }, position: { x: W * 0.85, y: H * 0.66 }, classes: 'bad' },
+      { data: { id: 'prov', label: 'the provider', t: tP }, position: { x: W * 0.5, y: H * 0.88 }, classes: 'ok' },
+      { data: { id: 'df', source: 'obj', target: 'pf', t: tF }, classes: 'arrow s4' },
+      { data: { id: 'ci', source: 'commit', target: 'in', t: tI }, classes: 'arrow' },
+      { data: { id: 'ce', source: 'commit', target: 'exe', t: tE }, classes: 'arrow' },
+      { data: { id: 'cs', source: 'commit', target: 'site', t: tS }, classes: 'arrow' },
+      { data: { id: 'is', source: 'in', target: 'ships', t: Math.max(tA, tI) + 0.3 }, classes: 'arrow s2' },
+      { data: { id: 'es', source: 'exe', target: 'ships', t: Math.max(tA, tE) + 0.3 }, classes: 'arrow s1' },
+      { data: { id: 'ss', source: 'site', target: 'ships', t: Math.max(tA, tS) + 0.3 }, classes: 'arrow s3' },
+      { data: { id: 'ps', source: 'pf', target: 'ships', t: Math.max(tA, tF) + 0.3 }, classes: 'arrow s4' },
+      { data: { id: 'sp', source: 'ships', target: 'prov', t: Math.max(tS, tP) + 0.6 }, classes: 'arrow strong ok' },
+      { data: { id: 'rx', source: 'repo', target: 'ships', t: tR, quiet: true }, classes: 'dashed bad' },
+      { data: { id: 'ox', source: 'other', target: 'ships', t: tO, quiet: true }, classes: 'dashed bad' },
+    ];
+    const g = graph(env, '.deploy-space', els, [{ selector: 'node', style: { 'font-size': 26 } }], { net: true });
+    const tX = env.cue('refused');
+    return (lt, a) => {
+      g.show(lt, a);
+      // refused: what tries to reach the provider from outside the commit stops halfway
+      [['rx', tR], ['ox', tO]].forEach(([id, at]) => {
+        if (lt < at + 0.5) return;
+        const u = Math.min(0.5, ((lt - at - 0.5) % 1.6) / 1.6);
+        G().fxDot(...g.travel(g.cy.getElementById(id), u), lt > tX && id === 'ox' ? 8 : 6, G().C.red, a);
+      });
+      // the one commit feeds the three things read from it
+      if (lt > tS + 0.7) {
+        const u = ((lt - tS) % 1.4) / 1.4;
+        ['ci', 'ce', 'cs'].forEach((id) => G().fxDot(...g.travel(g.cy.getElementById(id), u), 5, G().C.white, a));
+      }
+    };
+  };
+
   // ---- charts ----
 
   // The model catalogue as a heatmap: every declared model against every capability word.
