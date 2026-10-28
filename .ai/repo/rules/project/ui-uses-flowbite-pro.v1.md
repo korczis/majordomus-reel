@@ -28,6 +28,19 @@ one design system across products, and no reinventing components the licence alr
 - Native mobile UI follows the same visual language where the platform allows.
 - Pro source files are never published verbatim.
 
+# In this repository
+
+- The user interface is the published page `site/index.html`, built by `site/build.mjs` and
+  pushed to GitHub Pages. It is the surface this rule governs. Today it is a hand-written
+  stylesheet; it moves to Tailwind with Flowbite, on the Pro page and card patterns, the next
+  time it changes.
+- This repository and its Pages site are public. Pro markup is adapted, never copied: no file
+  from the licensed sources, no Pro bundle and no Pro block as shipped is committed or published.
+  Only the open-source Flowbite package may be loaded.
+- Exempt, because they are render canvases for video frames and thumbnails rather than an
+  interface anyone uses: `reel.html`, `gen.js`, `viz.js` and the `thumb*.html` pages. Their look
+  is the film's, and changing it means a new render.
+
 # Failure behaviour
 
 A UI change that does not follow Flowbite Pro is a review finding and is reworked before it lands.
@@ -36,3 +49,5 @@ A UI change that does not follow Flowbite Pro is a review finding and is reworke
 
 `node ~/.claude/skills/flowbite-pro/verify.mjs <repository>` checks for Flowbite, Tailwind, other
 UI kits and this rule; a reviewer compares each UI change with the Pro template it starts from.
+The checker does not yet read `site/index.html` as a UI (on 2026-10-28 it passed this repository
+as having none), so until it does the published page is checked by review.
