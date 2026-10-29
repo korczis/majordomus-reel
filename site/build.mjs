@@ -1,11 +1,13 @@
-// Builds the GitHub Pages site into _site/: index.html with the reel's chapters, the video
-// re-encoded for the web (720x1280, faststart) and the poster. The render itself stays out of
+// Builds the GitHub Pages site into _site/: index.html with the reel's chapters, its Tailwind
+// stylesheet and Flowbite script (site/assets.mjs; `yarn install` first), the video re-encoded
+// for the web (720x1280, faststart) and the poster. The render itself stays out of
 // git; point VIDEO, CHAPTERS and POSTER at the cut being published, and SHORT with
 // SHORT_POSTER at the Shorts cut to show it under the full one.
 import { spawnSync } from 'node:child_process';
 import { readFileSync, writeFileSync, mkdirSync, rmSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { buildAssets } from './assets.mjs';
 
 const SITE = dirname(fileURLToPath(import.meta.url));
 const ROOT = dirname(SITE);
@@ -44,18 +46,32 @@ const chapters = existsSync(CHAPTERS)
     .map(([, m, s, title]) => ({ label: `${m}:${s}`, t: Number(m) * 60 + Number(s), title }))
   : [];
 if (!chapters.length) console.warn(`   no chapters in ${CHAPTERS}; the list stays empty`);
-const items = chapters.map((c) =>
-  `<li><button data-t="${c.t}"><span>${c.label}</span><span>${escape(c.title)}</span></button></li>`);
-const short = SHORT ? `  <section class="short">
-    <h2>The <em>short</em> cut</h2>
-    <p class="lede">The same film in ${minutes(seconds(SHORT))}, for a phone held upright.</p>
-    <video controls playsinline preload="metadata" poster="short-poster.jpg" src="short.mp4"></video>
+// The chapter rows keep `<button data-t=` first: site/verify.sh counts them by that prefix.
+const items = chapters.map((c) => `<li><button data-t="${c.t}" type="button" class="group grid `
+  + 'w-full grid-cols-[56px_1fr] px-4 py-2.5 text-left hover:bg-gray-100 focus:outline-none '
+  + 'focus-visible:ring-2 focus-visible:ring-primary-500 dark:hover:bg-gray-700">'
+  + `<span class="font-mono text-sm leading-6 text-gray-500 dark:text-gray-400">${c.label}</span>`
+  + '<span class="text-gray-900 group-hover:text-primary-600 group-[.now]:text-primary-600 '
+  + 'dark:text-white dark:group-hover:text-primary-500 dark:group-[.now]:text-primary-500">'
+  + `${escape(c.title)}</span></button></li>`);
+const short = SHORT ? `  <section id="short"
+    class="scroll-mt-16 border-t border-gray-200 dark:border-gray-700">
+    <div class="mx-auto max-w-screen-xl px-4 py-8 lg:px-6 lg:py-16">
+      <h2 class="mb-4 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white">
+        The <em class="text-primary-600 dark:text-primary-500">short</em> cut</h2>
+      <p class="mb-8 max-w-screen-md text-lg text-gray-500 dark:text-gray-400">
+        The same film in ${minutes(seconds(SHORT))}, for a phone held upright.</p>
+      <video class="block aspect-[9/16] w-full max-w-[405px] rounded-lg border border-gray-200
+        bg-white dark:border-gray-700 dark:bg-gray-800" controls playsinline preload="metadata"
+        poster="short-poster.jpg" src="short.mp4"></video>
+    </div>
   </section>` : '';
 const html = readFileSync(join(SITE, 'index.html'), 'utf8')
   .replace('<!-- chapters -->', `\n      ${items.join('\n      ')}\n    `)
   .replace('<!-- short -->', short);
 writeFileSync(join(OUT, 'index.html'), html);
 writeFileSync(join(OUT, '.nojekyll'), '');
+buildAssets(OUT);
 
 console.log(`video   ${VIDEO}`);
 encode(VIDEO, join(OUT, 'reel.mp4'));

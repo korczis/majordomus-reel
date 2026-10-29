@@ -29,7 +29,7 @@ Overrides: `VOICE` (Edge neural voice, default `en-US-AndrewMultilingualNeural`)
 | `tts.py` | Edge TTS with word boundaries (free, no key) |
 | `thumb*.html`, `thumb.mjs` | thumbnails, 1080x1920 |
 | `youtube-metadata.md` | titles, descriptions, tags, chapters, pinned comments, and what is published |
-| `site/` | the GitHub Pages site: `index.html`, `build.mjs` (video + chapters into `_site/`), `deploy.sh`, `verify.sh` |
+| `site/` | the GitHub Pages site: `index.html` (Tailwind + Flowbite), `site.css`, `assets.mjs`, `build.mjs` (video + chapters into `_site/`), `deploy.sh`, `verify.sh` |
 
 The libraries load from jsDelivr at pinned versions (p5@1.11.3, cytoscape@3.30.4,
 echarts@5.6.0), so a render needs the network.
@@ -77,7 +77,10 @@ narration bridges it ("Because tomorrow, again," / "Your AI agent says the work 
 ## Publishing
 
 The site at https://korczis.github.io/majordomus-reel/ is `site/index.html` with the chapter list
-filled in and the cut re-encoded for the web (720x1280). `site/deploy.sh` builds it into `_site/`
+filled in and the cut re-encoded for the web (720x1280). The page is built on Flowbite (marketing navbar,
+section and footer blocks) over Tailwind v4: run `yarn install` once, and the build compiles
+`site/site.css` into `_site/site.css` and copies Flowbite's script beside it (`yarn build:assets`
+does only that, to preview the page without re-encoding a video). `site/deploy.sh` builds it into `_site/`
 and force-pushes a single orphan commit to `gh-pages`, so a video never accumulates in history:
 
 ```sh
