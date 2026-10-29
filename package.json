@@ -1,0 +1,15 @@
+{
+  "name": "majordomus-reel",
+  "private": true,
+  "license": "MIT",
+  "description": "A promo video for Majordomus rendered from code, and its GitHub Pages site",
+  "scripts": {
+    "build:site": "node site/build.mjs",
+    "build:assets": "node site/assets.mjs"
+  },
+  "dependencies": {
+    "@tailwindcss/cli": "^4.3.3",
+    "flowbite": "^4.0.2",
+    "tailwindcss": "^4.3.3"
+  }
+}
