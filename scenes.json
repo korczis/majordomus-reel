@@ -46,7 +46,7 @@
     "id": "doctor",
     "title": "The repository checks itself",
     "act": "CONTRACT",
-    "vo": "And the repository checks itself. Majordomus doctor reads every rule, every projection and every hook, on every commit. Forty-four blocking rules, each with a validator. Zero failures.",
+    "vo": "And the repository checks itself. Majordomus doctor reads every rule, every projection and every hook, on every commit. {{blocking:Words}} blocking rules, each with a validator. Zero failures.",
     "min": 12
   },
   {
@@ -268,7 +268,7 @@
   },
   {
     "id": "knowledge",
-    "vo": "And what a session learns outlives it too. Decisions become records: a hundred and sixty-six architecture decisions so far. Knowledge is derived at the end of every session, without a model, and a person promotes what deserves to stay.",
+    "vo": "And what a session learns outlives it too. Decisions become records: {{adrs:words}} architecture decisions so far. Knowledge is derived at the end of every session, without a model, and a person promotes what deserves to stay.",
     "min": 13,
     "title": "What it learns stays learned",
     "act": "MEMORY"

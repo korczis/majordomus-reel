@@ -22,4 +22,15 @@ if printf '%s' "$page" | grep -q 'src="short.mp4"'; then
   short=", short cut served"
 fi
 
-echo "ok: $URL, $chapters chapters, reel.mp4 seekable, poster served$short"
+# the film states the newest release's facts: the version the page names is the latest release
+shown=$(printf '%s' "$page" | sed -n 's/.*data-majordomus-version="\([^"]*\)".*/\1/p' | head -1)
+[ -n "$shown" ] || { echo "the page names no Majordomus release its facts come from" >&2; exit 1; }
+latest=$(curl -fsSL https://api.github.com/repos/korczis/prismatic-majordomus/releases/latest \
+  | sed -n 's/^  "tag_name": "v\{0,1\}\([^"]*\)".*/\1/p')
+[ -n "$latest" ] || { echo "cannot read the latest Majordomus release" >&2; exit 1; }
+[ "$shown" = "$latest" ] || {
+  echo "the film states Majordomus $shown; the latest release is $latest: re-render and deploy" >&2
+  exit 1
+}
+
+echo "ok: $URL, $chapters chapters, reel.mp4 seekable, poster served$short, facts of $shown (latest)"

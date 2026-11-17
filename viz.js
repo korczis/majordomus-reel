@@ -1137,10 +1137,14 @@
   // Doctor's rules: every rule, those with a validator, the blocking ones (all validated).
   VIZ.doctor = (env) => {
     const t0 = env.cue('rule');
-    const rows = [['RULES', 61, T.ink], ['WITH A VALIDATOR', 51, T.brand], ['BLOCKING, ALL VALIDATED', 44, T.ok]];
+    // derived from the release by facts.mjs; render.mjs hands them in as window.FACTS
+    const F = window.FACTS;
+    const all = F.blocking_validated === F.blocking ? 'BLOCKING, ALL VALIDATED' : 'BLOCKING, VALIDATED';
+    const rows = [['RULES', F.rules, T.ink], ['WITH A VALIDATOR', F.rules_validated, T.brand],
+      [all, F.blocking_validated, T.ok]];
     const c = chart(env, '.bars-space', {
       grid: { left: 260, right: 60, top: 6, bottom: 6 },
-      xAxis: { type: 'value', max: 61, show: false },
+      xAxis: { type: 'value', max: F.rules, show: false },
       yAxis: { type: 'category', data: rows.map((r) => r[0]), inverse: true, ...axisQuiet,
         axisLabel: { fontFamily: SANS, fontWeight: 700, fontSize: 15, color: T.muted } },
       series: [{ type: 'bar', barWidth: 26, data: [], label: { show: true, position: 'right', fontFamily: MONO, fontSize: 20, color: T.ink } }],

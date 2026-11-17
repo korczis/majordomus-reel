@@ -22,6 +22,7 @@ Overrides: `VOICE` (Edge neural voice, default `en-US-AndrewMultilingualNeural`)
 | `scenes.json` | one entry per scene, in screen order: `id`, `title` (the chapter), `act` (one of seven: PROBLEM, CONTRACT, WORKFLOW, PLATFORM, MESH, MEMORY, MANIFESTO; drawn as the rail of acts), `vo` (the narration), `min` (seconds), `nocaption` |
 | `scenes-short.json` | a subset of the same entries: the Shorts cut |
 | `reel.html` | every scene as a `<section>`, the CSS, the timeline (`setup`, `renderAt`) |
+| `facts.mjs` | every Majordomus fact the film states (version, standard-rule counts, decisions), derived from the newest release tag of `MAJORDOMUS_REPO` (default `../prismatic-majordomus`); `--check` refuses a typed or unknown fact |
 | `gen.js` | the generative layer on p5.js in instance mode: `noLoop()` and one `redraw()` per frame, so a frame is a function of time |
 | `viz.js` | graphs (Cytoscape), charts (Apache ECharts) and the Flowbite timeline recipe in one shared theme; each mounts inside its scene's `*-space`, so it cannot draw outside it |
 | `synth.mjs` | music (Am-F-C-G, 100 bpm, a drop at the reveal) and every sound effect, sample by sample |
@@ -33,6 +34,13 @@ Overrides: `VOICE` (Edge neural voice, default `en-US-AndrewMultilingualNeural`)
 
 The libraries load from jsDelivr at pinned versions (p5@1.11.3, cytoscape@3.30.4,
 echarts@5.6.0), so a render needs the network.
+
+Facts are derived, never typed: the version, the counts of standard rules and the count of
+decisions come from the release (`{{version}}`, `{{adrs}}` in the markup, `{{blocking:Words}}`
+in the narration, `window.FACTS` in `viz.js`); `render.mjs` writes them to `$BUILD/facts.json`
+and `site/verify.sh` refuses a published film older than the latest release
+(`project.reel-facts-are-derived`). A voice clip is reused while its words, voice and rate are
+unchanged (`$BUILD/vo-<n>.key`), so a second render of the same cut skips the voice-over.
 
 Timing is derived, never typed: a scene lasts as long as its narration needs, and an element
 appears on the word it belongs to (`data-cue="word"`, `data-cue="word#2"` for the second one,
@@ -52,6 +60,7 @@ above the bottom 560px.
 ## Checking a cut
 
 ```sh
+node facts.mjs --check                            # no typed fact; render.mjs runs it too
 BUILD=$PWD/build-x CHECK=1 node render.mjs        # layout gate: exit 1 on any finding
 BUILD=$PWD/build-x PREVIEW=ends node render.mjs   # every scene's last frame, for the eye
 ```

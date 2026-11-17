@@ -8,6 +8,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import { cpus } from 'node:os';
 import puppeteer from 'puppeteer-core';
 import { synthesize, writeWav } from './synth.mjs';
+import { derive, check, fill } from './facts.mjs';
 
 const DIR = dirname(fileURLToPath(import.meta.url));
 const FPS = Number(process.env.FPS || 30);
@@ -23,7 +24,19 @@ const VO_LEAD = 0.25; // keep in step with reel.html
 const TAIL = 0.85;
 
 mkdirSync(BUILD, { recursive: true });
-const scenes = JSON.parse(readFileSync(join(DIR, process.env.SCENES || 'scenes.json'), 'utf8'));
+// Every Majordomus fact the film states comes from the newest release (facts.mjs); a source that
+// types one, or names one that does not exist, refuses the render.
+const facts = derive();
+const findings = check(facts);
+if (findings.length) {
+  findings.forEach((f) => console.error(`FAIL ${f}`));
+  console.error(`facts: refused, ${findings.length} typed or unknown fact(s); see facts.mjs`);
+  process.exit(1);
+}
+writeFileSync(join(BUILD, 'facts.json'), JSON.stringify(facts, null, 2) + '\n');
+console.log(`0/5 facts from ${facts.tag} (${facts.commit.slice(0, 12)})`);
+const scenes = JSON.parse(readFileSync(join(DIR, process.env.SCENES || 'scenes.json'), 'utf8'))
+  .map((s) => ({ ...s, vo: fill(s.vo, facts) }));
 
 const run = (cmd, args) => {
   const r = spawnSync(cmd, args, { encoding: 'utf8', maxBuffer: 1 << 26 });
@@ -37,12 +50,19 @@ const duration = (file) => parseFloat(run('ffprobe', [
 function voice(scene, i) {
   const mp3 = join(BUILD, `vo-${i}.mp3`);
   const json = join(BUILD, `vo-${i}.json`);
+  // a clip is reused only for the same words in the same voice at the same rate
+  const key = join(BUILD, `vo-${i}.key`);
+  const want = `${VOICE}|${RATE}|${scene.vo}`;
+  if (existsSync(mp3) && existsSync(json) && existsSync(key) && readFileSync(key, 'utf8') === want) {
+    return { file: mp3, words: JSON.parse(readFileSync(json, 'utf8')) };
+  }
   let r;
   for (let attempt = 0; attempt < 4; attempt++) {
     r = spawnSync('uvx', [
       '--quiet', '--with', 'edge-tts', 'python', join(DIR, 'tts.py'), scene.vo, VOICE, RATE, mp3, json,
     ], { encoding: 'utf8' });
     if (r.status === 0 && existsSync(mp3)) {
+      writeFileSync(key, want);
       return { file: mp3, words: JSON.parse(readFileSync(json, 'utf8')) };
     }
     spawnSync('sleep', [String(1 + attempt * 2)]);
@@ -107,6 +127,7 @@ let timeline;
 for (let w = 0; w < WORKERS; w++) {
   const page = await browser.newPage();
   await page.setViewport({ width: 1080, height: 1920, deviceScaleFactor: 1 });
+  await page.evaluateOnNewDocument((f) => { window.FACTS = f; }, facts);
   await page.goto(pathToFileURL(join(DIR, 'reel.html')).href, { waitUntil: 'load' });
   timeline = await page.evaluate((d) => window.setup(d), {
     durations, words, chunks, ids: scenes.map((sc) => sc.id), titles: scenes.map((sc) => sc.title || sc.id),

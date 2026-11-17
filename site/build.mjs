@@ -15,9 +15,12 @@ const POSTER = process.env.POSTER || join(ROOT, 'thumbnail-v5.jpg');
 const SHORT = process.env.SHORT || '';
 const SHORT_POSTER = process.env.SHORT_POSTER || POSTER;
 const OUT = process.env.SITE_OUT || join(ROOT, '_site');
+// the facts the cut was rendered with (render.mjs writes them beside the chapters); the page
+// names their release so site/verify.sh can refuse a film that lags the newest one
+const FACTS = process.env.FACTS || join(dirname(CHAPTERS), 'facts.json');
 const CRF = process.env.CRF || '27';
 
-for (const file of [VIDEO, POSTER, ...(SHORT ? [SHORT, SHORT_POSTER] : [])]) {
+for (const file of [VIDEO, POSTER, FACTS, ...(SHORT ? [SHORT, SHORT_POSTER] : [])]) {
   if (!existsSync(file)) throw new Error(`missing: ${file}`);
 }
 const run = (cmd, args) => {
@@ -53,7 +56,11 @@ const short = SHORT ? `  <section class="short">
   </section>` : '';
 const html = readFileSync(join(SITE, 'index.html'), 'utf8')
   .replace('<!-- chapters -->', `\n      ${items.join('\n      ')}\n    `)
-  .replace('<!-- short -->', short);
+  .replace('<!-- short -->', short)
+  .replace('<!-- facts -->', (({ version, tag, commit }) => `<br>Every Majordomus fact in the film is `
+    + `derived from <a href="https://github.com/korczis/prismatic-majordomus/releases/tag/${tag}" `
+    + `data-majordomus-version="${version}" data-majordomus-commit="${commit}">Majordomus ${version}</a>.`)(
+    JSON.parse(readFileSync(FACTS, 'utf8'))));
 writeFileSync(join(OUT, 'index.html'), html);
 writeFileSync(join(OUT, '.nojekyll'), '');
 

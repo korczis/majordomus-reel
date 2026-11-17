@@ -767,8 +767,8 @@
   <div class="term glass" data-cue="doctor" data-at="-0.3">
     <div class="term-bar"><i></i><i></i><i></i><span>git commit &rarr; pre-commit</span></div>
     <div class="term-body"><span class="prompt">$ </span><span data-type="majordomus doctor" data-cue="doctor" data-cps="30"></span>
-<span data-cue="rule" data-sfx="tick"><span class="ok">OK  </span> rules       61, in one order</span>
-<span data-cue="rule" data-at="0.3" data-sfx="tick"><span class="ok">OK  </span> blocking    all 44 carry a validator</span>
+<span data-cue="rule" data-sfx="tick"><span class="ok">OK  </span> rules       {{rules}}, in one order</span>
+<span data-cue="rule" data-at="0.3" data-sfx="tick"><span class="ok">OK  </span> blocking    all {{blocking}} carry a validator</span>
 <span data-cue="projection" data-sfx="tick"><span class="ok">OK  </span> projection  AGENTS.md as stamped</span>
 <span data-cue="hook" data-sfx="tick"><span class="ok">OK  </span> wiring      commit and push hooks</span>
 <span data-cue="hook" data-at="0.3" data-sfx="tick"><span class="warn">WARN</span> clone       commits on no remote</span>
@@ -941,10 +941,10 @@
 <section class="scene" id="release" style="--tint: 255,255,255">
   <h2 data-fx="words" data-at="0.05">No surface change. <span class="accent">No version bump.</span></h2>
   <ol class="decision">
-    <li data-cue="compares" data-fx="up" data-sfx="tick"><span>last release</span><b class="v">1.0.0-alpha.8</b></li>
+    <li data-cue="compares" data-fx="up" data-sfx="tick"><span>last release</span><b class="v">{{version}}</b></li>
     <li data-cue="compares" data-at="0.4" data-fx="up" data-sfx="tick"><span>this tree</span><b>the same public surface</b></li>
     <li data-cue="nothing" data-at="0.3" data-fx="up" data-sfx="tick"><span>result</span><b>no bump owed</b></li>
-    <li data-cue="changelog" data-fx="up" data-sfx="ding"><span>next</span><b class="v">1.0.0-alpha.8</b></li>
+    <li data-cue="changelog" data-fx="up" data-sfx="ding"><span>next</span><b class="v">{{version}}</b></li>
   </ol>
   <div class="implies">
     <div class="im" data-cue="gone" data-fx="up" data-sfx="buzz"><span class="st-bad">major</span>something a caller held is gone</div>
@@ -1171,7 +1171,7 @@
 <!-- decisions and knowledge -->
 <section class="scene" id="knowledge" style="--tint: 255,255,255">
   <h2 data-fx="words" data-at="0.05">What it learns <span class="accent">stays learned.</span></h2>
-  <div class="eyebrow-note" data-cue="hundred" data-fx="up" style="text-align: left">166 decisions so far, each a record in git</div>
+  <div class="eyebrow-note" data-cue="hundred" data-fx="up" style="text-align: left">{{adrs}} decisions so far, each a record in git</div>
   <i hidden data-cue="decisions" data-sfx="tick"></i><i hidden data-cue="knowledge" data-sfx="tick"></i>
   <i hidden data-cue="person" data-sfx="chime"></i>
   <div class="kb-space"></div>
@@ -1353,7 +1353,22 @@
     return 0;
   }
 
+  // A double-braced name in the markup is a fact facts.mjs derived from the release
+  // (window.FACTS, set by render.mjs before the page loads); a missing one stops the render.
+  function fillFacts() {
+    const F = window.FACTS || {};
+    const walk = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+    for (let n = walk.nextNode(); n; n = walk.nextNode()) {
+      if (!n.nodeValue.includes('{{')) continue;
+      n.nodeValue = n.nodeValue.replace(/\{\{([a-z_]+)\}\}/g, (_, k) => {
+        if (!(k in F)) throw new Error(`fact {{${k}}} was not handed to the page`);
+        return String(F[k]);
+      });
+    }
+  }
+
   window.setup = ({ durations, words, chunks, ids, titles, acts }) => {
+    fillFacts();
     const warnings = [];
     const events = [];
     document.querySelectorAll('.scene').forEach((sc) => {
