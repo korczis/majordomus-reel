@@ -509,8 +509,12 @@
 
   /* v5.2: no burned-in subtitles (YouTube generates captions); the rail sits on the safe frame's
      floor and every scene's visual area grows into the room that frees */
-  .cap { display: none !important; }
+  body:not(.captioned) .cap { display: none !important; }
   .rail { bottom: 585px; }
+  /* CAPTIONS=1 (a feed that plays muted, such as LinkedIn): the captions take the floor of the
+     safe frame and the rail of acts moves up above them */
+  body.captioned .rail { bottom: 635px; }
+  body.captioned .scene:not(.manifesto) { padding-bottom: 680px; }
   .scene { padding-bottom: 640px; }
   [class$="-space"] { flex: 1 1 auto; }
   .prose-claim { margin-top: 40px; display: flex; align-items: center; gap: 22px; }
@@ -1392,6 +1396,7 @@
     });
     let start = 0;
     captions = chunks;
+    document.body.classList.toggle('captioned', chunks.length > 0);
     const all = [...document.querySelectorAll('.scene')];
     all.forEach((el) => { if (ids && !ids.includes(el.id)) el.style.display = 'none'; });
     chapterTitles = titles || [];
