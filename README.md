@@ -39,7 +39,10 @@ Facts are derived, never typed: the version, the counts of standard rules and th
 decisions come from the release (`{{version}}`, `{{adrs}}` in the markup, `{{blocking:Words}}`
 in the narration, `window.FACTS` in `viz.js`); `render.mjs` writes them to `$BUILD/facts.json`
 and `site/verify.sh` refuses a published film older than the latest release
-(`project.reel-facts-are-derived`). A voice clip is reused while its words, voice and rate are
+(`project.reel-facts-are-derived`). A release can be pre-rendered before it is tagged:
+`MAJORDOMUS_REV=<commit>` derives from that commit with the version its crate manifest declares,
+and the cut is published only after `node facts.mjs --same $BUILD/facts.json` finds that the tag,
+once it exists, derives the same facts. A voice clip is reused while its words, voice and rate are
 unchanged (`$BUILD/vo-<n>.key`), so a second render of the same cut skips the voice-over.
 
 Timing is derived, never typed: a scene lasts as long as its narration needs, and an element

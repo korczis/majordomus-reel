@@ -48,8 +48,19 @@ function ruleFacts(text) {
   return { status: field('status'), cls: field('class'), validated };
 }
 
+// MAJORDOMUS_REV pre-renders from a commit before it is tagged: the version is the one its crate
+// manifest declares, and the tag is the one that version will carry. A cut made this way is
+// published only once `node facts.mjs --same <facts.json>` finds the tag derives the same facts.
+function preview(rev) {
+  const manifest = git('show', `${rev}:apps/majordomus-cli/Cargo.toml`);
+  const version = (manifest.match(/^version\s*=\s*"([^"]+)"/m) || [])[1];
+  if (!version) throw new Error(`${rev} declares no crate version`);
+  return { tag: `v${version}`, ref: git('rev-parse', rev).trim() };
+}
+
 export function derive() {
-  const tag = releaseTag();
+  const pre = process.env.MAJORDOMUS_REV ? preview(process.env.MAJORDOMUS_REV) : null;
+  const tag = pre ? pre.ref : releaseTag();
   const files = (path) => git('ls-tree', '-r', '--name-only', tag, path)
     .split('\n').filter(Boolean);
   const rules = files('.ai/repo/rules/vendor/majordomus')
@@ -62,9 +73,10 @@ export function derive() {
   const blocking = rules.filter((r) => r.cls === 'blocking');
   const adrs = files('.ai/repo/adrs').filter((f) => /\/\d{4}-[^/]+\.md$/.test(f));
   return {
-    tag,
-    version: tag.replace(/^v/, ''),
+    tag: pre ? pre.tag : tag,
+    version: (pre ? pre.tag : tag).replace(/^v/, ''),
     commit: git('rev-list', '-n', '1', tag).trim(),
+    ...(pre ? { preview: true } : {}),
     rules: rules.length,
     rules_validated: rules.filter((r) => r.validated).length,
     blocking: blocking.length,
@@ -152,6 +164,17 @@ export function check(facts) {
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   const facts = derive();
+  const same = process.argv.indexOf('--same');
+  if (same > 0) {
+    // the counts and the version a pre-rendered cut was made with, against the release now
+    const cut = JSON.parse(readFileSync(process.argv[same + 1], 'utf8'));
+    const keys = ['version', 'rules', 'rules_validated', 'blocking', 'blocking_validated', 'adrs'];
+    const differ = keys.filter((k) => cut[k] !== facts[k]);
+    differ.forEach((k) => console.log(`DIFF ${k}: cut ${cut[k]}, ${facts.tag} ${facts[k]}`));
+    console.log(differ.length ? `facts: the cut is not ${facts.tag}'s; re-render`
+      : `facts: the cut states exactly ${facts.tag}'s facts`);
+    process.exit(differ.length ? 1 : 0);
+  }
   if (process.argv.includes('--check')) {
     const findings = check(facts);
     findings.forEach((f) => console.log(`FAIL ${f}`));
