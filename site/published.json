@@ -1,0 +1,23 @@
+{
+  "about": "The cuts published on YouTube, newest first: the one list site/build.mjs renders as the 'Also on YouTube' cards. A card's length is measured from its render with ffprobe at build time and never typed; youtube-metadata.md keeps each upload's title, description and history.",
+  "videos": [
+    {
+      "url": "https://youtu.be/zcDgXorKhjs",
+      "title": "Every AI agent, every machine",
+      "cut": "The full film with chapters",
+      "render": "majordomus-reel-v5.5.mp4"
+    },
+    {
+      "url": "https://youtube.com/shorts/M250vmbZ1AI",
+      "title": "Make it prove it",
+      "cut": "The first cut",
+      "render": "majordomus-reel-v2.mp4"
+    },
+    {
+      "url": "https://youtube.com/shorts/oB-cRju2xrU",
+      "title": "Trust is the next one",
+      "cut": "The second cut",
+      "render": "majordomus-reel-v3.mp4"
+    }
+  ]
+}

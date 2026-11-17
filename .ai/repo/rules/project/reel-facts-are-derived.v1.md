@@ -36,7 +36,10 @@ version contradicts itself.
 No validator of the Majordomus executable decides this, so the rule carries no
 `x-majordomus` block. It is enforced by this repository's own commands, each refusing:
 
-- `node facts.mjs --check` (exit 1): a typed version or count, or an unknown fact;
+- `node facts.mjs --check` (exit 1): a typed version or count, or an unknown fact, in the film's
+  sources, the page and the README; on the page and in the README also a typed length of a cut or
+  count of acts, scenes or chapters (`site/build.mjs` measures lengths from the renders
+  `site/published.json` names, and reads what a render needs from `make-reel.sh`);
 - `node render.mjs`: runs the same check before the voice-over and renders nothing on a
   finding; the page itself throws on a fact it was not handed;
 - `site/verify.sh` (exit 1): the published page names no release, or one older than the latest

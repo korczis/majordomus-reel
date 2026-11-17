@@ -47,6 +47,28 @@ const chapters = existsSync(CHAPTERS)
     .map(([, m, s, title]) => ({ label: `${m}:${s}`, t: Number(m) * 60 + Number(s), title }))
   : [];
 if (!chapters.length) console.warn(`   no chapters in ${CHAPTERS}; the list stays empty`);
+// the YouTube cards: site/published.json names each upload and its render; the length shown is
+// that render's, measured here, so no duration is typed on the page
+const lengthOf = (s) => (s >= 180 ? minutes(s) : `${s} s`);
+const published = JSON.parse(readFileSync(join(SITE, 'published.json'), 'utf8')).videos.map((v) => {
+  const render = join(ROOT, v.render);
+  if (!existsSync(render)) {
+    throw new Error(`published.json names a render that is not here: ${render}`);
+  }
+  return `      <a class="card" href="${escape(v.url)}"><b>${escape(v.title)}</b>\n`
+    + `        <p>${escape(v.cut)}, ${lengthOf(seconds(render))}</p></a>`;
+});
+// what a render needs, as make-reel.sh checks it, plus the browser render.mjs drives
+const makeReel = readFileSync(join(ROOT, 'make-reel.sh'), 'utf8');
+const tools = (makeReel.match(/^for tool in ([^;]+);/m) || [])[1];
+if (!tools) throw new Error('make-reel.sh no longer names its tools in a `for tool in` line');
+const needs = [...tools.trim().split(/\s+/).filter((t) => t !== 'ffprobe'), 'Google Chrome'];
+const requirements = `${needs.slice(0, -1).join(', ')} and ${needs[needs.length - 1]}`;
+// the release the film's facts come from, read by site/verify.sh
+const factsLine = ({ version, tag, commit }) => '<br>Every Majordomus fact in the film is derived '
+  + `from <a href="https://github.com/korczis/prismatic-majordomus/releases/tag/${tag}" `
+  + `data-majordomus-version="${version}" data-majordomus-commit="${commit}">`
+  + `Majordomus ${version}</a>.`;
 const items = chapters.map((c) =>
   `<li><button data-t="${c.t}"><span>${c.label}</span><span>${escape(c.title)}</span></button></li>`);
 const short = SHORT ? `  <section class="short">
@@ -57,10 +79,9 @@ const short = SHORT ? `  <section class="short">
 const html = readFileSync(join(SITE, 'index.html'), 'utf8')
   .replace('<!-- chapters -->', `\n      ${items.join('\n      ')}\n    `)
   .replace('<!-- short -->', short)
-  .replace('<!-- facts -->', (({ version, tag, commit }) => `<br>Every Majordomus fact in the film is `
-    + `derived from <a href="https://github.com/korczis/prismatic-majordomus/releases/tag/${tag}" `
-    + `data-majordomus-version="${version}" data-majordomus-commit="${commit}">Majordomus ${version}</a>.`)(
-    JSON.parse(readFileSync(FACTS, 'utf8'))));
+  .replace('<!-- published -->', `\n${published.join('\n')}\n    `)
+  .replace('<!-- requirements -->', escape(requirements))
+  .replace('<!-- facts -->', factsLine(JSON.parse(readFileSync(FACTS, 'utf8'))));
 writeFileSync(join(OUT, 'index.html'), html);
 writeFileSync(join(OUT, '.nojekyll'), '');
 

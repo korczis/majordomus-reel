@@ -19,21 +19,21 @@ Overrides: `VOICE` (Edge neural voice, default `en-US-AndrewMultilingualNeural`)
 
 | file | what it holds |
 |---|---|
-| `scenes.json` | one entry per scene, in screen order: `id`, `title` (the chapter), `act` (one of seven: PROBLEM, CONTRACT, WORKFLOW, PLATFORM, MESH, MEMORY, MANIFESTO; drawn as the rail of acts), `vo` (the narration), `min` (seconds), `nocaption` |
+| `scenes.json` | one entry per scene, in screen order: `id`, `title` (the chapter), `act` (drawn as the rail of acts, in the order the acts first appear), `vo` (the narration), `min` (seconds), `nocaption` |
 | `scenes-short.json` | a subset of the same entries: the Shorts cut |
 | `reel.html` | every scene as a `<section>`, the CSS, the timeline (`setup`, `renderAt`) |
 | `facts.mjs` | every Majordomus fact the film states (version, standard-rule counts, decisions), derived from the newest release tag of `MAJORDOMUS_REPO` (default `../prismatic-majordomus`); `--check` refuses a typed or unknown fact |
 | `gen.js` | the generative layer on p5.js in instance mode: `noLoop()` and one `redraw()` per frame, so a frame is a function of time |
 | `viz.js` | graphs (Cytoscape), charts (Apache ECharts) and the Flowbite timeline recipe in one shared theme; each mounts inside its scene's `*-space`, so it cannot draw outside it |
-| `synth.mjs` | music (Am-F-C-G, 100 bpm, a drop at the reveal) and every sound effect, sample by sample |
+| `synth.mjs` | music (the chord loop, the tempo and the drop at the reveal are its constants) and every sound effect, sample by sample |
 | `render.mjs` | voice -> word timings -> frames through local Chrome -> ffmpeg; writes `$BUILD/chapters.txt` |
 | `tts.py` | Edge TTS with word boundaries (free, no key) |
 | `thumb*.html`, `thumb.mjs` | thumbnails, 1080x1920 |
 | `youtube-metadata.md` | titles, descriptions, tags, chapters, pinned comments, and what is published |
-| `site/` | the GitHub Pages site: `index.html`, `build.mjs` (video + chapters into `_site/`), `deploy.sh`, `verify.sh` |
+| `site/` | the GitHub Pages site: `index.html`, `published.json` (the YouTube uploads and the render each one is), `build.mjs` (video, chapters, facts, YouTube cards and requirements into `_site/`), `deploy.sh`, `verify.sh` |
 
-The libraries load from jsDelivr at pinned versions (p5@1.11.3, cytoscape@3.30.4,
-echarts@5.6.0), so a render needs the network.
+The libraries load from jsDelivr at the versions the `<script>` tags of `reel.html` pin, so a
+render needs the network.
 
 Facts are derived, never typed: the version, the counts of standard rules and the count of
 decisions come from the release (`{{version}}`, `{{adrs}}` in the markup, `{{blocking:Words}}`
@@ -85,18 +85,21 @@ narration bridges it ("Because tomorrow, again," / "Your AI agent says the work 
 
 ## Publishing
 
-The site at https://korczis.github.io/majordomus-reel/ is `site/index.html` with the chapter list
-filled in and the cut re-encoded for the web (720x1280). `site/deploy.sh` builds it into `_site/`
-and force-pushes a single orphan commit to `gh-pages`, so a video never accumulates in history:
+The site at https://korczis.github.io/majordomus-reel/ is `site/index.html` with everything that
+can drift filled in at build time: the chapters (`$BUILD/chapters.txt`), the release the film's
+facts come from (`$BUILD/facts.json`), the length of each YouTube upload (measured from the render
+`site/published.json` names) and what a render needs (`make-reel.sh`'s tool list). The cut is
+re-encoded for the web. `site/deploy.sh` builds it into `_site/` and force-pushes a single orphan
+commit to `gh-pages`, so a video never accumulates in history:
 
 ```sh
-VIDEO=$PWD/majordomus-reel-v5.7.mp4 CHAPTERS=$PWD/build-v57/chapters.txt \
-  POSTER=$PWD/thumbnail-v5.jpg SHORT=$PWD/majordomus-reel-v5.5-short.mp4 \
-  SHORT_POSTER=$PWD/thumbnail.jpg site/deploy.sh
+VIDEO=$PWD/<cut>.mp4 CHAPTERS=$PWD/<build>/chapters.txt POSTER=$PWD/<poster>.jpg \
+  SHORT=$PWD/<short>.mp4 SHORT_POSTER=$PWD/<short-poster>.jpg site/deploy.sh
 ```
 
 `site/verify.sh` checks the live site: the chapters are on the page, `reel.mp4` is served as
-`video/mp4` with byte ranges (so the chapters can seek), and the poster is there.
+`video/mp4` with byte ranges (so the chapters can seek), the poster is there, and the release the
+page names is the latest Majordomus release.
 
 YouTube Studio, channel UCToRpxVyOCAnIN73ZuyXyMA. A video longer than three minutes is a regular
 video (chapters in the description); the short cut is a Short. Browser automation can upload a
