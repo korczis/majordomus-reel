@@ -8,11 +8,19 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import { cpus } from 'node:os';
 import puppeteer from 'puppeteer-core';
 import { synthesize, writeWav } from './synth.mjs';
+import { derive, check, fill, uses, catalogue } from './facts.mjs';
+import { stories, storyScenes, posterMoments, OPEN, CLOSE } from './stories.mjs';
+import { fillIn, pageCues, localiseStory, localiseUseCases, actIn } from './i18n.mjs';
 
 const DIR = dirname(fileURLToPath(import.meta.url));
 const FPS = Number(process.env.FPS || 30);
-const VOICE = process.env.VOICE || 'en-US-AndrewMultilingualNeural';
-const RATE = process.env.RATE || '-4%';
+// REEL_LANG=<id> renders the cut in lang/<id>.json's language: narration, chapters, acts,
+// on-screen text and the voice (not LANG, which is the shell's locale); English is the original
+const LANG = process.env.REEL_LANG
+  ? JSON.parse(readFileSync(join(DIR, 'lang', `${process.env.REEL_LANG}.json`), 'utf8'))
+  : null;
+const VOICE = process.env.VOICE || LANG?.voice || 'en-US-AndrewMultilingualNeural';
+const RATE = process.env.RATE || LANG?.rate || '-4%';
 const MUSIC = process.env.MUSIC !== '0';
 const OUT = process.env.OUT || join(DIR, 'majordomus-reel.mp4');
 const CHROME = process.env.CHROME
@@ -20,10 +28,59 @@ const CHROME = process.env.CHROME
 const WORKERS = Number(process.env.WORKERS || Math.min(6, Math.max(2, cpus().length / 2)));
 const BUILD = process.env.BUILD || join(DIR, 'build');
 const VO_LEAD = 0.25; // keep in step with reel.html
+// the frame: one of formats.json (project.reel-tailored-per-device); phone is the original cut
+const FORMATS = JSON.parse(readFileSync(join(DIR, 'formats.json'), 'utf8')).formats;
+const FORMAT = FORMATS.find((f) => f.id === (process.env.FORMAT || 'phone'));
+if (!FORMAT) throw new Error(`FORMAT=${process.env.FORMAT}: formats.json declares `
+  + `${FORMATS.map((f) => f.id).join(', ')}`);
 const TAIL = 0.85;
 
 mkdirSync(BUILD, { recursive: true });
-const scenes = JSON.parse(readFileSync(join(DIR, process.env.SCENES || 'scenes.json'), 'utf8'));
+// Every Majordomus fact the film states comes from the newest release (facts.mjs); a source that
+// types one, or names one that does not exist, refuses the render.
+const facts = derive();
+const findings = check(facts);
+if (findings.length) {
+  findings.forEach((f) => console.error(`FAIL ${f}`));
+  console.error(`facts: refused, ${findings.length} typed or unknown fact(s); see facts.mjs`);
+  process.exit(1);
+}
+// the release's use cases by id: the desktop composition names the ones a scene shows
+const useCasesEn = Object.fromEntries(catalogue(facts).useCases
+  .map((u) => [u.id, { title: u.title, category: u.category }]));
+// in a translated cut, the release's use cases and a story's category speak the language too
+const useCaseTitles = LANG ? localiseUseCases(useCasesEn, LANG) : useCasesEn;
+// STORY=<category> renders one story (stories.mjs) instead of a scene file
+const story = process.env.STORY ? stories(facts).find((s) => s.id === process.env.STORY) : null;
+if (process.env.STORY && !story) {
+  throw new Error(`STORY=${process.env.STORY}: the stories are ${stories(facts).map((s) => s.id).join(', ')}`);
+}
+const told = story && LANG ? localiseStory(story, LANG) : story;
+const authored = told ? storyScenes(told)
+  : JSON.parse(readFileSync(join(DIR, process.env.SCENES || 'scenes.json'), 'utf8'));
+// a translated cut takes each scene's words from the language file, and refuses a scene it lacks
+const spoken = LANG ? authored.map((s) => {
+  // a story's title card is the category itself, already in the language; the way in closes it
+  // under the language's own act for it
+  if (story && s.id === OPEN) return { ...s, act: actIn(LANG, s.act) };
+  const t = LANG.scenes[s.id];
+  if (!t) throw new Error(`REEL_LANG=${LANG.lang}: lang/${LANG.lang}.json does not translate scene ${s.id}`);
+  const act = story && CLOSE.includes(s.id) ? actIn(LANG, 'START') : t.act ?? actIn(LANG, s.act);
+  return { ...s, vo: t.vo, title: t.title || s.title, act };
+}) : authored;
+// the facts in the cut's own language: numbers as its narrator says them (i18n.mjs)
+const scenes = spoken.map((s) => ({ ...s, vo: LANG ? fillIn(s.vo, facts, LANG.lang) : fill(s.vo, facts) }));
+const langPage = LANG && { lang: LANG.lang, locale: LANG.locale, text: LANG.text, keep: LANG.keep,
+  cues: pageCues(LANG, facts) };
+// the cut records the facts it states, its format and its story: `facts.mjs --same` compares
+// only those facts, and site/build.mjs reads the rest
+const stated = uses(authored, readFileSync(join(DIR, 'reel.html'), 'utf8'));
+writeFileSync(join(BUILD, 'facts.json'), JSON.stringify({ ...facts, uses: stated,
+  format: FORMAT.id, captions: Boolean(process.env.CAPTIONS), lang: LANG ? LANG.lang : 'en',
+  ...(story ? { story: story.id } : {}) },
+null, 2) + '\n');
+console.log(`0/5 facts from ${facts.tag} (${facts.commit.slice(0, 12)}), ${FORMAT.id} `
+  + `${FORMAT.width}x${FORMAT.height}${story ? `, story ${story.id}` : ''}`);
 
 const run = (cmd, args) => {
   const r = spawnSync(cmd, args, { encoding: 'utf8', maxBuffer: 1 << 26 });
@@ -37,19 +94,26 @@ const duration = (file) => parseFloat(run('ffprobe', [
 function voice(scene, i) {
   const mp3 = join(BUILD, `vo-${i}.mp3`);
   const json = join(BUILD, `vo-${i}.json`);
+  // a clip is reused only for the same words in the same voice at the same rate
+  const key = join(BUILD, `vo-${i}.key`);
+  const want = `${VOICE}|${RATE}|${scene.vo}`;
+  if (existsSync(mp3) && existsSync(json) && existsSync(key) && readFileSync(key, 'utf8') === want) {
+    return { file: mp3, words: JSON.parse(readFileSync(json, 'utf8')) };
+  }
   let r;
   for (let attempt = 0; attempt < 4; attempt++) {
     r = spawnSync('uvx', [
       '--quiet', '--with', 'edge-tts', 'python', join(DIR, 'tts.py'), scene.vo, VOICE, RATE, mp3, json,
     ], { encoding: 'utf8' });
     if (r.status === 0 && existsSync(mp3)) {
+      writeFileSync(key, want);
       return { file: mp3, words: JSON.parse(readFileSync(json, 'utf8')) };
     }
     spawnSync('sleep', [String(1 + attempt * 2)]);
   }
   console.warn(`   edge-tts unavailable (${(r.stderr || '').trim().split('\n').pop()}); using say`);
   const aiff = join(BUILD, `vo-${i}.aiff`);
-  run('say', ['-v', process.env.SAY_VOICE || 'Daniel', '-o', aiff, scene.vo]);
+  run('say', ['-v', process.env.SAY_VOICE || LANG?.say || 'Daniel', '-o', aiff, scene.vo]);
   const d = duration(aiff);
   const tokens = scene.vo.replace(/\.\.\./g, '').split(/\s+/).filter(Boolean);
   const words = tokens.map((text, k) => ({
@@ -93,7 +157,19 @@ const starts = durations.reduce((acc, d, i) => [...acc, acc[i] + d], [0]).slice(
 const total = durations.reduce((a, b) => a + b, 0);
 console.log(`   ${durations.map((d) => d.toFixed(1)).join(' + ')} = ${total.toFixed(1)} s`);
 // burned-in subtitles are off unless CAPTIONS=1: YouTube generates captions, the frame keeps its room
-const chunks = process.env.CAPTIONS ? captionChunks(starts) : [];
+const phrases = captionChunks(starts);
+const chunks = process.env.CAPTIONS ? phrases : [];
+// the page's subtitles (WebVTT) and the timeline the site and the stills read, for every cut
+const vttTime = (s) => new Date(Math.max(0, s) * 1000).toISOString().slice(11, 23);
+writeFileSync(join(BUILD, 'captions.vtt'), `WEBVTT\n\n${phrases.map((c, k) => `${k + 1}\n`
+  + `${vttTime(c.start)} --> ${vttTime(c.end)}\n${c.words.map((w) => w.text).join(' ')}\n`).join('\n')}`);
+const timed = { format: FORMAT.id, ...(story ? { story: story.id } : {}), total,
+  scenes: scenes.map((s, i) => ({ id: s.id, title: s.title || s.id, act: s.act || '',
+    start: +starts[i].toFixed(3), duration: +durations[i].toFixed(3), use_cases: s.use_cases || [],
+    vo: s.vo })) };
+// the frame the cut's poster shows (stories.mjs posterMoments): the site's poster and preview
+writeFileSync(join(BUILD, 'timeline.json'), JSON.stringify({ ...timed,
+  poster: posterMoments(timed)[0] }, null, 2) + '\n');
 const words = clips.map((c) => c.words);
 
 console.log(`2/5 frames (${WORKERS} workers)`);
@@ -106,20 +182,43 @@ const pages = [];
 let timeline;
 for (let w = 0; w < WORKERS; w++) {
   const page = await browser.newPage();
-  await page.setViewport({ width: 1080, height: 1920, deviceScaleFactor: 1 });
+  await page.setViewport({ width: FORMAT.width, height: FORMAT.height, deviceScaleFactor: 1 });
+  await page.evaluateOnNewDocument((f, frame, st, uc, lang) => {
+    window.FACTS = f; window.FRAME = frame; window.STORY = st; window.USE_CASES = uc;
+    if (lang) window.LANG = lang;
+  }, facts, FORMAT, told, useCaseTitles, langPage);
   await page.goto(pathToFileURL(join(DIR, 'reel.html')).href, { waitUntil: 'load' });
   timeline = await page.evaluate((d) => window.setup(d), {
     durations, words, chunks, ids: scenes.map((sc) => sc.id), titles: scenes.map((sc) => sc.title || sc.id),
-    acts: scenes.map((sc) => sc.act || ''),
+    acts: scenes.map((sc) => sc.act || ''), useCases: scenes.map((sc) => sc.use_cases || []),
+    vos: scenes.map((sc) => sc.vo),
   });
   pages.push(page);
 }
 timeline.warnings.forEach((w) => console.warn(`   warning: ${w}`));
+// what a translated cut still shows in English, across every page (painters translate per frame)
+const reportMisses = async () => {
+  if (!LANG) return;
+  const misses = new Set((await Promise.all(pages.map((p) => p.evaluate(() => window.langMisses()))))
+    .flat());
+  misses.forEach((m) => console.warn(`   untranslated (${LANG.lang}): ${JSON.stringify(m)}`));
+  if (!misses.size) console.log(`   ${LANG.lang}: every on-screen text translated`);
+  return misses.size;
+};
 
 // YouTube chapters, from the timeline itself
 const stamp = (t) => `${String(Math.floor(t / 60)).padStart(2, '0')}:${String(Math.floor(t % 60)).padStart(2, '0')}`;
 writeFileSync(join(BUILD, 'chapters.txt'),
   scenes.filter((sc) => sc.id !== 'loop').map((sc, i) => `${stamp(starts[i])} ${sc.title || sc.id}`).join('\n') + '\n');
+
+// TIMELINE=1 stops here: the voice (cached), the timeline, the captions and the chapters of a cut,
+// for a render made before render.mjs wrote them
+if (process.env.TIMELINE) {
+  await reportMisses();
+  await browser.close();
+  console.log(`timeline: ${join(BUILD, 'timeline.json')} (${total.toFixed(1)} s)`);
+  process.exit(0);
+}
 
 // CHECK=1 renders every scene's first frames (a painter that throws fails the gate) and walks it
 // at the middle and the end of its time, reporting any text that overlaps another or leaves the
@@ -133,7 +232,10 @@ if (process.env.CHECK) {
     }
     for (const t of [starts[i] + durations[i] * 0.55, starts[i] + durations[i] - 0.45]) {
       await pages[0].evaluate((x) => window.renderAt(x), t);
-      const issues = await pages[0].evaluate(() => window.layoutCheck());
+      // English a translated frame shows anyway, through a path that bypassed the translation
+      const leaks = await pages[0].evaluate(() => window.langLeaks());
+      const issues = [...await pages[0].evaluate(() => window.layoutCheck()),
+        ...leaks.map((x) => `left in English on screen: ${JSON.stringify(x)}`)];
       if (!issues.length) continue;
       failures += issues.length;
       await pages[0].screenshot({ path: join(BUILD, `check-${scenes[i].id}-${t.toFixed(1)}.png`) });
@@ -142,8 +244,14 @@ if (process.env.CHECK) {
     }
   }
   console.log(failures ? `layout: ${failures} finding(s)` : 'layout: clean');
+  // a translated cut also fails on a cue its voice never says and on text left in English
+  // (project.reel-bilingual); the original keeps its cue warnings as warnings
+  const untranslated = await reportMisses() || 0;
+  const unsaid = LANG ? timeline.warnings.filter((w) => w.includes('not spoken')).length : 0;
+  if (LANG) console.log(unsaid + untranslated ? `${LANG.lang}: ${unsaid} cue(s) unsaid, `
+    + `${untranslated} text(s) untranslated` : `${LANG.lang}: every cue said, every text translated`);
   await browser.close();
-  process.exit(failures ? 1 : 0);
+  process.exit(failures || unsaid || untranslated ? 1 : 0);
 }
 
 // PREVIEW=3.2,12,20 writes stills at those seconds and stops; quick for layout work.
@@ -156,6 +264,7 @@ if (process.env.PREVIEW) {
     await pages[0].screenshot({ path: join(BUILD, `preview-${t}.png`) });
   }
   console.log(`   starts: ${starts.map((s) => s.toFixed(2)).join(' ')}`);
+  await reportMisses();
   await browser.close();
   process.exit(0);
 }
@@ -185,6 +294,7 @@ for (let f = 0; f < frames; f += WORKERS) {
 }
 enc.stdin.end();
 await encDone;
+await reportMisses();
 await browser.close();
 console.log(`\r   ${frames}/${frames} in ${((Date.now() - began) / 1000).toFixed(0)} s`);
 

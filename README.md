@@ -15,24 +15,60 @@ Overrides: `VOICE` (Edge neural voice, default `en-US-AndrewMultilingualNeural`)
 (default `-4%`), `FPS` (30), `MUSIC=0`, `CAPTIONS=1` (burned-in subtitles, off by default),
 `WORKERS`, `OPEN=0`.
 
+`REEL_LANG=cs` renders the cut in Czech: `lang/cs.json` gives each scene its narration, chapter
+title, act and the Czech word each English cue becomes, the voice (`cs-CZ-AntoninNeural`) and every
+on-screen text; terminals, code and commands stay as the tool prints them. Facts are spoken in the
+cut's own language by `i18n.mjs` (Czech number words with gender, and the noun's form for the count),
+so a translation types no fact either. `node i18n.mjs --check` refuses a scene a language does not
+translate, a cue its narration never says, on-screen text left in English, a stale translation and
+a typed fact (`project.reel-bilingual`); `CHECK=1` with `REEL_LANG` fails on the same at render time.
+
+```sh
+REEL_LANG=cs SCENES=scenes-short.json BUILD=$PWD/build-cs-short CHECK=1 node render.mjs
+REEL_LANG=cs SCENES=scenes-short.json BUILD=$PWD/build-cs-short OUT=$PWD/cs-short.mp4 ./make-reel.sh
+```
+
 ## How it is built
 
 | file | what it holds |
 |---|---|
-| `scenes.json` | one entry per scene, in screen order: `id`, `title` (the chapter), `act` (one of seven: PROBLEM, CONTRACT, WORKFLOW, PLATFORM, MESH, MEMORY, MANIFESTO; drawn as the rail of acts), `vo` (the narration), `min` (seconds), `nocaption` |
+| `scenes.json` | one entry per scene, in screen order: `id`, `title` (the chapter), `act` (drawn as the rail of acts, in the order the acts first appear), `vo` (the narration), `min` (seconds), `nocaption` |
 | `scenes-short.json` | a subset of the same entries: the Shorts cut |
 | `reel.html` | every scene as a `<section>`, the CSS, the timeline (`setup`, `renderAt`) |
+| `facts.mjs` | every Majordomus fact the film states (version, standard-rule counts, decisions), derived from the newest release tag of `MAJORDOMUS_REPO` (default `../prismatic-majordomus`); `--check` refuses a typed or unknown fact |
 | `gen.js` | the generative layer on p5.js in instance mode: `noLoop()` and one `redraw()` per frame, so a frame is a function of time |
 | `viz.js` | graphs (Cytoscape), charts (Apache ECharts) and the Flowbite timeline recipe in one shared theme; each mounts inside its scene's `*-space`, so it cannot draw outside it |
-| `synth.mjs` | music (Am-F-C-G, 100 bpm, a drop at the reveal) and every sound effect, sample by sample |
-| `render.mjs` | voice -> word timings -> frames through local Chrome -> ffmpeg; writes `$BUILD/chapters.txt` |
+| `synth.mjs` | music (the chord loop, the tempo and the drop at the reveal are its constants) and every sound effect, sample by sample |
+| `render.mjs` | voice -> word timings -> frames through local Chrome -> ffmpeg, in any format (`FORMAT=<id>`) and for any story (`STORY=<category>`); writes `$BUILD/chapters.txt`, `captions.vtt`, `facts.json` and `timeline.json` (with the `poster` moment) |
+| `formats.json` | the one declaration of the frames a cut is rendered in (phone, tablet, desktop): size, web encode, media query, detail tier, safe frame |
+| `stories.mjs` | one story per use-case category the film can show, derived from the scenes' `use_cases` and the release's taxonomy, each ending at the install line; `posterMoments` (the frames a cut is best shown by) |
 | `tts.py` | Edge TTS with word boundaries (free, no key) |
+| `lang/<id>.json` | a translated cut (`REEL_LANG=<id>`): narration, titles, acts, cue words, voice, on-screen text |
 | `thumb*.html`, `thumb.mjs` | thumbnails, 1080x1920 |
 | `youtube-metadata.md` | titles, descriptions, tags, chapters, pinned comments, and what is published |
-| `site/` | the GitHub Pages site: `index.html`, `build.mjs` (video + chapters into `_site/`), `deploy.sh`, `verify.sh` |
+| `site/` | the GitHub Pages site: `index.html` and `player.html` (templates: the build derives every double-braced name in them, `{{m:<key>}}` is a message), `messages.json` (every English word of the site, keyed; each language translates it in `lang/<id>.json` `site`), `view.mjs` (every view, the message runtime and the Flowbite Pro class lists, `ui`, shared by the build and the browser), `app.js` (the player, the carousel, the browser and the viewer, all state in the address), `lang.js` (the language: the automatic first choice, `?lang=`, the switcher's memory), `app.css` (Tailwind 4 + Flowbite), `seo.mjs` (the metadata of a route and `checkSite`), `build.mjs`, `test.mjs`, `published.json` (the YouTube uploads), `deploy.sh`, `verify.sh` |
 
-The libraries load from jsDelivr at pinned versions (p5@1.11.3, cytoscape@3.30.4,
-echarts@5.6.0), so a render needs the network.
+The libraries load from jsDelivr at the versions the `<script>` tags of `reel.html` pin, so a
+render needs the network.
+
+Facts are derived, never typed: the version, the counts of standard rules and the count of
+decisions come from the release (`{{version}}`, `{{adrs}}` in the markup, `{{blocking:Words}}`
+in the narration, `window.FACTS` in `viz.js`); `render.mjs` writes them to `$BUILD/facts.json`
+and `site/verify.sh` refuses a published film older than the latest release
+(`project.reel-facts-are-derived`). A release can be pre-rendered before it is tagged:
+`MAJORDOMUS_REV=<commit>` derives from that commit with the version its crate manifest declares,
+and the cut is published only after `node facts.mjs --same $BUILD/facts.json` finds that the tag,
+once it exists, derives the same facts. A voice clip is reused while its words, voice and rate are
+unchanged (`$BUILD/vo-<n>.key`), so a second render of the same cut skips the voice-over.
+
+The site is derived the same way (`project.reel-site-is-derived`): every cut has its own route
+(`/` is the film, `/<cut>/` every other), whose title, description, share picture, video, chapters
+and JSON-LD `VideoObject` come from the cut's render; its poster is taken from its own video at
+the first `posterMoments` frame that shows something, and its 1200x630 share picture is that frame
+(landscape) or three of its frames side by side (portrait). The page puts the stories first: a
+carousel, a browser (category chips and a search, kept in `?category=` and `?q=`) and a gallery
+whose tiles open a story over the page (`?play=`, Escape closes it, F fills the viewport); the
+film comes after them.
 
 Timing is derived, never typed: a scene lasts as long as its narration needs, and an element
 appears on the word it belongs to (`data-cue="word"`, `data-cue="word#2"` for the second one,
@@ -52,6 +88,7 @@ above the bottom 560px.
 ## Checking a cut
 
 ```sh
+node facts.mjs --check                            # no typed fact; render.mjs runs it too
 BUILD=$PWD/build-x CHECK=1 node render.mjs        # layout gate: exit 1 on any finding
 BUILD=$PWD/build-x PREVIEW=ends node render.mjs   # every scene's last frame, for the eye
 ```
@@ -62,6 +99,25 @@ graph nodes alike (the canvas records what it draws). Scenes with a rail of acts
 it; the manifesto pages may use the full height. Each failing frame is saved as
 `$BUILD/check-<scene>-<t>.png`. Run it on every cut (`SCENES=scenes-short.json` too) before a
 render, then read the `PREVIEW=ends` stills: the gate proves geometry, the eye judges the rest.
+
+A cut is published through the site, which has its own gates:
+
+```sh
+PARTIAL=1 SITE_OUT=/tmp/reel-site node site/build.mjs  # a local build of whatever is rendered
+node site/seo.mjs /tmp/reel-site                       # every route's metadata (the build runs it)
+node site/test.mjs /tmp/reel-site                      # the page in Chrome at every width
+node facts.mjs --same build-v6/film-phone/facts.json   # a pre-rendered cut against its tag
+```
+
+`site/test.mjs` refuses a template or a message that types a title, a length or a count; horizontal overflow
+at 320, 390, 768, 1024 or 1440 pixels; a console error or a failed request; the wrong format for
+a phone, a tablet or a desktop, or a fallback without its note; a carousel that does not move by
+key, arrow, dot or swipe; a filter deep link that is not restored; a viewer that does not open or
+that Escape does not close; a route that does not play its own cut or whose share picture is not
+1200x630; and in every language but English (`/cs/`) an English message left on its pages, a
+route that is not its own language's, a switcher that does not carry the address to the
+counterpart and back, and an automatic choice that does not follow the browser, a stored choice
+or `?lang=`. Read the screenshots too: the gates prove behaviour, the eye judges the page.
 
 ## Adding a scene
 
@@ -76,18 +132,43 @@ narration bridges it ("Because tomorrow, again," / "Your AI agent says the work 
 
 ## Publishing
 
-The site at https://korczis.github.io/majordomus-reel/ is `site/index.html` with the chapter list
-filled in and the cut re-encoded for the web (720x1280). `site/deploy.sh` builds it into `_site/`
-and force-pushes a single orphan commit to `gh-pages`, so a video never accumulates in history:
+The site at https://korczis.github.io/majordomus-reel/ is built by `site/build.mjs` from the cuts
+in `cuts/v6/<cut>-<format>.mp4` and their renders in `build-v6/<cut>-<format>/` (timeline,
+captions, facts): every cut in every format it has, re-encoded for the web, its posters and share
+picture, one route per cut, `data/reel.json`, `sitemap.xml` (with a `video:video` entry per
+route), `llms.txt`, `robots.txt` and the icons. `site/deploy.sh` builds it into `_site/` and
+force-pushes a single orphan commit to `gh-pages`, so a video never accumulates in history:
 
 ```sh
-VIDEO=$PWD/majordomus-reel-v5.7.mp4 CHAPTERS=$PWD/build-v57/chapters.txt \
-  POSTER=$PWD/thumbnail-v5.jpg SHORT=$PWD/majordomus-reel-v5.5-short.mp4 \
-  SHORT_POSTER=$PWD/thumbnail.jpg site/deploy.sh
+site/deploy.sh                 # refuses a missing format, a pending release and any other finding
+FALLBACK=1 site/deploy.sh      # a missing format plays the nearest one, with a note on the page
 ```
 
-`site/verify.sh` checks the live site: the chapters are on the page, `reel.mp4` is served as
-`video/mp4` with byte ranges (so the chapters can seek), and the poster is there.
+The build refuses to publish a cut pre-rendered for a release that is not tagged yet (the page of
+a local build says "<version>, release pending" and links the commit); once the tag exists,
+`node facts.mjs --same build-v6/<cut>-<format>/facts.json` must agree. `FALLBACK=1` is the one way
+to publish before every format is rendered: `data/reel.json` records each cut's `formats`,
+`fallback` and the site's `gaps`, and the page says which format plays instead.
+
+The site is bilingual (`project.reel-bilingual`). Every language of `lang/` gets the same routes
+under `/<id>/` (`/cs/`, `/cs/<cut>/`), its own `<id>/data/reel.json` and `<id>/llms.txt`, every page
+linked to its counterpart in every language (`hreflang`, `x-default`, `og:locale`, the sitemap's
+`xhtml:link`) and a switcher in the navbar. A first visit lands on the browser's language
+(`navigator.languages`), a click on the switcher or `?lang=<id>` is remembered. Every word comes
+from `site/messages.json` (English) or `lang/<id>.json` `site`, never from a template; a cut's
+chapters, narration and captions from its render in the language,
+`cuts/v6/<cut>-<format>.<id>.mp4` with `build-v6/<cut>-<format>.<id>/`. A cut not rendered in a
+language yet plays English on that language's page, which says so; `FALLBACK=1` deploys around
+it as around a missing format, and `data/reel.json` records it (`language_fallback`, `gaps`).
+To change the site's words: edit `site/messages.json`, add the same key to every
+`lang/<id>.json` `site` (same `{arguments}`, every plural category of the language), then
+`node i18n.mjs --check` and a build.
+
+`site/verify.sh` checks the live site: every route answers with its own canonical, every format a
+cut offers is served as `video/mp4` with byte ranges (so the chapters can seek), every poster and
+share picture is a JPEG, `site/seo.mjs --live` passes, every format still missing is listed, and
+the release the page names is the latest Majordomus release and not a pending one.
+`node site/test.mjs https://korczis.github.io/majordomus-reel/` runs the browser gate live.
 
 YouTube Studio, channel UCToRpxVyOCAnIN73ZuyXyMA. A video longer than three minutes is a regular
 video (chapters in the description); the short cut is a Short. Browser automation can upload a

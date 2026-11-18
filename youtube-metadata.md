@@ -1,5 +1,9 @@
 # YouTube metadata
 
+What was uploaded and why, kept as a record. The list the site renders is `site/published.json`
+(each upload and the render it is); a length or count written below is the one measured when that
+entry was written, and the site measures its own from the render.
+
 Shared settings for both videos:
 
 - Audience: No, it's not made for kids

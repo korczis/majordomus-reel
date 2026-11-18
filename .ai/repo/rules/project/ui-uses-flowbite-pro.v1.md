@@ -30,10 +30,13 @@ one design system across products, and no reinventing components the licence alr
 
 # In this repository
 
-- The user interface is the published page `site/index.html`, built by `site/build.mjs` and
-  pushed to GitHub Pages. It is the surface this rule governs. Today it is a hand-written
-  stylesheet; it moves to Tailwind with Flowbite, on the Pro page and card patterns, the next
-  time it changes.
+- The user interface is the published site: the templates `site/index.html` and
+  `site/player.html`, the views of `site/view.mjs` and the page scripts `site/app.js` and
+  `site/lang.js`, built by `site/build.mjs` into every route of every language and pushed to
+  GitHub Pages. It is the surface this rule governs. It is built on Tailwind 4 with the
+  open-source Flowbite package (`site/app.css`, `flowbite.min.js` from npm), on the Pro navbar,
+  carousel, card, filter, modal, alert and button-group patterns; every class list is named once
+  in `ui` in `site/view.mjs`, and a template names one as `{{ui_<name>}}`, never an ad-hoc style.
 - This repository and its Pages site are public. Pro markup is adapted, never copied: no file
   from the licensed sources, no Pro bundle and no Pro block as shipped is committed or published.
   Only the open-source Flowbite package may be loaded.
@@ -49,5 +52,5 @@ A UI change that does not follow Flowbite Pro is a review finding and is reworke
 
 `node ~/.claude/skills/flowbite-pro/verify.mjs <repository>` checks for Flowbite, Tailwind, other
 UI kits and this rule; a reviewer compares each UI change with the Pro template it starts from.
-The checker does not yet read `site/index.html` as a UI (on 2026-10-28 it passed this repository
-as having none), so until it does the published page is checked by review.
+`node site/test.mjs` proves the interface behaves (every route, width and language); Pro
+fidelity of a change is checked by review against the template it starts from.

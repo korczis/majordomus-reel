@@ -3,8 +3,9 @@
 // instance mode with noLoop(): every frame is one redraw() at a given time, so any frame renders
 // alone and identically. Painters draw through p5's drawingContext and use p5's noise().
 (() => {
-  const W = 1080;
-  const H = 1920;
+  // the frame render.mjs hands the page (formats.json); the phone cut when there is none
+  const W = (window.FRAME && window.FRAME.width) || 1080;
+  const H = (window.FRAME && window.FRAME.height) || 1920;
   const DT = 1 / 30;
   const TAU = Math.PI * 2;
   const inks = [];
@@ -108,6 +109,7 @@
     inks.push({ text, x0, x1: x0 + w, y0: mid ? y - size * 0.55 : y - size * 0.8, y1: mid ? y + size * 0.45 : y + size * 0.22 });
   };
   const label = (text, x, y, color, alpha, size = 30, weight = 700, align = 'center') => {
+    if (window.tr) text = window.tr(text);
     ctx.font = `${weight} ${size}px -apple-system, 'SF Pro Display', sans-serif`;
     ctx.textAlign = align;
     if (alpha > 0.5) ink(text, x, y, size, align);
@@ -117,7 +119,7 @@
   const mono = (text, x, y, color, alpha, size = 26, align = 'left') => {
     ctx.font = `600 ${size}px ui-monospace, 'SF Mono', Menlo, monospace`;
     ctx.textAlign = align;
-    if (alpha > 0.5) ink(text, x, y, size, align);
+    if (alpha > 0.5) { ink(text, x, y, size, align); inks[inks.length - 1].code = true; }
     ctx.fillStyle = `rgba(${color}, ${alpha})`;
     ctx.fillText(text, x, y);
   };
@@ -414,7 +416,8 @@
       ['CANDIDATE', 'derived at the session end', tK, C.gray, 'rgba(54,65,83,1)'],
       ['CURATED', '.ai/repo/knowledge/curated/', tPerson, C.brand, 'rgba(81,162,255,1)'],
     ];
-    const text = 'Normalise the callback URI before comparing state';
+    const text = window.tr ? window.tr('Normalise the callback URI before comparing state')
+      : 'Normalise the callback URI before comparing state';
     const h = (box.height - 40) / 3;
     return (lt, a) => {
       if (a <= 0.01) return;
@@ -432,7 +435,7 @@
           ctx.globalAlpha = 1;
         });
         label(cap, box.left + 26, y + 40, col, a * q, 20, 700, 'left');
-        mono(sub, box.left + W1 - 26, y + 40, C.gray, a * q, 20, 'right');
+        mono(window.tr ? window.tr(sub) : sub, box.left + W1 - 26, y + 40, C.gray, a * q, 20, 'right');
         ctx.font = "600 32px -apple-system, 'SF Pro Text', sans-serif";
         ctx.textAlign = 'left';
         ctx.fillStyle = `rgba(255,255,255, ${a * q})`;
@@ -616,9 +619,25 @@
     ].map((r) => {
       const len = Math.hypot(...r.dir);
       const d = [r.dir[0] / len, r.dir[1] / len];
-      const reach = (W + 120 - r.from[0]) / Math.max(0.2, d[0]);
-      return { ...r, d, to: [r.from[0] + d[0] * reach, r.from[1] + d[1] * reach] };
+      let reach = (W + 120 - r.from[0]) / Math.max(0.2, d[0]);
+      // the light never crosses the scene's words: a ray that would run into a headline, the
+      // tagline, the install line or the address fades out before it (in any frame)
+      const words = env.rects('h1, .tag, .wordmark, .install, .url').filter((b) => b.width > 0);
+      let hit = false;
+      for (let s = 40; s < reach; s += 8) {
+        const x = r.from[0] + d[0] * s;
+        const y = r.from[1] + d[1] * s;
+        if (words.some((b) => x > b.left - 36 && x < b.right + 36 && y > b.top - 36 && y < b.bottom + 36)) {
+          reach = s;
+          hit = true;
+          break;
+        }
+      }
+      const fade = hit ? Math.min(260, reach * 0.6) : 1; // a ray that hits nothing runs off the frame
+      return { ...r, d, reach, fade, to: [r.from[0] + d[0] * reach, r.from[1] + d[1] * reach] };
     });
+    // how much of a ray's light is left at distance s along it
+    const left = (ray, s) => clamp((ray.reach - s) / ray.fade);
     const centre = P(32, 34);
     const pos = (u, ray, k) => {
       let x; let y; let spread;
@@ -647,7 +666,12 @@
         const shimmer = 0.75 + 0.25 * Math.sin(t * 3 + i * 2);
         [60, 28, 8].forEach((wd, j) => {
           ctx.lineWidth = wd;
-          ctx.strokeStyle = `rgba(${r.color}, ${[0.05, 0.08, 0.22][j] * on * shimmer})`;
+          const al = [0.05, 0.08, 0.22][j] * on * shimmer;
+          const g = ctx.createLinearGradient(...r.from, ...r.to);
+          g.addColorStop(0, `rgba(${r.color}, ${al})`);
+          g.addColorStop(clamp(1 - r.fade / r.reach), `rgba(${r.color}, ${al})`);
+          g.addColorStop(1, `rgba(${r.color}, 0)`);
+          ctx.strokeStyle = g;
           ctx.beginPath(); ctx.moveTo(...r.from); ctx.lineTo(...r.to); ctx.stroke();
         });
       });
@@ -662,7 +686,8 @@
         const head = pos(u, ray, k);
         const tail = pos(Math.max(0, u - 0.035), ray, k);
         const color = u < 0.5 ? C.white : ray.color;
-        ctx.strokeStyle = `rgba(${color}, ${0.8 * on * Math.min(1, (1 - u) * 6)})`;
+        const s = u > 0.52 ? Math.hypot(head[0] - ray.from[0], head[1] - ray.from[1]) : 0;
+        ctx.strokeStyle = `rgba(${color}, ${0.8 * on * Math.min(1, (1 - u) * 6) * left(ray, s)})`;
         ctx.beginPath(); ctx.moveTo(...tail); ctx.lineTo(...head); ctx.stroke();
       }
     };
@@ -757,6 +782,7 @@
     const V = window.VIZ;
     painters = scenes.map((s) => {
       const env = {
+        id: s.id,
         el: s.el,
         rect: (sel) => s.el.querySelector(sel).getBoundingClientRect(),
         rects: (sel) => [...s.el.querySelectorAll(sel)].map((e) => e.getBoundingClientRect()),

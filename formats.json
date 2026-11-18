@@ -1,0 +1,35 @@
+{
+  "about": "The one declaration of the frames a cut is rendered in. render.mjs takes FORMAT=<id>; reel.html lays every scene out for the frame (window.FRAME); site/build.mjs encodes each at `web` and the page serves the format whose `media` matches the viewer. `detail` is the tier: an element marked data-detail=\"n\" appears only where detail >= n. `safe` is the frame the layout gate keeps a scene's ink inside, as insets from the left, top, right and bottom edges (the brand, the chapter and the rail of acts sit outside it).",
+  "formats": [
+    {
+      "id": "phone",
+      "label": "Phone",
+      "width": 1080,
+      "height": 1920,
+      "web": [720, 1280],
+      "media": "(max-aspect-ratio: 4/5)",
+      "detail": 0,
+      "safe": [60, 230, 155, 625]
+    },
+    {
+      "id": "tablet",
+      "label": "Tablet",
+      "width": 1440,
+      "height": 1080,
+      "web": [1440, 1080],
+      "media": "(min-aspect-ratio: 4/5) and (max-aspect-ratio: 3/2)",
+      "detail": 1,
+      "safe": [56, 140, 56, 110]
+    },
+    {
+      "id": "desktop",
+      "label": "Desktop",
+      "width": 1920,
+      "height": 1080,
+      "web": [1920, 1080],
+      "media": "(min-aspect-ratio: 3/2)",
+      "detail": 2,
+      "safe": [80, 140, 80, 110]
+    }
+  ]
+}

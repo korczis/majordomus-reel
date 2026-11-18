@@ -168,10 +168,24 @@
       });
     }
     const cy = cytoscape({
-      container: el, elements, style: CY_STYLE.concat(net ? NET_STYLE : [], style), layout: { name: 'preset', fit: false },
+      // every label, the ones a painter sets while it runs included, is shown in the cut's language
+      // (reel.html window.tr, with the scene for a word that means something else elsewhere)
+      container: el, elements, style: CY_STYLE.concat(net ? NET_STYLE : [], [{ selector: 'node',
+        style: { label: (n) => shown(n.data('label'), env.id) } }], style), layout: { name: 'preset', fit: false },
       zoom: 1, pan: { x: 0, y: 0 }, userZoomingEnabled: false, userPanningEnabled: false, boxSelectionEnabled: false,
       autoungrabify: true, autounselectify: true, motionBlur: false, textureOnViewport: false, pixelRatio: 1,
     });
+    // a graph laid out for a wider space than the frame gives it (a landscape column) is scaled
+    // to fit its space, never clipped; a graph that fits keeps zoom 1, so the phone cut is as drawn
+    {
+      const bb = cy.elements().boundingBox({ includeLabels: true });
+      const m = 6;
+      if (bb.x1 < m || bb.y1 < m || bb.x2 > r.width - m || bb.y2 > r.height - m) {
+        const z = Math.min(1, (r.width - 2 * m) / bb.w, (r.height - 2 * m) / bb.h);
+        cy.zoom(z);
+        cy.pan({ x: (r.width - bb.w * z) / 2 - bb.x1 * z, y: (r.height - bb.h * z) / 2 - bb.y1 * z });
+      }
+    }
     // a network settles in: each node drifts home from a little way in, and keeps breathing
     const home = new Map();
     let cx = 0;
@@ -275,7 +289,7 @@
       cy.nodes().forEach((n) => {
         if (parseFloat(n.style('opacity')) < 0.6) return;
         const b = n.renderedBoundingBox({ includeLabels: true });
-        const label = String(n.data('label') || '').replace(/\n/g, ' ');
+        const label = shown(n.data('label'), env.id).replace(/\n/g, ' ');
         if (b.x1 < -2 || b.y1 < -2 || b.x2 > r.width + 2 || b.y2 > r.height + 2) {
           G().inks.push({ clip: true, text: `graph clipped by its space: ${label || n.id()}` });
         }
@@ -292,8 +306,16 @@
   }
 
   // ---- ECharts: one theme for every chart ----
+  // a category axis's labels are shown in the cut's language; its data stay the keys the chart is
+  // drawn by
+  const shownAxes = (option, scene) => ['xAxis', 'yAxis'].forEach((k) => [].concat(option[k] || [])
+    .filter((ax) => ax.type === 'category').forEach((ax) => {
+      const own = ax.axisLabel?.formatter;
+      ax.axisLabel = { ...ax.axisLabel, formatter: (v, i) => shown(typeof own === 'function' ? own(v, i) : v, scene) };
+    }));
   function chart(env, sel, option) {
     const { el, r } = mount(env, sel);
+    shownAxes(option, env.id);
     const ch = echarts.init(el, null, { renderer: 'canvas', width: r.width, height: r.height, devicePixelRatio: 1 });
     ch.setOption({ animation: false, backgroundColor: 'transparent', textStyle: { fontFamily: MONO, color: T.muted }, ...option });
     const paint = (opt) => {
@@ -304,6 +326,8 @@
   }
   const axisQuiet = { axisLine: { show: false }, axisTick: { show: false }, splitLine: { show: false } };
 
+  // a text as the cut shows it: translated when the cut has a language (reel.html window.tr)
+  const shown = (s, scene) => (window.tr ? window.tr(String(s ?? ''), scene) : String(s ?? ''));
   const VIZ = {};
 
   // Hierarchical context: the repository as a tree; one path lights up.
@@ -617,7 +641,7 @@
       const li = document.createElement('li');
       li.dataset.t = env.cue(cue);
       li.innerHTML = `<span class="mk" style="background:${col}"></span>`
-        + `<h3 class="tl-name">${name}</h3><p class="tl-what">${what}</p>`;
+        + `<h3 class="tl-name">${shown(name, env.id)}</h3><p class="tl-what">${shown(what, env.id)}</p>`;
       ol.appendChild(li);
     });
     space.appendChild(ol);
@@ -1137,10 +1161,14 @@
   // Doctor's rules: every rule, those with a validator, the blocking ones (all validated).
   VIZ.doctor = (env) => {
     const t0 = env.cue('rule');
-    const rows = [['RULES', 61, T.ink], ['WITH A VALIDATOR', 51, T.brand], ['BLOCKING, ALL VALIDATED', 44, T.ok]];
+    // derived from the release by facts.mjs; render.mjs hands them in as window.FACTS
+    const F = window.FACTS;
+    const all = F.blocking_validated === F.blocking ? 'BLOCKING, ALL VALIDATED' : 'BLOCKING, VALIDATED';
+    const rows = [['RULES', F.rules, T.ink], ['WITH A VALIDATOR', F.rules_validated, T.brand],
+      [all, F.blocking_validated, T.ok]];
     const c = chart(env, '.bars-space', {
       grid: { left: 260, right: 60, top: 6, bottom: 6 },
-      xAxis: { type: 'value', max: 61, show: false },
+      xAxis: { type: 'value', max: F.rules, show: false },
       yAxis: { type: 'category', data: rows.map((r) => r[0]), inverse: true, ...axisQuiet,
         axisLabel: { fontFamily: SANS, fontWeight: 700, fontSize: 15, color: T.muted } },
       series: [{ type: 'bar', barWidth: 26, data: [], label: { show: true, position: 'right', fontFamily: MONO, fontSize: 20, color: T.ink } }],
@@ -1190,7 +1218,7 @@
           if (te <= lt) data.push({ value: [te, i], symbolSize: 11 });
         }
         if (lt > cues[i]) data.push({ value: [cues[i], i], symbolSize: 26, itemStyle: { borderColor: T.bg, borderWidth: 3, color: T.brand } });
-        return { data, markLine: i ? undefined : { silent: true, symbol: 'none', label: { formatter: 'now', color: T.muted, fontFamily: MONO },
+        return { data, markLine: i ? undefined : { silent: true, symbol: 'none', label: { formatter: shown('now', env.id), color: T.muted, fontFamily: MONO },
           lineStyle: { color: T.ink, type: 'solid', width: 1.5 }, data: [{ xAxis: lt }] } };
       });
       c.paint({ xAxis: { min: lt - span, max: lt + 0.2 }, series });
