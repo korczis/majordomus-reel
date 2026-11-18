@@ -98,6 +98,32 @@
       "improved": [
         "renders.cs"
       ]
+    },
+    {
+      "at": "2026-11-18T02:56:45.055Z",
+      "head": "8af6a9a9b75b3fb74acd725eb8884c17132f0c72",
+      "note": "facts.mjs finds prismatic-majordomus from a linked worktree; the ratchet measures it (portability.worktree_gates)",
+      "values": {
+        "facts.findings": 0,
+        "i18n.languages": 2,
+        "renders.formats": 3,
+        "portability.worktree_gates": 1,
+        "renders.en": 14,
+        "renders.cs": 11,
+        "i18n.cs.scenes": 45,
+        "i18n.cs.scenes_missing": 0,
+        "i18n.cs.cues_unsaid": 0,
+        "i18n.cs.text_untranslated": 0,
+        "i18n.cs.stale": 0,
+        "i18n.cs.typed": 0,
+        "i18n.cs.catalogue_missing": 0,
+        "site.cs.messages_missing": 0,
+        "site.cs.messages_stale": 0
+      },
+      "improved": [
+        "portability.worktree_gates",
+        "renders.cs"
+      ]
     }
   ],
   "measures": {
@@ -112,6 +138,10 @@
     "renders.formats": {
       "better": "up",
       "about": "formats every cut is composed for (formats.json)"
+    },
+    "portability.worktree_gates": {
+      "better": "up",
+      "about": "the facts gate runs here with no override (MAJORDOMUS_REPO unset), so a linked worktree checks what the primary checkout checks: 1 or 0"
     },
     "renders.en": {
       "better": "up",

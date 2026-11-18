@@ -5,7 +5,7 @@
 //   node facts.mjs            -> prints the facts as JSON
 //   node facts.mjs --check    -> exit 1 when a source types a fact or names one that is unknown
 //
-// MAJORDOMUS_REPO is a clone of korczis/prismatic-majordomus (default ../prismatic-majordomus);
+// MAJORDOMUS_REPO is a clone of korczis/prismatic-majordomus (default: beside the primary checkout);
 // MAJORDOMUS_TAG pins the release (default: the newest stable v* tag the clone holds).
 import { spawnSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
@@ -13,7 +13,12 @@ import { join, dirname, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const DIR = dirname(fileURLToPath(import.meta.url));
-const REPO = resolve(process.env.MAJORDOMUS_REPO || join(DIR, '..', 'prismatic-majordomus'));
+// beside the primary checkout: a linked worktree (majordomus worktree, <repo>-wt/<branch>) has its
+// own directory, but the clone it sits beside is the primary's, found from the shared git dir
+const COMMON = spawnSync('git', ['-C', DIR, 'rev-parse', '--path-format=absolute', '--git-common-dir'],
+  { encoding: 'utf8' }).stdout?.trim();
+const PRIMARY = COMMON ? dirname(COMMON) : DIR;
+const REPO = resolve(process.env.MAJORDOMUS_REPO || join(PRIMARY, '..', 'prismatic-majordomus'));
 
 const git = (...args) => {
   const r = spawnSync('git', ['-C', REPO, ...args], { encoding: 'utf8', maxBuffer: 1 << 26 });

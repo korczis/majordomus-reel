@@ -41,6 +41,8 @@ const MEASURES = {
   'facts.findings': ['down', 'typed or unknown Majordomus facts (facts.mjs --check)'],
   'i18n.languages': ['up', 'languages the reel is rendered in, English included'],
   'renders.formats': ['up', 'formats every cut is composed for (formats.json)'],
+  'portability.worktree_gates': ['up', 'the facts gate runs here with no override (MAJORDOMUS_REPO '
+    + 'unset), so a linked worktree checks what the primary checkout checks: 1 or 0'],
 };
 const measureLang = (l) => ({
   [`i18n.${l}.scenes`]: ['up', `scenes ${l} translates`],
@@ -82,16 +84,32 @@ export async function measure() {
   const langs = languages();
   const values = {};
   const about = { ...MEASURES };
-  values['facts.findings'] = check(derive()).length;
+  // a measure that cannot be taken is reported and left out, so the ratchet sees it as gone
+  const fail = (what, e) => console.error(`quality: cannot measure ${what}: ${String(e.message).split('\n')[0]}`);
+  try {
+    values['facts.findings'] = check(derive()).length;
+  } catch (e) {
+    fail('facts.findings', e);
+  }
   values['i18n.languages'] = langs.length;
   values['renders.formats'] = FORMATS.length;
+  const bare = { ...process.env };
+  delete bare.MAJORDOMUS_REPO;
+  values['portability.worktree_gates'] = spawnSync(process.execPath, [join(DIR, 'facts.mjs')],
+    { cwd: DIR, env: bare, encoding: 'utf8' }).status === 0 ? 1 : 0;
   for (const l of langs) {
     Object.assign(about, measureRenders(l), measureSite(l));
     values[`renders.${l}`] = rendered(l);
     if (SITE_OUT) values[`site.${l}.routes`] = routesIn(l, langs);
     if (l === 'en') continue;
     Object.assign(about, measureLang(l));
-    const { coverage: c } = await audit(l);
+    let c;
+    try {
+      ({ coverage: c } = await audit(l));
+    } catch (e) {
+      fail(`i18n.${l}`, e);
+      continue;
+    }
     Object.assign(values, {
       [`i18n.${l}.scenes`]: c.scenes, [`i18n.${l}.scenes_missing`]: c.scenes_missing,
       [`i18n.${l}.cues_unsaid`]: c.cues_unsaid, [`i18n.${l}.text_untranslated`]: c.text_untranslated,
