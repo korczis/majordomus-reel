@@ -85,6 +85,51 @@ export function derive() {
   };
 }
 
+// The use cases the release ships (.ai/repo/use-cases/<id>.md) and the categories they are
+// filed under (taxonomy.yaml), read from the same commit as the facts. A scene names the use
+// cases it shows (`use_cases` in scenes.json); the stories, the page's links and the site's
+// use-case index are derived from that one declaration.
+const scalar = (fm, k) => {
+  const m = fm.match(new RegExp(`^${k}:\\s*(.+)$`, 'm'));
+  if (!m) return undefined;
+  const v = m[1].trim();
+  return /^(['"]).*\1$/.test(v) ? v.slice(1, -1).replace(/''/g, "'") : v;
+};
+export function catalogue(facts = derive()) {
+  const ref = facts.commit;
+  const dir = '.ai/repo/use-cases';
+  const files = git('ls-tree', '-r', '--name-only', ref, dir).split('\n')
+    .filter((f) => /\/[a-z0-9-]+\.md$/.test(f) && !f.endsWith('/README.md'));
+  const useCases = files.map((f) => {
+    const fm = git('show', `${ref}:${f}`).split(/^---$/m)[1] || '';
+    return { id: scalar(fm, 'id'), title: scalar(fm, 'title'), summary: scalar(fm, 'summary'),
+      category: scalar(fm, 'category'), status: scalar(fm, 'status') || 'active' };
+  }).filter((u) => u.id && u.status !== 'deprecated');
+  const tax = git('show', `${ref}:${dir}/taxonomy.yaml`);
+  const categories = tax.split(/^\s+- id:\s*/m).slice(1).map((block) => {
+    const fm = `id: ${block}`.replace(/^\s+/gm, '');
+    return { id: scalar(fm, 'id'), title: scalar(fm, 'title'), summary: scalar(fm, 'summary'),
+      order: Number(scalar(fm, 'order') || 0) };
+  }).sort((a, b) => a.order - b.order);
+  if (!useCases.length || !categories.length) {
+    throw new Error(`${facts.tag} ships no use cases or no taxonomy under ${dir}`);
+  }
+  return { site: 'https://majordomus.dev', useCases, categories };
+}
+
+// The facts a cut states: the placeholders of its narration and of the scenes it shows. A cut
+// stays current while these equal the release's, whatever else the release changed.
+export function uses(scenes, html) {
+  const names = new Set();
+  const take = (text) => { for (const m of text.matchAll(PLACEHOLDER)) names.add(m[1]); };
+  scenes.forEach((s) => {
+    take(s.vo);
+    const sec = html.match(new RegExp(`<section[^>]*id="${s.id}"[\\s\\S]*?</section>`));
+    if (sec) take(sec[0]);
+  });
+  return [...names].sort();
+}
+
 const ONES = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten',
   'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen',
   'nineteen'];
@@ -155,6 +200,19 @@ export function check(facts) {
       }
     });
   }
+  // every use case a scene names exists in the release, and every category it implies has a title
+  try {
+    const { useCases } = catalogue(facts);
+    const known = new Set(useCases.map((u) => u.id));
+    for (const file of ['scenes.json', 'scenes-short.json']) {
+      JSON.parse(readFileSync(join(DIR, file), 'utf8')).forEach((s) => (s.use_cases || [])
+        .filter((id) => !known.has(id))
+        .forEach((id) => findings.push(`${file}: scene ${s.id} names use case "${id}", `
+          + `which ${facts.tag} does not ship`)));
+    }
+  } catch (e) {
+    findings.push(`use cases: ${e.message}`);
+  }
   if (facts.blocking_validated !== facts.blocking) {
     findings.push(`the narration says every blocking rule has a validator; ${facts.tag} has `
       + `${facts.blocking_validated} of ${facts.blocking}`);
@@ -168,7 +226,9 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
   if (same > 0) {
     // the counts and the version a pre-rendered cut was made with, against the release now
     const cut = JSON.parse(readFileSync(process.argv[same + 1], 'utf8'));
-    const keys = ['version', 'rules', 'rules_validated', 'blocking', 'blocking_validated', 'adrs'];
+    // a cut that records the facts it states (`uses`) is compared on those alone
+    const keys = cut.uses
+      || ['version', 'rules', 'rules_validated', 'blocking', 'blocking_validated', 'adrs'];
     const differ = keys.filter((k) => cut[k] !== facts[k]);
     differ.forEach((k) => console.log(`DIFF ${k}: cut ${cut[k]}, ${facts.tag} ${facts[k]}`));
     console.log(differ.length ? `facts: the cut is not ${facts.tag}'s; re-render`

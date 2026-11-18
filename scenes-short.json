@@ -5,7 +5,8 @@
     "min": 6,
     "nocaption": true,
     "title": "The manifesto",
-    "act": "PROBLEM"
+    "act": "PROBLEM",
+    "use_cases": ["catch-an-agent-that-says-it-is-done"]
   },
   {
     "id": "stats",
@@ -26,21 +27,24 @@
     "vo": "When an agent says it's finished, Majordomus checks the scope, the state, and the tests. And when anything fails, it refuses.",
     "min": 8,
     "title": "Done is a contract",
-    "act": "CONTRACT"
+    "act": "CONTRACT",
+    "use_cases": ["catch-an-agent-that-says-it-is-done", "accept-or-refuse-finished-work", "know-whether-this-work-is-finished"]
   },
   {
     "id": "provenance",
     "vo": "And every proof leaves a record. The test, the commit, the tree, the time, and the exact command. Provenance, not promises.",
     "min": 9,
     "title": "Provenance, not promises",
-    "act": "CONTRACT"
+    "act": "CONTRACT",
+    "use_cases": ["prove-what-a-task-owed-before-calling-it-done", "say-what-reached-the-remote-and-what-did-not"]
   },
   {
     "id": "setup",
     "vo": "Install it with one line. Initialise your repository. Then start a task with a scope, and let your agents work.",
     "min": 8,
     "title": "Three commands",
-    "act": "WORKFLOW"
+    "act": "WORKFLOW",
+    "use_cases": ["install-the-tool-in-one-command", "adopt-an-existing-repository"]
   },
   {
     "id": "models",
@@ -54,14 +58,16 @@
     "vo": "Claude, Codex and Gemini share one board. When two reach for the same file, you hear about it before the merge.",
     "min": 7.5,
     "title": "One board, every agent",
-    "act": "MESH"
+    "act": "MESH",
+    "use_cases": ["run-several-workers-at-once"]
   },
   {
     "id": "seats",
     "title": "Work moves through seats",
     "act": "MESH",
     "min": 14,
-    "vo": "Work moves through seats. One seat lands green work in combined tops. One releases whenever master is ahead of the last tag. Repair lanes bring stale branches current, and each worker holds one issue. A seat is a claim, so it falls vacant when its holder stops beating."
+    "vo": "Work moves through seats. One seat lands green work in combined tops. One releases whenever master is ahead of the last tag. Repair lanes bring stale branches current, and each worker holds one issue. A seat is a claim, so it falls vacant when its holder stops beating.",
+    "use_cases": ["deliver-issues-in-waves"]
   },
   {
     "id": "machines",
@@ -82,7 +88,8 @@
     "vo": "Not your repository to change? Personal mode keeps the whole layer in your clone, and the team's tree stays byte for byte what they committed.",
     "min": 10,
     "title": "Personal mode",
-    "act": "MEMORY"
+    "act": "MEMORY",
+    "use_cases": ["use-the-tool-as-your-own-in-a-shared-repository"]
   },
   {
     "id": "beliefs",

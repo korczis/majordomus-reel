@@ -8,7 +8,8 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import { cpus } from 'node:os';
 import puppeteer from 'puppeteer-core';
 import { synthesize, writeWav } from './synth.mjs';
-import { derive, check, fill } from './facts.mjs';
+import { derive, check, fill, uses, catalogue } from './facts.mjs';
+import { stories, storyScenes } from './stories.mjs';
 
 const DIR = dirname(fileURLToPath(import.meta.url));
 const FPS = Number(process.env.FPS || 30);
@@ -21,6 +22,11 @@ const CHROME = process.env.CHROME
 const WORKERS = Number(process.env.WORKERS || Math.min(6, Math.max(2, cpus().length / 2)));
 const BUILD = process.env.BUILD || join(DIR, 'build');
 const VO_LEAD = 0.25; // keep in step with reel.html
+// the frame: one of formats.json (project.reel-tailored-per-device); phone is the original cut
+const FORMATS = JSON.parse(readFileSync(join(DIR, 'formats.json'), 'utf8')).formats;
+const FORMAT = FORMATS.find((f) => f.id === (process.env.FORMAT || 'phone'));
+if (!FORMAT) throw new Error(`FORMAT=${process.env.FORMAT}: formats.json declares `
+  + `${FORMATS.map((f) => f.id).join(', ')}`);
 const TAIL = 0.85;
 
 mkdirSync(BUILD, { recursive: true });
@@ -33,10 +39,25 @@ if (findings.length) {
   console.error(`facts: refused, ${findings.length} typed or unknown fact(s); see facts.mjs`);
   process.exit(1);
 }
-writeFileSync(join(BUILD, 'facts.json'), JSON.stringify(facts, null, 2) + '\n');
-console.log(`0/5 facts from ${facts.tag} (${facts.commit.slice(0, 12)})`);
-const scenes = JSON.parse(readFileSync(join(DIR, process.env.SCENES || 'scenes.json'), 'utf8'))
-  .map((s) => ({ ...s, vo: fill(s.vo, facts) }));
+// the release's use cases by id: the desktop composition names the ones a scene shows
+const useCaseTitles = Object.fromEntries(catalogue(facts).useCases
+  .map((u) => [u.id, { title: u.title, category: u.category }]));
+// STORY=<category> renders one story (stories.mjs) instead of a scene file
+const story = process.env.STORY ? stories(facts).find((s) => s.id === process.env.STORY) : null;
+if (process.env.STORY && !story) {
+  throw new Error(`STORY=${process.env.STORY}: the stories are ${stories(facts).map((s) => s.id).join(', ')}`);
+}
+const authored = story ? storyScenes(story)
+  : JSON.parse(readFileSync(join(DIR, process.env.SCENES || 'scenes.json'), 'utf8'));
+const scenes = authored.map((s) => ({ ...s, vo: fill(s.vo, facts) }));
+// the cut records the facts it states, its format and its story: `facts.mjs --same` compares
+// only those facts, and site/build.mjs reads the rest
+const stated = uses(authored, readFileSync(join(DIR, 'reel.html'), 'utf8'));
+writeFileSync(join(BUILD, 'facts.json'), JSON.stringify({ ...facts, uses: stated,
+  format: FORMAT.id, captions: Boolean(process.env.CAPTIONS), ...(story ? { story: story.id } : {}) },
+null, 2) + '\n');
+console.log(`0/5 facts from ${facts.tag} (${facts.commit.slice(0, 12)}), ${FORMAT.id} `
+  + `${FORMAT.width}x${FORMAT.height}${story ? `, story ${story.id}` : ''}`);
 
 const run = (cmd, args) => {
   const r = spawnSync(cmd, args, { encoding: 'utf8', maxBuffer: 1 << 26 });
@@ -113,7 +134,16 @@ const starts = durations.reduce((acc, d, i) => [...acc, acc[i] + d], [0]).slice(
 const total = durations.reduce((a, b) => a + b, 0);
 console.log(`   ${durations.map((d) => d.toFixed(1)).join(' + ')} = ${total.toFixed(1)} s`);
 // burned-in subtitles are off unless CAPTIONS=1: YouTube generates captions, the frame keeps its room
-const chunks = process.env.CAPTIONS ? captionChunks(starts) : [];
+const phrases = captionChunks(starts);
+const chunks = process.env.CAPTIONS ? phrases : [];
+// the page's subtitles (WebVTT) and the timeline the site and the stills read, for every cut
+const vttTime = (s) => new Date(Math.max(0, s) * 1000).toISOString().slice(11, 23);
+writeFileSync(join(BUILD, 'captions.vtt'), `WEBVTT\n\n${phrases.map((c, k) => `${k + 1}\n`
+  + `${vttTime(c.start)} --> ${vttTime(c.end)}\n${c.words.map((w) => w.text).join(' ')}\n`).join('\n')}`);
+writeFileSync(join(BUILD, 'timeline.json'), JSON.stringify({ format: FORMAT.id,
+  ...(story ? { story: story.id } : {}), total, scenes: scenes.map((s, i) => ({ id: s.id,
+    title: s.title || s.id, act: s.act || '', start: +starts[i].toFixed(3),
+    duration: +durations[i].toFixed(3), use_cases: s.use_cases || [], vo: s.vo })) }, null, 2) + '\n');
 const words = clips.map((c) => c.words);
 
 console.log(`2/5 frames (${WORKERS} workers)`);
@@ -126,12 +156,15 @@ const pages = [];
 let timeline;
 for (let w = 0; w < WORKERS; w++) {
   const page = await browser.newPage();
-  await page.setViewport({ width: 1080, height: 1920, deviceScaleFactor: 1 });
-  await page.evaluateOnNewDocument((f) => { window.FACTS = f; }, facts);
+  await page.setViewport({ width: FORMAT.width, height: FORMAT.height, deviceScaleFactor: 1 });
+  await page.evaluateOnNewDocument((f, frame, st, uc) => {
+    window.FACTS = f; window.FRAME = frame; window.STORY = st; window.USE_CASES = uc;
+  }, facts, FORMAT, story, useCaseTitles);
   await page.goto(pathToFileURL(join(DIR, 'reel.html')).href, { waitUntil: 'load' });
   timeline = await page.evaluate((d) => window.setup(d), {
     durations, words, chunks, ids: scenes.map((sc) => sc.id), titles: scenes.map((sc) => sc.title || sc.id),
-    acts: scenes.map((sc) => sc.act || ''),
+    acts: scenes.map((sc) => sc.act || ''), useCases: scenes.map((sc) => sc.use_cases || []),
+    vos: scenes.map((sc) => sc.vo),
   });
   pages.push(page);
 }
@@ -141,6 +174,14 @@ timeline.warnings.forEach((w) => console.warn(`   warning: ${w}`));
 const stamp = (t) => `${String(Math.floor(t / 60)).padStart(2, '0')}:${String(Math.floor(t % 60)).padStart(2, '0')}`;
 writeFileSync(join(BUILD, 'chapters.txt'),
   scenes.filter((sc) => sc.id !== 'loop').map((sc, i) => `${stamp(starts[i])} ${sc.title || sc.id}`).join('\n') + '\n');
+
+// TIMELINE=1 stops here: the voice (cached), the timeline, the captions and the chapters of a cut,
+// for a render made before render.mjs wrote them
+if (process.env.TIMELINE) {
+  await browser.close();
+  console.log(`timeline: ${join(BUILD, 'timeline.json')} (${total.toFixed(1)} s)`);
+  process.exit(0);
+}
 
 // CHECK=1 renders every scene's first frames (a painter that throws fails the gate) and walks it
 // at the middle and the end of its time, reporting any text that overlaps another or leaves the

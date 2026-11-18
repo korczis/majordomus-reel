@@ -642,6 +642,48 @@
   .files.fold { margin-top: 18px; }
   .files.fold .fr { grid-template-columns: 1fr 200px 190px; }
   .files.fold .fr code { font-size: 27px; }
+
+  /* the use-case story's title card (stories.mjs): the category, then the use cases it shows */
+  .story-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); max-width: 830px; }
+  .story-list li { display: grid; grid-template-columns: 72px 1fr; align-items: baseline; padding: 20px 0;
+    border-bottom: 1px solid var(--line); font-size: 36px; line-height: 1.22; color: var(--ink); text-wrap: pretty; }
+  .story-list li span { font-family: var(--mono); font-size: 18px; letter-spacing: .18em; color: var(--brand); }
+  .story-list li.more { color: var(--ink-3); font-size: 28px; }
+  .story-url { margin-top: 34px; font-family: var(--mono); font-size: 22px; letter-spacing: .06em; color: var(--ink-3); }
+
+  /* ---- landscape: tablet and desktop (formats.json), composed for the frame, not scaled -------
+     A scene splits into two columns: the words (kicker, headline, and with detail the narration
+     as it is spoken and the use cases the scene shows) and the visual. Each column is fitted to
+     the frame by layoutFrame(); manifesto pages, the reveal and the call to act stay one centred
+     column. The brand, the chapter and the rail of acts sit on the frame's edges. */
+  body[data-orientation="landscape"] .brand { top: 52px; left: var(--safe-l); }
+  body[data-orientation="landscape"] .chapter { top: 62px; right: var(--safe-r); }
+  body[data-orientation="landscape"] .rail { left: var(--safe-l); right: var(--safe-r); bottom: 52px; }
+  body[data-orientation="landscape"] .scene { padding: var(--safe-t) var(--safe-r) var(--safe-b) var(--safe-l); }
+  body[data-orientation="landscape"] .scene.split { display: grid; align-items: center; justify-content: center;
+    grid-template-columns: var(--col-text) var(--col-vis); column-gap: var(--col-gap); }
+  body[data-orientation="landscape"] .scene.solo { justify-content: center; align-items: center; }
+  body[data-orientation="landscape"] .col-text { display: flex; flex-direction: column; justify-content: center;
+    width: var(--col-text-base); transform-origin: 0 50%; }
+  body[data-orientation="landscape"] .col-text h2 { max-width: none; }
+  body[data-orientation="landscape"] .col-vis { display: flex; flex-direction: column; justify-content: center;
+    width: var(--col-vis-base); gap: 0; }
+  body[data-orientation="landscape"] .col-vis > :first-child { margin-top: 0 !important; }
+  body[data-orientation="landscape"] .col-vis.drawn [class$="-space"] { flex: 1 1 0; min-height: 0; }
+  body[data-orientation="landscape"] .solo-body { display: flex; flex-direction: column; justify-content: center;
+    width: var(--solo-base); }
+  body[data-orientation="landscape"] .cap { display: none !important; }
+  /* the narration, as it is spoken: said words in ink, the rest waiting in the third grey */
+  .narr { margin-top: 36px; font-size: 30px; line-height: 1.42; color: #3a3f47; text-wrap: pretty; }
+  .narr .nw.on { color: var(--ink-2); }
+  /* the use cases the scene shows, each where it lives on majordomus.dev */
+  .uc { margin-top: 40px; border-top: 1px solid var(--line); }
+  .uc-hd { margin: 18px 0 6px; font-family: var(--sans); font-size: 16px; font-weight: 600; letter-spacing: .18em;
+    text-transform: uppercase; color: var(--ink-3); }
+  .uc-row { display: grid; grid-template-columns: 1fr; padding: 12px 0; border-bottom: 1px solid var(--line); }
+  .uc-row b { font-weight: 500; font-size: 24px; line-height: 1.3; color: var(--ink); text-wrap: pretty; }
+  .uc-row span { margin-top: 4px; font-family: var(--mono); font-size: 16px; color: var(--brand); letter-spacing: .02em;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 </style>
 </head>
 <body>
@@ -662,6 +704,14 @@
   </svg>
   <div><small>PRISMATIC</small>Majordomus</div>
 </div>
+
+<!-- story: the title card of a use-case story (stories.mjs), filled from window.STORY -->
+<section class="scene" id="story" style="--tint: 56,189,248">
+  <div class="kicker" data-at="0.05">Majordomus &middot; a use-case story</div>
+  <h2 class="story-title" data-fx="words" data-at="0.15"></h2>
+  <ol class="story-list"></ol>
+  <div class="story-url"></div>
+</section>
 
 <!-- 1. hook -->
 <section class="scene manifesto" id="hook" data-nobrand style="--tint: 167,139,250">
@@ -1371,8 +1421,191 @@
     }
   }
 
-  window.setup = ({ durations, words, chunks, ids, titles, acts }) => {
+  // Landscape composition: every scene that has a headline splits into the words and the visual;
+  // the rest stays one centred column. Runs before any timing is read, so cues, painters and the
+  // layout gate all see the final layout.
+  const BASE_VIS = 880;   // the width the visuals were drawn for in the portrait cut
+  function splitScenes(F, useCases) {
+    document.querySelectorAll('.scene').forEach((sc) => {
+      const kids = [...sc.children];
+      const h2 = kids.find((k) => k.tagName === 'H2');
+      const solo = sc.classList.contains('manifesto') || sc.id === 'reveal' || sc.id === 'cta' || !h2;
+      if (solo) {
+        const body = document.createElement('div');
+        body.className = 'solo-body';
+        kids.filter((k) => !k.classList.contains('rays')).forEach((k) => body.appendChild(k));
+        sc.appendChild(body);
+        sc.classList.add('solo');
+        return;
+      }
+      const text = document.createElement('div');
+      text.className = 'col-text';
+      const vis = document.createElement('div');
+      vis.className = 'col-vis';
+      const head = kids.slice(0, kids.indexOf(h2) + 1).filter((k) => k.matches('.kicker, h2'));
+      kids.forEach((k) => (head.includes(k) ? text : vis).appendChild(k));
+      sc.append(text, vis);
+      sc.classList.add('split');
+      // detail 1 and up: the narration, voiced word by word (filled in setup from the words)
+      if ((F.detail || 0) >= 1 && sc.id !== 'story') {
+        const narr = document.createElement('p');
+        narr.className = 'narr';
+        text.appendChild(narr);
+      }
+      // detail 2: the use cases this scene shows (scenes.json), as the release titles them
+      const ids = (sc.dataset.useCases || '').split(' ').filter((id) => useCases[id]);
+      if ((F.detail || 0) >= 2 && ids.length) {
+        const box = document.createElement('div');
+        box.className = 'uc';
+        box.innerHTML = `<div class="uc-hd" data-at="0.9" data-fx="up">Use cases it shows</div>`
+          + ids.slice(0, 3).map((id, k) => `<div class="uc-row" data-at="${(1.1 + k * 0.3).toFixed(1)}" `
+          + `data-fx="up"><b>${useCases[id].title.replace(/</g, '&lt;')}</b>`
+          + `<span>majordomus.dev/use-cases/${id}/</span></div>`).join('');
+        text.appendChild(box);
+      }
+    });
+  }
+
+  // Fit each column to the frame: the visual keeps the width it was drawn for and is zoomed to
+  // the column (never above 1), then given the column's full height so graph spaces grow into it.
+  function layoutFrame(F) {
+    const [l, top, r, bottom] = F.safe;
+    const root = document.documentElement.style;
+    root.setProperty('--safe-l', `${l + 16}px`);
+    root.setProperty('--safe-r', `${r + 16}px`);
+    root.setProperty('--safe-t', `${top + 10}px`);
+    root.setProperty('--safe-b', `${bottom + 10}px`);
+    const W = F.width - l - r - 32;
+    const H = F.height - top - bottom - 20;
+    // the visual keeps the width it was drawn for; the words take what is left, and below the
+    // width a headline needs they are set smaller rather than squeezing the visual
+    const gap = Math.round(W * 0.05);
+    const TEXT_MIN = 480;
+    const textW = Math.min(Math.round(W * 0.37), W - gap - BASE_VIS);
+    const visW = W - gap - textW;
+    const textBase = Math.max(textW, TEXT_MIN);
+    root.setProperty('--col-gap', `${gap}px`);
+    root.setProperty('--col-text', `${textW}px`);
+    root.setProperty('--col-vis', `${visW}px`);
+    root.setProperty('--col-text-base', `${textBase}px`);
+    root.setProperty('--col-vis-base', `${BASE_VIS}px`);
+    root.setProperty('--solo-base', `${Math.min(W, 1180)}px`);
+    document.querySelectorAll('.scene').forEach((sc) => {
+      const shown = sc.style.display;
+      sc.style.display = 'grid';
+      sc.style.opacity = '0';
+      if (sc.classList.contains('split')) {
+        const vis = sc.querySelector('.col-vis');
+        const text = sc.querySelector('.col-text');
+        vis.style.height = 'auto';
+        const drawn = vis.querySelector('[class$="-space"]');
+        if (drawn) {
+          // a graph or a chart lays itself out in its space: give the column its real width and
+          // height and let the spaces take what the rest leaves (a zoom would mis-scale them)
+          vis.style.width = `${Math.min(BASE_VIS, visW)}px`;
+          vis.style.height = `${H}px`;
+          vis.classList.add('drawn');
+        } else {
+          const z = Math.min(1, visW / BASE_VIS, H / Math.max(1, vis.scrollHeight));
+          vis.style.zoom = z;
+          vis.style.height = `${Math.floor(H / z)}px`;
+        }
+        text.style.width = `${textBase}px`;
+        const zt = Math.min(textW / textBase, H / Math.max(1, text.scrollHeight));
+        text.style.zoom = zt;
+        text.style.width = `${Math.floor(textW / zt)}px`;
+      } else if (sc.classList.contains('solo')) {
+        sc.style.display = 'flex';
+        const body = sc.querySelector('.solo-body');
+        const z = Math.min(1, H / Math.max(1, body.scrollHeight));
+        body.style.zoom = z;
+      }
+      sc.style.display = shown;
+    });
+  }
+
+  // The frame render.mjs hands the page (window.FRAME, one of formats.json): the page takes its
+  // size, and body[data-format] selects the composition written for it.
+  function applyFrame() {
+    const F = window.FRAME || { id: 'phone', width: 1080, height: 1920, detail: 0 };
+    for (const el of [document.documentElement, document.body]) {
+      el.style.width = `${F.width}px`;
+      el.style.height = `${F.height}px`;
+    }
+    document.body.dataset.format = F.id;
+    document.body.dataset.orientation = F.width > F.height ? 'landscape' : 'portrait';
+    document.body.dataset.detail = String(F.detail || 0);
+    // detail follows space: an element marked data-detail="n" exists only where detail >= n
+    document.querySelectorAll('[data-detail]').forEach((el) => {
+      if (Number(el.dataset.detail) > (F.detail || 0)) el.remove();
+    });
+    const fx = document.getElementById('fx');
+    fx.width = F.width;
+    fx.height = F.height;
+    if (F.width > F.height) splitScenes(F, window.USE_CASES || {});
+  }
+
+  // A story's title card (window.STORY, from stories.mjs): its title with the last word set as
+  // the accent, the use cases it shows (five at most, then how many more), and where they live.
+  function fillStory() {
+    const S = window.STORY;
+    const card = document.getElementById('story');
+    if (!S || !card) return;
+    const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
+    const words = S.title.split(' ');
+    card.querySelector('.story-title').innerHTML = `${esc(words.slice(0, -1).join(' '))} `
+      + `<span class="accent">${esc(words[words.length - 1])}.</span>`;
+    const cap = 5;
+    const items = S.use_cases.slice(0, cap).map((u, k) => `<li data-at="${(1.1 + k * 0.42).toFixed(2)}" `
+      + `data-fx="up" data-sfx="tick"><span>${String(k + 1).padStart(2, '0')}</span>${esc(u.title)}</li>`);
+    if (S.use_cases.length > cap) {
+      items.push(`<li class="more" data-at="${(1.1 + cap * 0.42).toFixed(2)}" data-fx="up"><span>+</span>`
+        + `${S.use_cases.length - cap} more on majordomus.dev</li>`);
+    }
+    card.querySelector('.story-list').innerHTML = items.join('');
+    const url = card.querySelector('.story-url');
+    url.textContent = S.url.replace(/^https:\/\//, '');
+    url.dataset.at = (1.4 + Math.min(cap, S.use_cases.length) * 0.42).toFixed(2);
+    url.dataset.fx = 'up';
+  }
+
+  // The narration of a scene as it is voiced: the scene's own words (punctuation and all), each
+  // lit at the time the voice says it (the TTS word boundaries, matched in order).
+  function fillNarration(el, vo, spoken) {
+    const narr = el && el.querySelector('.narr');
+    if (!narr) return [];
+    const tokens = vo.replace(/\.\.\./g, '\u2026').split(/\s+/).filter(Boolean);
+    let k = 0;
+    let t = 0;
+    narr.innerHTML = '';
+    return tokens.map((tok) => {
+      const n = norm(tok);
+      for (let j = k; j < Math.min(spoken.length, k + 4); j++) {
+        if (n && norm(spoken[j].text) && n.startsWith(norm(spoken[j].text).slice(0, 3))) {
+          t = spoken[j].start + VO_LEAD;
+          k = j + 1;
+          break;
+        }
+      }
+      const span = document.createElement('span');
+      span.className = 'nw';
+      span.textContent = tok;
+      narr.append(span, ' ');
+      return { e: span, t };
+    });
+  }
+
+  window.setup = ({ durations, words, chunks, ids, titles, acts, useCases, vos }) => {
+    (ids || []).forEach((id, i) => {
+      const el = document.getElementById(id);
+      if (el && useCases) el.dataset.useCases = (useCases[i] || []).join(' ');
+    });
+    applyFrame();
+    fillStory();
     fillFacts();
+    const narration = Object.fromEntries((ids || []).map((id, i) =>
+      [id, vos ? fillNarration(document.getElementById(id), vos[i], words[i]) : []]));
+    if (window.FRAME && window.FRAME.width > window.FRAME.height) layoutFrame(window.FRAME);
     const warnings = [];
     const events = [];
     document.querySelectorAll('.scene').forEach((sc) => {
@@ -1401,8 +1634,9 @@
     all.forEach((el) => { if (ids && !ids.includes(el.id)) el.style.display = 'none'; });
     chapterTitles = titles || [];
     chapterActs = acts || [];
-    scenes = all.filter((el) => !ids || ids.includes(el.id)).map((el, i) => {
-      const s = { el, start, dur: durations[i], items: [], shakes: [] };
+    // the cut's order, not the page's: a story closes on the install line wherever it sits
+    scenes = (ids ? ids.map((id) => document.getElementById(id)) : all).map((el, i) => {
+      const s = { el, start, dur: durations[i], items: [], shakes: [], narr: narration[el.id] || [] };
       el.querySelectorAll('[data-at], [data-cue]').forEach((e) => {
         let at = parseFloat(e.dataset.at || '0');
         if (e.dataset.cue) at += cueTime(words[i], e.dataset.cue, warnings, el.id);
@@ -1592,9 +1826,12 @@
       const isRail = b.host && b.host.classList.contains('rail');
       const isTop = b.host && (b.host.classList.contains('chapter') || b.host.classList.contains('brand'));
       if (isTop) return;
-      if (b.x0 < 60 || b.x1 > 925) out.push(`outside the frame (x ${Math.round(b.x0)}-${Math.round(b.x1)}): ${b.text}`);
-      const floor = b.host && b.host.dataset && b.host.dataset.nobrand !== undefined ? 1300 : 1295;
-      if (!isCap && !isRail && (b.y0 < 230 || b.y1 > floor)) out.push(`outside the frame (y ${Math.round(b.y0)}-${Math.round(b.y1)}): ${b.text}`);
+      // the safe frame of the format being rendered (formats.json); the phone's is the Shorts frame
+      const F = window.FRAME || { width: 1080, height: 1920, safe: [60, 230, 155, 625] };
+      const [sl, st, sr, sb] = F.safe;
+      if (b.x0 < sl || b.x1 > F.width - sr) out.push(`outside the frame (x ${Math.round(b.x0)}-${Math.round(b.x1)}): ${b.text}`);
+      const floor = F.height - sb + (b.host && b.host.dataset && b.host.dataset.nobrand !== undefined ? 5 : 0);
+      if (!isCap && !isRail && (b.y0 < st || b.y1 > floor)) out.push(`outside the frame (y ${Math.round(b.y0)}-${Math.round(b.y1)}): ${b.text}`);
     });
     for (let i = 0; i < boxes.length; i++) {
       for (let j = i + 1; j < boxes.length; j++) {
@@ -1643,6 +1880,7 @@
       s.el.style.filter = blur > 0.2 ? `blur(${blur}px)` : 'none';
       if (s.el.dataset.nobrand === undefined) brand += opacity;
       s.items.forEach((item) => animate(item, lt));
+      s.narr.forEach((n) => n.e.classList.toggle('on', lt >= n.t));
     });
     document.getElementById('brand').style.opacity = clamp(brand);
     window.genRender(t, states);

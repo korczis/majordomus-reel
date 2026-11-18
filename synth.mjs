@@ -55,7 +55,9 @@ function music(total, sec) {
   const arp = stereo(n);
   const drums = stereo(n);
   const noise = noiseSource(11);
-  const drop = sec.reveal;
+  // the drop is the reveal; a cut without it (a story) drops on its second scene
+  const drop = sec.reveal ?? Object.values(sec).sort((a, b) => a - b)[1] ?? 0;
+  const beat = sec.terminal ?? drop; // the drums enter with the first contract, or on the drop
   const end = sec.beliefs ?? sec.cta; // the manifesto's second page is read over the pad alone
   const origin = drop - Math.ceil(drop / BAR) * BAR; // a bar starts exactly on the drop
 
@@ -95,7 +97,7 @@ function music(total, sec) {
           });
         }
         // Clap on 2 and 4, after the terminal enters.
-        if (q % 2 === 1 && bt >= sec.terminal) {
+        if (q % 2 === 1 && bt >= beat) {
           let lp = 0;
           addVoice(drums, bt, 0.2, 0.1, (tl) => {
             lp += lpCoef(2600) * (noise() - lp);
@@ -117,7 +119,7 @@ function music(total, sec) {
           });
         }
         // Hats on the off-beat once the groove is in.
-        if (bt >= sec.terminal && bt < end) {
+        if (bt >= beat && bt < end) {
           let prev = 0;
           addVoice(drums, bt + BEAT / 2, 0.06, 0.3, (tl) => {
             const x = noise();

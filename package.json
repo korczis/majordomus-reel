@@ -1,0 +1,30 @@
+{
+  "name": "majordomus-reel",
+  "version": "6.0.0",
+  "private": true,
+  "description": "The Majordomus promo, rendered from code in every format, and the site that serves the one that fits.",
+  "license": "MIT",
+  "type": "module",
+  "homepage": "https://korczis.github.io/majordomus-reel/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/korczis/majordomus-reel.git"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "facts": "node facts.mjs --check",
+    "stories": "node stories.mjs --ids",
+    "css": "tailwindcss --input site/app.css --output _site/app.css --minify",
+    "site": "node site/build.mjs",
+    "deploy": "site/deploy.sh",
+    "verify": "node facts.mjs --check && site/verify.sh"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "4.3.5",
+    "flowbite": "4.0.2",
+    "puppeteer-core": "23.11.1",
+    "tailwindcss": "4.3.5"
+  }
+}

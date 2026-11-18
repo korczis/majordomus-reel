@@ -172,6 +172,17 @@
       zoom: 1, pan: { x: 0, y: 0 }, userZoomingEnabled: false, userPanningEnabled: false, boxSelectionEnabled: false,
       autoungrabify: true, autounselectify: true, motionBlur: false, textureOnViewport: false, pixelRatio: 1,
     });
+    // a graph laid out for a wider space than the frame gives it (a landscape column) is scaled
+    // to fit its space, never clipped; a graph that fits keeps zoom 1, so the phone cut is as drawn
+    {
+      const bb = cy.elements().boundingBox({ includeLabels: true });
+      const m = 6;
+      if (bb.x1 < m || bb.y1 < m || bb.x2 > r.width - m || bb.y2 > r.height - m) {
+        const z = Math.min(1, (r.width - 2 * m) / bb.w, (r.height - 2 * m) / bb.h);
+        cy.zoom(z);
+        cy.pan({ x: (r.width - bb.w * z) / 2 - bb.x1 * z, y: (r.height - bb.h * z) / 2 - bb.y1 * z });
+      }
+    }
     // a network settles in: each node drifts home from a little way in, and keeps breathing
     const home = new Map();
     let cx = 0;
