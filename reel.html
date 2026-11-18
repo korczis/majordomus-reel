@@ -1344,7 +1344,72 @@
   const clamp = (v, a = 0, b = 1) => Math.max(a, Math.min(b, v));
   const easeOut = (x) => 1 - Math.pow(1 - x, 3);
   const backOut = (x) => 1 + 2.4 * Math.pow(x - 1, 3) + 1.4 * Math.pow(x - 1, 2);
-  const norm = (s) => s.toLowerCase().replace(/[^a-z0-9]/g, '');
+  // diacritics fold away, so a cue matches a Czech word as the voice spells it ("rozsah", "tymu")
+  const norm = (s) => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')
+    .replace(/[^a-z0-9]/g, '');
+  // The language of the cut (render.mjs REEL_LANG=<id>, lang/<id>.json): `tr` swaps an on-screen text
+  // for its translation and records any it has none for, so the render can report what is left.
+  const LANG = window.LANG || null;
+  const langMisses = new Set();
+  // `scene/text` translates a text in one scene only, for a word that means something else there
+  window.tr = (s, scene) => {
+    if (!LANG || typeof s !== 'string') return s;
+    const key = s.trim();
+    if (!key || !/\p{L}/u.test(key)) return s;
+    const own = scene && `${scene}/${key}`;
+    if (own && own in LANG.text) return s.replace(key, LANG.text[own]);
+    if (key in LANG.text) return s.replace(key, LANG.text[key]);
+    // a path, a command, a date or a version is the same in every language
+    const ident = /[/|<>]|\d+[.:-]\d+|^[\w.-]+\.[a-z]{2,4}$/i.test(key);
+    if (!ident && !(LANG.keep || []).includes(key)) langMisses.add(key);
+    return s;
+  };
+  window.langMisses = () => [...langMisses];
+  // English the frame shows anyway: a text the language translates, drawn untranslated by a path
+  // that bypassed `tr` (a canvas label, a graph label, the DOM of the scene on screen). The render's
+  // CHECK reads it at every frame it walks (project.reel-bilingual).
+  window.langLeaks = () => {
+    if (!LANG) return [];
+    const en = new Set();
+    Object.entries(LANG.text).forEach(([k, v]) => {
+      const key = k.includes('/') && !k.includes(' ') ? k.split('/').slice(1).join('/') : k;
+      if (v !== key && /\p{L}{2}/u.test(key)) { en.add(key); en.add(key.replace(/\n/g, ' ')); }
+    });
+    (LANG.keep || []).forEach((k) => en.delete(k));
+    Object.values(LANG.text).forEach((v) => { en.delete(v); en.delete(v.replace(/\n/g, ' ')); });
+    const out = new Set();
+    // monospaced ink is code, a host or a path: the same in every language
+    (window.genInk ? window.genInk() : []).filter((i) => !i.code).forEach((i) => {
+      const t = String(i.text || '').replace(/^graph: /, '').trim();
+      if (en.has(t)) out.add(t);
+    });
+    document.querySelectorAll('.scene').forEach((sc) => {
+      const cs = getComputedStyle(sc);
+      if (cs.display === 'none' || cs.visibility === 'hidden' || Number(cs.opacity) === 0) return;
+      const walk = document.createTreeWalker(sc, NodeFilter.SHOW_TEXT);
+      for (let n = walk.nextNode(); n; n = walk.nextNode()) {
+        if (n.parentElement.closest('.term, code, [data-type]')) continue;
+        const t = n.nodeValue.trim();
+        if (t.length > 2 && en.has(t)) out.add(t);
+      }
+    });
+    return [...out];
+  };
+  // the on-screen text of every scene the cut shows; terminals, code and typed commands stay as
+  // the tool prints them
+  function localise(ids) {
+    if (!LANG) return;
+    document.documentElement.lang = LANG.lang;
+    const skip = '.term, code, [data-type], .mark-big, .mark-cta';
+    document.querySelectorAll('.scene').forEach((sc) => {
+      if (ids && !ids.includes(sc.id)) return;
+      const walk = document.createTreeWalker(sc, NodeFilter.SHOW_TEXT);
+      for (let n = walk.nextNode(); n; n = walk.nextNode()) {
+        if (n.parentElement.closest(skip)) continue;
+        n.nodeValue = window.tr(n.nodeValue, sc.id);
+      }
+    });
+  }
   const rng = (seed) => () => {
     seed |= 0; seed = (seed + 0x6d2b79f5) | 0;
     let r = Math.imul(seed ^ (seed >>> 15), 1 | seed);
@@ -1398,7 +1463,9 @@
   }
 
   function cueTime(words, cue, warnings, id) {
-    const [name, nth] = cue.split('#');
+    const [en, nth] = cue.split('#');
+    // a translated cut names the word its own voice says at that moment
+    const name = LANG ? (LANG.cues[id] || {})[en] ?? en : en;
     let seen = 0;
     for (const w of words) {
       if (norm(w.text).startsWith(name) && ++seen === Number(nth || 1)) return w.start + VO_LEAD;
@@ -1560,7 +1627,7 @@
       + `data-fx="up" data-sfx="tick"><span>${String(k + 1).padStart(2, '0')}</span>${esc(u.title)}</li>`);
     if (S.use_cases.length > cap) {
       items.push(`<li class="more" data-at="${(1.1 + cap * 0.42).toFixed(2)}" data-fx="up"><span>+</span>`
-        + `${S.use_cases.length - cap} more on majordomus.dev</li>`);
+        + `${S.use_cases.length - cap} ${window.tr('more on majordomus.dev')}</li>`);
     }
     card.querySelector('.story-list').innerHTML = items.join('');
     const url = card.querySelector('.story-url');
@@ -1602,6 +1669,7 @@
     });
     applyFrame();
     fillStory();
+    localise(ids);
     fillFacts();
     const narration = Object.fromEntries((ids || []).map((id, i) =>
       [id, vos ? fillNarration(document.getElementById(id), vos[i], words[i]) : []]));
@@ -1625,7 +1693,7 @@
       if (n) n.style.marginTop = '44px';
     });
     document.querySelectorAll('[data-fx="count"]').forEach((e) => {
-      e.textContent = `${e.dataset.prefix || ''}${Number(e.dataset.to).toLocaleString('en-US')}${e.dataset.suffix || ''}`;
+      e.textContent = `${e.dataset.prefix || ''}${Number(e.dataset.to).toLocaleString(LANG ? LANG.locale : 'en-US')}${e.dataset.suffix || ''}`;
     });
     let start = 0;
     captions = chunks;
@@ -1724,7 +1792,7 @@
     if (fx === 'count') {
       const to = parseFloat(e.dataset.to);
       const q = easeOut(clamp((lt - at) / 1.1));
-      e.textContent = `${e.dataset.prefix || ''}${Math.round(to * q).toLocaleString('en-US')}${e.dataset.suffix || ''}`;
+      e.textContent = `${e.dataset.prefix || ''}${Math.round(to * q).toLocaleString(LANG ? LANG.locale : 'en-US')}${e.dataset.suffix || ''}`;
       e.style.opacity = clamp((lt - at) / 0.2);
       return;
     }

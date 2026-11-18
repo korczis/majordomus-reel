@@ -15,6 +15,19 @@ Overrides: `VOICE` (Edge neural voice, default `en-US-AndrewMultilingualNeural`)
 (default `-4%`), `FPS` (30), `MUSIC=0`, `CAPTIONS=1` (burned-in subtitles, off by default),
 `WORKERS`, `OPEN=0`.
 
+`REEL_LANG=cs` renders the cut in Czech: `lang/cs.json` gives each scene its narration, chapter
+title, act and the Czech word each English cue becomes, the voice (`cs-CZ-AntoninNeural`) and every
+on-screen text; terminals, code and commands stay as the tool prints them. Facts are spoken in the
+cut's own language by `i18n.mjs` (Czech number words with gender, and the noun's form for the count),
+so a translation types no fact either. `node i18n.mjs --check` refuses a scene a language does not
+translate, a cue its narration never says, on-screen text left in English, a stale translation and
+a typed fact (`project.reel-bilingual`); `CHECK=1` with `REEL_LANG` fails on the same at render time.
+
+```sh
+REEL_LANG=cs SCENES=scenes-short.json BUILD=$PWD/build-cs-short CHECK=1 node render.mjs
+REEL_LANG=cs SCENES=scenes-short.json BUILD=$PWD/build-cs-short OUT=$PWD/cs-short.mp4 ./make-reel.sh
+```
+
 ## How it is built
 
 | file | what it holds |
@@ -30,6 +43,7 @@ Overrides: `VOICE` (Edge neural voice, default `en-US-AndrewMultilingualNeural`)
 | `formats.json` | the one declaration of the frames a cut is rendered in (phone, tablet, desktop): size, web encode, media query, detail tier, safe frame |
 | `stories.mjs` | one story per use-case category the film can show, derived from the scenes' `use_cases` and the release's taxonomy, each ending at the install line; `posterMoments` (the frames a cut is best shown by) |
 | `tts.py` | Edge TTS with word boundaries (free, no key) |
+| `lang/<id>.json` | a translated cut (`REEL_LANG=<id>`): narration, titles, acts, cue words, voice, on-screen text |
 | `thumb*.html`, `thumb.mjs` | thumbnails, 1080x1920 |
 | `youtube-metadata.md` | titles, descriptions, tags, chapters, pinned comments, and what is published |
 | `site/` | the GitHub Pages site: `index.html` and `player.html` (templates: the build derives every double-braced name in them), `view.mjs` (every view and the Flowbite Pro class lists, `ui`, shared by the build and the browser), `app.js` (the player, the carousel, the browser and the viewer, all state in the address), `app.css` (Tailwind 4 + Flowbite), `seo.mjs` (the metadata of a route and `checkSite`), `build.mjs`, `test.mjs`, `published.json` (the YouTube uploads), `deploy.sh`, `verify.sh` |

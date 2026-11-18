@@ -1,0 +1,1273 @@
+{
+  "about": "The Czech cut (experimental). render.mjs takes LANG=cs: each scene of the cut takes its narration, chapter title and act from `scenes` (a scene the file does not translate refuses the render), the voice and rate come from here unless VOICE/RATE override them, and reel.html swaps every on-screen text that `text` names, in the DOM and in the canvas labels alike. `cues` maps a scene's English cue word (data-cue, env.cue) to the Czech word the voice says at that moment, matched without diacritics. Terminals, code and commands stay as the tool prints them; `keep` lists the rest that is the same in both languages. Anything else left in English is reported as untranslated.",
+  "lang": "cs",
+  "locale": "cs-CZ",
+  "voice": "cs-CZ-AntoninNeural",
+  "rate": "+6%",
+  "say": "Zuzana",
+  "scenes": {
+    "hook": {
+      "title": "Manifest",
+      "act": "PROBLÉM",
+      "vo": "Váš AI agent tvrdí, že práce je hotová. ... Opravdu?",
+      "cues": {
+        "your": "vas",
+        "says": "tvrdi",
+        "done": "hotova",
+        "is": "opravdu"
+      }
+    },
+    "stats": {
+      "title": "Agenti se rozjíždějí",
+      "act": "PROBLÉM",
+      "vo": "V reálných repozitářích se agenti rozjíždějí. Soubory pravidel, které nemají skoro nic společného. Sedmnáct kontrol, které nikdo nespustil. Tři tisíce dvě stě souborů, změněných najednou.",
+      "cues": {
+        "rule": "pravidel",
+        "seventeen": "sedmnact",
+        "thirty": "tri"
+      }
+    },
+    "reveal": {
+      "title": "Seznamte se: Majordomus",
+      "act": "SMLOUVA",
+      "vo": "Seznamte se: Majordomus. Dohledová vrstva pro vaše AI agenty.",
+      "cues": {
+        "majordomus": "majordomus",
+        "supervisory": "dohledova"
+      }
+    },
+    "terminal": {
+      "title": "Hotovo je smlouva",
+      "act": "SMLOUVA",
+      "vo": "Když agent tvrdí, že skončil, Majordomus zkontroluje rozsah, stav i testy. A když cokoli selže, odmítne.",
+      "cues": {
+        "scope": "rozsah",
+        "state": "stav",
+        "tests": "testy",
+        "refuses": "odmitne"
+      }
+    },
+    "provenance": {
+      "title": "Důkazy, ne sliby",
+      "act": "SMLOUVA",
+      "vo": "A každý důkaz zanechá záznam. Test, commit, strom, čas a přesný příkaz. Důkazy, ne sliby.",
+      "cues": {
+        "record": "zaznam",
+        "test": "test",
+        "commit": "commit",
+        "tree": "strom",
+        "time": "cas",
+        "command": "prikaz",
+        "provenance": "dukazy"
+      }
+    },
+    "doctrine": {
+      "title": "Sepsané není vynucené",
+      "act": "SMLOUVA",
+      "vo": "Pravidlo není vynucené jen proto, že je sepsané. Vynucené je, když je deklarované, ověřené, zapojené do příkazu, ten příkaz shodí, je otestované, blokuje CI a podloží tvrzení. Cokoli méně je jen dokumentace.",
+      "cues": {
+        "declared": "deklarovane",
+        "validated": "overene",
+        "wired": "zapojene",
+        "fails": "shodi",
+        "tested": "otestovane",
+        "blocks": "blokuje",
+        "claim": "tvrzeni",
+        "documentation": "dokumentace"
+      }
+    },
+    "doctor": {
+      "title": "Repozitář kontroluje sám sebe",
+      "act": "SMLOUVA",
+      "vo": "A repozitář kontroluje sám sebe. Majordomus doctor při každém commitu přečte každé pravidlo, každou projekci i každý hook. {{blocking:Words:n}} {{blocking:plural:blokující pravidlo|blokující pravidla|blokujících pravidel}}, každé s validátorem. Nula selhání.",
+      "cues": {
+        "rule": "pravidlo",
+        "projection": "projekci",
+        "zero": "nula"
+      }
+    },
+    "hooks": {
+      "title": "Dva hooky na stráži",
+      "act": "SMLOUVA",
+      "vo": "Dva hooky stojí na stráži. Každý commit spustí doctor. Každý push spustí smlouvu finish, a když není splněná, push zastaví. Dokud nezačne první úkol, oba mlčí.",
+      "cues": {
+        "stops": "zastavi",
+        "quiet": "mlci"
+      }
+    },
+    "economics": {
+      "title": "Čísla změřená, nebo žádná",
+      "act": "SMLOUVA",
+      "vo": "Neprodá vám číslo, které nikdy nezměřil. Úspora vzniká jen ze zaznamenaných dvojic běhů, s ním i bez něj, na stejném úkolu, a oba musí projít. Běh, který ušetří tokeny tím, že selže, není úspora. A číslo napsané do textu je odmítnuto.",
+      "cues": {
+        "pairs": "dvojic",
+        "both": "oba",
+        "failing": "selze",
+        "typed": "napsane"
+      }
+    },
+    "reasoning": {
+      "title": "Nejistota, zdůvodněná v záznamu",
+      "act": "SMLOUVA",
+      "vo": "Když je rozhodnutí nejisté, zdůvodní se do záznamu. Nejdřív důkazy. Pak poradci, pokud nějací jsou, a jejich odpovědi jsou důkazy, nikdy verdikty. Závěr zůstane, aby si ho přečetla další relace.",
+      "cues": {
+        "evidence": "dukazy",
+        "advisors": "poradci",
+        "verdicts": "verdikty",
+        "conclusion": "zaver"
+      }
+    },
+    "setup": {
+      "title": "Tři příkazy",
+      "act": "POSTUP",
+      "vo": "Nainstalujte ho jedním řádkem. Inicializujte repozitář. Pak spusťte úkol s rozsahem a nechte své agenty pracovat.",
+      "cues": {
+        "install": "nainstalujte",
+        "initiali": "inicializujte",
+        "start": "spustte",
+        "work": "pracovat"
+      }
+    },
+    "intent": {
+      "title": "Práce začíná záměrem",
+      "act": "POSTUP",
+      "vo": "Práce začíná od záměru: co musí platit, a kritérií, která to dokážou. Ze záměrů vznikají milníky, z milníků issues, a plan next určí jedno issue, které vzít teď.",
+      "cues": {
+        "intent": "zameru",
+        "criteria": "kriteri",
+        "milestones": "milniky",
+        "issues": "issues",
+        "names": "urci"
+      }
+    },
+    "plan": {
+      "title": "Stav, odvozený",
+      "act": "POSTUP",
+      "vo": "Žádné issue si neukládá svůj stav. Ten se odvozuje z toho, co se s ním stalo: zahájeno, ověřeno, dokončeno, a z důkazů, které každý krok nese. Hotovo je odmítnuto, dokud chybí požadovaný důkaz, a plan next přepočítá to jedno issue, které vzít.",
+      "cues": {
+        "derived": "odvozuje",
+        "started": "zahajeno",
+        "verified": "overeno",
+        "completed": "dokonceno",
+        "evidence": "dukazu",
+        "refused": "odmitnuto",
+        "missing": "chybi",
+        "recomputes": "prepocita"
+      }
+    },
+    "session": {
+      "title": "Každá relace začíná s přehledem",
+      "act": "POSTUP",
+      "vo": "Každá relace začíná s přehledem. Úkol, jeho rozsah, další krok z posledního předání, kdo další pracuje a co vydání ještě dluží. Nic není třeba znovu hledat.",
+      "cues": {
+        "task": "ukol",
+        "scope": "rozsah",
+        "handover": "predani",
+        "working": "pracuje",
+        "rediscover": "znovu"
+      }
+    },
+    "context": {
+      "title": "Hierarchický kontext",
+      "act": "POSTUP",
+      "vo": "Kontext je strom. Každý agent čte dokumenty od kořene až k cestě, na které pracuje. Nejbližší doplňuje své předky a sourozenci se nikdy nevidí. Nic víc a nic míň.",
+      "cues": {
+        "path": "ceste",
+        "nothing": "nic"
+      }
+    },
+    "policy": {
+      "title": "Pravidla, sepsaná jednou",
+      "act": "POSTUP",
+      "vo": "Jedna politika zapíše instrukce každého agenta. Úkoly žijí v repozitáři, ne v okně chatu.",
+      "cues": {
+        "writes": "zapise",
+        "every": "kazdeho",
+        "tasks": "ukoly",
+        "repository": "repozitari"
+      }
+    },
+    "providers": {
+      "title": "Každý klient, jedna politika",
+      "act": "POSTUP",
+      "vo": "Claude Code, Codex, Gemini, Zed, Antigravity, bb nebo jakýkoli klient, který mluví MCP. Každý čte vlastní projekci téže politiky.",
+      "cues": {
+        "projection": "projekci"
+      }
+    },
+    "models": {
+      "title": "Modely, deklarované",
+      "act": "POSTUP",
+      "vo": "Modely jsou deklarovaná data. Anthropic a OpenAI v cloudu, Ollama a LM Studio na vašem vlastním stroji. Směrování vybírá podle potřeby. Chcete jen lokální? Odpoví: nic nevyhovuje. Nikdy nehádá.",
+      "cues": {
+        "declared": "deklarovana",
+        "anthropic": "anthropic",
+        "openai": "open",
+        "ollama": "ollama",
+        "studio": "studio",
+        "routing": "smerovani",
+        "need": "potreby",
+        "local": "lokalni",
+        "nothing": "nic"
+      }
+    },
+    "generate": {
+      "title": "Deklarováno jednou, promítnuto všude",
+      "act": "PLATFORMA",
+      "vo": "Každá operace je deklarovaná jednou. Příkazová řádka, HTTP API, nástroje MCP, dokument OpenAPI, dokumentace i skills se z ní generují, a kontrola selže ve chvíli, kdy se jediná z nich rozejde.",
+      "cues": {
+        "declared": "deklarovana",
+        "command": "prikazova",
+        "docs": "dokumentace",
+        "drifts": "rozejde"
+      }
+    },
+    "release": {
+      "title": "Verze, změřené",
+      "act": "PLATFORMA",
+      "vo": "Verze se měří, ne prohlašují. Každé vydání porovná veřejné rozhraní s tím minulým. Co zmizelo, je major, co přibylo, je minor, a kde se nic nezměnilo, nic se nedluží. Changelog se píše sám.",
+      "cues": {
+        "compares": "porovna",
+        "gone": "zmizelo",
+        "new": "pribylo",
+        "nothing": "nic"
+      }
+    },
+    "builds": {
+      "title": "Staví jen výslovné sestavení",
+      "act": "PLATFORMA",
+      "vo": "Žádný běžný příkaz nesestavuje. Když je program zastaralý, příkaz skončí kódem dvanáct a jmenuje jediné sestavení, které spustit, nebo za něj odpoví vydání stejné generace. Řetězec verze není sestavení. Hooky a brány volají sestavený nástroj, nikdy cargo, takže push ve svých branách už nekompiluje.",
+      "cues": {
+        "builds": "nesestavuje",
+        "stale": "zastaraly",
+        "twelve": "dvanact",
+        "build": "sestaveni",
+        "generation": "generace",
+        "version": "verze"
+      }
+    },
+    "mcp": {
+      "title": "Jeden sdílený MCP server",
+      "act": "PLATFORMA",
+      "vo": "Jeden sdílený server na repozitář. První klient ho spustí, každý další se připojí a každý vidí ostatní. Tentýž server odpovídá přes HTTP, se Swaggerem a Cockpitem.",
+      "cues": {
+        "first": "prvni",
+        "attaches": "pripoji",
+        "sees": "vidi"
+      }
+    },
+    "cockpit": {
+      "title": "Cockpit",
+      "act": "PLATFORMA",
+      "vo": "A v Cockpitu to všechno vidí člověk. Tentýž server, tentýž registr, vykreslený pro lidi, bez ničeho vlastního, co by se mohlo rozejít.",
+      "cues": {
+        "registry": "registr",
+        "person": "lidi",
+        "drift": "rozejit"
+      }
+    },
+    "deploy": {
+      "title": "Nasazeno z jednoho commitu",
+      "act": "PLATFORMA",
+      "vo": "Nasazení je deklarované jednou. Jmenuje svého poskytovatele a každý soubor, který poskytovatel čte, se z něj odvozuje. Co se dodává, se skládá z jednoho commitu, nikdy z repozitáře: vstupy, program tam sestavený i web tam sestavený. Web z jakéhokoli jiného commitu je odmítnut.",
+      "cues": {
+        "declared": "deklarovane",
+        "provider": "poskytovatele",
+        "derived": "odvozuje",
+        "assembled": "sklada",
+        "commit": "commitu",
+        "repository": "repozitare",
+        "inputs": "vstupy",
+        "executable": "program",
+        "site": "web",
+        "other": "jineho",
+        "refused": "odmitnut"
+      }
+    },
+    "discovery": {
+      "title": "Hledání peerů",
+      "act": "MESH",
+      "vo": "Než začnou sdílet tabuli, instance se navzájem najdou. Podepsaný maják v lokální síti, rendezvous hub dál venku. Každý je ověřen dřív, než je vyslyšen, a žádný nenese tajemství.",
+      "cues": {
+        "beacon": "majak",
+        "rendezvous": "rendezvous",
+        "checked": "overen",
+        "secret": "tajemstvi"
+      }
+    },
+    "blackboard": {
+      "title": "Tabule",
+      "act": "MESH",
+      "vo": "Než práce začne, každý pracovník napíše na tabuli, co zamýšlí, a cesty, kterých se chce dotknout. Nárok, ne zámek. Překryvy se ukážou ve chvíli, kdy jsou napsány.",
+      "cues": {
+        "intends": "zamysli",
+        "paths": "cesty",
+        "claim": "narok",
+        "overlaps": "prekryvy"
+      }
+    },
+    "mesh": {
+      "title": "Jedna tabule, každý agent",
+      "act": "MESH",
+      "vo": "Claude, Codex a Gemini sdílejí jednu tabuli. Když dva sáhnou po stejném souboru, dozvíte se to ještě před sloučením.",
+      "cues": {
+        "claude": "claude",
+        "codex": "codex",
+        "gemini": "gemini",
+        "same": "stejnem",
+        "hear": "dozvite"
+      }
+    },
+    "collision": {
+      "title": "Ověřeno dřív, než vznikne",
+      "act": "MESH",
+      "vo": "Tabule říká, kdo právě pracuje. Git říká, co už vzniklo. Než se napíše nový modul, zeptá se každé větve, lokální i vzdálené, co si už nárokuje jeho cesty. A číslo rozhodnutí, které už nese jiná větev, je při commitu odmítnuto.",
+      "cues": {
+        "board": "tabule",
+        "module": "modul",
+        "branch": "vetve",
+        "claims": "narokuje",
+        "decision": "rozhodnuti",
+        "commit": "commitu"
+      }
+    },
+    "claims": {
+      "title": "Jeden nárok, jeden vítěz",
+      "act": "MESH",
+      "vo": "Když se práce napříč stroji nesmí překrývat, nárokuje se výhradně. Druhá relace je odmítnuta a dozví se, na jaký nárok narazila. Když dva stroje vznesou nárok ve stejném tepu, každá instance určí stejného vítěze, nikdy ne poslední paket. Držitel, který přestane tepat, svůj nárok ztratí.",
+      "cues": {
+        "exclusively": "vyhradne",
+        "second": "druha",
+        "meets": "narazila",
+        "heartbeat": "tepu",
+        "winner": "viteze",
+        "beating": "tepat"
+      }
+    },
+    "worktrees": {
+      "title": "Jedna větev, jeden worktree",
+      "act": "MESH",
+      "vo": "Paralelní práce potřebuje paralelní stromy. Každá větev má právě jeden worktree, odvozený z gitu: primární checkout drží hlavní větev, každá další žije vedle něj. Commit ze špatného místa je odmítnut.",
+      "cues": {
+        "primary": "primarni",
+        "beside": "vedle",
+        "wrong": "spatneho",
+        "refused": "odmitnut"
+      }
+    },
+    "seats": {
+      "title": "Práce putuje přes pozice",
+      "act": "MESH",
+      "vo": "Práce putuje přes pozice. Jedna pozice slučuje zelenou práci do společného vrcholu. Druhá vydává, kdykoli je master před posledním tagem. Opravné dráhy dotahují zastaralé větve a každý pracovník drží jedno issue. Pozice je nárok, a tak se uvolní, jakmile její držitel přestane tepat.",
+      "cues": {
+        "lands": "slucuje",
+        "releases": "vydava",
+        "repair": "opravne",
+        "worker": "pracovnik",
+        "vacant": "uvolni",
+        "claim": "narok"
+      }
+    },
+    "trains": {
+      "title": "Mnoho pull requestů, jeden běh",
+      "act": "MESH",
+      "vo": "Pull requesty se slučují jako vlak. Každý článek je naskládaný na tom pod ním a kontroly všech článků běží současně. Jeden běh zaplatí za několik. Článek se sloučí až po tom, který jmenuje, a o bezpečí rozhoduje git, nikdy vrstvení.",
+      "cues": {
+        "train": "vlak",
+        "stacked": "naskladany",
+        "same": "soucasne",
+        "several": "nekolik",
+        "merges": "slouci"
+      }
+    },
+    "machines": {
+      "title": "Domov, datacentrum, firma",
+      "act": "MESH",
+      "vo": "Mesh pokrývá každý stroj, na kterém pracujete. Desktop doma. Rack v datacentru, za TLS hubem. Celou flotilu napříč firmou, v privátní síti.",
+      "cues": {
+        "home": "doma",
+        "datacenter": "datacentru",
+        "company": "firmou"
+      }
+    },
+    "cache": {
+      "title": "Sestaveno jednou, použito všude",
+      "act": "MESH",
+      "vo": "Každé sestavení jde přes cache v mesh. Co jeden stroj zkompiloval, další znovu použije, a nikdo nenastavuje žádnou proměnnou. Když úložiště nejede, sestavení zůstane lokální a řekne proč. Skript, který cache obchází, odmítne brána.",
+      "cues": {
+        "compiled": "zkompiloval",
+        "reuses": "znovu",
+        "down": "nejede",
+        "local": "lokalni",
+        "refused": "odmitne",
+        "gate": "brana"
+      }
+    },
+    "security": {
+      "title": "Podepsané, uvedené, netečné",
+      "act": "MESH",
+      "vo": "Každá zpráva je podepsaná vlastním klíčem stroje. Nikomu se nevěří, dokud ho neuvedete na seznam. Veřejná adresa jen přes HTTPS. A nic, co peer pošle, se nikdy nespustí.",
+      "cues": {
+        "signed": "podepsana",
+        "trusted": "neveri",
+        "public": "verejna",
+        "nothing": "nic"
+      }
+    },
+    "crosstalk": {
+      "title": "Relace spolu mluví",
+      "act": "MESH",
+      "vo": "Relace spolu mluví přes mesh. Jedna požádá o revizi, jiná ji z jiného stroje zodpoví. Předání zveřejněné dnes večer se zítra převezme, ať práce pokračuje kdekoli.",
+      "cues": {
+        "review": "revizi",
+        "answers": "zodpovi",
+        "handover": "predani",
+        "consumed": "prevezme"
+      }
+    },
+    "monitor": {
+      "title": "Jeden proud",
+      "act": "MESH",
+      "vo": "Jeden proud sleduje každou relaci, nárok, předání i revizi na každém propojeném stroji, a vedle nich sloučení a běhy na GitHubu. Co se týká vás, jde první, a šum se sbalí.",
+      "cues": {
+        "session": "relaci",
+        "claim": "narok",
+        "review": "revizi",
+        "machine": "stroji"
+      }
+    },
+    "continuity": {
+      "title": "Práce, která přežije chat",
+      "act": "PAMĚŤ",
+      "vo": "Večer zavřete notebook. Zítra libovolný agent převezme předání přesně tam, kde práce skončila.",
+      "cues": {
+        "close": "zavrete",
+        "picks": "prevezme",
+        "exactly": "presne"
+      }
+    },
+    "knowledge": {
+      "title": "Co se naučí, zůstane",
+      "act": "PAMĚŤ",
+      "vo": "A co se relace naučí, ji také přežije. Rozhodnutí se stávají záznamy: zatím {{adrs:words:n}} {{adrs:plural:architektonické rozhodnutí|architektonická rozhodnutí|architektonických rozhodnutí}}. Znalosti se odvozují na konci každé relace, bez modelu, a člověk povýší to, co si zaslouží zůstat.",
+      "cues": {
+        "hundred": "{{adrs:Words:n}}",
+        "decisions": "rozhodnuti",
+        "knowledge": "znalosti",
+        "model": "modelu",
+        "person": "clovek"
+      }
+    },
+    "privacy": {
+      "title": "Co je vaše, zůstane vaše",
+      "act": "PAMĚŤ",
+      "vo": "Co je vaše, zůstane vaše. Stav relací žije v lokální polovině vrstvy, kterou git ignoruje. Předání, checkpointy a otevřené relace se zapisují tak, že je čte jen jejich vlastník, a nic z toho se nikdy necommitne.",
+      "cues": {
+        "local": "lokalni",
+        "handovers": "predani",
+        "checkpoints": "checkpointy",
+        "sessions": "relace",
+        "owner": "vlastnik"
+      }
+    },
+    "personal": {
+      "title": "Osobní režim",
+      "act": "PAMĚŤ",
+      "vo": "Není to váš repozitář? Osobní režim drží celou vrstvu ve vašem klonu a strom týmu zůstane bajt po bajtu takový, jak ho commitnul.",
+      "cues": {
+        "personal": "osobni",
+        "clone": "klonu",
+        "team": "tymu",
+        "byte": "bajt"
+      }
+    },
+    "local": {
+      "title": "Zcela vaše",
+      "act": "PAMĚŤ",
+      "vo": "Běží na vašem stroji, nikdy nevolá model a funguje s jakýmkoli agentem.",
+      "cues": {
+        "machine": "stroji",
+        "never": "nikdy",
+        "any": "jakymkoli"
+      }
+    },
+    "beliefs": {
+      "title": "Manifest, č. 02",
+      "act": "MANIFEST",
+      "vo": "Věříme, že hotovo je smlouva, ne pocit. Že agenti mají dokazovat, ne slibovat. Že repozitář si pamatuje, co chat zapomene. ... AI agenti byli skokem vpřed. Důvěra je ten další.",
+      "cues": {
+        "contract": "smlouva",
+        "prove": "dokazovat",
+        "repository": "repozitar",
+        "leap": "skokem",
+        "trust": "duvera"
+      }
+    },
+    "cta": {
+      "title": "Ať to dokážou",
+      "act": "MANIFEST",
+      "vo": "Vaši agenti tvrdí, že je hotovo. Majordomus je donutí to dokázat. Majordomus tečka dev.",
+      "cues": {
+        "majordomus": "majordomus"
+      }
+    },
+    "loop": {
+      "title": "Znovu",
+      "act": "MANIFEST",
+      "vo": "Protože zítra zase,",
+      "cues": {}
+    }
+  },
+  "keep": [
+    "Majordomus",
+    "PRISMATIC",
+    "majordomus.dev",
+    "MMXXVI",
+    "Anthropic",
+    "OpenAI",
+    "Ollama",
+    "LM Studio",
+    "Claude",
+    "Codex",
+    "Gemini",
+    "ED25519",
+    "TLS",
+    "ALLOWLIST",
+    "I.",
+    "II.",
+    "III.",
+    "master",
+    "tag",
+    "commit",
+    "test",
+    "tree",
+    "at",
+    "command",
+    "outcome",
+    "Claude + Codex",
+    "· Claude + Codex",
+    "suite:parse",
+    "2034d4a3f0b",
+    "9f1c07e2a4d1",
+    "TEST\nsuite:parse",
+    "COMMIT\n2034d4a",
+    "MESH",
+    "LAN",
+    "CI",
+    "git",
+    "hook",
+    "mcp",
+    "origin",
+    "git commit",
+    "git push",
+    "pre-commit\ndoctor",
+    "pre-push\nfinish --check",
+    "task-01",
+    "task-02",
+    "task-03",
+    "{{version}}",
+    "major",
+    "minor",
+    "started_at",
+    "verified_at",
+    "completed_at",
+    "Issue",
+    "lexer.rs",
+    "ast.rs",
+    "policy.yaml",
+    "Claude Code",
+    "Zed",
+    "Antigravity",
+    "bb",
+    "$ majordomus context",
+    "claude-code",
+    "codex",
+    "gemini",
+    "CLI\nmajordomus models route",
+    "MCP\nmajordomus_models_route",
+    "majordomus serve\n:8741 · loopback",
+    "cargo build",
+    "exit 12",
+    "studio",
+    "rack",
+    "cache",
+    "mesh cache\nsccache",
+    "RENDEZVOUS",
+    "HTTPS",
+    "# Objective",
+    "# Current State",
+    "# Next Action",
+    "Claude · Codex · Gemini · …",
+    "CLAUDE.md",
+    "AGENTS.md",
+    "GEMINI.md",
+    "claude-opus-5",
+    "claude-sonnet-5",
+    "gpt-4o",
+    "TXT",
+    "VIS",
+    "TOOLS",
+    "JSON",
+    "STRM",
+    "RSN"
+  ],
+  "text": {
+    "The Majordomus Manifesto": "Manifest Majordomus",
+    "No. 01": "Č. 01",
+    "No. 02": "Č. 02",
+    "Your AI agent": "Váš AI agent",
+    "says the work": "tvrdí, že práce",
+    "is": "je",
+    "done.": "hotová.",
+    "Is it?": "Opravdu?",
+    "Meanwhile, in real repositories": "Mezitím v reálných repozitářích",
+    "Agents": "Agenti se",
+    "drift.": "rozjíždějí.",
+    "of the rules two AI tools' instruction files had in common": "pravidel měly instrukční soubory dvou AI nástrojů společných",
+    "checks documented as blocking — invoked by nothing": "kontrol vedených jako blokující — nevolá je nic",
+    "files modified at once, across forty worktrees": "souborů změněných najednou, napříč čtyřiceti worktree",
+    "Measured in the repositories Majordomus was distilled from.": "Naměřeno v repozitářích, z nichž Majordomus vzešel.",
+    "The supervisory layer": "Dohledová vrstva",
+    "for your AI agents.": "pro vaše AI agenty.",
+    "“Done” is a": "„Hotovo“ je",
+    "contract.": "smlouva.",
+    "REFUSED": "ODMÍTNUTO",
+    "Provenance,": "Důkazy,",
+    "not promises.": "ne sliby.",
+    "evidence ledger": "kniha důkazů",
+    "PROVEN": "PROKÁZÁNO",
+    "passed": "prošel",
+    ", rerun after the fix": ", znovu po opravě",
+    "proven": "prokázáno",
+    "inputs unchanged": "vstupy beze změny",
+    "stale": "zastaralé",
+    "failing": "selhává",
+    "not run": "nespuštěno",
+    "unrunnable": "nespustitelné",
+    "no test": "bez testu",
+    "CLAIM\nfinish refuses": "TVRZENÍ\nfinish odmítá",
+    "Three commands.": "Tři příkazy.",
+    "That's it.": "Nic víc.",
+    "Install": "Instalace",
+    "Initialise the repository": "Inicializace repozitáře",
+    "Start a task with a scope": "Úkol s rozsahem",
+    "Your agents work inside it": "Vaši agenti pracují uvnitř",
+    "Models,": "Modely,",
+    "declared.": "deklarované.",
+    "remote": "vzdálený",
+    "local": "lokální",
+    "vendor": "dodavatel",
+    "8 models": "8 modelů",
+    "1 model": "1 model",
+    "+ 5 more Claude": "+ 5 dalších Claude",
+    "One board.": "Jedna tabule.",
+    "Every agent.": "Každý agent.",
+    "⚠ overlap on": "⚠ překryv na",
+    "LAPTOP": "NOTEBOOK",
+    "WORKSTATION": "PRACOVNÍ STANICE",
+    "BUILD HOST": "BUILD SERVER",
+    "Work moves": "Práce putuje",
+    "through seats.": "přes pozice.",
+    "a seat is an exclusive mesh claim, never a name": "pozice je výhradní nárok v mesh, nikdy jméno",
+    "worker\nI0703": "pracovník\nI0703",
+    "worker\nI3941": "pracovník\nI3941",
+    "worker\nI3952": "pracovník\nI3952",
+    "landing seat\ncombined top": "slučovací pozice\nspolečný vrchol",
+    "landing seat\nvacant": "slučovací pozice\nuvolněná",
+    "repair lane\nmerges master in": "opravná dráha\nslučuje master",
+    "release seat": "pozice vydání",
+    "Home. Datacenter.": "Domov. Datacentrum.",
+    "Company.": "Firma.",
+    "HOME · LAN": "DOMA · LAN",
+    "DATACENTER · HTTPS HUB": "DATACENTRUM · HTTPS HUB",
+    "COMPANY · TAILNET": "FIRMA · TAILNET",
+    "Signed. Listed.": "Podepsané. Uvedené.",
+    "Inert.": "Netečné.",
+    "INERT": "NETEČNÉ",
+    "every message signed by its machine's key": "každá zpráva podepsaná klíčem svého stroje",
+    "an unknown key is trusted for nothing": "neznámému klíči se nevěří nic",
+    "a public address is reached over https only": "veřejná adresa jen přes https",
+    "nothing a peer sends is ever executed": "nic, co peer pošle, se nikdy nespustí",
+    "THIS MACHINE": "TENTO STROJ",
+    "UNTRUSTED": "NEDŮVĚRYHODNÝ",
+    "Not your repository?": "Není to váš repozitář?",
+    "Personal mode.": "Osobní režim.",
+    "TEAM REPOSITORY": "REPOZITÁŘ TÝMU",
+    "YOUR CLONE": "VÁŠ KLON",
+    "Done is a contract,": "Hotovo je smlouva,",
+    "not a feeling.": "ne pocit.",
+    "Agents prove;": "Agenti dokazují;",
+    "they do not promise.": "neslibují.",
+    "The repository remembers": "Repozitář si pamatuje,",
+    "what the chat forgets.": "co chat zapomene.",
+    "Agents were a leap forward.": "Agenti byli skokem vpřed.",
+    "Trust is the next one.": "Důvěra je ten další.",
+    "Your agents say it's done.": "Vaši agenti tvrdí, že je hotovo.",
+    "Majordomus makes them prove it.": "Majordomus je donutí to dokázat.",
+    "Written down": "Sepsané",
+    "is not enforced.": "není vynucené.",
+    "principle": "princip",
+    "doctrine": "doktrína",
+    "validator": "validátor",
+    "enforcement point": "bod vynucení",
+    "propagation": "propagace",
+    "claim": "tvrzení",
+    "DOCUMENTATION, NOT A RULE": "DOKUMENTACE, NE PRAVIDLO",
+    "The repository": "Repozitář",
+    "checks itself.": "kontroluje sám sebe.",
+    "RULES": "PRAVIDLA",
+    "WITH A VALIDATOR": "S VALIDÁTOREM",
+    "BLOCKING, ALL VALIDATED": "BLOKUJÍCÍ, VŠECHNA OVĚŘENÁ",
+    "BLOCKING, VALIDATED": "BLOKUJÍCÍ, OVĚŘENÁ",
+    "Two hooks": "Dva hooky",
+    "hold the line.": "stojí na stráži.",
+    "edit": "úprava",
+    "refused\ncontract unmet": "odmítnuto\nsmlouva nesplněna",
+    "Numbers,": "Čísla,",
+    "measured or absent.": "změřená, nebo žádná.",
+    "Saves N% of your tokens.": "Ušetří N % vašich tokenů.",
+    "refused": "odmítnuto",
+    "majordomus economics check · a number in prose is not a measurement": "majordomus economics check · číslo v textu není měření",
+    "task": "úkol",
+    "without it": "bez něj",
+    "with it": "s ním",
+    "in the measure": "v měření",
+    "failed": "selhal",
+    "counted": "započteno",
+    "excluded": "vyřazeno",
+    "tokens per successfully completed task · a failed run is never a saving": "tokeny na úspěšně dokončený úkol · neúspěšný běh nikdy není úspora",
+    "Uncertainty,": "Nejistota,",
+    "on the record.": "v záznamu.",
+    "local evidence": "místní důkazy",
+    "assessment\nsubject · materiality · hypothesis": "posouzení\npředmět · závažnost · hypotéza",
+    "policy plan": "plán podle politiky",
+    "conclusion, recorded\nevidence · rejected · risks · validation": "závěr, zaznamenaný\ndůkazy · zamítnuté · rizika · ověření",
+    "decide\nlocally": "rozhodnout\nlokálně",
+    "review\nstructured": "revize\nstrukturovaná",
+    "reuse\na conclusion": "převzít\nzávěr",
+    "consult\nadvisors": "zeptat se\nporadců",
+    "Work starts": "Práce začíná",
+    "from intent.": "od záměru.",
+    "Intent": "Záměr",
+    "what must become true": "co musí platit",
+    "Criteria": "Kritéria",
+    "the evidence that settles it": "důkaz, který to rozhodne",
+    "Milestone": "Milník",
+    "what realises it": "co ho uskuteční",
+    "one piece of work": "jeden kus práce",
+    "Task · commit": "Úkol · commit",
+    "scoped, finished, traced back": "s rozsahem, dokončený, dohledatelný",
+    "Status is": "Stav se",
+    "derived.": "odvozuje.",
+    "BLOCKED": "BLOKOVÁNO",
+    "a dependency is not DONE": "závislost není HOTOVO",
+    "READY": "PŘIPRAVENO",
+    "ACTIVE": "AKTIVNÍ",
+    "VERIFY": "OVĚŘENÍ",
+    "DONE": "HOTOVO",
+    "refused\nproof missing": "odmítnuto\nchybí důkaz",
+    "+ evidence\ndoctrine_test": "+ důkaz\ndoctrine_test",
+    "Every session": "Každá relace",
+    "starts briefed.": "začíná s přehledem.",
+    "fix the tokenizer": "opravit tokenizér",
+    "scope": "rozsah",
+    "next": "další",
+    "rerun case 12, then finish": "znovu případ 12, pak finish",
+    "peers": "ostatní",
+    "3 on the board · mesh linked": "3 na tabuli · mesh propojen",
+    "read from git and the repository, never from memory": "čteno z gitu a repozitáře, nikdy z paměti",
+    "Only the context": "Jen kontext,",
+    "it needs.": "který potřebuje.",
+    "Rules,": "Pravidla,",
+    "written once.": "sepsaná jednou.",
+    "task · t-parser": "úkol · t-parser",
+    "IN GIT": "V GITU",
+    "goal": "cíl",
+    "done": "hotovo",
+    "when sh test/parse.sh passes": "až projde sh test/parse.sh",
+    "Every client.": "Každý klient.",
+    "One policy.": "Jedna politika.",
+    "any MCP client": "jakýkoli MCP klient",
+    "Declared once.": "Deklarováno jednou.",
+    "Projected everywhere.": "Promítnuto všude.",
+    "capability models.route": "schopnost models.route",
+    "OPENAPI\noperation models.route": "OPENAPI\noperace models.route",
+    "DOCS\ndocs/generated/cli.md": "DOKUMENTACE\ndocs/generated/cli.md",
+    "DOCS · STALE\ngenerate --check fails": "DOKUMENTACE · ZASTARALÁ\ngenerate --check selže",
+    "No surface change.": "Beze změny rozhraní.",
+    "No version bump.": "Bez nové verze.",
+    "last release": "minulé vydání",
+    "this tree": "tento strom",
+    "the same public surface": "stejné veřejné rozhraní",
+    "result": "výsledek",
+    "no bump owed": "nová verze se nedluží",
+    "none": "žádná",
+    "something a caller held is gone": "zmizelo, na co volající spoléhal",
+    "something arrived": "něco přibylo",
+    "the surface is equal": "rozhraní je stejné",
+    "No command builds.": "Žádný příkaz nesestavuje.",
+    "Only the build.": "Jen sestavení.",
+    "gate": "brána",
+    "the tree's\nexecutable": "program\nze stromu",
+    "exit 12\nnames the build": "exit 12\njmenuje sestavení",
+    "a release of\nthe same generation": "vydání\nstejné generace",
+    "a version string is not a build": "řetězec verze není sestavení",
+    "caller": "volající",
+    "executable": "program",
+    "answer": "odpověď",
+    "builds": "sestaví",
+    "a release": "vydání",
+    "One server.": "Jeden server.",
+    "Every client attached.": "Každý klient připojen.",
+    "For a person:": "Pro člověka:",
+    "the Cockpit.": "Cockpit.",
+    "partial": "částečně",
+    "1 overlap": "1 překryv",
+    "evidence": "důkazy",
+    "release": "vydání",
+    "landed, untagged": "sloučeno, bez tagu",
+    "overdue": "po termínu",
+    "a projection of the registry · ADR 0012": "projekce registru · ADR 0012",
+    "One commit.": "Jeden commit.",
+    "Everything it ships.": "Vše, co dodává.",
+    "provider files: generated, never hand-edited": "soubory poskytovatele: generované, nikdy ručně psané",
+    "deployment\ndeclared once": "nasazení\ndeklarované jednou",
+    "one commit": "jeden commit",
+    "inputs": "vstupy",
+    "site": "web",
+    "provider\nfiles": "soubory\nposkytovatele",
+    "what ships": "co se dodává",
+    "the repository": "repozitář",
+    "a site from\nanother commit": "web z\njiného commitu",
+    "the provider": "poskytovatel",
+    "First, they": "Nejdřív se",
+    "find each other.": "navzájem najdou.",
+    "size": "velikost",
+    "shape": "tvar",
+    "version": "verze",
+    "bounds": "meze",
+    "staleness": "stáří",
+    "signature": "podpis",
+    "trust": "důvěra",
+    "signed · ≤ 1200 bytes · no secret, path or code": "podpis · ≤ 1200 bajtů · bez tajemství, cest i kódu",
+    "LOCAL NETWORK · MULTICAST": "LOKÁLNÍ SÍŤ · MULTICAST",
+    "Intent,": "Záměr,",
+    "on the blackboard.": "na tabuli.",
+    "CLI help text": "nápověda CLI",
+    "README tour": "prohlídka README",
+    "parser fast path": "rychlá cesta parseru",
+    "overlaps claude-code on src/parser/": "kříží se s claude-code na src/parser/",
+    "a claim, not a lock": "nárok, ne zámek",
+    "Checked": "Ověřeno",
+    "before it is built.": "dřív, než vznikne.",
+    "the board": "tabule",
+    "who is working now": "kdo právě pracuje",
+    "what was already built": "co už vzniklo",
+    "src/release/\nnew": "src/release/\nnový",
+    "One claim.": "Jeden nárok.",
+    "One winner.": "Jeden vítěz.",
+    "claim on src/parser/": "nárok na src/parser/",
+    "acquired": "získán",
+    "the fold": "výsledek",
+    "held": "držen",
+    "expired": "vypršel",
+    "conflicted": "v konfliktu",
+    "same winner": "stejný vítěz",
+    "laptop\nclaude": "notebook\nclaude",
+    "studio\ncodex": "studio\ncodex",
+    "src/parser/\nexclusive": "src/parser/\nvýhradně",
+    "claim_conflict\nmeets laptop": "claim_conflict\nnarazil na notebook",
+    "One branch,": "Jedna větev,",
+    "one worktree.": "jeden worktree.",
+    "the trunk, never moves": "hlavní větev, nikdy se nehýbe",
+    "Many pull requests.": "Mnoho pull requestů.",
+    "One run.": "Jeden běh.",
+    "#2501\nlink 3": "#2501\nčlánek 3",
+    "#2403\nlink 2": "#2403\nčlánek 2",
+    "#1840\nlink 1": "#1840\nčlánek 1",
+    "checks": "kontroly",
+    "checks passed": "kontroly prošly",
+    "one run\nfor three": "jeden běh\nza tři",
+    "git: the merge writes the link's own tree": "git: sloučení zapíše vlastní strom článku",
+    "Built once.": "Sestaveno jednou.",
+    "Reused everywhere.": "Použito všude.",
+    "build": "sestavení",
+    "the cache": "cache",
+    "verdict": "verdikt",
+    "stored": "uloženo",
+    "hit": "zásah",
+    "laptop": "notebook",
+    "local-only\nsays why": "jen lokálně\nřekne proč",
+    "Sessions": "Relace",
+    "talk to each other.": "spolu mluví.",
+    "review?": "revize?",
+    "codex asks: parser fast path": "codex se ptá: rychlá cesta parseru",
+    "answered": "zodpovězeno",
+    "claude: approve, one change": "claude: schválit, jedna změna",
+    "handover": "předání",
+    "published on the laptop": "zveřejněno na notebooku",
+    "consumed": "převzato",
+    "on the workstation": "na pracovní stanici",
+    "Every machine.": "Každý stroj.",
+    "One stream.": "Jeden proud.",
+    "session": "relace",
+    "claude opened on laptop": "claude otevřel na notebooku",
+    "codex took src/cli/": "codex si vzal src/cli/",
+    "review": "revize",
+    "gemini asks for a review": "gemini žádá o revizi",
+    "merged": "sloučeno",
+    "#1184 landed on master": "#1184 sloučen do master",
+    "SESSIONS": "RELACE",
+    "CLAIMS": "NÁROKY",
+    "REVIEWS": "REVIZE",
+    "MERGES": "SLOUČENÍ",
+    "now": "teď",
+    "Work that": "Práce, která",
+    "outlives the chat.": "přežije chat.",
+    "handover · feature/parser": "předání · feature/parser",
+    "RESUMED": "OBNOVENO",
+    "case 12 red": "případ 12 červený",
+    "rerun, then finish": "znovu spustit, pak finish",
+    "TONIGHT": "DNES VEČER",
+    "TOMORROW": "ZÍTRA",
+    "What it learns": "Co se naučí,",
+    "stays learned.": "to zůstane.",
+    "{{adrs}} decisions so far, each a record in git": "{{adrs}} rozhodnutí, každé jako záznam v gitu",
+    "SESSION LEDGER": "DENÍK RELACE",
+    "CANDIDATE": "KANDIDÁT",
+    "CURATED": "PROVĚŘENO",
+    "decision": "rozhodnutí",
+    "derived at the session end": "odvozeno na konci relace",
+    "Normalise the callback URI before comparing state": "Před porovnáním stavu normalizujte callback URI",
+    "NO MODEL · FROM THE LEDGER AND GIT": "BEZ MODELU · Z DENÍKU A GITU",
+    "What is yours": "Co je vaše,",
+    "stays yours.": "zůstane vaše.",
+    "path": "cesta",
+    "mode": "práva",
+    "ignored": "ignorováno",
+    "never committed": "nikdy v commitu",
+    "0600 · its owner reads and writes it, nobody else": "0600 · čte a zapisuje jen vlastník, nikdo jiný",
+    "Yours.": "Vaše.",
+    "Entirely.": "Beze zbytku.",
+    "Runs locally": "Běží lokálně",
+    "your machine, your repository": "váš stroj, váš repozitář",
+    "Zero model calls": "Žádné volání modelu",
+    "it supervises; it never prompts": "dohlíží; model nikdy nevolá",
+    "Any agent": "Jakýkoli agent",
+    "Majordomus · a use-case story": "Majordomus · příběh z praxe",
+    "more on majordomus.dev": "dalších na majordomus.dev",
+    "monitor/claim": "nárok"
+  },
+  "acts": {
+    "STORY": "PŘÍBĚH",
+    "START": "START",
+    "PROBLEM": "PROBLÉM",
+    "CONTRACT": "SMLOUVA",
+    "WORKFLOW": "POSTUP",
+    "PLATFORM": "PLATFORMA",
+    "MESH": "MESH",
+    "MEMORY": "PAMĚŤ",
+    "MANIFESTO": "MANIFEST"
+  },
+  "catalogue": {
+    "categories": {
+      "adoption": {
+        "source": "07e482f90e",
+        "title": "Začátek a zavedení",
+        "summary": "Jak dostat Majordomus do repozitáře, nového i starého, aniž by se ztratilo, co už lidé napsali."
+      },
+      "continuity": {
+        "source": "0d11d5341b",
+        "title": "Relace a předávání",
+        "summary": "Zastavení a obnovení práce napříč relacemi a pracovníky z trvalého stavu, nikdy z přepisu konverzace."
+      },
+      "workers": {
+        "source": "1f0cc433d8",
+        "title": "Paralelní pracovníci",
+        "summary": "Více agentů nebo lidí v jednom repozitáři: nárokované rozsahy, překryvy a kdo na co sáhl."
+      },
+      "policy": {
+        "source": "fd0eec319c",
+        "title": "Pravidla a jejich vynucení",
+        "summary": "Deklarace pravidel, důkaz, že jsou zapojená, a zopakování každého nálezu."
+      },
+      "completion": {
+        "source": "4106d4ad0b",
+        "title": "Dokončení a kontroly kvality",
+        "summary": "Rozhodnutí, zda je práce hotová, podle smlouvy, jejíž každý řádek projde, nebo selže."
+      },
+      "drift": {
+        "source": "a26aebc4a7",
+        "title": "Rozjetí a srovnání",
+        "summary": "Zjištění, že se politika, projekce, stav a git rozcházejí, a jejich opětovné srovnání."
+      },
+      "knowledge": {
+        "source": "f8d7176b62",
+        "title": "Znalosti repozitáře",
+        "summary": "Co repozitář deklaruje sám o sobě: zdroje, uzly, hrany, plán a hledání v nich."
+      },
+      "mcp": {
+        "source": "d02eb269a8",
+        "title": "Vrstva pro AI klienty",
+        "summary": "Jeden sdílený server na repozitář, každý klient je peer, táž vrstva přes MCP, HTTP i příkazovou řádku."
+      },
+      "performance": {
+        "source": "0418b2295b",
+        "title": "Výkon",
+        "summary": "Benchmarky odvozené z registru, výchozí měření jako data a rozpočty, proti nimž doctor hlásí."
+      },
+      "extension": {
+        "source": "f66e1d3030",
+        "title": "Rozšiřování",
+        "summary": "Přidání druhu, pravidla, příkazu nebo případu užití jako dat, s kontrolami, které z toho plynou."
+      }
+    },
+    "use_cases": {
+      "accept-or-refuse-finished-work": {
+        "source": "afefaa8744",
+        "title": "Rozhodnout, zda je hotová práce opravdu hotová",
+        "summary": "Vyhodnotit smlouvu řádek po řádku místo toho, aby se přijala věta, že práce je hotová."
+      },
+      "add-a-use-case-and-prove-it": {
+        "source": "6da62f7297",
+        "title": "Přidat případ užití a nechat nástroj ho dokázat",
+        "summary": "Připravit koncept pro nepokrytý příkaz, ověřit ho, spustit jeho scénář proti skutečnému nástroji a sledovat, jak se pokrytí posune."
+      },
+      "adopt-an-existing-repository": {
+        "source": "63a90f6ccd",
+        "title": "Převzít repozitář, který už má vlastní pravidla",
+        "summary": "Nainstalovat dohledovou vrstvu do repozitáře s ručně psaným CLAUDE.md, aniž by si nástroj přivlastnil soubor, který napsal někdo jiný."
+      },
+      "block-acceptance-on-an-open-question": {
+        "source": "1f5c03816d",
+        "title": "Blokovat přijetí kvůli otázce, na kterou nikdo neodpověděl",
+        "summary": "Otevřít k úkolu otázku, sledovat, jak finish odmítá dokončení, dokud není vyřešená, vyřešit ji odpovědí a teprve pak dokončit."
+      },
+      "capture-the-prompts-that-started-the-work": {
+        "source": "e2a208c210",
+        "title": "Uchovat prompty, kterými práce začala, pod modelem, ne kolem něj",
+        "summary": "Zapojit hook poskytovatele, dokázat ho průchodem testovacích dat a vidět, že prompt, který nástroj nedokázal zpracovat, je nahlášen, ne potichu zahozen."
+      },
+      "carry-a-blocker-across-a-handover": {
+        "source": "cd7ac7bdf0",
+        "title": "Předat práci s otevřenou otázkou a nechat ji blokovat",
+        "summary": "Uzavřít úkol do předání, zatímco otázka není vyřešená, začít navazující úkol a vidět, že tatáž otázka tam dál odmítá přijetí."
+      },
+      "catch-an-agent-that-says-it-is-done": {
+        "source": "a68fc4063f",
+        "title": "Přistihnout agenta, který tvrdí, že je hotovo, i když není",
+        "summary": "Jeden úkol od začátku do konce: pracovník vybočí ze svého rozsahu, tvrdí, že skončil, předá práci a je přijat, až když projde vlastní ověření repozitáře."
+      },
+      "checkpoint-long-work": {
+        "source": "f7af1e452e",
+        "title": "Ukládat průběh dlouhé práce, aby zastavení stálo minuty, ne celý den",
+        "summary": "Zaznamenávat stručný postup v aktivním úkolu v intervalu profilu, aby relace, která skončí bez varování, nechala další relaci místo, kde začít."
+      },
+      "classify-what-belongs-in-the-context": {
+        "source": "c49eb9c7df",
+        "title": "Rozhodnout jako data, co patří do AI kontextu",
+        "summary": "Přečíst deklarovanou politiku rozsahu repozitáře, vidět, které cesty jsou v indexu a které ne, a nechat ji uplatnit doctor a index znalostí místo napevno daného seznamu."
+      },
+      "complete-an-issue-only-with-its-evidence": {
+        "source": "dd27a8c096",
+        "title": "Dokončit issue, jen když existují jeho důkazy",
+        "summary": "Vidět, jak issue odmítá dokončení, dokud chybí požadovaný důkaz, přečíst roadmapu odvozenou ze stavu milníků a nechat projekci na GitHub jen projekcí."
+      },
+      "deliver-issues-in-waves": {
+        "source": "27cd5eef2f",
+        "title": "Dodávat issues ve vlnách, které spočítá graf, a vzít to další",
+        "summary": "Ověřit plán, přečíst vlny provádění z grafu závislostí, vidět, která issues jsou připravená a co blokuje ostatní, a vzít to issue, které má pracovník dělat teď."
+      },
+      "document-every-directory-of-the-layer": {
+        "source": "6a1e565d21",
+        "title": "Odmítnout adresář vrstvy, který nic nedokumentuje",
+        "summary": "Adresář přidaný do vrstvy bez kontextového dokumentu jmenovitě neprojde validací, nic se proti stromu nevyhodnotí, dokud neřekne, k čemu je, a táž hierarchie je čitelná přes MCP i API bez spuštění brány."
+      },
+      "extend-what-the-executable-serves": {
+        "source": "2c3d9c4088",
+        "title": "Rozšířit, co program obsluhuje, přidáním souboru, nikdy novým sestavením",
+        "summary": "Přidat do .ai/ pravidlo, prompt nebo uzel znalostí a uvidět ho jako MCP zdroj, HTTP cestu i referenční záznam, se stejnou binárkou."
+      },
+      "find-an-object-without-reading-everything": {
+        "source": "41aa6c1ee6",
+        "title": "Najít objekt vrstvy bez čtení všeho",
+        "summary": "Hledat trvalé záznamy doslovně napříč druhy ze shellu a položit sdílenému serveru stejnou otázku přes MCP pomocí majordomus_search a majordomus_get."
+      },
+      "find-out-what-drifted": {
+        "source": "5b57c56ad9",
+        "title": "Zjistit, co se rozjelo od posledního pohledu",
+        "summary": "Ptát se, co se pohnulo, místo toho, zda je něco špatně."
+      },
+      "follow-a-skill-the-repository-defines": {
+        "source": "1760f7283c",
+        "title": "Řídit se postupem, který repozitář definuje, a přidat další",
+        "summary": "Přečíst skills repozitáře, provést kterýkoli přesně podle zápisu a přidat nový napsáním jeho souboru — žádný registr, žádný kód a kontrola, která řekne, co prověřila."
+      },
+      "gate-ci-on-the-tool-itself": {
+        "source": "14b77bba4c",
+        "title": "Podmínit CI samotným nástrojem, s návratovým kódem jako smlouvou",
+        "summary": "Spustit kontroly, které spouští CI, přečíst každý nález s příkazem, který ho zopakuje, a spolehnout se na návratové kódy s jediným významem: žádný kód znamená varovat a pokračovat."
+      },
+      "hand-the-repository-to-a-reader": {
+        "source": "210ba862d7",
+        "title": "Předat repozitář někomu, kdo ho nemůže naklonovat",
+        "summary": "Pořídit snímek, který model přečte nebo v němž poběží brána, bez odeslání čehokoli nesledovaného a bez ztráty práv souborů cestou."
+      },
+      "hand-work-between-sessions": {
+        "source": "dc2d91e38f",
+        "title": "Předat nedokončenou práci další relaci",
+        "summary": "Zastavit uprostřed úkolu a nechat dalšímu pracovníkovi něco, podle čeho může jednat a co není přepis konverzace."
+      },
+      "install-the-tool-in-one-command": {
+        "source": "acbe4d9ba1",
+        "title": "Nainstalovat nástroj jedním příkazem na stroji bez toolchainu",
+        "summary": "Vložit jeden řádek, dostat ověřenou binárku pro tento stroj a spustit majordomus init — bez gitu, Rustu, Node, Pythonu i roota a bez možnosti nainstalovat archiv, jehož otisk nesedí."
+      },
+      "keep-decisions-out-of-the-transcript": {
+        "source": "2f49d4e8da",
+        "title": "Zaznamenat rozhodnutí tak, aby ho další pracovník našel",
+        "summary": "Zapsat jako stav, co se rozhodlo a proč, a pak to znovu najít bez čtení konverzace."
+      },
+      "keep-the-bootstrap-thin-and-within-budget": {
+        "source": "7ca3d9d871",
+        "title": "Udržet každý bootstrap poskytovatele tenký, generovaný a v rozpočtu",
+        "summary": "Znovu vygenerovat AGENTS.md, CLAUDE.md a další soubory poskytovatelů z jedné politiky a dokázat, že jsou orazítkované, ukazují na vrstvu, nepřekročí rozpočet řádků a každý jejich odkaz se vyřeší."
+      },
+      "keep-what-an-episode-learned": {
+        "source": "16c76d9d4e",
+        "title": "Uchovat, co se epizoda naučila, bez modelu a bez konverzace",
+        "summary": "Zaznamenat během epizody rozhodnutí, odvodit z deníku kandidátní záznam znalostí, přečíst důkaz, že odvození proběhlo, a sledovat, že druhé odvození nic nezmění."
+      },
+      "know-whether-this-work-is-finished": {
+        "source": "9fd83c870e",
+        "title": "Vědět, zda je práce v tomto checkoutu hotová",
+        "summary": "Zeptat se repozitáře, ve kterém stojíte, a dozvědět se jmenovitě, co se ještě dluží."
+      },
+      "know-which-tool-is-running": {
+        "source": "91f48b3794",
+        "title": "Ověřit verzi dřív, než uvěříte diagnóze",
+        "summary": "Vypsat verzi, z níž se odvozuje každé další rozhraní, a vidět argument, který odmítá."
+      },
+      "let-the-provider-draw-the-episode-boundary": {
+        "source": "6d72962217",
+        "title": "Nechat relaci otevřít a zavřít, aniž by na to musel kdokoli myslet",
+        "summary": "Zapojit vlastní události relace poskytovatele: epizoda se otevře se začátkem sezení, předá pracovníkovi, co nechal ten minulý, zaznamená, co se kompakce chystá zahodit, a uzavře se s pokračovacím záznamem vedle své obálky."
+      },
+      "migrate-from-the-old-layout": {
+        "source": "d26ec59fdb",
+        "title": "Převést repozitář ze struktury před .ai do vrstvy",
+        "summary": "Vidět, co by migrace přesunula, přesunout to se zálohou a dokázat, že výsledek je vrstva, kterou nástroj čte."
+      },
+      "open-and-close-a-session": {
+        "source": "e01171b113",
+        "title": "Zaznamenat, co jeden pracovník udělal během jednoho sezení",
+        "summary": "Otevřít relaci, udělat práci v úkolech, kterých se týká, a uzavřít ji do obálky, která odkazuje na to, co vytvořila, a nic nekopíruje."
+      },
+      "plan-a-commit-and-judge-its-message": {
+        "source": "c3efaab211",
+        "title": "Rozdělit pracovní strom do commitů a podřídit každou zprávu politice",
+        "summary": "Zeptat se, co by tento strom commitnul a proč, naučit se slovník rozsahů z historie místo z tabulky a dostat verdikt k jedné zprávě nebo celé řadě commitů dřív, než ho musí vynést recenzent."
+      },
+      "plan-the-work-as-data": {
+        "source": "a36fac65b9",
+        "title": "Vést plán jako milníky a issues, které nástroj umí ověřit",
+        "summary": "Deklarovat milníky jako výsledky a issues jako smlouvy o provedení a nechat nástroj říct, co je připravené a co blokované."
+      },
+      "prove-a-rule-is-enforced": {
+        "source": "ad858ab103",
+        "title": "Dokázat, že pravidlo je opravdu vynucené, ne jen sepsané",
+        "summary": "Odpovědět na otázku „je tohle pravidlo skutečné?“ příkazem, ne čtením zdrojového kódu."
+      },
+      "prove-performance-with-benchmarks": {
+        "source": "55beebccf5",
+        "title": "Dokázat, že je nástroj rychlý, nepředpokládat to, a odmítnout regresi",
+        "summary": "Změřit každý veřejný příkaz a každou schopnost programu proti commitnutému výchozímu měření a nechat kontrolu selhat na regresi, místo aby si jí později všiml recenzent."
+      },
+      "prove-what-a-task-owed-before-calling-it-done": {
+        "source": "eb4dde0722",
+        "title": "Dokázat, co úkol dlužil, než se prohlásí za hotový",
+        "summary": "Úkol deklaruje, co dluží, ke každému závazku zaznamená důkaz a je odmítnut, když ten důkaz už nepopisuje strom, nad kterým vznikl."
+      },
+      "read-back-what-happened": {
+        "source": "416175c445",
+        "title": "Zpětně přečíst, co se stalo, a udržet deník v limitu",
+        "summary": "Číst deník, do kterého se jen přidává, jako provozní historii filtrovanou podle úkolu a události, ověřit každý řádek a nejstarší řádky přesunout do archivu místo smazání."
+      },
+      "read-only-the-context-that-fits": {
+        "source": "ecae9b7d26",
+        "title": "Číst jen kontext, který se vejde do rozpočtu, a vědět, co vypadlo",
+        "summary": "Sestavit kontext, který pracovník právě potřebuje, v pořadí autority, oříznout ho na rozpočet řádků a vidět každou vypuštěnou sekci jmenovitě i s důvodem."
+      },
+      "read-the-rules-the-tool-applies": {
+        "source": "5a398eb1ef",
+        "title": "Vidět, která pravidla tu platí a co je vynucuje",
+        "summary": "Vypsat platnou sadu pravidel, přečíst kterékoli pravidlo tak, jak ho čte nástroj, a vidět, která z nich nástroj vynucuje a odkud."
+      },
+      "record-a-decision-before-it-is-forgotten": {
+        "source": "53714ff091",
+        "title": "Zaznamenat rozhodnutí jako data a dokázat, že ho nástroj nemůže přijmout za vás",
+        "summary": "Přečíst rozhodnutí, která repozitář drží, ověřit celou sadu jedním příkazem a sledovat, jak nástroj odmítne zapsat jediný stav, který smí zapsat jen člověk."
+      },
+      "recover-an-episode-nobody-closed": {
+        "source": "a2a4a6f209",
+        "title": "Uzavřít epizodu, jejíž klient se už nevrátil",
+        "summary": "Zabitý poskytovatel nepošle žádnou událost konce. Uzavřít epizodu, kterou nechal otevřenou, podle důkazů, právě jednou a bez nárokování práce, kterou neudělal."
+      },
+      "resume-from-a-prompt-asset": {
+        "source": "637f61a0e8",
+        "title": "Začít relaci z vykresleného rámce, ne z vloženého přepisu",
+        "summary": "Vypsat prompty, které repozitář dodává, vykreslit kterýkoli proti trvalému stavu a přečíst kontext, který vkládá."
+      },
+      "resume-in-the-right-worktree": {
+        "source": "01a171c259",
+        "title": "Pokračovat ve správném worktree, nikdy nad cizím úkolem",
+        "summary": "Najít předání, které patří k tomuto worktree a větvi, a vidět záznam úkolu z jiného checkoutu nahlášený jako cizí, místo aby se tu vynucoval."
+      },
+      "run-several-workers-at-once": {
+        "source": "45b3258e4d",
+        "title": "Pustit více pracovníků do jednoho repozitáře, aniž by se srazili",
+        "summary": "Dát každému pracovníkovi deklarovaný rozsah a okamžitě zjistit, když dva z nich nárokují stejné cesty."
+      },
+      "say-what-reached-the-remote-and-what-did-not": {
+        "source": "752476e022",
+        "title": "Říct, co dorazilo na remote a co ne",
+        "summary": "Závazky, které sahají za pracovní strom, se vyřeší dotazem na git a zveřejněný web, takže zpráva nemůže nazvat necommitnutou práci commitnutou ani nepushnutou pushnutou."
+      },
+      "say-what-the-tool-is-for": {
+        "source": "56f06e901b",
+        "title": "Říct jednou, k čemu vaše práce je, a nechat to říkat každé rozhraní",
+        "summary": "Zaznamenat provozní selhání jako jeden soubor a nechat příkazovou řádku, API, MCP i web na něj odpovídat, aniž by se kdekoli registroval."
+      },
+      "see-what-the-repository-holds-without-reading-it": {
+        "source": "295fd628da",
+        "title": "Vidět, co repozitář obsahuje, a spustit jeho schopnost bez čtení souboru",
+        "summary": "Otevřít sdílený server v prohlížeči a dostat celou vrstvu jako stránky: co existuje, odkud co přišlo, co na čem závisí, co selhává, a formulář, který spustí jakoukoli schopnost."
+      },
+      "serve-the-layer-to-ai-clients": {
+        "source": "758f18d1f3",
+        "title": "Poskytnout AI vrstvu repozitáře každému AI klientovi přes jeden sdílený server",
+        "summary": "Otevřít repozitář v jakémkoli klientovi, pro kterého nástroj deklaruje poskytovatele (docs/generated/providers.md), a nechat každého číst stejná pravidla, prompty a znalosti přes MCP z jednoho procesu, přičemž se navzájem vidí."
+      },
+      "trace-a-change-to-the-context-it-affects": {
+        "source": "22928330b2",
+        "title": "Dohledat, kterých kontextových dokumentů se změna týká",
+        "summary": "Vypsat kontextové dokumenty s rozsahem, vyhodnotit, které platí pro cestu a proč, a zjistit, kterých dokumentů se sada změn dotkne, než se sloučí."
+      },
+      "trust-the-policy-before-reading-it": {
+        "source": "50381aecb6",
+        "title": "Věřit politice a profilům, až když jsou ověřené",
+        "summary": "Dokázat, že se kanonická politika načte se všemi potřebnými deklarovanými klíči, že se načte každý profil a výchozí existuje a že to, co politika deklaruje jako vynucené, opravdu běží."
+      },
+      "use-the-tool-as-your-own-in-a-shared-repository": {
+        "source": "6ec6f107a0",
+        "title": "Používat nástroj jen pro sebe ve sdíleném repozitáři a navrhnout ho týmu, až se osvědčí",
+        "summary": "Jeden přepínač nainstaluje tutéž vrstvu jen pro vás: žádný sledovaný soubor se nezmění, do .gitignore se nic nepřidá, git status vypadá stejně — příkaz to ověří — a další příkaz předá vrstvu týmu."
+      },
+      "work-on-a-branch-in-its-canonical-worktree": {
+        "source": "425faadaab",
+        "title": "Pracovat na větvi v jediném worktree, kam patří",
+        "summary": "Založit větev bez volby cesty, najít každý checkout repozitáře z kteréhokoli z nich a přivést zatoulaný domů i s necommitnutou prací."
+      }
+    }
+  }
+}

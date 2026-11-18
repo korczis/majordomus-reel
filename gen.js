@@ -109,6 +109,7 @@
     inks.push({ text, x0, x1: x0 + w, y0: mid ? y - size * 0.55 : y - size * 0.8, y1: mid ? y + size * 0.45 : y + size * 0.22 });
   };
   const label = (text, x, y, color, alpha, size = 30, weight = 700, align = 'center') => {
+    if (window.tr) text = window.tr(text);
     ctx.font = `${weight} ${size}px -apple-system, 'SF Pro Display', sans-serif`;
     ctx.textAlign = align;
     if (alpha > 0.5) ink(text, x, y, size, align);
@@ -118,7 +119,7 @@
   const mono = (text, x, y, color, alpha, size = 26, align = 'left') => {
     ctx.font = `600 ${size}px ui-monospace, 'SF Mono', Menlo, monospace`;
     ctx.textAlign = align;
-    if (alpha > 0.5) ink(text, x, y, size, align);
+    if (alpha > 0.5) { ink(text, x, y, size, align); inks[inks.length - 1].code = true; }
     ctx.fillStyle = `rgba(${color}, ${alpha})`;
     ctx.fillText(text, x, y);
   };
@@ -415,7 +416,8 @@
       ['CANDIDATE', 'derived at the session end', tK, C.gray, 'rgba(54,65,83,1)'],
       ['CURATED', '.ai/repo/knowledge/curated/', tPerson, C.brand, 'rgba(81,162,255,1)'],
     ];
-    const text = 'Normalise the callback URI before comparing state';
+    const text = window.tr ? window.tr('Normalise the callback URI before comparing state')
+      : 'Normalise the callback URI before comparing state';
     const h = (box.height - 40) / 3;
     return (lt, a) => {
       if (a <= 0.01) return;
@@ -433,7 +435,7 @@
           ctx.globalAlpha = 1;
         });
         label(cap, box.left + 26, y + 40, col, a * q, 20, 700, 'left');
-        mono(sub, box.left + W1 - 26, y + 40, C.gray, a * q, 20, 'right');
+        mono(window.tr ? window.tr(sub) : sub, box.left + W1 - 26, y + 40, C.gray, a * q, 20, 'right');
         ctx.font = "600 32px -apple-system, 'SF Pro Text', sans-serif";
         ctx.textAlign = 'left';
         ctx.fillStyle = `rgba(255,255,255, ${a * q})`;
@@ -780,6 +782,7 @@
     const V = window.VIZ;
     painters = scenes.map((s) => {
       const env = {
+        id: s.id,
         el: s.el,
         rect: (sel) => s.el.querySelector(sel).getBoundingClientRect(),
         rects: (sel) => [...s.el.querySelectorAll(sel)].map((e) => e.getBoundingClientRect()),

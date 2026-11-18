@@ -168,7 +168,10 @@
       });
     }
     const cy = cytoscape({
-      container: el, elements, style: CY_STYLE.concat(net ? NET_STYLE : [], style), layout: { name: 'preset', fit: false },
+      // every label, the ones a painter sets while it runs included, is shown in the cut's language
+      // (reel.html window.tr, with the scene for a word that means something else elsewhere)
+      container: el, elements, style: CY_STYLE.concat(net ? NET_STYLE : [], [{ selector: 'node',
+        style: { label: (n) => shown(n.data('label'), env.id) } }], style), layout: { name: 'preset', fit: false },
       zoom: 1, pan: { x: 0, y: 0 }, userZoomingEnabled: false, userPanningEnabled: false, boxSelectionEnabled: false,
       autoungrabify: true, autounselectify: true, motionBlur: false, textureOnViewport: false, pixelRatio: 1,
     });
@@ -286,7 +289,7 @@
       cy.nodes().forEach((n) => {
         if (parseFloat(n.style('opacity')) < 0.6) return;
         const b = n.renderedBoundingBox({ includeLabels: true });
-        const label = String(n.data('label') || '').replace(/\n/g, ' ');
+        const label = shown(n.data('label'), env.id).replace(/\n/g, ' ');
         if (b.x1 < -2 || b.y1 < -2 || b.x2 > r.width + 2 || b.y2 > r.height + 2) {
           G().inks.push({ clip: true, text: `graph clipped by its space: ${label || n.id()}` });
         }
@@ -303,8 +306,16 @@
   }
 
   // ---- ECharts: one theme for every chart ----
+  // a category axis's labels are shown in the cut's language; its data stay the keys the chart is
+  // drawn by
+  const shownAxes = (option, scene) => ['xAxis', 'yAxis'].forEach((k) => [].concat(option[k] || [])
+    .filter((ax) => ax.type === 'category').forEach((ax) => {
+      const own = ax.axisLabel?.formatter;
+      ax.axisLabel = { ...ax.axisLabel, formatter: (v, i) => shown(typeof own === 'function' ? own(v, i) : v, scene) };
+    }));
   function chart(env, sel, option) {
     const { el, r } = mount(env, sel);
+    shownAxes(option, env.id);
     const ch = echarts.init(el, null, { renderer: 'canvas', width: r.width, height: r.height, devicePixelRatio: 1 });
     ch.setOption({ animation: false, backgroundColor: 'transparent', textStyle: { fontFamily: MONO, color: T.muted }, ...option });
     const paint = (opt) => {
@@ -315,6 +326,8 @@
   }
   const axisQuiet = { axisLine: { show: false }, axisTick: { show: false }, splitLine: { show: false } };
 
+  // a text as the cut shows it: translated when the cut has a language (reel.html window.tr)
+  const shown = (s, scene) => (window.tr ? window.tr(String(s ?? ''), scene) : String(s ?? ''));
   const VIZ = {};
 
   // Hierarchical context: the repository as a tree; one path lights up.
@@ -628,7 +641,7 @@
       const li = document.createElement('li');
       li.dataset.t = env.cue(cue);
       li.innerHTML = `<span class="mk" style="background:${col}"></span>`
-        + `<h3 class="tl-name">${name}</h3><p class="tl-what">${what}</p>`;
+        + `<h3 class="tl-name">${shown(name, env.id)}</h3><p class="tl-what">${shown(what, env.id)}</p>`;
       ol.appendChild(li);
     });
     space.appendChild(ol);
@@ -1205,7 +1218,7 @@
           if (te <= lt) data.push({ value: [te, i], symbolSize: 11 });
         }
         if (lt > cues[i]) data.push({ value: [cues[i], i], symbolSize: 26, itemStyle: { borderColor: T.bg, borderWidth: 3, color: T.brand } });
-        return { data, markLine: i ? undefined : { silent: true, symbol: 'none', label: { formatter: 'now', color: T.muted, fontFamily: MONO },
+        return { data, markLine: i ? undefined : { silent: true, symbol: 'none', label: { formatter: shown('now', env.id), color: T.muted, fontFamily: MONO },
           lineStyle: { color: T.ink, type: 'solid', width: 1.5 }, data: [{ xAxis: lt }] } };
       });
       c.paint({ xAxis: { min: lt - span, max: lt + 0.2 }, series });
