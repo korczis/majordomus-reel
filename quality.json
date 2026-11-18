@@ -1,0 +1,99 @@
+{
+  "about": "The quality ratchet of the reel (quality.mjs, project.every-iteration-better): each iteration's measures, newest last. No iteration may make a measure worse, and one is recorded only when it makes at least one better. Written by `node quality.mjs --record`, never by hand.",
+  "retired": {},
+  "history": [
+    {
+      "at": "2026-11-18T00:02:56.535Z",
+      "head": "bd3d727da0a52c336e76084f521151eefa813c30",
+      "note": "baseline: Czech short cut translated and voiced (lang/cs.json), i18n gate and ratchet in place",
+      "values": {
+        "facts.findings": 0,
+        "i18n.languages": 2,
+        "renders.formats": 3,
+        "renders.en": 14,
+        "renders.cs": 0,
+        "i18n.cs.scenes": 15,
+        "i18n.cs.scenes_missing": 30,
+        "i18n.cs.cues_unsaid": 0,
+        "i18n.cs.text_untranslated": 0,
+        "i18n.cs.stale": 0,
+        "i18n.cs.typed": 0
+      },
+      "improved": []
+    },
+    {
+      "at": "2026-11-18T00:47:37.361Z",
+      "head": "ea2482f00662bc758d84f8eb00361a06e0362d62",
+      "note": "the whole film in Czech: 45 scenes, the release catalogue (10 categories, 49 use cases), acts; leaks of English through painters closed and caught by CHECK",
+      "values": {
+        "facts.findings": 0,
+        "i18n.languages": 2,
+        "renders.formats": 3,
+        "renders.en": 14,
+        "renders.cs": 0,
+        "i18n.cs.scenes": 45,
+        "i18n.cs.scenes_missing": 0,
+        "i18n.cs.cues_unsaid": 0,
+        "i18n.cs.text_untranslated": 0,
+        "i18n.cs.stale": 0,
+        "i18n.cs.typed": 0,
+        "i18n.cs.catalogue_missing": 0
+      },
+      "improved": [
+        "i18n.cs.scenes",
+        "i18n.cs.scenes_missing",
+        "i18n.cs.catalogue_missing"
+      ]
+    }
+  ],
+  "measures": {
+    "facts.findings": {
+      "better": "down",
+      "about": "typed or unknown Majordomus facts (facts.mjs --check)"
+    },
+    "i18n.languages": {
+      "better": "up",
+      "about": "languages the reel is rendered in, English included"
+    },
+    "renders.formats": {
+      "better": "up",
+      "about": "formats every cut is composed for (formats.json)"
+    },
+    "renders.en": {
+      "better": "up",
+      "about": "cut formats rendered in en (/Users/korczis/dev/majordomus-reel/cuts/v6)"
+    },
+    "renders.cs": {
+      "better": "up",
+      "about": "cut formats rendered in cs (/Users/korczis/dev/majordomus-reel/cuts/v6)"
+    },
+    "i18n.cs.scenes": {
+      "better": "up",
+      "about": "scenes cs translates"
+    },
+    "i18n.cs.scenes_missing": {
+      "better": "down",
+      "about": "scenes cs lacks, or translates without a title, act or narration"
+    },
+    "i18n.cs.cues_unsaid": {
+      "better": "down",
+      "about": "cues the cs narration never says"
+    },
+    "i18n.cs.text_untranslated": {
+      "better": "down",
+      "about": "on-screen texts left in English in cs"
+    },
+    "i18n.cs.stale": {
+      "better": "down",
+      "about": "cs translations of what no longer exists"
+    },
+    "i18n.cs.typed": {
+      "better": "down",
+      "about": "facts typed into the cs translation"
+    },
+    "i18n.cs.catalogue_missing": {
+      "better": "down",
+      "about": "release categories and use cases cs lacks"
+    }
+  }
+}

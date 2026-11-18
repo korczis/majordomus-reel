@@ -23,3 +23,4 @@ and the workflows show when to apply them.
 | [`task-lifecycle.md`](task-lifecycle.md) | every session: start, orient, checkpoint, check, hand over or finish |
 | [`plan.md`](plan.md) | the repository has a plan under `../project/` and work is taken from it |
 | [`continuity.md`](continuity.md) | resuming after a session ended, or leaving work for one that has not begun |
+| [`translate.md`](translate.md) | an English scene or on-screen text changes, a translation is written, or a language is added |

@@ -19,7 +19,10 @@
     "css": "tailwindcss --input site/app.css --output _site/app.css --minify",
     "site": "node site/build.mjs",
     "deploy": "site/deploy.sh",
-    "verify": "node facts.mjs --check && site/verify.sh"
+    "i18n": "node i18n.mjs --check",
+    "quality": "node quality.mjs --check",
+    "gates": "node facts.mjs --check && node i18n.mjs --check && node quality.mjs --check",
+    "verify": "node facts.mjs --check && node i18n.mjs --check && node quality.mjs --check && site/verify.sh"
   },
   "devDependencies": {
     "@tailwindcss/cli": "4.3.5",
