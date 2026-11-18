@@ -184,7 +184,10 @@ const slides = [...carEl.querySelectorAll('[data-carousel-item]')];
 let carousel = null;
 let carouselSeen = false;
 const position = () => carousel?.getActiveItem().position ?? 0;
+// a move by hand gives the new slide its full time before the carousel moves on
+let restartAutoplay = () => {};
 const onSlide = () => {
+  restartAutoplay();
   const i = position();
   $('carousel-pos').textContent = `${i + 1} / ${slides.length}`;
   slides.forEach((s, k) => {
@@ -196,7 +199,6 @@ const onSlide = () => {
 if (slides.length && window.Carousel) {
   carousel = new window.Carousel(carEl, slides.map((el, i) => ({ position: i, el })), {
     defaultPosition: Math.min(slides.length - 1, Number(carEl.dataset.start || 0)),
-    interval: 9000,
     indicators: {
       items: [...document.querySelectorAll('#carousel-dots [data-carousel-slide-to]')]
         .map((el, i) => ({ position: i, el })),
@@ -206,11 +208,15 @@ if (slides.length && window.Carousel) {
   }, { id: 'stories-carousel', override: true });
   onSlide();
   // it advances by itself only for a viewer who allows motion, and stops while one reads it
+  // (its own timer: Flowbite's cycle() restarts itself on every slideTo, even while paused)
   let held = false;
+  let timer = null;
   const autoplay = () => {
-    carousel.pause();
-    if (motion() && carouselSeen && !held && !document.hidden) carousel.cycle();
+    clearInterval(timer);
+    timer = motion() && carouselSeen && !held && !document.hidden
+      ? setInterval(() => carousel.next(), 9000) : null;
   };
+  restartAutoplay = autoplay;
   const hold = (on) => { held = on; autoplay(); };
   carEl.addEventListener('pointerenter', () => hold(true));
   carEl.addEventListener('pointerleave', () => hold(false));
@@ -275,6 +281,13 @@ const applyFilter = () => {
   });
   document.querySelectorAll('#filters [data-category]').forEach((b) => b.setAttribute('aria-pressed',
     String(b.dataset.category === filter.category)));
+  // on a narrow screen the chips scroll in their row: keep the pressed one in sight
+  const row = $('filters');
+  const on = row.querySelector('[aria-pressed="true"]');
+  if (on && row.scrollWidth > row.clientWidth) {
+    const left = on.offsetLeft - row.offsetLeft;
+    if (left < row.scrollLeft || left + on.offsetWidth > row.scrollLeft + row.clientWidth) row.scrollLeft = Math.max(0, left - 16);
+  }
   $('shown-count').textContent = String(shown);
   $('gallery-empty').classList.toggle('hidden', shown > 0);
   $('filters-reset').classList.toggle('hidden', !filter.category && !filter.q);

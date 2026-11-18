@@ -12,6 +12,7 @@
 //   node site/test.mjs <dir>              -> serves that build
 //   node site/test.mjs https://...        -> tests the live site
 //   LINKS=0 node site/test.mjs            -> skips the outbound link check
+//   ONLY=phone node site/test.mjs         -> one format's device, no width sweep (a quick rerun)
 import { createServer } from 'node:http';
 import { createReadStream, statSync, existsSync, readFileSync } from 'node:fs';
 import { join, dirname, extname } from 'node:path';
@@ -133,7 +134,7 @@ const open = async (viewport, path = '', { reduce = false } = {}) => {
 const overflow = (page) => page.evaluate(() => document.documentElement.scrollWidth - innerWidth);
 
 // ---- every width: the layout holds, on the root and on a story's route ------------------------
-for (const w of WIDTHS) {
+for (const w of process.env.ONLY ? [] : WIDTHS) {
   for (const path of ['', stories[0]?.page].filter((p) => p !== undefined)) {
     const { page, errors } = await open(viewportOf(w), path);
     const over = await overflow(page);
@@ -149,7 +150,7 @@ for (const w of WIDTHS) {
 }
 
 // ---- every format's device: the player, the carousel, the browser and the viewer --------------
-for (const f of FORMATS) {
+for (const f of FORMATS.filter((x) => !process.env.ONLY || x.id === process.env.ONLY)) {
   const device = DEVICES[f.id];
   if (!device) { failures.push(`${f.id}: no test device declared for this format`); continue; }
   const { page, errors } = await open(device);
@@ -219,7 +220,7 @@ for (const f of FORMATS) {
   // the carousel: keys, arrows, dots and a swipe move it
   const active = () => page.evaluate(() => [...document.querySelectorAll('#carousel [data-carousel-item]')]
     .findIndex((s) => s.getAttribute('aria-hidden') === 'false'));
-  await page.evaluate(() => document.getElementById('carousel').scrollIntoView({ block: 'center' }));
+  await page.evaluate(() => document.getElementById('carousel').scrollIntoView({ block: 'center', behavior: 'instant' }));
   await page.focus('#carousel');
   const a0 = await active();
   await page.keyboard.press('ArrowRight');
@@ -228,11 +229,12 @@ for (const f of FORMATS) {
   const a2 = await active();
   check(a1 === (a0 + 1) % stories.length && a2 === a0, `${tag}: the arrow keys move the carousel (${a0}->${a1}->${a2})`);
   // the controls sit above the carousel: bring them out from under the sticky header first
-  await page.$eval('[data-carousel-next]', (b) => b.scrollIntoView({ block: 'center' }));
+  await page.$eval('[data-carousel-next]', (b) => b.scrollIntoView({ block: 'center', behavior: 'instant' }));
   await page.click('[data-carousel-next]');
   const a3 = await active();
   await page.click('[data-carousel-prev]');
-  check(a3 === (a0 + 1) % stories.length && (await active()) === a0, `${tag}: the arrow buttons move the carousel`);
+  const a4 = await active();
+  check(a3 === (a0 + 1) % stories.length && a4 === a0, `${tag}: the arrow buttons move the carousel (${a0}->${a3}->${a4})`);
   await page.click(`#carousel-dots [data-carousel-slide-to="${stories.length - 1}"]`);
   check((await active()) === stories.length - 1, `${tag}: a dot moves the carousel to its story`);
   const box = await page.$eval('#carousel', (el) => { const r = el.getBoundingClientRect(); return { x: r.x, y: r.y, w: r.width, h: r.height }; });
@@ -318,7 +320,7 @@ for (const f of FORMATS) {
 // ---- motion: previews and autoplay only for a viewer who allows them --------------------------
 for (const reduce of [false, true]) {
   const { page } = await open(DEVICES.desktop, '', { reduce });
-  await page.evaluate(() => document.getElementById('carousel').scrollIntoView({ block: 'center' }));
+  await page.evaluate(() => document.getElementById('carousel').scrollIntoView({ block: 'center', behavior: 'instant' }));
   await page.mouse.move(2, 2);
   await pause(1200);
   const moving = await page.evaluate(() => {
@@ -358,13 +360,21 @@ for (const reduce of [false, true]) {
     const links = [...new Set(await page.$$eval('a[href], link[href], img[src], source[src], track[src]',
       (els) => els.map((e) => e.href || e.src).filter((h) => /^https?:/.test(h))))];
     const bad = [];
-    await Promise.all(links.map(async (l) => {
-      const u = l.replace(/#.*$/, '');
-      try {
-        let r = await fetch(u, { method: 'HEAD', redirect: 'follow' });
-        if (r.status === 405 || r.status === 403) r = await fetch(u, { redirect: 'follow' });
+    // a few at a time, and a link that fails to connect is asked once more with a GET after a
+    // pause: a host that throttles a burst of HEADs (YouTube does) is not a broken link
+    const ask = async (u) => {
+      let r = await fetch(u, { method: 'HEAD', redirect: 'follow' });
+      if (r.status === 405 || r.status === 403) r = await fetch(u, { redirect: 'follow' });
+      return r;
+    };
+    const queue = [...links];
+    await Promise.all(Array.from({ length: 8 }, async () => {
+      for (let l = queue.shift(); l; l = queue.shift()) {
+        const u = l.replace(/#.*$/, '');
+        let r = await ask(u).catch(() => null);
+        if (!r) r = await pause(1500).then(() => fetch(u, { redirect: 'follow' })).catch((e) => ({ ok: false, status: e.message }));
         if (!r.ok) bad.push(`${r.status} ${u}`);
-      } catch (e) { bad.push(`${e.message} ${u}`); }
+      }
     }));
     check(bad.length === 0, `${links.length} links answer${bad.length ? `; broken: ${bad.join(', ')}` : ''}`);
   }
