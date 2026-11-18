@@ -19,8 +19,9 @@ The translation is stale from that moment, and the gates say where:
    text, DOM or canvas, left in English. Read the `check-*.png` stills it writes.
 4. `PREVIEW=ends` with the same variables, and read the stills: the gate proves geometry and
    coverage, the eye judges meaning, diacritics and line breaks.
-5. `node quality.mjs --check`, then finish the task with `node quality.mjs --record "<what
-   improved>"` in its verify command.
+5. `node quality.mjs --record "<what improved>"` and commit `quality.json` with the work; finish
+   the task with `node quality.mjs --check --recorded-since <the commit the task started from>`
+   in its verify command (read-only: a verification may not change the tree).
 
 ## Writing a translation
 

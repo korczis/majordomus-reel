@@ -74,6 +74,30 @@
         "site.cs.messages_missing",
         "site.cs.messages_stale"
       ]
+    },
+    {
+      "at": "2026-11-18T02:23:10.690Z",
+      "head": "ed34393e7baae85b9dbbcc0fcc27c2566779fe64",
+      "note": "merged to main; Czech story renders continuing",
+      "values": {
+        "facts.findings": 0,
+        "i18n.languages": 2,
+        "renders.formats": 3,
+        "renders.en": 14,
+        "renders.cs": 9,
+        "i18n.cs.scenes": 45,
+        "i18n.cs.scenes_missing": 0,
+        "i18n.cs.cues_unsaid": 0,
+        "i18n.cs.text_untranslated": 0,
+        "i18n.cs.stale": 0,
+        "i18n.cs.typed": 0,
+        "i18n.cs.catalogue_missing": 0,
+        "site.cs.messages_missing": 0,
+        "site.cs.messages_stale": 0
+      },
+      "improved": [
+        "renders.cs"
+      ]
     }
   ],
   "measures": {

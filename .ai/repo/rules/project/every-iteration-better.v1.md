@@ -29,11 +29,14 @@ nothing measurable has to say so instead of calling itself an improvement.
 - No iteration makes a measure worse than the last recorded one. A measure that disappears is
   worse; a measure is retired only by a recorded decision (`majordomus decision add`), listed in
   `quality.json` under `retired` with the decision's title.
-- A task that changes the reel, its translations or its site closes with its iteration recorded:
-  its `--verify-command` runs `node quality.mjs --record "<what improved>"` (with the task's other
-  checks), so `majordomus finish --outcome completed` is refused when nothing improved. Work
-  that improves nothing measurable finishes as `partial` and says why, and the measure it should
-  have moved is added to `quality.mjs` before it is called done.
+- A task that changes the reel, its translations or its site records its iteration and commits
+  `quality.json` with the work (`node quality.mjs --record "<what improved>"`). Its
+  `--verify-command` proves it read-only, because a verification may not change the tree
+  (`majordomus.verification-integrity`): `node quality.mjs --check --recorded-since <the commit
+  the task started from>`, with the task's other checks, so `majordomus finish --outcome
+  completed` is refused when the work recorded no iteration. Work that improves nothing
+  measurable finishes as `partial` and says why, and the measure it should have moved is added to
+  `quality.mjs` before it is called done.
 - When a new kind of quality matters (a check, a format, a site test), it becomes a measure in
   `quality.mjs` in the same change, so the ratchet covers it from then on.
 
@@ -44,8 +47,10 @@ No validator of the Majordomus executable decides this, so the rule carries no
 
 - `node quality.mjs --check` (exit 1): a measure worse than the last iteration, or gone;
 - `node quality.mjs --record "<note>"` (exit 1): the same, or no measure better than the last
-  iteration; it is the task's verify command, so `majordomus finish --outcome completed`
-  refuses with it.
+  iteration;
+- `node quality.mjs --check --recorded-since <rev>` (exit 1): the committed ledger records no
+  iteration since `<rev>`; it is the task's verify command, so `majordomus finish --outcome
+  completed` refuses with it.
 
 Choosing the verify command is the worker's; a reviewer checks that a finished task's verify
-command recorded its iteration (the ledger's `head` and `note`).
+command named `--recorded-since` with the commit the task started from.

@@ -8,6 +8,10 @@
 //   node quality.mjs --record "<what improved>"
 //                                     --check, then refuse unless at least one measure is
 //                                     better; append the iteration to quality.json
+//   node quality.mjs --check --recorded-since <rev>
+//                                     also refuse unless quality.json at HEAD records an
+//                                     iteration that <rev> did not: the read-only proof a task
+//                                     finishes with (its verify command must not write)
 //
 // A measure that existed and is gone is a regression too: a measure is retired only by a
 // recorded decision, in quality.json's `retired`, never by deleting the code that takes it. The
@@ -166,6 +170,24 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
     writeFileSync(LEDGER, JSON.stringify(book, null, 2) + '\n');
     console.log(`quality: iteration ${book.history.length} recorded: ${note}`);
   } else if (process.argv.includes('--check')) {
-    console.log('quality: ok, nothing worse than the last iteration');
+    const since = process.argv.indexOf('--recorded-since');
+    if (since > 0) {
+      // the ledger as committed, then and now: an iteration this work recorded and committed
+      const rev = process.argv[since + 1];
+      const at = (r) => {
+        const out = spawnSync('git', ['-C', DIR, 'show', `${r}:quality.json`], { encoding: 'utf8' });
+        return out.status === 0 ? JSON.parse(out.stdout).history.length : 0;
+      };
+      const [then, now] = [at(rev), at('HEAD')];
+      if (now <= then) {
+        console.error(`quality: refused, no iteration recorded since ${rev} (${then} then, ${now} at HEAD): `
+          + 'record what this work improved with --record and commit quality.json '
+          + '(project.every-iteration-better)');
+        process.exit(1);
+      }
+      console.log(`quality: ok, ${now - then} iteration(s) recorded since ${rev}, nothing worse`);
+    } else {
+      console.log('quality: ok, nothing worse than the last iteration');
+    }
   }
 }
