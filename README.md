@@ -153,8 +153,9 @@ to publish before every format is rendered: `data/reel.json` records each cut's 
 The site is bilingual (`project.reel-bilingual`). Every language of `lang/` gets the same routes
 under `/<id>/` (`/cs/`, `/cs/<cut>/`), its own `<id>/data/reel.json` and `<id>/llms.txt`, every page
 linked to its counterpart in every language (`hreflang`, `x-default`, `og:locale`, the sitemap's
-`xhtml:link`) and a switcher in the navbar. A first visit lands on the browser's language
-(`navigator.languages`), a click on the switcher or `?lang=<id>` is remembered. Every word comes
+`xhtml:link`) and a switcher in the navbar. A first visit to an English (x-default) route lands on
+the browser's language (`navigator.languages`); an explicit language route such as `/cs/` always
+stays in its language; a click on the switcher or `?lang=<id>` is remembered and wins over both. Every word comes
 from `site/messages.json` (English) or `lang/<id>.json` `site`, never from a template; a cut's
 chapters, narration and captions from its render in the language,
 `cuts/v6/<cut>-<format>.<id>.mp4` with `build-v6/<cut>-<format>.<id>/`. A cut not rendered in a

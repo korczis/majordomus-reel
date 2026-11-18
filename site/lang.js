@@ -7,7 +7,11 @@
 //   ?lang=<id>          the address asks: that language, remembered from then on
 //   a stored choice     an explicit click on the switcher (a[data-lang]), respected from then on:
 //                       a route in another language is replaced by its counterpart in this one
-//   neither             the first of navigator.languages the site has (cs-CZ -> cs)
+//   neither             the first of navigator.languages the site has (cs-CZ -> cs), but only on
+//                       the x-default entry (the route whose canonical is its hreflang x-default:
+//                       the English routes). An explicit language route (/cs/, /cs/<cut>/) is
+//                       what its link promised and is never moved by the browser's language, so a
+//                       Czech link shared to an English-speaking browser stays Czech.
 //
 // When the choice is not this page's language, location.replace moves to the counterpart (no
 // history entry); no match stays put. It never loops: the choice depends only on the address,
@@ -40,6 +44,10 @@
     }
     return null;
   };
+  // this page is the x-default entry: its canonical address is the one hreflang x-default names
+  const xDefault = document.querySelector('link[rel="alternate"][hreflang="x-default"]')?.href;
+  const canonical = document.querySelector('link[rel="canonical"]')?.href;
+  const isDefault = Boolean(xDefault && canonical && xDefault === canonical);
   const crawler = /bot|crawl|spider|slurp|facebookexternalhit|embedly|preview|lighthouse/i
     .test(navigator.userAgent || '');
   const asked = new URLSearchParams(location.search).get('lang');
@@ -48,7 +56,7 @@
     if (asked !== here) location.replace(target(asked));
     else history.replaceState(history.state, '', target(here));
   } else if (!crawler) {
-    const want = routes[stored()] ? stored() : best();
+    const want = routes[stored()] ? stored() : isDefault ? best() : null;
     if (want && want !== here) location.replace(target(want));
   }
   // the switcher: a click remembers the choice and carries the address to the counterpart

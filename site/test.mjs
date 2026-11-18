@@ -436,6 +436,16 @@ for (const l of others) {
       + `(history ${depth}, a visit that stays ${baseline})`);
     await page.close();
   }
+  // an explicit language route is what its link promised: a browser preferring the source language,
+  // with no stored choice, stays on it (the browser's language moves only the x-default entry)
+  for (const path of [l.home, l.data.cuts.find((c) => c.kind === 'story')?.page].filter(Boolean)) {
+    const { page } = await open(DEVICES.desktop, path, { fresh: true, languages: prefer(data.lang) });
+    await pause(800);
+    const at = await page.evaluate(() => ({ path: location.pathname, lang: document.documentElement.lang }));
+    check(at.path === new URL(path, BASE).pathname && at.lang === l.id, `an explicit /${path} stays ${l.id} `
+      + `for a browser preferring ${prefer(data.lang).join(', ')} with no stored choice (at ${at.path}, ${at.lang})`);
+    await page.close();
+  }
   // a stored choice of the source language keeps that browser on it
   {
     const { page } = await open(DEVICES.desktop, '', { fresh: true, languages: prefer(l.id), stored: data.lang });

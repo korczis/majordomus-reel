@@ -37,7 +37,10 @@ once as a second film.
   `cuts/v6/<cut>-<format>.mp4` is English, `cuts/v6/<cut>-<format>.<id>.mp4` the language.
 - **The site is bilingual.** Every interface string exists in every language; the page offers
   a language switcher, chooses the viewer's language from the browser on the first visit and
-  remembers their choice, keeps it in the address, and links every route to its counterpart in
+  remembers their choice (precedence: `?lang=`, then the stored switcher choice, then the
+  browser's language, which applies only on the x-default entry, the English routes; an explicit
+  language route such as `/cs/` is never moved by the browser's language, so a link shared in one
+  language opens in it for everyone), keeps it in the address, and links every route to its counterpart in
   each language (`hreflang`, `og:locale` and `og:locale:alternate`, `inLanguage`, captions with
   `srclang`). A cut not yet rendered in the viewer's language plays the language it has and the
   page says so, as the format fallback does (`project.reel-site-is-derived`).
@@ -79,7 +82,8 @@ No validator of the Majordomus executable decides this, so the rule carries no
   `<html lang>`, switcher or `h1` is not its language's, or that does not play its own cut in
   the language it has, marked and noted when that is English; the switcher not moving
   `/story-x/?t=12` to `/<id>/story-x/?t=12` and back; a first visit from a browser preferring the
-  language not landing on its root (without a history entry); a stored English choice not
+  language not landing on its root (without a history entry); an explicit `/<id>/` route or story
+  route leaving its language for a browser that prefers English with no stored choice; a stored English choice not
   keeping that browser on English; `?lang=` not winning, stored and dropped from the address;
   and a count, a length or a number typed into any language's messages;
 - `node quality.mjs --check` (exit 1): also `site.<id>.messages_missing` and
