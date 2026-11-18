@@ -10,7 +10,11 @@
 //                                     better; append the iteration to quality.json
 //
 // A measure that existed and is gone is a regression too: a measure is retired only by a
-// recorded decision, in quality.json's `retired`, never by deleting the code that takes it.
+// recorded decision, in quality.json's `retired`, never by deleting the code that takes it. The
+// one exception is a measure taken from a build (`site.<lang>.routes`, from SITE_OUT's
+// sitemap.xml): without a build to read it is not taken, which is not a regression.
+//
+//   SITE_OUT=<dir> node quality.mjs --check   also measures that build's routes per language
 import { readFileSync, writeFileSync, existsSync, readdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
@@ -44,6 +48,25 @@ const measureLang = (l) => ({
   [`i18n.${l}.catalogue_missing`]: ['down', `release categories and use cases ${l} lacks`],
 });
 const measureRenders = (l) => ({ [`renders.${l}`]: ['up', `cut formats rendered in ${l} (${CUTS.replace(`${DIR}/`, '')})`] });
+// the site in a language: the interface messages it lacks or keeps after English dropped them,
+// and the routes a build gives it (taken only from a build: optional)
+const measureSite = (l) => ({
+  ...(l === 'en' ? {} : {
+    [`site.${l}.messages_missing`]: ['down', `site messages ${l} lacks (site/messages.json, lang/${l}.json site)`],
+    [`site.${l}.messages_stale`]: ['down', `${l} site messages no longer in site/messages.json`],
+  }),
+  [`site.${l}.routes`]: ['up', `routes of the ${l} site in the build's sitemap.xml (SITE_OUT)`, 'optional'],
+});
+const SITE_OUT = process.env.SITE_OUT;
+// the routes of each language in a build: a sitemap <loc> under the language's home ('cs/')
+const routesIn = (l, langs) => {
+  const sitemap = join(SITE_OUT, 'sitemap.xml');
+  if (!existsSync(sitemap)) throw new Error(`SITE_OUT=${SITE_OUT} has no sitemap.xml; build the site first`);
+  const base = JSON.parse(readFileSync(join(DIR, 'package.json'), 'utf8')).homepage;
+  const locs = [...readFileSync(sitemap, 'utf8').matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1].slice(base.length));
+  const of = (path) => langs.find((x) => x !== 'en' && path.startsWith(`${x}/`)) || 'en';
+  return locs.filter((p) => of(p) === l).length;
+};
 
 // <cut>-<format>.mp4 is English; <cut>-<format>.<lang>.mp4 is that language
 const rendered = (l) => (existsSync(CUTS) ? readdirSync(CUTS).filter((f) => {
@@ -59,8 +82,9 @@ export async function measure() {
   values['i18n.languages'] = langs.length;
   values['renders.formats'] = FORMATS.length;
   for (const l of langs) {
-    Object.assign(about, measureRenders(l));
+    Object.assign(about, measureRenders(l), measureSite(l));
     values[`renders.${l}`] = rendered(l);
+    if (SITE_OUT) values[`site.${l}.routes`] = routesIn(l, langs);
     if (l === 'en') continue;
     Object.assign(about, measureLang(l));
     const { coverage: c } = await audit(l);
@@ -69,6 +93,8 @@ export async function measure() {
       [`i18n.${l}.cues_unsaid`]: c.cues_unsaid, [`i18n.${l}.text_untranslated`]: c.text_untranslated,
       [`i18n.${l}.stale`]: c.stale, [`i18n.${l}.typed`]: c.typed,
       [`i18n.${l}.catalogue_missing`]: c.catalogue_missing,
+      [`site.${l}.messages_missing`]: c.site_messages_missing,
+      [`site.${l}.messages_stale`]: c.site_messages_stale,
     });
   }
   return { values, about };
@@ -89,7 +115,10 @@ export function compare(values, about, last, retired = {}) {
     rows.push({ k, v, was, dir, verdict });
   }
   for (const k of Object.keys(before)) {
-    if (!(k in values) && !(k in retired)) rows.push({ k, v: undefined, was: before[k], verdict: 'gone' });
+    if (k in values || k in retired) continue;
+    // a measure taken only from a build is not taken without one: skipped, not gone
+    if (about[k]?.[2] === 'optional') rows.push({ k, v: undefined, was: before[k], dir: about[k][0], verdict: 'skipped' });
+    else rows.push({ k, v: undefined, was: before[k], verdict: 'gone' });
   }
   return rows;
 }

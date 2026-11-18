@@ -55,10 +55,33 @@ No validator of the Majordomus executable decides this, so the rule carries no
 - `node render.mjs` with `REEL_LANG=<id>`: refuses a scene the file does not translate; with
   `CHECK=1` (exit 1) it also fails on a cue the voice never says and on any text, DOM or canvas,
   left in English;
-- `node quality.mjs --check` (exit 1): any language's coverage worse than the last recorded
-  iteration (`project.every-iteration-better`).
-
-The site's half (switcher, automatic choice, per-language routes and metadata) is required now
-and lands with the bilingual site; until `site/build.mjs` and `site/test.mjs` refuse a missing
-interface string, a route without its language alternates and a switcher that does not switch,
-a reviewer enforces it.
+- `node i18n.mjs --check` (exit 1), for the site: an interface message of `site/messages.json` a
+  language's `site` lacks; one it keeps that English no longer has (stale); one whose arguments
+  or plurals are not the English one's, or whose plural misses a category the language's
+  `Intl.PluralRules` has (Czech: one, few, many, other); and a fact or number typed into one;
+- `node site/build.mjs` (exit 1): a message a template, a view or the page's script names that
+  `site/messages.json` lacks, and one there that nothing names; a number typed into an English
+  message; a page whose language lacks a message (`PARTIAL=1` previews it in English); a
+  language's render of the wrong language; and a cut not rendered in a language, unless
+  `FALLBACK=1`, which plays the English cut on that language's page, says so in a note, marks
+  its chapters and captions with their language and records it (`language_fallback`, `gaps` in
+  that language's `data/reel.json`);
+- `node site/seo.mjs <dir>` (`checkSite`, run by the build; exit 1): a page whose `<html lang>`,
+  `og:locale` or JSON-LD `inLanguage` is not its route's language (the `VideoObject`'s is the
+  language its cut plays), whose `og:locale:alternate` is not every other language, that lacks a
+  `hreflang` alternate for a language or `x-default`, or names a counterpart that does not name
+  it back; a sitemap entry without its `xhtml:link` alternates; a language without its own
+  `llms.txt` and `data/reel.json`, a route its `llms.txt` omits, and a root `llms.txt` that does
+  not name every language's entry point;
+- `node site/test.mjs <dir>` (exit 1), in every language but English: its root and a story route
+  at 320, 390, 768, 1024 and 1440 pixels overflow sideways or log a console error; an English
+  message's words visible on its pages outside what is marked as another language; a route whose
+  `<html lang>`, switcher or `h1` is not its language's, or that does not play its own cut in
+  the language it has, marked and noted when that is English; the switcher not moving
+  `/story-x/?t=12` to `/<id>/story-x/?t=12` and back; a first visit from a browser preferring the
+  language not landing on its root (without a history entry); a stored English choice not
+  keeping that browser on English; `?lang=` not winning, stored and dropped from the address;
+  and a count, a length or a number typed into any language's messages;
+- `node quality.mjs --check` (exit 1): also `site.<id>.messages_missing` and
+  `site.<id>.messages_stale` worse than the last iteration, and, with `SITE_OUT=<build>`,
+  `site.<id>.routes` fewer.

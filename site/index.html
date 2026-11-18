@@ -1,39 +1,41 @@
 <!doctype html>
-<html lang="en" class="dark scroll-smooth">
+<html lang="{{lang}}" class="dark scroll-smooth">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 {{meta}}
+<script src="{{root}}lang.js"></script>
 <link rel="stylesheet" href="{{root}}app.css">
 <script type="application/ld+json">{{ld_json}}</script>
 </head>
 <body data-root="{{root}}" data-cut="{{cut}}" class="overflow-x-hidden bg-gray-50 text-gray-900 antialiased dark:bg-gray-950 dark:text-white">
-<a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:m-2 focus:px-4 focus:py-2 focus:bg-primary-700 focus:text-white focus:rounded-lg">Skip to the stories</a>
+<a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:m-2 focus:px-4 focus:py-2 focus:bg-primary-700 focus:text-white focus:rounded-lg">{{m:skip}}</a>
 
 <header class="sticky top-0 z-40">
-  <nav class="bg-white/95 border-b border-gray-200 backdrop-blur dark:bg-gray-950/90 dark:border-gray-800" aria-label="Main">
+  <nav class="bg-white/95 border-b border-gray-200 backdrop-blur dark:bg-gray-950/90 dark:border-gray-800" aria-label="{{m:nav.label}}">
     <div class="flex flex-wrap items-center justify-between max-w-screen-xl px-4 py-3 mx-auto">
-      <a href="{{root}}" class="flex items-center gap-3">
-        <svg class="w-8 h-8" viewBox="0 0 64 64" fill="none" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <a href="{{home}}" class="flex items-center min-w-0 gap-3">
+        <svg class="w-8 h-8 shrink-0" viewBox="0 0 64 64" fill="none" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <path d="M4 32h16" stroke="#e2e8f0"/><path d="M32 12 46 52H18Z" stroke="#e2e8f0"/>
           <path d="M44 24l16-8" stroke="#a78bfa"/><path d="M46 32h14" stroke="#38bdf8"/><path d="M44 40l16 8" stroke="#34d399"/>
         </svg>
         <span class="self-center text-lg font-semibold whitespace-nowrap">Majordomus <span class="font-normal text-gray-500 dark:text-gray-400">reel</span></span>
       </a>
       <div class="flex items-center gap-2 lg:order-2">
-        <a href="https://majordomus.dev/docs/install/" class="hidden sm:inline-flex text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-800 font-medium rounded-lg text-sm px-4 py-2">Install Majordomus</a>
+        {{language_switch}}
+        <a href="https://majordomus.dev/docs/install/" class="hidden sm:inline-flex text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-800 font-medium rounded-lg text-sm px-4 py-2">{{m:nav.install}}</a>
         <button data-collapse-toggle="nav-menu" type="button" class="inline-flex items-center justify-center p-2 w-10 h-10 text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-800 dark:focus:ring-gray-700" aria-controls="nav-menu" aria-expanded="false">
-          <span class="sr-only">Open the menu</span>
+          <span class="sr-only">{{m:nav.menu}}</span>
           <svg class="w-5 h-5" aria-hidden="true" fill="none" viewBox="0 0 17 14"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"/></svg>
         </button>
       </div>
       <div class="hidden w-full lg:flex lg:w-auto lg:order-1" id="nav-menu">
         <ul class="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0 text-sm">
-          <li><a href="{{home}}#start" class="block py-2 px-3 text-gray-700 rounded-lg hover:bg-gray-100 lg:hover:bg-transparent lg:hover:text-primary-400 lg:p-0 dark:text-gray-300 dark:hover:bg-gray-800 lg:dark:hover:bg-transparent">Start here</a></li>
-          <li><a href="{{home}}#stories" class="block py-2 px-3 text-gray-700 rounded-lg hover:bg-gray-100 lg:hover:bg-transparent lg:hover:text-primary-400 lg:p-0 dark:text-gray-300 dark:hover:bg-gray-800 lg:dark:hover:bg-transparent">All stories</a></li>
+          <li><a href="{{home}}#start" class="block py-2 px-3 text-gray-700 rounded-lg hover:bg-gray-100 lg:hover:bg-transparent lg:hover:text-primary-400 lg:p-0 dark:text-gray-300 dark:hover:bg-gray-800 lg:dark:hover:bg-transparent">{{m:nav.start}}</a></li>
+          <li><a href="{{home}}#stories" class="block py-2 px-3 text-gray-700 rounded-lg hover:bg-gray-100 lg:hover:bg-transparent lg:hover:text-primary-400 lg:p-0 dark:text-gray-300 dark:hover:bg-gray-800 lg:dark:hover:bg-transparent">{{m:nav.stories}}</a></li>
           <li><a href="{{film_href}}" class="block py-2 px-3 text-gray-700 rounded-lg hover:bg-gray-100 lg:hover:bg-transparent lg:hover:text-primary-400 lg:p-0 dark:text-gray-300 dark:hover:bg-gray-800 lg:dark:hover:bg-transparent">{{film_title}}</a></li>
-          <li><a href="{{home}}#use-cases" class="block py-2 px-3 text-gray-700 rounded-lg hover:bg-gray-100 lg:hover:bg-transparent lg:hover:text-primary-400 lg:p-0 dark:text-gray-300 dark:hover:bg-gray-800 lg:dark:hover:bg-transparent">Find your use case</a></li>
-          <li><a href="{{home}}#made" class="block py-2 px-3 text-gray-700 rounded-lg hover:bg-gray-100 lg:hover:bg-transparent lg:hover:text-primary-400 lg:p-0 dark:text-gray-300 dark:hover:bg-gray-800 lg:dark:hover:bg-transparent">How it is made</a></li>
+          <li><a href="{{home}}#use-cases" class="block py-2 px-3 text-gray-700 rounded-lg hover:bg-gray-100 lg:hover:bg-transparent lg:hover:text-primary-400 lg:p-0 dark:text-gray-300 dark:hover:bg-gray-800 lg:dark:hover:bg-transparent">{{m:nav.use_cases}}</a></li>
+          <li><a href="{{home}}#made" class="block py-2 px-3 text-gray-700 rounded-lg hover:bg-gray-100 lg:hover:bg-transparent lg:hover:text-primary-400 lg:p-0 dark:text-gray-300 dark:hover:bg-gray-800 lg:dark:hover:bg-transparent">{{m:nav.made}}</a></li>
         </ul>
       </div>
     </div>
@@ -51,7 +53,7 @@
       {{hero_actions}}
       <div class="flex items-center min-w-0 gap-2 px-4 py-2 font-mono text-sm text-gray-300 bg-gray-900 border border-gray-800 rounded-lg">
         <span class="text-gray-500">$</span><code id="install-cmd" class="truncate">curl -fsSL majordomus.dev/install.sh | sh</code>
-        <button type="button" data-copy="install-cmd" class="ms-auto px-2 py-1 text-xs text-gray-400 rounded-md hover:bg-gray-800 hover:text-white" aria-label="Copy the install command">Copy</button>
+        <button type="button" data-copy="install-cmd" class="ms-auto px-2 py-1 text-xs text-gray-400 rounded-md hover:bg-gray-800 hover:text-white" aria-label="{{m:install.copy_label}}">{{m:install.copy}}</button>
       </div>
     </div>
   </section>
@@ -61,16 +63,16 @@
   <section id="start" class="max-w-screen-xl px-4 py-8 mx-auto scroll-mt-20" aria-labelledby="start-title">
     <div class="flex flex-wrap items-end justify-between gap-4 mb-5">
       <div class="min-w-0">
-        <p class="mb-1 text-xs font-medium tracking-widest uppercase text-primary-400">Start here</p>
-        <h2 id="start-title" class="font-serif text-3xl font-normal tracking-tight md:text-4xl">A story for each <em class="text-primary-400">kind of work.</em></h2>
+        <p class="mb-1 text-xs font-medium tracking-widest uppercase text-primary-400">{{m:start.eyebrow}}</p>
+        <h2 id="start-title" class="font-serif text-3xl font-normal tracking-tight md:text-4xl">{{m:start.title}}</h2>
       </div>
       <div class="flex items-center gap-2">
         <span class="font-mono text-sm text-gray-500 me-2" id="carousel-pos" aria-live="polite"></span>
-        <button type="button" class="{{ui_control}}" data-carousel-prev aria-label="Previous story">{{icon_prev}}</button>
-        <button type="button" class="{{ui_control}}" data-carousel-next aria-label="Next story">{{icon_next}}</button>
+        <button type="button" class="{{ui_control}}" data-carousel-prev aria-label="{{m:carousel.prev}}">{{icon_prev}}</button>
+        <button type="button" class="{{ui_control}}" data-carousel-next aria-label="{{m:carousel.next}}">{{icon_next}}</button>
       </div>
     </div>
-    <div id="carousel" class="relative overflow-hidden rounded-lg h-[30rem] sm:h-[34rem] md:h-[22rem] lg:h-[24rem] touch-pan-y focus:outline-none focus-visible:ring-4 focus-visible:ring-primary-800" tabindex="0" aria-roledescription="carousel" aria-label="Stories: arrow keys or swipe to move" data-start="{{carousel_start}}">
+    <div id="carousel" class="relative overflow-hidden rounded-lg h-[30rem] sm:h-[34rem] md:h-[22rem] lg:h-[24rem] touch-pan-y focus:outline-none focus-visible:ring-4 focus-visible:ring-primary-800" tabindex="0" aria-roledescription="carousel" aria-label="{{m:carousel.label}}" data-start="{{carousel_start}}">
       {{slides}}
     </div>
     <div class="flex flex-wrap items-center justify-center gap-2 mt-5" id="carousel-dots">
@@ -80,28 +82,28 @@
 
   <section id="stories" class="max-w-screen-xl px-4 py-10 mx-auto scroll-mt-20" aria-labelledby="stories-title">
     <div class="max-w-3xl mb-6">
-      <h2 id="stories-title" class="mb-3 font-serif text-3xl font-normal tracking-tight md:text-4xl">Find <em class="text-primary-400">your story.</em></h2>
-      <p class="text-gray-500 dark:text-gray-400 text-pretty">Each story is one dimension of Majordomus, at most {{story_length}}, from the problem to the install line. The stories are derived: a scene of the film names the use cases it shows, the release files each use case under its category, and every category the film can show becomes a story.</p>
+      <h2 id="stories-title" class="mb-3 font-serif text-3xl font-normal tracking-tight md:text-4xl">{{m:stories.title}}</h2>
+      <p class="text-gray-500 dark:text-gray-400 text-pretty">{{stories_intro}}</p>
     </div>
     <div class="p-3 mb-6 sm:p-4 {{ui_card}}">
       <form id="browser" class="flex flex-col gap-3 md:flex-row md:items-center" role="search" onsubmit="return false">
-        <label for="q" class="sr-only">Search the stories</label>
+        <label for="q" class="sr-only">{{m:browser.search_label}}</label>
         <div class="relative w-full md:max-w-sm shrink-0">
           <div class="absolute inset-y-0 flex items-center pointer-events-none start-0 ps-3">{{icon_search}}</div>
-          <input type="search" id="q" name="q" class="{{ui_input}}" placeholder="Search titles, whys and use cases" autocomplete="off">
+          <input type="search" id="q" name="q" class="{{ui_input}}" placeholder="{{m:browser.search_placeholder}}" autocomplete="off">
         </div>
-        <div class="flex min-w-0 gap-2 pb-1 -mb-1 overflow-x-auto md:flex-wrap md:overflow-visible" role="group" aria-label="Filter by kind of work" id="filters">
+        <div class="flex min-w-0 gap-2 pb-1 -mb-1 overflow-x-auto md:flex-wrap md:overflow-visible" role="group" aria-label="{{m:browser.filter_label}}" id="filters">
           {{filter_chips}}
         </div>
       </form>
-      <p class="mt-3 text-sm text-gray-500 dark:text-gray-400" aria-live="polite"><span id="shown-count" class="font-semibold text-gray-900 dark:text-white">{{story_count}}</span> of <span id="total-count">{{story_count}}</span> stories <button type="button" id="filters-reset" class="hidden ms-2 text-primary-400 hover:underline">Show all</button></p>
+      <p class="mt-3 text-sm text-gray-500 dark:text-gray-400" aria-live="polite">{{browser_count}} <button type="button" id="filters-reset" class="hidden ms-2 text-primary-400 hover:underline">{{m:browser.reset}}</button></p>
     </div>
     <ul id="gallery" class="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
       {{tiles}}
     </ul>
     <div id="gallery-empty" class="hidden p-8 text-center {{ui_card}}">
-      <p class="mb-3 text-gray-500 dark:text-gray-400">No story matches that search.</p>
-      <button type="button" data-reset class="px-4 py-2 text-sm {{ui_secondary}}">Show every story</button>
+      <p class="mb-3 text-gray-500 dark:text-gray-400">{{m:browser.empty}}</p>
+      <button type="button" data-reset class="px-4 py-2 text-sm {{ui_secondary}}">{{m:browser.empty_reset}}</button>
     </div>
   </section>
 
@@ -109,8 +111,8 @@
 
   <section id="use-cases" class="max-w-screen-xl px-4 py-12 mx-auto scroll-mt-20">
     <div class="max-w-3xl mb-8">
-      <h2 class="mb-3 font-serif text-3xl font-normal tracking-tight md:text-4xl">Find <em class="text-primary-400">yourself.</em></h2>
-      <p class="text-gray-500 dark:text-gray-400 text-pretty">Every use case Majordomus {{release_label}} ships, as its release files them: {{use_cases_total}} in all, {{use_cases_shown}} of them shown in the film. Each title opens its page on <a class="text-primary-400 hover:underline" href="https://majordomus.dev/use-cases/">majordomus.dev/use-cases</a>, proved against the real tool; a time opens the moment the film shows it.</p>
+      <h2 class="mb-3 font-serif text-3xl font-normal tracking-tight md:text-4xl">{{m:use_cases.title}}</h2>
+      <p class="text-gray-500 dark:text-gray-400 text-pretty">{{use_cases_intro}}</p>
     </div>
     <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
         {{use_case_index}}
@@ -120,19 +122,19 @@
   <section id="made" class="max-w-screen-xl px-4 py-12 mx-auto scroll-mt-20">
     <div class="grid gap-10 lg:grid-cols-2">
       <div class="min-w-0">
-        <h2 class="mb-3 font-serif text-3xl font-normal tracking-tight md:text-4xl">Rendered from <em class="text-primary-400">code.</em></h2>
-        <p class="mb-6 text-gray-500 dark:text-gray-400 text-pretty">Narration, every frame, the music and the sound effects are rendered from code; nothing is filmed, licensed or generated by a video model. The same scenes are composed for each frame: the phone stacks them, the tablet sets the words beside the visual, and the desktop adds the narration as it is spoken and the use cases each scene shows.</p>
+        <h2 class="mb-3 font-serif text-3xl font-normal tracking-tight md:text-4xl">{{m:made.title}}</h2>
+        <p class="mb-6 text-gray-500 dark:text-gray-400 text-pretty">{{m:made.intro}}</p>
         <dl class="grid grid-cols-2 gap-4">
         {{stats}}
         </dl>
       </div>
       <div class="min-w-0">
-        <h3 class="mb-3 text-lg font-semibold">Render it yourself</h3>
+        <h3 class="mb-3 text-lg font-semibold">{{m:made.render}}</h3>
         <pre class="p-4 mb-6 overflow-x-auto font-mono text-sm text-gray-300 bg-gray-900 border border-gray-800 rounded-lg" tabindex="0">git clone https://github.com/korczis/majordomus-reel
 cd majordomus-reel
-./make-reel.sh                     # needs {{requirements}}
-STORY={{example_story}} FORMAT=desktop node render.mjs</pre>
-        <h3 class="mb-3 text-lg font-semibold">Also on YouTube</h3>
+./make-reel.sh                     # {{requirements}}
+{{example_env}}STORY={{example_story}} FORMAT=desktop node render.mjs</pre>
+        <h3 class="mb-3 text-lg font-semibold">{{m:made.youtube}}</h3>
         <div class="grid gap-4 sm:grid-cols-2">
         {{youtube}}
         </div>
@@ -146,37 +148,37 @@ STORY={{example_story}} FORMAT=desktop node render.mjs</pre>
     <div class="md:flex md:justify-between">
       <div class="mb-6 md:mb-0 max-w-sm">
         <p class="text-lg font-semibold">Majordomus <span class="font-normal text-gray-500">reel</span></p>
-        <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">Every Majordomus fact in the reel is derived from <a class="text-primary-400 hover:underline" href="{{release_url}}" data-majordomus-version="{{version}}" data-majordomus-pending="{{release_pending}}" data-majordomus-commit="{{release_commit}}">Majordomus {{release_label}}</a>. The narrator is a synthetic voice. MIT licensed.</p>
+        <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">{{footer_facts}}</p>
       </div>
       <div class="grid grid-cols-2 gap-8 sm:grid-cols-3 sm:gap-6">
         <div>
           <h2 class="mb-4 text-sm font-semibold uppercase">Majordomus</h2>
           <ul class="space-y-3 text-sm text-gray-500 dark:text-gray-400">
             <li><a href="https://majordomus.dev" class="hover:underline">majordomus.dev</a></li>
-            <li><a href="https://majordomus.dev/use-cases/" class="hover:underline">Use cases</a></li>
-            <li><a href="https://majordomus.dev/challenge/" class="hover:underline">Watch it refuse an agent</a></li>
+            <li><a href="https://majordomus.dev/use-cases/" class="hover:underline">{{m:footer.use_cases}}</a></li>
+            <li><a href="https://majordomus.dev/challenge/" class="hover:underline">{{m:footer.challenge}}</a></li>
           </ul>
         </div>
         <div>
-          <h2 class="mb-4 text-sm font-semibold uppercase">Source</h2>
+          <h2 class="mb-4 text-sm font-semibold uppercase">{{m:footer.source}}</h2>
           <ul class="space-y-3 text-sm text-gray-500 dark:text-gray-400">
-            <li><a href="https://github.com/korczis/majordomus-reel" class="hover:underline">This reel</a></li>
+            <li><a href="https://github.com/korczis/majordomus-reel" class="hover:underline">{{m:footer.reel}}</a></li>
             <li><a href="https://github.com/korczis/prismatic-majordomus" class="hover:underline">Majordomus</a></li>
             <li><a href="{{release_url}}" class="hover:underline">{{release_link}}</a></li>
           </ul>
         </div>
         <div>
-          <h2 class="mb-4 text-sm font-semibold uppercase">Data</h2>
+          <h2 class="mb-4 text-sm font-semibold uppercase">{{m:footer.data}}</h2>
           <ul class="space-y-3 text-sm text-gray-500 dark:text-gray-400">
-            <li><a href="{{root}}data/reel.json" class="hover:underline">reel.json</a></li>
-            <li><a href="{{root}}llms.txt" class="hover:underline">llms.txt</a></li>
+            <li><a href="{{lang_root}}data/reel.json" class="hover:underline">reel.json</a></li>
+            <li><a href="{{lang_root}}llms.txt" class="hover:underline">llms.txt</a></li>
             <li><a href="{{root}}sitemap.xml" class="hover:underline">sitemap.xml</a></li>
           </ul>
         </div>
       </div>
     </div>
     <hr class="my-6 border-gray-200 dark:border-gray-800">
-    <p class="text-sm text-gray-500">&copy; {{year}} Tomas Korcak &middot; rendered from code, nothing filmed.</p>
+    <p class="text-sm text-gray-500">&copy; {{year}} Tomas Korcak &middot; {{m:footer.made}}</p>
   </div>
 </footer>
 
@@ -189,14 +191,14 @@ STORY={{example_story}} FORMAT=desktop node render.mjs</pre>
           <h3 id="viewer-title" class="text-lg font-semibold text-gray-900 truncate sm:text-xl dark:text-white"></h3>
         </div>
         <div class="flex items-center gap-1 shrink-0">
-          <button type="button" id="viewer-full" class="{{ui_iconButton}}" aria-pressed="false" title="Full viewport (F)"><span class="sr-only">Full viewport</span>{{icon_expand}}</button>
-          <button type="button" id="viewer-copy" class="{{ui_iconButton}}" title="Copy a link to this story"><span class="sr-only">Copy a link</span>{{icon_link}}</button>
-          <a id="viewer-page" href="#" class="{{ui_iconButton}}" title="Open the story's own page"><span class="sr-only">Open its page</span>{{icon_page}}</a>
-          <button type="button" id="viewer-close" class="{{ui_iconButton}}" title="Close (Escape)"><span class="sr-only">Close</span>{{icon_close}}</button>
+          <button type="button" id="viewer-full" class="{{ui_iconButton}}" aria-pressed="false" title="{{m:viewer.full_title}}"><span class="sr-only">{{m:viewer.full}}</span>{{icon_expand}}</button>
+          <button type="button" id="viewer-copy" class="{{ui_iconButton}}" title="{{m:viewer.copy_title}}"><span class="sr-only">{{m:viewer.copy}}</span>{{icon_link}}</button>
+          <a id="viewer-page" href="#" class="{{ui_iconButton}}" title="{{m:viewer.page_title}}"><span class="sr-only">{{m:viewer.page}}</span>{{icon_page}}</a>
+          <button type="button" id="viewer-close" class="{{ui_iconButton}}" title="{{m:viewer.close_title}}"><span class="sr-only">{{m:viewer.close}}</span>{{icon_close}}</button>
         </div>
       </div>
       <div id="viewer-stage" class="relative flex items-center justify-center flex-1 min-h-0 bg-black">
-        <video id="viewer-player" class="block max-w-full" controls playsinline preload="none"><track kind="captions" srclang="en" label="English"></video>
+        <video id="viewer-player" class="block max-w-full" controls playsinline preload="none"><track kind="captions"></video>
       </div>
       <div class="p-4 space-y-3" id="viewer-info">
         <p id="viewer-note" class="hidden {{ui_note}}" role="status"></p>
@@ -208,6 +210,7 @@ STORY={{example_story}} FORMAT=desktop node render.mjs</pre>
 </div>
 
 <script type="application/json" id="reel-data">{{data_json}}</script>
+<script type="application/json" id="reel-messages">{{messages_json}}</script>
 <script src="{{root}}flowbite.min.js"></script>
 <script type="module" src="{{root}}app.js"></script>
 </body>

@@ -44,6 +44,36 @@
         "i18n.cs.scenes_missing",
         "i18n.cs.catalogue_missing"
       ]
+    },
+    {
+      "at": "2026-11-18T01:39:32.470Z",
+      "head": "f534a0c4e5cb89d9d01ae184a813aa115da67963",
+      "note": "bilingual site: /cs/ routes, switcher, automatic choice, hreflang and og:locale, 134 site messages in both languages, gated; Czech renders: short, adoption, completion (phone)",
+      "values": {
+        "facts.findings": 0,
+        "i18n.languages": 2,
+        "renders.formats": 3,
+        "renders.en": 14,
+        "site.en.routes": 11,
+        "renders.cs": 4,
+        "site.cs.routes": 11,
+        "i18n.cs.scenes": 45,
+        "i18n.cs.scenes_missing": 0,
+        "i18n.cs.cues_unsaid": 0,
+        "i18n.cs.text_untranslated": 0,
+        "i18n.cs.stale": 0,
+        "i18n.cs.typed": 0,
+        "i18n.cs.catalogue_missing": 0,
+        "site.cs.messages_missing": 0,
+        "site.cs.messages_stale": 0
+      },
+      "improved": [
+        "site.en.routes",
+        "renders.cs",
+        "site.cs.routes",
+        "site.cs.messages_missing",
+        "site.cs.messages_stale"
+      ]
     }
   ],
   "measures": {
@@ -63,9 +93,25 @@
       "better": "up",
       "about": "cut formats rendered in en (/Users/korczis/dev/majordomus-reel/cuts/v6)"
     },
+    "site.en.routes": {
+      "better": "up",
+      "about": "routes of the en site in the build's sitemap.xml (SITE_OUT)"
+    },
     "renders.cs": {
       "better": "up",
       "about": "cut formats rendered in cs (/Users/korczis/dev/majordomus-reel/cuts/v6)"
+    },
+    "site.cs.messages_missing": {
+      "better": "down",
+      "about": "site messages cs lacks (site/messages.json, lang/cs.json site)"
+    },
+    "site.cs.messages_stale": {
+      "better": "down",
+      "about": "cs site messages no longer in site/messages.json"
+    },
+    "site.cs.routes": {
+      "better": "up",
+      "about": "routes of the cs site in the build's sitemap.xml (SITE_OUT)"
     },
     "i18n.cs.scenes": {
       "better": "up",

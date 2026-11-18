@@ -46,6 +46,24 @@ The translation is stale from that moment, and the gates say where:
 3. The steps above, for the film, the short and every story, in every format.
 4. `node quality.mjs`: the new language adds its own measures. Record the iteration.
 
+## Translating the site
+
+The site's words are messages: `site/messages.json` is English, `lang/<id>.json` `site` the same
+keys in the language. A message takes `{name}` arguments and
+`{n, plural, one {# příběh} few {# příběhy} many {# příběhu} other {# příběhů}}` counts (`#` is
+the count; write every category `Intl.PluralRules` has for the language, Czech one, few, many,
+other) and may mark its accent as `<em>...</em>`. Never type a number, a length or a fact into
+one: they are arguments.
+
+1. A new or changed English word: edit `site/messages.json` (a template names it as
+   `{{m:<key>}}`, a view or `app.js` as `t('<key>')`); `node site/build.mjs` refuses a key named
+   but missing and a key nothing names.
+2. `node i18n.mjs --check`: lists every site message a language lacks, keeps after English
+   dropped it, writes with other arguments or plurals, or types a fact into. Translate in
+   `lang/<id>.json` `site` only.
+3. Category, use-case and act titles come from `catalogue` and `acts`, the cut's chapters and
+   narration from its render: never from `site`.
+
 ## Rendering for the site
 
 A language's cut is `cuts/v6/<cut>-<format>.<id>.mp4` with its render data in
@@ -54,4 +72,16 @@ A language's cut is `cuts/v6/<cut>-<format>.<id>.mp4` with its render data in
 ```sh
 REEL_LANG=cs SCENES=scenes-short.json FORMAT=phone BUILD=$PWD/build-v6/short-phone.cs \
   OUT=$PWD/cuts/v6/short-phone.cs.mp4 OPEN=0 ./make-reel.sh
+```
+
+The build serves it on `/<id>/<cut>/` (the film on `/<id>/`) with its own chapters, captions,
+posters and share picture. Until a cut is rendered in the language, that language's page plays
+the English cut, says so in a note and marks its chapters and captions `lang="en"`; the build
+refuses that unless `FALLBACK=1` (deploy) or `PARTIAL=1` (preview), and `<id>/data/reel.json`
+records it (`language_fallback`, `gaps`). Then check the site in the language:
+
+```sh
+FALLBACK=1 SITE_OUT=/tmp/reel-site node site/build.mjs   # runs the seo gate: hreflang, og:locale, inLanguage
+node site/test.mjs /tmp/reel-site                        # every language's routes, words, switcher, choice
+SITE_OUT=/tmp/reel-site node quality.mjs --check         # adds site.<id>.routes from that build
 ```

@@ -9,10 +9,27 @@
 //   the browser  filter chips per use-case category and a search; ?category= ?q=
 //   the viewer   a story opened over the page (Flowbite modal): Escape closes it, F or the button
 //                fills the viewport; ?play= ?vt= ?full=1
-import { chapterList, useCaseChips, clock, plural, pickFormat } from './view.mjs';
+//
+// Every word it writes is the page language's message (#reel-messages: site/messages.json or
+// lang/<id>.json `site`), and a cut not rendered in that language marks its chapters, narration
+// and captions with the language they are in (project.reel-bilingual); site/lang.js chooses the
+// language before the page draws.
+import { chapterList, useCaseChips, clock, pickFormat, messenger } from './view.mjs';
 
 const data = JSON.parse(document.getElementById('reel-data').textContent);
+const M = JSON.parse(document.getElementById('reel-messages').textContent);
+const t = messenger(M.messages, M.locale);
 const $ = (id) => document.getElementById(id);
+const nameOf = (id) => data.languages.find((l) => l.id === id)?.name || id;
+// the words of a cut that are in its own language (its render's), marked when that is not the page's
+const speak = (el, cut) => {
+  if (cut.lang && cut.lang !== data.lang) el.lang = cut.lang; else el.removeAttribute('lang');
+};
+const track = (el, cut) => {
+  el.src = at(cut.captions);
+  el.srclang = cut.lang;
+  el.label = nameOf(cut.lang);
+};
 const cuts = Object.fromEntries(data.cuts.map((c) => [c.id, c]));
 // every path in the data is relative to the site's root; a cut's own page sits one level down,
 // resolved once against the page's own address so that replaceState never moves the base
@@ -51,12 +68,13 @@ const state = {
   format: null,
   chapter: -1,
 };
-const writeUrl = (t) => commit({ cut: state.cut !== PAGE_CUT ? state.cut : null,
-  format: state.choice !== 'auto' ? state.choice : null, t: t > 1 ? Math.floor(t) : null });
+const writeUrl = (time) => commit({ cut: state.cut !== PAGE_CUT ? state.cut : null,
+  format: state.choice !== 'auto' ? state.choice : null, t: time > 1 ? Math.floor(time) : null });
 const renderChapters = (cut) => {
   chaptersEl.innerHTML = chapterList(cut, ROOT.href);
-  $('chapters-title').textContent = cut.kind === 'film' ? 'Chapters' : `${cut.title}: chapters`;
-  $('chapters-count').textContent = `${plural(cut.chapters.length, 'chapter')} · ${clock(cut.duration)}`;
+  speak(chaptersEl, cut);
+  $('chapters-title').textContent = cut.kind === 'film' ? t('player.chapters') : t('player.chapters_of', { title: cut.title });
+  $('chapters-count').textContent = t('player.chapters_count', { n: cut.chapters.length, clock: clock(cut.duration) });
 };
 const showChapter = (i) => {
   const cut = cuts[state.cut];
@@ -73,14 +91,15 @@ const showChapter = (i) => {
       if (r.top < box.top || r.bottom > box.bottom) chaptersEl.scrollTop += r.top - box.top - box.height / 3;
     }
   });
+  ['now-act', 'now-title', 'now-narration'].forEach((id) => speak($(id), cut));
   $('now-act').textContent = `${cut.title} · ${ch.act}`;
   $('now-title').textContent = ch.title;
   $('now-narration').textContent = ch.narration;
   $('now-use-cases').innerHTML = useCaseChips(ch.use_cases, useCases);
 };
-const load = (cutId, { t = null, play = false } = {}) => {
+const load = (cutId, { t: time = null, play = false } = {}) => {
   const cut = cuts[cutId];
-  const pick = pickFormat(cut, state.choice === 'auto' ? wanted() : state.choice, data.formats);
+  const pick = pickFormat(cut, state.choice === 'auto' ? wanted() : state.choice, data.formats, t);
   const f = data.formats.find((x) => x.id === pick.id);
   const same = state.cut === cutId && state.format === pick.id && video.currentSrc;
   state.cut = cutId;
@@ -91,7 +110,8 @@ const load = (cutId, { t = null, play = false } = {}) => {
   document.querySelectorAll('[data-format]').forEach((b) => {
     b.setAttribute('aria-pressed', String(b.dataset.format === state.choice));
     b.disabled = b.dataset.format !== 'auto' && !cut.formats[b.dataset.format];
-    b.title = b.disabled ? `${cut.title} has no ${b.textContent.toLowerCase()} cut yet` : '';
+    b.title = b.disabled ? t('player.no_format', { title: cut.title,
+      format: b.textContent.toLocaleLowerCase(t.locale) }) : '';
   });
   document.querySelectorAll('#watch [data-play]').forEach((b) => b.setAttribute('aria-pressed',
     String(b.dataset.play === cutId)));
@@ -100,24 +120,24 @@ const load = (cutId, { t = null, play = false } = {}) => {
     video.querySelectorAll('source').forEach((s) => s.remove());
     video.poster = at(cut.formats[pick.id].poster);
     video.src = at(cut.formats[pick.id].video);
-    video.querySelector('track').src = at(cut.captions);
+    track(video.querySelector('track'), cut);
     video.addEventListener('loadedmetadata', () => {
-      if (t) video.currentTime = t;
+      if (time) video.currentTime = time;
       if (wasPlaying) video.play().catch(() => {});
     }, { once: true });
     video.load();
     renderChapters(cut);
     state.chapter = -1;
-  } else if (t != null) {
-    video.currentTime = t;
+  } else if (time != null) {
+    video.currentTime = time;
   }
-  showChapter(Math.max(0, cut.chapters.findLastIndex((c) => c.t <= (t || 0))));
-  writeUrl(t || 0);
+  showChapter(Math.max(0, cut.chapters.findLastIndex((c) => c.t <= (time || 0))));
+  writeUrl(time || 0);
 };
 // the screen changed shape (a phone turned, a window resized): the format follows, the moment stays
 data.formats.forEach((f) => matchMedia(f.media).addEventListener('change', () => {
   if (state.choice !== 'auto') return;
-  const next = pickFormat(cuts[state.cut], wanted(), data.formats).id;
+  const next = pickFormat(cuts[state.cut], wanted(), data.formats, t).id;
   if (next !== state.format) load(state.cut, { t: video.currentTime });
 }));
 video.addEventListener('timeupdate', () => {
@@ -146,7 +166,7 @@ $('share').addEventListener('click', () => {
   if (state.choice !== 'auto') p.set('format', state.choice);
   if (video.currentTime > 1) p.set('t', String(Math.floor(video.currentTime)));
   navigator.clipboard?.writeText(`${at(cuts[state.cut].page)}${p.toString() ? `?${p}` : ''}`);
-  flash($('share'), 'Link copied');
+  flash($('share'), t('player.copied'));
 });
 
 // ---- previews: a muted loop of a cut in a tile or a slide, only where motion is allowed --------
@@ -275,7 +295,7 @@ const applyFilter = () => {
   let shown = 0;
   tiles.forEach((li) => {
     const on = (!filter.category || li.dataset.category === filter.category)
-      && terms.every((t) => li.dataset.search.includes(t));
+      && terms.every((term) => li.dataset.search.includes(term));
     li.hidden = !on;
     if (on) shown++;
   });
@@ -333,34 +353,34 @@ const viewer = window.Modal ? new window.Modal(viewerEl, {
     commit({ play: null, vt: null, full: null });
   },
 }, { id: 'viewer', override: true }) : null;
-const openStory = (id, { t = 0, play = true } = {}) => {
+const openStory = (id, { t: time = 0, play = true } = {}) => {
   const cut = cuts[id];
   if (!cut || !viewer) return false;
-  const pick = pickFormat(cut, wanted(), data.formats);
+  const pick = pickFormat(cut, wanted(), data.formats, t);
   const fmt = cut.formats[pick.id];
   viewerEl.dataset.cut = id;
   viewerEl.dataset.format = pick.id;
   $('viewer-title').textContent = cut.title;
   const catLink = $('viewer-category');
-  catLink.textContent = cut.category ? `majordomus.dev/use-cases/${cut.category}` : `Majordomus ${cut.kind}`;
+  catLink.textContent = cut.category ? `majordomus.dev/use-cases/${cut.category}` : t('viewer.cut', { title: cut.title });
   catLink.href = cut.category_url || 'https://majordomus.dev/use-cases/';
-  $('viewer-summary').textContent = `${cut.summary} ${plural(cut.chapters.length, 'chapter')}, `
-    + `${clock(cut.duration)}, ending at the install line.`;
+  $('viewer-summary').textContent = t('viewer.summary', { summary: cut.summary,
+    chapters: cut.chapters.length, clock: clock(cut.duration) });
   $('viewer-use-cases').innerHTML = useCaseChips(cut.use_cases || [], useCases);
   $('viewer-page').href = at(cut.page);
   note($('viewer-note'), pick.note);
   vplayer.poster = at(fmt.poster);
   vplayer.src = at(fmt.video);
-  vplayer.querySelector('track').src = at(cut.captions);
+  track(vplayer.querySelector('track'), cut);
   vplayer.addEventListener('loadedmetadata', () => {
-    if (t) vplayer.currentTime = t;
+    if (time) vplayer.currentTime = time;
     if (play) vplayer.play().catch(() => {});
   }, { once: true });
   vplayer.load();
   video.pause();
   viewer.show();
   $('viewer-close').focus({ preventScroll: true });
-  commit({ play: id, vt: t > 1 ? Math.floor(t) : null });
+  commit({ play: id, vt: time > 1 ? Math.floor(time) : null });
   return true;
 };
 vplayer.addEventListener('pause', () => {
@@ -369,9 +389,9 @@ vplayer.addEventListener('pause', () => {
 $('viewer-close').addEventListener('click', () => viewer?.hide());
 $('viewer-full').addEventListener('click', () => full(!viewerEl.hasAttribute('data-full')));
 $('viewer-copy').addEventListener('click', () => {
-  const t = vplayer.currentTime > 1 ? `?t=${Math.floor(vplayer.currentTime)}` : '';
-  navigator.clipboard?.writeText(`${at(cuts[viewerEl.dataset.cut].page)}${t}`);
-  flash($('viewer-copy').querySelector('.sr-only'), 'Link copied');
+  const moment = vplayer.currentTime > 1 ? `?t=${Math.floor(vplayer.currentTime)}` : '';
+  navigator.clipboard?.writeText(`${at(cuts[viewerEl.dataset.cut].page)}${moment}`);
+  flash($('viewer-copy').querySelector('.sr-only'), t('player.copied'));
 });
 
 // ---- clicks and keys --------------------------------------------------------------------------
@@ -400,7 +420,7 @@ document.addEventListener('click', (e) => {
     load(state.cut, { t: video.currentTime });
   } else if (copy) {
     navigator.clipboard?.writeText($(copy.dataset.copy).textContent.trim());
-    flash(copy, 'Copied');
+    flash(copy, t('install.copied'));
   }
 });
 document.addEventListener('keydown', (e) => {

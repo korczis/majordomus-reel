@@ -10,13 +10,17 @@
 //
 // A finding is a scene the language does not translate, a cue its narration never says, an
 // on-screen text left in English, a translation of a text that no longer exists (stale), or a
-// fact typed into the translation instead of derived.
+// fact typed into the translation instead of derived; and for the site (lang/<id>.json `site`
+// over site/messages.json) a message the language lacks, one no longer in the English catalogue,
+// one whose arguments or plurals are not the English one's (or miss a plural category the
+// language's Intl.PluralRules has), and a fact typed into one.
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { createHash } from 'node:crypto';
 import { fill as fillEnglish, derive, catalogue } from './facts.mjs';
 import { stories } from './stories.mjs';
+import { messageShape, parseMessage } from './site/view.mjs';
 
 const DIR = dirname(fileURLToPath(import.meta.url));
 const LANG_DIR = join(DIR, 'lang');
@@ -124,6 +128,56 @@ export function localiseStory(story, t) {
 // every use case by id in a language (the desktop composition names the ones a scene shows)
 export const localiseUseCases = (titles, t) => Object.fromEntries(Object.entries(titles)
   .map(([id, u]) => [id, { ...u, title: entryIn(t, 'use_cases', { id, ...u }).title }]));
+
+// ---- the site's messages ----------------------------------------------------------------------
+// site/messages.json is the English catalogue (`locale`, `messages`); lang/<id>.json `site` is the
+// same keys in that language. site/build.mjs renders every page from them.
+export const siteMessages = () => JSON.parse(readFileSync(join(DIR, 'site', 'messages.json'), 'utf8'));
+// the literal text of a message, its arguments taken out: where a fact could be typed
+const literal = (src) => {
+  const out = [];
+  const walk = (ns) => ns.forEach((n) => {
+    if (typeof n === 'string') out.push(n);
+    else if (n.plural) Object.values(n.plural).forEach(walk);
+  });
+  walk(parseMessage(src));
+  return out.join(' ');
+};
+export function auditSite(id, t = load(id)) {
+  const en = siteMessages().messages;
+  const have = t.site || {};
+  const findings = [];
+  const add = (kind, text) => findings.push({ kind, text });
+  const categories = new Intl.PluralRules(t.locale).resolvedOptions().pluralCategories;
+  for (const [k, src] of Object.entries(en)) {
+    if (typeof have[k] !== 'string' || !have[k].trim()) { add('site_missing', `${id}: site message ${k} is not translated ("${src.slice(0, 60)}")`); continue; }
+    let want;
+    let got;
+    try {
+      want = messageShape(src);
+      got = messageShape(have[k]);
+    } catch (e) {
+      add('site_shape', `${id}: site message ${k}: ${e.message}`);
+      continue;
+    }
+    if (want.args.join() !== got.args.join()) {
+      add('site_shape', `${id}: site message ${k} takes {${got.args.join('}, {')}}; English takes {${want.args.join('}, {')}}`);
+    }
+    for (const name of Object.keys(want.plurals)) {
+      const cats = got.plurals[name];
+      if (!cats) { add('site_shape', `${id}: site message ${k}: {${name}} is a plural in English, not in ${id}`); continue; }
+      const lacking = categories.filter((c) => !cats.includes(c) && !(c === 'other' && cats.includes('other')));
+      if (lacking.length) add('site_shape', `${id}: site message ${k}: the plural {${name}} has no ${lacking.join(', ')} (${t.locale} has ${categories.join(', ')})`);
+    }
+    Object.keys(got.plurals).filter((n) => !want.plurals[n])
+      .forEach((n) => add('site_shape', `${id}: site message ${k}: {${n}} is a plural in ${id}, not in English`));
+    const text = literal(have[k]);
+    for (const x of [...typedIn(text), ...(text.match(/\d+/g) || [])]) add('typed', `${id}: site message ${k}: typed fact "${x}"`);
+  }
+  Object.keys(have).filter((k) => !(k in en))
+    .forEach((k) => add('site_stale', `${id}: site message ${k} is no longer in site/messages.json`));
+  return findings;
+}
 
 // ---- the gate -------------------------------------------------------------------------------
 const read = (f) => readFileSync(join(DIR, f), 'utf8');
@@ -290,6 +344,8 @@ export async function audit(id) {
   for (const f of ['scenes.json', 'scenes-short.json']) JSON.parse(read(f)).forEach((x) => x.act && acts.add(x.act));
   [...acts].filter((a) => !(t.acts || {})[a]).forEach((a) => add('catalogue', `${id}: act ${a} is not translated`));
   if (stories().length && !t.catalogue) add('catalogue', `${id}: no catalogue, so no story can be rendered`);
+  // the site's interface in the language
+  findings.push(...auditSite(id, t));
   const count = (kind) => findings.filter((f) => f.kind === kind).length;
   return {
     lang: id, findings,
@@ -297,7 +353,9 @@ export async function audit(id) {
       cues_unsaid: count('cue'), text_untranslated: count('text'), stale: count('stale'),
       typed: count('typed'), texts: Object.keys(t.text).length, catalogue_missing: count('catalogue'),
       catalogue: Object.keys((t.catalogue || {}).use_cases || {}).length
-        + Object.keys((t.catalogue || {}).categories || {}).length },
+        + Object.keys((t.catalogue || {}).categories || {}).length,
+      site_messages: Object.keys(t.site || {}).length, site_messages_missing: count('site_missing'),
+      site_messages_stale: count('site_stale'), site_messages_shape: count('site_shape') },
   };
 }
 
@@ -315,7 +373,8 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
     r.findings.forEach((f) => console.log(`FAIL [${f.kind}] ${f.text}`));
     total += r.findings.length;
     const c = r.coverage;
-    console.log(`${r.lang}: ${c.scenes}/${c.scenes_total} scenes, ${c.texts} texts; ${r.findings.length} finding(s)`);
+    console.log(`${r.lang}: ${c.scenes}/${c.scenes_total} scenes, ${c.texts} texts, ${c.site_messages} site messages; `
+      + `${r.findings.length} finding(s)`);
   }
   console.log(total ? `i18n: refused, ${total} finding(s) (project.reel-bilingual)`
     : `i18n: ok, ${results.map((r) => r.lang).join(', ')} complete and current`);

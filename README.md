@@ -46,7 +46,7 @@ REEL_LANG=cs SCENES=scenes-short.json BUILD=$PWD/build-cs-short OUT=$PWD/cs-shor
 | `lang/<id>.json` | a translated cut (`REEL_LANG=<id>`): narration, titles, acts, cue words, voice, on-screen text |
 | `thumb*.html`, `thumb.mjs` | thumbnails, 1080x1920 |
 | `youtube-metadata.md` | titles, descriptions, tags, chapters, pinned comments, and what is published |
-| `site/` | the GitHub Pages site: `index.html` and `player.html` (templates: the build derives every double-braced name in them), `view.mjs` (every view and the Flowbite Pro class lists, `ui`, shared by the build and the browser), `app.js` (the player, the carousel, the browser and the viewer, all state in the address), `app.css` (Tailwind 4 + Flowbite), `seo.mjs` (the metadata of a route and `checkSite`), `build.mjs`, `test.mjs`, `published.json` (the YouTube uploads), `deploy.sh`, `verify.sh` |
+| `site/` | the GitHub Pages site: `index.html` and `player.html` (templates: the build derives every double-braced name in them, `{{m:<key>}}` is a message), `messages.json` (every English word of the site, keyed; each language translates it in `lang/<id>.json` `site`), `view.mjs` (every view, the message runtime and the Flowbite Pro class lists, `ui`, shared by the build and the browser), `app.js` (the player, the carousel, the browser and the viewer, all state in the address), `lang.js` (the language: the automatic first choice, `?lang=`, the switcher's memory), `app.css` (Tailwind 4 + Flowbite), `seo.mjs` (the metadata of a route and `checkSite`), `build.mjs`, `test.mjs`, `published.json` (the YouTube uploads), `deploy.sh`, `verify.sh` |
 
 The libraries load from jsDelivr at the versions the `<script>` tags of `reel.html` pin, so a
 render needs the network.
@@ -109,12 +109,15 @@ node site/test.mjs /tmp/reel-site                      # the page in Chrome at e
 node facts.mjs --same build-v6/film-phone/facts.json   # a pre-rendered cut against its tag
 ```
 
-`site/test.mjs` refuses a template that types a title, a length or a count; horizontal overflow
+`site/test.mjs` refuses a template or a message that types a title, a length or a count; horizontal overflow
 at 320, 390, 768, 1024 or 1440 pixels; a console error or a failed request; the wrong format for
 a phone, a tablet or a desktop, or a fallback without its note; a carousel that does not move by
 key, arrow, dot or swipe; a filter deep link that is not restored; a viewer that does not open or
 that Escape does not close; a route that does not play its own cut or whose share picture is not
-1200x630. Read the screenshots too: the gates prove behaviour, the eye judges the page.
+1200x630; and in every language but English (`/cs/`) an English message left on its pages, a
+route that is not its own language's, a switcher that does not carry the address to the
+counterpart and back, and an automatic choice that does not follow the browser, a stored choice
+or `?lang=`. Read the screenshots too: the gates prove behaviour, the eye judges the page.
 
 ## Adding a scene
 
@@ -146,6 +149,20 @@ a local build says "<version>, release pending" and links the commit); once the 
 `node facts.mjs --same build-v6/<cut>-<format>/facts.json` must agree. `FALLBACK=1` is the one way
 to publish before every format is rendered: `data/reel.json` records each cut's `formats`,
 `fallback` and the site's `gaps`, and the page says which format plays instead.
+
+The site is bilingual (`project.reel-bilingual`). Every language of `lang/` gets the same routes
+under `/<id>/` (`/cs/`, `/cs/<cut>/`), its own `<id>/data/reel.json` and `<id>/llms.txt`, every page
+linked to its counterpart in every language (`hreflang`, `x-default`, `og:locale`, the sitemap's
+`xhtml:link`) and a switcher in the navbar. A first visit lands on the browser's language
+(`navigator.languages`), a click on the switcher or `?lang=<id>` is remembered. Every word comes
+from `site/messages.json` (English) or `lang/<id>.json` `site`, never from a template; a cut's
+chapters, narration and captions from its render in the language,
+`cuts/v6/<cut>-<format>.<id>.mp4` with `build-v6/<cut>-<format>.<id>/`. A cut not rendered in a
+language yet plays English on that language's page, which says so; `FALLBACK=1` deploys around
+it as around a missing format, and `data/reel.json` records it (`language_fallback`, `gaps`).
+To change the site's words: edit `site/messages.json`, add the same key to every
+`lang/<id>.json` `site` (same `{arguments}`, every plural category of the language), then
+`node i18n.mjs --check` and a build.
 
 `site/verify.sh` checks the live site: every route answers with its own canonical, every format a
 cut offers is served as `video/mp4` with byte ranges (so the chapters can seek), every poster and

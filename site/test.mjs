@@ -6,7 +6,10 @@
 // each screen gets, or the nearest with its note; chapters, J/K and the full viewport; the
 // carousel by key, arrow, dot and swipe; the browser's filter and search and their deep link; the
 // gallery's viewer, Escape and full viewport; every route's own video and share picture; and
-// every link the page carries.
+// every link the page carries. In every other language (project.reel-bilingual): its root and a
+// story route at every width, no English message left on its pages, every route its own, the
+// switcher moving between the counterparts with the address, the browser's language chosen on a
+// first visit, a stored choice and ?lang= respected.
 //
 //   node site/test.mjs                    -> serves _site/ (with byte ranges) and tests it
 //   node site/test.mjs <dir>              -> serves that build
@@ -14,11 +17,11 @@
 //   LINKS=0 node site/test.mjs            -> skips the outbound link check
 //   ONLY=phone node site/test.mjs         -> one format's device, no width sweep (a quick rerun)
 import { createServer } from 'node:http';
-import { createReadStream, statSync, existsSync, readFileSync } from 'node:fs';
+import { createReadStream, statSync, existsSync, readFileSync, readdirSync } from 'node:fs';
 import { join, dirname, extname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import puppeteer from 'puppeteer-core';
-import { length, plural } from './view.mjs';
+import { length, messageWords } from './view.mjs';
 import { jpegSize } from './seo.mjs';
 
 const SITE = dirname(fileURLToPath(import.meta.url));
@@ -32,6 +35,8 @@ const TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.mjs': 'text/ja
 // the widths the layout must hold without scrolling sideways
 const WIDTHS = [320, 390, 768, 1024, 1440];
 
+const plural = (n, one, many) => `${n} ${n === 1 ? one : many}`;
+const MESSAGES = JSON.parse(readFileSync(join(SITE, 'messages.json'), 'utf8')).messages;
 const failures = [];
 const passes = [];
 const check = (ok, what) => (ok ? passes : failures).push(what);
@@ -48,7 +53,17 @@ const typedIn = (data) => {
       'a typed count'],
   ];
   const found = [];
-  for (const file of ['index.html', 'player.html', 'app.js', 'view.mjs']) {
+  // the messages are the page's copy: a count, a length or a clock in one is typed, in any language
+  const catalogues = [['site/messages.json', MESSAGES], ...readdirSync(join(ROOT, 'lang'))
+    .filter((f) => f.endsWith('.json')).map((f) => [`lang/${f} site`, JSON.parse(readFileSync(join(ROOT, 'lang', f), 'utf8')).site || {}])];
+  for (const [file, messages] of catalogues) {
+    for (const [k, v] of Object.entries(messages)) {
+      const words = messageWords(v).join(' ');
+      for (const [re, what] of patterns) for (const m of words.matchAll(re)) found.push(`${file} ${k}: ${what}: "${m[0]}"`);
+      if (/\d/.test(words)) found.push(`${file} ${k}: a typed number: "${v}"`);
+    }
+  }
+  for (const file of ['index.html', 'player.html', 'app.js', 'view.mjs', 'lang.js']) {
     const text = readFileSync(join(SITE, file), 'utf8');
     text.split('\n').forEach((raw, i) => {
       // code and placeholders are not copy: a template's {{name}}, a script's ${expr}
@@ -103,6 +118,15 @@ const { server, url: BASE } = live ? { url: target } : await serve(target || joi
 const browser = await puppeteer.launch({ executablePath: CHROME, headless: true,
   args: ['--autoplay-policy=no-user-gesture-required', '--mute-audio'] });
 const data = await (await fetch(new URL('data/reel.json', BASE))).json();
+// every other language's data: its routes, its titles, its messages
+const others = await Promise.all((data.languages || []).filter((l) => l.id !== data.lang).map(async (l) => ({
+  ...l, data: await (await fetch(new URL(l.data, BASE))).json(),
+  messages: JSON.parse(readFileSync(join(ROOT, 'lang', `${l.id}.json`), 'utf8')).site || {} })));
+// a route's language: the first segment of its path, if it is a language's home
+const langOf = (path) => others.find((l) => path.startsWith(l.home))?.id || data.lang;
+// the browser's languages, as navigator.languages says them
+const PREFER = { en: ['en-US', 'en'], cs: ['cs-CZ', 'cs'] };
+const prefer = (lang) => PREFER[lang] || [lang];
 const stories = data.cuts.filter((c) => c.kind === 'story');
 const film = data.cuts.find((c) => c.id === 'film');
 const settle = (page, fn, arg, timeout = 15000) => page.waitForFunction(fn, { timeout }, arg).then(() => true,
@@ -112,9 +136,20 @@ const pause = (ms) => new Promise((r) => setTimeout(r, ms));
 const typed = typedIn(data);
 check(typed.length === 0, `the templates type no title, length or count${typed.length ? `: ${typed.slice(0, 6).join('; ')}` : ''}`);
 
-// a page that records what goes wrong on it
-const open = async (viewport, path = '', { reduce = false } = {}) => {
-  const page = await browser.newPage();
+// a page that records what goes wrong on it; its browser prefers the route's own language (so the
+// automatic choice keeps it there) unless `languages` says otherwise; `fresh` is a new profile
+// (no stored choice), `stored` a choice already made on the switcher
+const KEY = 'majordomus-reel.lang';
+const open = async (viewport, path = '', { reduce = false, languages = prefer(langOf(path)), fresh = false,
+  stored = null } = {}) => {
+  const context = fresh ? await browser.createBrowserContext() : null;
+  const page = await (context || browser).newPage();
+  if (context) page.on('close', () => context.close().catch(() => {}));
+  await page.evaluateOnNewDocument((langs, key, choice) => {
+    Object.defineProperty(navigator, 'languages', { get: () => langs });
+    Object.defineProperty(navigator, 'language', { get: () => langs[0] });
+    if (choice) try { localStorage.setItem(key, choice); } catch { /* none */ }
+  }, languages, KEY, stored);
   const errors = [];
   page.on('pageerror', (e) => errors.push(e.message));
   page.on('console', (m) => { if (m.type() === 'error') errors.push(`${m.text()} ${m.location()?.url || ''}`); });
@@ -135,7 +170,10 @@ const overflow = (page) => page.evaluate(() => document.documentElement.scrollWi
 
 // ---- every width: the layout holds, on the root and on a story's route ------------------------
 for (const w of process.env.ONLY ? [] : WIDTHS) {
-  for (const path of ['', stories[0]?.page].filter((p) => p !== undefined)) {
+  // the root and a story's route of every language: longer words must not push the page sideways
+  const paths = ['', stories[0]?.page, ...others.flatMap((l) => [l.home,
+    l.data.cuts.find((c) => c.id === stories[0]?.id)?.page])].filter((p) => p !== undefined);
+  for (const path of paths) {
     const { page, errors } = await open(viewportOf(w), path);
     const over = await overflow(page);
     check(over <= 0, `${w}px /${path}: no horizontal overflow (${over}px over)`);
@@ -333,10 +371,113 @@ for (const reduce of [false, true]) {
   await page.close();
 }
 
+// ---- every other language: its words, its routes, the switcher and the automatic choice -------
+const ready = (page) => settle(page, () => document.documentElement.dataset.ready === '1');
+for (const l of others) {
+  const story = l.data.cuts.find((c) => c.kind === 'story');
+  // no English message on its pages: a word of the English catalogue the language words differently,
+  // visible outside what is marked as another language (a cut not rendered in it yet), brands,
+  // commands and paths aside (they are not messages, or the language keeps them)
+  const english = [...new Set(Object.entries(MESSAGES).filter(([k, v]) => l.messages[k] && l.messages[k] !== v)
+    .flatMap(([k, v]) => messageWords(v).filter((w) => w.length > 3 && !l.messages[k].includes(w))))];
+  for (const [device, path] of [['desktop', l.home], ['phone', l.home], ['desktop', story.page], ['phone', story.page]]) {
+    const { page, errors } = await open(DEVICES[device], path);
+    const where = await page.evaluate(() => location.pathname);
+    check(where.endsWith(`/${path}`), `${device} /${path}: stays on its own route (at ${where})`);
+    const seen = await page.evaluate((lang) => {
+      const out = [];
+      const walk = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+      for (let n = walk.nextNode(); n; n = walk.nextNode()) {
+        const el = n.parentElement;
+        if (!el || el.closest('script, style, code, pre, kbd, [hidden]')) continue;
+        if ((el.closest('[lang]')?.lang || lang) !== lang) continue;
+        if (!el.checkVisibility?.({ checkVisibilityCSS: true }) && el.getClientRects().length === 0) continue;
+        if (n.nodeValue.trim()) out.push(n.nodeValue.replace(/\s+/g, ' ').trim());
+      }
+      return out.join('\n');
+    }, l.id);
+    const leaks = english.filter((w) => seen.includes(w));
+    check(leaks.length === 0, `${device} /${path}: no English message text in the ${l.id} page${leaks.length ? `: ${leaks.slice(0, 5).map((x) => JSON.stringify(x)).join(', ')}` : ''}`);
+    const meta = await page.evaluate(() => ({ lang: document.documentElement.lang,
+      current: document.querySelector('a[data-lang][aria-current="true"]')?.dataset.lang,
+      h1: document.querySelector('h1')?.textContent.trim() }));
+    check(meta.lang === l.id && meta.current === l.id, `${device} /${path}: <html lang="${meta.lang}">, the switcher marks ${meta.current}`);
+    if (path === story.page) check(meta.h1 === story.title, `${device} /${path}: its h1 is its ${l.id} title (${meta.h1})`);
+    check(errors.length === 0, `${device} /${path}: no console error or failed request${errors.length ? `: ${errors.slice(0, 3).join(' | ')}` : ''}`);
+    await page.close();
+  }
+  // the switcher moves to the counterpart route and back, the address with it
+  const en = stories[0];
+  const there = `${l.home}${en.path ?? en.page}`;
+  {
+    const { page, errors } = await open(DEVICES.desktop, `${en.page}?t=12`, { fresh: true });
+    await Promise.all([page.waitForNavigation({ waitUntil: 'networkidle2' }), page.click(`a[data-lang="${l.id}"]`)]);
+    await ready(page);
+    const to = await page.evaluate(() => location.pathname + location.search);
+    check(to.endsWith(`/${there}?t=12`), `the switcher moves /${en.page}?t=12 to /${there}?t=12 (got ${to})`);
+    await Promise.all([page.waitForNavigation({ waitUntil: 'networkidle2' }), page.click(`a[data-lang="${data.lang}"]`)]);
+    await ready(page);
+    const back = await page.evaluate(() => location.pathname + location.search);
+    check(back.endsWith(`/${en.page}?t=12`), `the switcher moves back to /${en.page}?t=12 (got ${back})`);
+    check(errors.length === 0, `the switcher: no console error${errors.length ? `: ${errors.slice(0, 3).join(' | ')}` : ''}`);
+    await page.close();
+  }
+  // a first visit from a browser that prefers the language lands on its root, with no history entry
+  // (as many entries as a visit that stays where it lands)
+  {
+    const stay = await open(DEVICES.desktop, '', { fresh: true });
+    const baseline = await stay.page.evaluate(() => history.length);
+    await stay.page.close();
+    const { page } = await open(DEVICES.desktop, '', { fresh: true, languages: prefer(l.id) });
+    const landed = await settle(page, (home) => location.pathname.endsWith(`/${home}`)
+      && document.documentElement.dataset.ready === '1', l.home);
+    const depth = await page.evaluate(() => history.length);
+    check(landed && depth === baseline, `a browser preferring ${prefer(l.id).join(', ')} lands on /${l.home} `
+      + `(history ${depth}, a visit that stays ${baseline})`);
+    await page.close();
+  }
+  // a stored choice of the source language keeps that browser on it
+  {
+    const { page } = await open(DEVICES.desktop, '', { fresh: true, languages: prefer(l.id), stored: data.lang });
+    await pause(800);
+    const at = await page.evaluate(() => location.pathname);
+    check(at === new URL(BASE).pathname, `a stored '${data.lang}' keeps a browser preferring ${l.id} on /${data.lang === 'en' ? '' : data.lang} (at ${at})`);
+    await page.close();
+  }
+  // ?lang= wins over the browser, is stored, and is not left in the address
+  {
+    const { page } = await open(DEVICES.desktop, `?lang=${l.id}&category=${stories[0].category}`, { fresh: true, languages: prefer(data.lang) });
+    const landed = await settle(page, (home) => location.pathname.endsWith(`/${home}`) && !location.search.includes('lang=')
+      && document.documentElement.dataset.ready === '1', l.home);
+    const kept = await page.evaluate((key) => ({ stored: localStorage.getItem(key), q: location.search }), KEY);
+    await page.goto(BASE, { waitUntil: 'networkidle2' });
+    const again = await settle(page, (home) => location.pathname.endsWith(`/${home}`), l.home);
+    check(landed && kept.stored === l.id && kept.q.includes(`category=${stories[0].category}`) && again,
+      `?lang=${l.id} lands on /${l.home}${kept.q}, is stored and is respected on the next visit `
+      + `(landed ${landed}, stored ${kept.stored}, again ${again})`);
+    await page.close();
+  }
+  // every route of the language plays its own cut at its moment, the language it has, its note
+  {
+    const { page } = await open(DEVICES.desktop, l.home);
+    for (const c of l.data.cuts) {
+      const t = c.chapters[Math.min(2, c.chapters.length - 1)].t;
+      await page.goto(new URL(`${c.page}?t=${t}`, BASE).href, { waitUntil: 'networkidle2' });
+      const ok = await settle(page, (x) => document.getElementById('player').currentSrc.includes(`/${x.id}-`)
+        && Math.abs(document.getElementById('player').currentTime - x.t) < 1.5, { id: c.id, t });
+      const said = await page.evaluate(() => ({ track: document.querySelector('#player track').srclang,
+        note: !document.getElementById('stage-note').classList.contains('hidden'),
+        marked: document.getElementById('chapters').lang }));
+      check(ok && said.track === c.lang && (c.lang === l.id ? !said.marked : said.marked === c.lang && said.note),
+        `/${c.page}?t=${t}: opens ${c.id} at ${t}s in ${c.lang}${c.language_fallback ? ', marked and noted' : ''}`);
+    }
+    await page.close();
+  }
+}
+
 // ---- every route: its own video, at its moment, and its share picture -------------------------
 {
-  const page = await browser.newPage();
-  await page.setViewport(DEVICES.desktop);
+  const { page } = await open(DEVICES.desktop);
   for (const c of data.cuts) {
     const t = c.chapters[Math.min(2, c.chapters.length - 1)].t;
     await page.goto(new URL(`${c.page}?t=${t}`, BASE).href, { waitUntil: 'networkidle2' });
@@ -370,7 +511,9 @@ for (const reduce of [false, true]) {
     const queue = [...links];
     await Promise.all(Array.from({ length: 8 }, async () => {
       for (let l = queue.shift(); l; l = queue.shift()) {
-        const u = l.replace(/#.*$/, '');
+        // the site's own absolute links (canonical, hreflang) are the build's routes: a local build is
+        // asked for them itself, before they are deployed
+        const u = (live ? l : l.replace(data.site, BASE)).replace(/#.*$/, '');
         let r = await ask(u).catch(() => null);
         if (!r) r = await pause(1500).then(() => fetch(u, { redirect: 'follow' })).catch((e) => ({ ok: false, status: e.message }));
         if (!r.ok) bad.push(`${r.status} ${u}`);
