@@ -1,0 +1,1061 @@
+WEBVTT
+
+1
+00:00:06.341 --> 00:00:09.475
+In real repositories agents drift
+
+2
+00:00:09.492 --> 00:00:12.040
+Rule files that share almost nothing
+
+3
+00:00:12.057 --> 00:00:14.748
+Seventeen checks nobody ran
+
+4
+00:00:14.830 --> 00:00:17.756
+Thirty-two hundred files changed at once
+
+5
+00:00:18.950 --> 00:00:20.678
+Meet Majordomus
+
+6
+00:00:20.708 --> 00:00:23.751
+The supervisory layer for your AI agents
+
+7
+00:00:24.946 --> 00:00:26.713
+When an agent says it's finished
+
+8
+00:00:26.586 --> 00:00:29.525
+Majordomus checks the scope the state
+
+9
+00:00:29.399 --> 00:00:30.528
+and the tests
+
+10
+00:00:30.545 --> 00:00:33.757
+And when anything fails it refuses
+
+11
+00:00:34.950 --> 00:00:37.212
+And every proof leaves a record
+
+12
+00:00:37.254 --> 00:00:40.818
+The test the commit the tree the time
+
+13
+00:00:40.653 --> 00:00:42.160
+and the exact command
+
+14
+00:00:42.189 --> 00:00:44.269
+Provenance not promises
+
+15
+00:00:45.458 --> 00:00:48.345
+A rule is not enforced because it is
+
+16
+00:00:47.945 --> 00:00:49.074
+written down
+
+17
+00:00:49.104 --> 00:00:51.183
+It is enforced when it is declared
+
+18
+00:00:51.018 --> 00:00:52.108
+validated
+
+19
+00:00:52.163 --> 00:00:53.826
+wired into a command
+
+20
+00:00:53.817 --> 00:00:55.246
+fails that command
+
+21
+00:00:55.301 --> 00:00:58.839
+is tested blocks CI and backs a claim
+
+22
+00:00:58.843 --> 00:01:01.352
+Anything less is documentation
+
+23
+00:01:02.542 --> 00:01:05.012
+And the repository checks itself
+
+24
+00:01:05.016 --> 00:01:08.775
+Majordomus doctor reads every rule every
+
+25
+00:01:08.375 --> 00:01:10.546
+projection and every hook
+
+26
+00:01:10.615 --> 00:01:12.252
+on every commit
+
+27
+00:01:12.320 --> 00:01:14.153
+Forty-four blocking rules
+
+28
+00:01:14.182 --> 00:01:15.819
+each with a validator
+
+29
+00:01:15.849 --> 00:01:17.369
+Zero failures
+
+30
+00:01:18.570 --> 00:01:19.998
+Two hooks hold the line
+
+31
+00:01:20.015 --> 00:01:22.264
+Every commit runs doctor
+
+32
+00:01:22.281 --> 00:01:25.194
+Every push runs the finish contract and
+
+33
+00:01:25.054 --> 00:01:27.615
+an unmet one stops the push
+
+34
+00:01:27.619 --> 00:01:30.454
+Until the first task starts both stay
+
+35
+00:01:30.067 --> 00:01:31.040
+quiet
+
+36
+00:01:32.222 --> 00:01:33.872
+It will not sell you a number it
+
+37
+00:01:33.485 --> 00:01:34.744
+never measured
+
+38
+00:01:34.774 --> 00:01:37.400
+Savings come only from recorded pairs of
+
+39
+00:01:37.000 --> 00:01:37.908
+runs
+
+40
+00:01:37.912 --> 00:01:39.536
+with it and without it
+
+41
+00:01:39.591 --> 00:01:42.778
+on the same task and both must pass
+
+42
+00:01:42.795 --> 00:01:45.786
+A run that saves tokens by failing is
+
+43
+00:01:45.399 --> 00:01:46.619
+not a saving
+
+44
+00:01:46.649 --> 00:01:49.900
+And a number typed into prose is refused
+
+45
+00:01:51.058 --> 00:01:53.268
+When a decision is uncertain
+
+46
+00:01:53.349 --> 00:01:55.234
+it is reasoned on the record
+
+47
+00:01:55.263 --> 00:01:56.562
+Evidence first
+
+48
+00:01:56.579 --> 00:01:59.257
+Advisors if any are present
+
+49
+00:01:59.261 --> 00:02:01.809
+and their answers are evidence never
+
+50
+00:02:01.409 --> 00:02:02.434
+verdicts
+
+51
+00:02:02.464 --> 00:02:04.661
+The conclusion stays for the next
+
+52
+00:02:04.274 --> 00:02:05.715
+session to read
+
+53
+00:02:06.894 --> 00:02:08.726
+Install it with one line
+
+54
+00:02:08.743 --> 00:02:10.900
+Initialise your repository
+
+55
+00:02:10.930 --> 00:02:12.893
+Then start a task with a scope
+
+56
+00:02:12.948 --> 00:02:14.468
+and let your agents work
+
+57
+00:02:15.661 --> 00:02:17.298
+Work starts from intent
+
+58
+00:02:17.471 --> 00:02:19.290
+what must become true
+
+59
+00:02:19.359 --> 00:02:21.334
+and the criteria that prove it
+
+60
+00:02:21.364 --> 00:02:24.537
+Intents become milestones milestones
+
+61
+00:02:24.137 --> 00:02:27.532
+become issues and plan next names the
+
+62
+00:02:27.132 --> 00:02:28.834
+one issue to take now
+
+63
+00:02:30.022 --> 00:02:32.140
+No issue stores its status
+
+64
+00:02:32.131 --> 00:02:34.328
+It is derived from what happened to it
+
+65
+00:02:34.306 --> 00:02:37.140
+started verified completed
+
+66
+00:02:37.287 --> 00:02:39.732
+and the evidence each step carries
+
+67
+00:02:39.748 --> 00:02:42.453
+Done is refused while a required proof
+
+68
+00:02:42.261 --> 00:02:43.403
+is missing
+
+69
+00:02:43.420 --> 00:02:45.969
+and plan next recomputes the one issue
+
+70
+00:02:45.569 --> 00:02:46.515
+to take
+
+71
+00:02:47.706 --> 00:02:48.887
+Every session
+
+72
+00:02:48.839 --> 00:02:50.163
+starts briefed
+
+73
+00:02:50.193 --> 00:02:53.275
+The task its scope the last handover's
+
+74
+00:02:52.875 --> 00:02:54.147
+next action
+
+75
+00:02:54.138 --> 00:02:55.658
+who else is working
+
+76
+00:02:55.727 --> 00:02:57.585
+and what the release still owes
+
+77
+00:02:57.602 --> 00:02:59.265
+Nothing to rediscover
+
+78
+00:03:00.470 --> 00:03:02.107
+Context is a tree
+
+79
+00:03:02.110 --> 00:03:04.659
+Each agent reads the documents from the
+
+80
+00:03:04.259 --> 00:03:07.055
+root down to the path it works on
+
+81
+00:03:07.071 --> 00:03:09.815
+The nearest adds to its ancestors
+
+82
+00:03:09.832 --> 00:03:12.211
+and siblings never see each other
+
+83
+00:03:12.214 --> 00:03:13.279
+Nothing more
+
+84
+00:03:13.360 --> 00:03:14.711
+and nothing less
+
+85
+00:03:15.911 --> 00:03:18.420
+One policy writes every agent's
+
+86
+00:03:18.020 --> 00:03:19.201
+instructions
+
+87
+00:03:19.231 --> 00:03:21.363
+Tasks live in the repository
+
+88
+00:03:21.419 --> 00:03:23.042
+not in a chat window
+
+89
+00:03:24.209 --> 00:03:28.932
+Claude Code Codex Gemini Zed Antigravity
+
+90
+00:03:28.740 --> 00:03:31.913
+bb or any client that speaks MCP
+
+91
+00:03:31.917 --> 00:03:34.544
+Each reads its own projection of the
+
+92
+00:03:34.144 --> 00:03:35.494
+same policy
+
+93
+00:03:36.685 --> 00:03:38.413
+Models are declared data
+
+94
+00:03:38.442 --> 00:03:39.585
+Anthropic
+
+95
+00:03:39.588 --> 00:03:41.707
+and OpenAI in the cloud
+
+96
+00:03:41.789 --> 00:03:44.819
+Ollama and LM Studio on your own machine
+
+97
+00:03:44.810 --> 00:03:46.577
+Routing picks one by need
+
+98
+00:03:46.594 --> 00:03:48.139
+Ask for local only
+
+99
+00:03:48.182 --> 00:03:49.415
+and it answers
+
+100
+00:03:49.497 --> 00:03:51.134
+nothing qualifies
+
+101
+00:03:51.138 --> 00:03:52.319
+Never a guess
+
+102
+00:03:53.481 --> 00:03:56.120
+Every operation is declared once
+
+103
+00:03:56.163 --> 00:04:00.573
+The command line the HTTP API the MCP
+
+104
+00:04:00.186 --> 00:04:03.282
+tools the OpenAPI document the docs and
+
+105
+00:04:02.882 --> 00:04:04.909
+the skills are generated from it
+
+106
+00:04:04.978 --> 00:04:07.631
+and a check fails the moment one drifts
+
+107
+00:04:08.802 --> 00:04:10.165
+Versions are measured
+
+108
+00:04:10.182 --> 00:04:11.350
+not claimed
+
+109
+00:04:11.367 --> 00:04:13.798
+Every release compares the public
+
+110
+00:04:13.398 --> 00:04:15.217
+surface with the last one
+
+111
+00:04:15.247 --> 00:04:17.131
+Something gone is a major
+
+112
+00:04:17.083 --> 00:04:18.928
+something new is a minor
+
+113
+00:04:18.971 --> 00:04:21.376
+and nothing changed owes nothing
+
+114
+00:04:21.406 --> 00:04:23.889
+The changelog writes itself
+
+115
+00:04:25.070 --> 00:04:27.241
+No ordinary command builds
+
+116
+00:04:27.270 --> 00:04:29.337
+When the executable is stale
+
+117
+00:04:29.419 --> 00:04:32.345
+a command stops with exit twelve and
+
+118
+00:04:31.958 --> 00:04:34.142
+names the one build to run
+
+119
+00:04:34.236 --> 00:04:36.251
+or a release of the same generation
+
+120
+00:04:35.864 --> 00:04:37.006
+answers for it
+
+121
+00:04:37.023 --> 00:04:39.207
+A version string is not a build
+
+122
+00:04:39.236 --> 00:04:41.811
+Hooks and gates call the built tool
+
+123
+00:04:41.828 --> 00:04:45.040
+never cargo so a push no longer compiles
+
+124
+00:04:44.640 --> 00:04:45.795
+in its gates
+
+125
+00:04:47.015 --> 00:04:49.472
+One shared server per repository
+
+126
+00:04:49.489 --> 00:04:52.102
+The first client starts it every next
+
+127
+00:04:51.702 --> 00:04:55.097
+one attaches and each sees the others
+
+128
+00:04:55.101 --> 00:04:58.613
+The same server answers over HTTP with
+
+129
+00:04:58.226 --> 00:05:00.227
+Swagger and the Cockpit
+
+130
+00:05:01.422 --> 00:05:03.488
+And a person sees all of it in
+
+131
+00:05:03.101 --> 00:05:04.191
+the Cockpit
+
+132
+00:05:04.234 --> 00:05:05.650
+The same server
+
+133
+00:05:05.653 --> 00:05:07.290
+the same registry
+
+134
+00:05:07.320 --> 00:05:08.814
+rendered for a person
+
+135
+00:05:08.831 --> 00:05:10.806
+with nothing of its own to drift
+
+136
+00:05:11.965 --> 00:05:14.370
+A deployment is declared once
+
+137
+00:05:14.400 --> 00:05:15.932
+It names its provider
+
+138
+00:05:15.975 --> 00:05:18.602
+and every file the provider reads is
+
+139
+00:05:18.215 --> 00:05:19.513
+derived from it
+
+140
+00:05:19.543 --> 00:05:22.208
+What ships is assembled at one commit
+
+141
+00:05:22.394 --> 00:05:24.044
+never the repository
+
+142
+00:05:24.087 --> 00:05:26.896
+the inputs the executable built there
+
+143
+00:05:26.756 --> 00:05:28.589
+and the site built there too
+
+144
+00:05:28.605 --> 00:05:31.675
+A site from any other commit is refused
+
+145
+00:05:32.854 --> 00:05:34.413
+Before they share a board
+
+146
+00:05:34.429 --> 00:05:36.196
+runtimes find each other
+
+147
+00:05:36.200 --> 00:05:38.449
+A signed beacon on the local network a
+
+148
+00:05:38.309 --> 00:05:40.767
+rendezvous hub further out
+
+149
+00:05:40.770 --> 00:05:43.423
+Every one is checked before it is heard
+
+150
+00:05:43.466 --> 00:05:45.311
+and none carries a secret
+
+151
+00:05:46.482 --> 00:05:48.054
+Before work starts
+
+152
+00:05:48.135 --> 00:05:50.397
+every worker writes on the blackboard
+
+153
+00:05:50.010 --> 00:05:52.871
+what it intends and the paths it expects
+
+154
+00:05:52.471 --> 00:05:53.548
+to touch
+
+155
+00:05:53.565 --> 00:05:55.345
+A claim not a lock
+
+156
+00:05:55.349 --> 00:05:58.014
+Overlaps surface the moment they are
+
+157
+00:05:57.615 --> 00:05:58.405
+written
+
+158
+00:05:59.582 --> 00:06:03.146
+Claude Codex and Gemini share one board
+
+159
+00:06:03.149 --> 00:06:05.034
+When two reach for the same file
+
+160
+00:06:05.103 --> 00:06:07.299
+you hear about it before the merge
+
+161
+00:06:08.482 --> 00:06:10.483
+The board says who is working now
+
+162
+00:06:10.500 --> 00:06:12.280
+Git says what was already built
+
+163
+00:06:12.310 --> 00:06:14.468
+Before a new module is written
+
+164
+00:06:14.510 --> 00:06:17.111
+every branch local and remote
+
+165
+00:06:17.219 --> 00:06:19.767
+is asked what already claims its paths
+
+166
+00:06:19.784 --> 00:06:21.798
+And a decision number another branch
+
+167
+00:06:21.411 --> 00:06:24.272
+already carries is refused at commit
+
+168
+00:06:25.446 --> 00:06:27.734
+When work must not overlap across
+
+169
+00:06:27.334 --> 00:06:28.476
+machines
+
+170
+00:06:28.506 --> 00:06:30.533
+it is claimed exclusively
+
+171
+00:06:30.550 --> 00:06:33.645
+A second session is refused and told
+
+172
+00:06:33.245 --> 00:06:34.700
+which claim it meets
+
+173
+00:06:34.717 --> 00:06:37.239
+When two machines claim in the same
+
+174
+00:06:36.852 --> 00:06:37.799
+heartbeat
+
+175
+00:06:37.829 --> 00:06:40.728
+every runtime names the same winner
+
+176
+00:06:40.810 --> 00:06:42.395
+never the last packet
+
+177
+00:06:42.412 --> 00:06:44.830
+A holder that stops beating loses its
+
+178
+00:06:44.430 --> 00:06:45.260
+claim
+
+179
+00:06:46.466 --> 00:06:49.418
+Parallel work needs parallel trees
+
+180
+00:06:49.434 --> 00:06:52.347
+Every branch has exactly one worktree
+
+181
+00:06:52.221 --> 00:06:53.571
+derived from git
+
+182
+00:06:53.653 --> 00:06:56.084
+the primary checkout keeps the trunk
+
+183
+00:06:55.971 --> 00:06:58.272
+every other branch lives beside it
+
+184
+00:06:58.276 --> 00:07:01.163
+A commit from the wrong place is refused
+
+185
+00:07:02.350 --> 00:07:04.052
+Work moves through seats
+
+186
+00:07:04.068 --> 00:07:06.539
+One seat lands green work in combined
+
+187
+00:07:06.152 --> 00:07:07.112
+tops
+
+188
+00:07:07.128 --> 00:07:09.859
+One releases whenever master is ahead of
+
+189
+00:07:09.459 --> 00:07:10.771
+the last tag
+
+190
+00:07:10.787 --> 00:07:13.257
+Repair lanes bring stale branches
+
+191
+00:07:12.871 --> 00:07:13.648
+current
+
+192
+00:07:13.652 --> 00:07:15.966
+and each worker holds one issue
+
+193
+00:07:15.996 --> 00:07:17.593
+A seat is a claim
+
+194
+00:07:17.597 --> 00:07:20.067
+so it falls vacant when its holder stops
+
+195
+00:07:19.680 --> 00:07:20.497
+beating
+
+196
+00:07:21.703 --> 00:07:24.108
+Pull requests land as a train
+
+197
+00:07:24.112 --> 00:07:26.803
+Each link is stacked on the one below
+
+198
+00:07:26.677 --> 00:07:29.316
+and every link's checks run at the same
+
+199
+00:07:28.916 --> 00:07:29.707
+time
+
+200
+00:07:29.724 --> 00:07:31.907
+One run pays for several
+
+201
+00:07:31.924 --> 00:07:34.472
+A link merges only after the one it
+
+202
+00:07:34.085 --> 00:07:37.480
+names and git decides it is safe never
+
+203
+00:07:37.093 --> 00:07:38.105
+the stacking
+
+204
+00:07:39.315 --> 00:07:42.006
+The mesh spans every machine you work on
+
+205
+00:07:42.036 --> 00:07:43.413
+The desktop at home
+
+206
+00:07:43.455 --> 00:07:46.420
+The rack in the datacenter behind a TLS
+
+207
+00:07:46.020 --> 00:07:46.733
+hub
+
+208
+00:07:46.776 --> 00:07:49.428
+The whole fleet across the company on a
+
+209
+00:07:49.041 --> 00:07:50.405
+private network
+
+210
+00:07:51.573 --> 00:07:54.342
+Every build goes through the mesh cache
+
+211
+00:07:54.372 --> 00:07:56.244
+What one machine compiled
+
+212
+00:07:56.273 --> 00:07:59.850
+the next one reuses and nobody sets a
+
+213
+00:07:59.450 --> 00:08:00.462
+variable
+
+214
+00:08:00.466 --> 00:08:01.960
+When the store is down
+
+215
+00:08:01.950 --> 00:08:04.668
+the build stays local and says why
+
+216
+00:08:04.698 --> 00:08:07.090
+A script that goes around the cache is
+
+217
+00:08:06.690 --> 00:08:08.353
+refused by a gate
+
+218
+00:08:09.521 --> 00:08:11.392
+Every message is signed with the
+
+219
+00:08:10.992 --> 00:08:12.863
+machine's own key
+
+220
+00:08:12.880 --> 00:08:15.233
+No one is trusted until you list them
+
+221
+00:08:15.250 --> 00:08:18.814
+A public address is reached over HTTPS
+
+222
+00:08:18.544 --> 00:08:19.335
+only
+
+223
+00:08:19.351 --> 00:08:22.056
+And nothing a peer sends is ever
+
+224
+00:08:21.669 --> 00:08:22.772
+executed
+
+225
+00:08:23.941 --> 00:08:26.085
+Sessions talk to each other through the
+
+226
+00:08:25.685 --> 00:08:26.723
+mesh
+
+227
+00:08:26.753 --> 00:08:28.442
+One asks for a review
+
+228
+00:08:28.433 --> 00:08:30.174
+another answers it from a different
+
+229
+00:08:29.774 --> 00:08:30.656
+machine
+
+230
+00:08:30.672 --> 00:08:33.403
+A handover published tonight is consumed
+
+231
+00:08:33.016 --> 00:08:35.786
+tomorrow wherever the work resumes
+
+232
+00:08:36.982 --> 00:08:39.791
+One stream follows every session
+
+233
+00:08:39.820 --> 00:08:40.793
+claim
+
+234
+00:08:40.810 --> 00:08:43.619
+handover and review on every linked
+
+235
+00:08:43.232 --> 00:08:46.041
+machine with the merges and the GitHub
+
+236
+00:08:45.654 --> 00:08:46.978
+runs beside them
+
+237
+00:08:47.008 --> 00:08:49.791
+What names you comes first and the noise
+
+238
+00:08:49.391 --> 00:08:50.858
+is folded away
+
+239
+00:08:52.050 --> 00:08:53.726
+Close the laptop tonight
+
+240
+00:08:53.742 --> 00:08:57.163
+Tomorrow any agent picks up the handover
+
+241
+00:08:57.180 --> 00:08:59.116
+exactly where the work stopped
+
+242
+00:09:00.278 --> 00:09:02.266
+And what a session learns outlives it
+
+243
+00:09:01.866 --> 00:09:02.670
+too
+
+244
+00:09:02.687 --> 00:09:04.948
+Decisions become records
+
+245
+00:09:04.939 --> 00:09:07.123
+a hundred and sixty-nine architecture
+
+246
+00:09:06.723 --> 00:09:08.712
+decisions so far
+
+247
+00:09:08.741 --> 00:09:11.902
+Knowledge is derived at the end of every
+
+248
+00:09:11.502 --> 00:09:12.527
+session
+
+249
+00:09:12.556 --> 00:09:13.868
+without a model
+
+250
+00:09:13.937 --> 00:09:16.016
+and a person promotes what deserves to
+
+251
+00:09:15.616 --> 00:09:16.563
+stay
+
+252
+00:09:17.746 --> 00:09:19.513
+What is yours stays yours
+
+253
+00:09:19.530 --> 00:09:22.403
+Session state lives in the local half of
+
+254
+00:09:22.003 --> 00:09:24.187
+the layer which git ignores
+
+255
+00:09:24.230 --> 00:09:27.325
+Handovers checkpoints and open sessions
+
+256
+00:09:26.925 --> 00:09:29.903
+are written readable by their owner only
+
+257
+00:09:29.920 --> 00:09:32.117
+and none of them is ever committed
+
+258
+00:09:33.318 --> 00:09:35.840
+Not your repository to change
+
+259
+00:09:35.883 --> 00:09:38.509
+Personal mode keeps the whole layer in
+
+260
+00:09:38.109 --> 00:09:39.069
+your clone
+
+261
+00:09:39.112 --> 00:09:41.426
+and the team's tree stays byte for byte
+
+262
+00:09:41.039 --> 00:09:42.207
+what they committed
+
+263
+00:09:43.394 --> 00:09:44.940
+It runs on your machine
+
+264
+00:09:44.969 --> 00:09:47.518
+never calls a model and works with any
+
+265
+00:09:47.118 --> 00:09:47.947
+agent

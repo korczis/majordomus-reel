@@ -1,0 +1,117 @@
+WEBVTT
+
+1
+00:00:00.341 --> 00:00:03.110
+Serving the layer to AI clients
+
+2
+00:00:03.140 --> 00:00:06.118
+One shared server per repository every
+
+3
+00:00:05.718 --> 00:00:06.991
+client a peer
+
+4
+00:00:07.033 --> 00:00:09.334
+the same layer over MCP
+
+5
+00:00:09.494 --> 00:00:11.926
+HTTP and the command line
+
+6
+00:00:13.081 --> 00:00:17.804
+Claude Code Codex Gemini Zed Antigravity
+
+7
+00:00:17.612 --> 00:00:20.785
+bb or any client that speaks MCP
+
+8
+00:00:20.789 --> 00:00:23.416
+Each reads its own projection of the
+
+9
+00:00:23.016 --> 00:00:24.366
+same policy
+
+10
+00:00:25.557 --> 00:00:28.196
+Every operation is declared once
+
+11
+00:00:28.239 --> 00:00:32.649
+The command line the HTTP API the MCP
+
+12
+00:00:32.262 --> 00:00:35.358
+tools the OpenAPI document the docs and
+
+13
+00:00:34.958 --> 00:00:36.985
+the skills are generated from it
+
+14
+00:00:37.054 --> 00:00:39.707
+and a check fails the moment one drifts
+
+15
+00:00:40.891 --> 00:00:43.348
+One shared server per repository
+
+16
+00:00:43.365 --> 00:00:45.978
+The first client starts it every next
+
+17
+00:00:45.578 --> 00:00:48.973
+one attaches and each sees the others
+
+18
+00:00:48.977 --> 00:00:52.489
+The same server answers over HTTP with
+
+19
+00:00:52.102 --> 00:00:54.103
+Swagger and the Cockpit
+
+20
+00:00:55.298 --> 00:00:57.364
+And a person sees all of it in
+
+21
+00:00:56.977 --> 00:00:58.067
+the Cockpit
+
+22
+00:00:58.110 --> 00:00:59.526
+The same server
+
+23
+00:00:59.529 --> 00:01:01.166
+the same registry
+
+24
+00:01:01.196 --> 00:01:02.690
+rendered for a person
+
+25
+00:01:02.707 --> 00:01:04.682
+with nothing of its own to drift
+
+26
+00:01:05.854 --> 00:01:07.686
+Install it with one line
+
+27
+00:01:07.703 --> 00:01:09.860
+Initialise your repository
+
+28
+00:01:09.890 --> 00:01:11.853
+Then start a task with a scope
+
+29
+00:01:11.908 --> 00:01:13.428
+and let your agents work

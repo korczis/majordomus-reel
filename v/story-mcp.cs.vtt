@@ -1,0 +1,101 @@
+WEBVTT
+
+1
+00:00:00.347 --> 00:00:02.008
+Vrstva pro AI klienty
+
+2
+00:00:02.584 --> 00:00:05.083
+Jeden sdílený server na repozitář každý
+
+3
+00:00:04.707 --> 00:00:08.079
+klient je peer táž vrstva přes MCP HTTP
+
+4
+00:00:07.679 --> 00:00:09.069
+i příkazovou řádku
+
+5
+00:00:10.879 --> 00:00:13.555
+Claude Code Codex Gemini Zed Antigravity
+
+6
+00:00:13.296 --> 00:00:16.078
+bb nebo jakýkoli klient který mluví MCP
+
+7
+00:00:16.690 --> 00:00:19.212
+Každý čte vlastní projekci téže politiky
+
+8
+00:00:21.003 --> 00:00:23.230
+Každá operace je deklarovaná jednou
+
+9
+00:00:23.854 --> 00:00:27.485
+Příkazová řádka HTTP API nástroje MCP
+
+10
+00:00:27.238 --> 00:00:29.961
+dokument OpenAPI dokumentace i skills se
+
+11
+00:00:29.561 --> 00:00:32.037
+z ní generují a kontrola selže ve chvíli
+
+12
+00:00:31.696 --> 00:00:33.346
+kdy se jediná z nich rozejde
+
+13
+00:00:35.135 --> 00:00:37.304
+Jeden sdílený server na repozitář
+
+14
+00:00:37.891 --> 00:00:40.225
+První klient ho spustí každý další se
+
+15
+00:00:39.825 --> 00:00:41.853
+připojí a každý vidí ostatní
+
+16
+00:00:42.455 --> 00:00:45.119
+Tentýž server odpovídá přes HTTP se
+
+17
+00:00:44.719 --> 00:00:46.251
+Swaggerem a Cockpitem
+
+18
+00:00:48.091 --> 00:00:50.271
+A v Cockpitu to všechno vidí člověk
+
+19
+00:00:50.777 --> 00:00:53.323
+Tentýž server tentýž registr vykreslený
+
+20
+00:00:52.946 --> 00:00:55.445
+pro lidi bez ničeho vlastního co by se
+
+21
+00:00:55.045 --> 00:00:56.106
+mohlo rozejít
+
+22
+00:00:58.091 --> 00:01:00.106
+Nainstalujte ho jedním řádkem
+
+23
+00:01:00.729 --> 00:01:02.603
+Inicializujte repozitář
+
+24
+00:01:03.206 --> 00:01:05.634
+Pak spusťte úkol s rozsahem a nechte své
+
+25
+00:01:05.246 --> 00:01:06.483
+agenty pracovat

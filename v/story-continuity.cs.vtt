@@ -1,0 +1,189 @@
+WEBVTT
+
+1
+00:00:00.347 --> 00:00:02.008
+Relace a předávání
+
+2
+00:00:02.596 --> 00:00:04.907
+Zastavení a obnovení práce napříč
+
+3
+00:00:04.518 --> 00:00:06.758
+relacemi a pracovníky z trvalého stavu
+
+4
+00:00:06.617 --> 00:00:08.291
+nikdy z přepisu konverzace
+
+5
+00:00:10.087 --> 00:00:12.185
+Každá relace začíná s přehledem
+
+6
+00:00:12.796 --> 00:00:15.189
+Úkol jeho rozsah další krok z posledního
+
+7
+00:00:14.789 --> 00:00:17.264
+předání kdo další pracuje a co vydání
+
+8
+00:00:16.865 --> 00:00:17.866
+ještě dluží
+
+9
+00:00:18.480 --> 00:00:20.378
+Nic není třeba znovu hledat
+
+10
+00:00:22.107 --> 00:00:23.462
+Kontext je strom
+
+11
+00:00:24.061 --> 00:00:26.419
+Každý agent čte dokumenty od kořene až k
+
+12
+00:00:26.019 --> 00:00:27.704
+cestě na které pracuje
+
+13
+00:00:28.283 --> 00:00:30.322
+Nejbližší doplňuje své předky a
+
+14
+00:00:29.946 --> 00:00:31.702
+sourozenci se nikdy nevidí
+
+15
+00:00:32.316 --> 00:00:33.966
+Nic víc a nic míň
+
+16
+00:00:35.783 --> 00:00:37.975
+Paralelní práce potřebuje paralelní
+
+17
+00:00:37.587 --> 00:00:38.341
+stromy
+
+18
+00:00:38.952 --> 00:00:41.168
+Každá větev má právě jeden worktree
+
+19
+00:00:40.792 --> 00:00:43.149
+odvozený z gitu primární checkout drží
+
+20
+00:00:42.761 --> 00:00:45.201
+hlavní větev každá další žije vedle něj
+
+21
+00:00:45.780 --> 00:00:48.031
+Commit ze špatného místa je odmítnut
+
+22
+00:00:49.795 --> 00:00:51.633
+Relace spolu mluví přes mesh
+
+23
+00:00:52.209 --> 00:00:54.744
+Jedna požádá o revizi jiná ji z jiného
+
+24
+00:00:54.344 --> 00:00:55.487
+stroje zodpoví
+
+25
+00:00:56.124 --> 00:00:58.564
+Předání zveřejněné dnes večer se zítra
+
+26
+00:00:58.165 --> 00:01:00.510
+převezme ať práce pokračuje kdekoli
+
+27
+00:01:02.795 --> 00:01:04.456
+Večer zavřete notebook
+
+28
+00:01:04.973 --> 00:01:07.461
+Zítra libovolný agent převezme předání
+
+29
+00:01:07.073 --> 00:01:08.982
+přesně tam kde práce skončila
+
+30
+00:01:10.831 --> 00:01:13.200
+A co se relace naučí ji také přežije
+
+31
+00:01:13.776 --> 00:01:16.405
+Rozhodnutí se stávají záznamy zatím sto
+
+32
+00:01:16.005 --> 00:01:17.961
+šedesát devět architektonických
+
+33
+00:01:17.585 --> 00:01:18.598
+rozhodnutí
+
+34
+00:01:19.224 --> 00:01:21.534
+Znalosti se odvozují na konci každé
+
+35
+00:01:21.134 --> 00:01:23.975
+relace bez modelu a člověk povýší to co
+
+36
+00:01:23.576 --> 00:01:24.990
+si zaslouží zůstat
+
+37
+00:01:26.691 --> 00:01:28.459
+Co je vaše zůstane vaše
+
+38
+00:01:29.035 --> 00:01:31.121
+Stav relací žije v lokální polovině
+
+39
+00:01:30.721 --> 00:01:32.512
+vrstvy kterou git ignoruje
+
+40
+00:01:33.103 --> 00:01:36.003
+Předání checkpointy a otevřené relace se
+
+41
+00:01:35.603 --> 00:01:37.689
+zapisují tak že je čte jen jejich
+
+42
+00:01:37.289 --> 00:01:39.281
+vlastník a nic z toho se nikdy
+
+43
+00:01:38.881 --> 00:01:39.753
+necommitne
+
+44
+00:01:41.567 --> 00:01:43.582
+Nainstalujte ho jedním řádkem
+
+45
+00:01:44.205 --> 00:01:46.079
+Inicializujte repozitář
+
+46
+00:01:46.682 --> 00:01:49.110
+Pak spusťte úkol s rozsahem a nechte své
+
+47
+00:01:48.722 --> 00:01:49.959
+agenty pracovat

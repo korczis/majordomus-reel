@@ -1,0 +1,181 @@
+WEBVTT
+
+1
+00:00:00.347 --> 00:00:02.091
+Znalosti repozitáře
+
+2
+00:00:02.667 --> 00:00:05.355
+Co repozitář deklaruje sám o sobě zdroje
+
+3
+00:00:05.120 --> 00:00:07.560
+uzly hrany plán a hledání v nich
+
+4
+00:00:09.199 --> 00:00:11.368
+Když je rozhodnutí nejisté zdůvodní se
+
+5
+00:00:10.968 --> 00:00:11.910
+do záznamu
+
+6
+00:00:12.498 --> 00:00:13.876
+Nejdřív důkazy
+
+7
+00:00:14.432 --> 00:00:16.789
+Pak poradci pokud nějací jsou a jejich
+
+8
+00:00:16.401 --> 00:00:18.711
+odpovědi jsou důkazy nikdy verdikty
+
+9
+00:00:19.267 --> 00:00:21.789
+Závěr zůstane aby si ho přečetla další
+
+10
+00:00:21.425 --> 00:00:22.202
+relace
+
+11
+00:00:24.003 --> 00:00:26.667
+Práce začíná od záměru co musí platit a
+
+12
+00:00:26.302 --> 00:00:28.247
+kritérií která to dokážou
+
+13
+00:00:28.870 --> 00:00:31.393
+Ze záměrů vznikají milníky z milníků
+
+14
+00:00:31.016 --> 00:00:33.350
+issues a plan next určí jedno issue
+
+15
+00:00:32.998 --> 00:00:34.129
+které vzít teď
+
+16
+00:00:37.003 --> 00:00:39.455
+Žádné issue si neukládá svůj stav
+
+17
+00:00:39.924 --> 00:00:41.787
+Ten se odvozuje z toho co se s
+
+18
+00:00:41.387 --> 00:00:44.275
+ním stalo zahájeno ověřeno dokončeno a z
+
+19
+00:00:43.875 --> 00:00:45.690
+důkazů které každý krok nese
+
+20
+00:00:46.281 --> 00:00:48.249
+Hotovo je odmítnuto dokud chybí
+
+21
+00:00:47.873 --> 00:00:50.442
+požadovaný důkaz a plan next přepočítá
+
+22
+00:00:50.042 --> 00:00:51.728
+to jedno issue které vzít
+
+23
+00:00:53.463 --> 00:00:54.818
+Kontext je strom
+
+24
+00:00:55.417 --> 00:00:57.775
+Každý agent čte dokumenty od kořene až k
+
+25
+00:00:57.375 --> 00:00:59.060
+cestě na které pracuje
+
+26
+00:00:59.639 --> 00:01:01.678
+Nejbližší doplňuje své předky a
+
+27
+00:01:01.302 --> 00:01:03.058
+sourozenci se nikdy nevidí
+
+28
+00:01:03.672 --> 00:01:05.322
+Nic víc a nic míň
+
+29
+00:01:07.139 --> 00:01:09.685
+Jeden proud sleduje každou relaci nárok
+
+30
+00:01:09.367 --> 00:01:11.536
+předání i revizi na každém propojeném
+
+31
+00:01:11.136 --> 00:01:13.694
+stroji a vedle nich sloučení a běhy na
+
+32
+00:01:13.294 --> 00:01:14.095
+GitHubu
+
+33
+00:01:14.683 --> 00:01:16.899
+Co se týká vás jde první a šum
+
+34
+00:01:16.499 --> 00:01:17.335
+se sbalí
+
+35
+00:01:19.183 --> 00:01:21.552
+A co se relace naučí ji také přežije
+
+36
+00:01:22.128 --> 00:01:24.757
+Rozhodnutí se stávají záznamy zatím sto
+
+37
+00:01:24.357 --> 00:01:26.313
+šedesát devět architektonických
+
+38
+00:01:25.937 --> 00:01:26.950
+rozhodnutí
+
+39
+00:01:27.576 --> 00:01:29.886
+Znalosti se odvozují na konci každé
+
+40
+00:01:29.486 --> 00:01:32.327
+relace bez modelu a člověk povýší to co
+
+41
+00:01:31.928 --> 00:01:33.342
+si zaslouží zůstat
+
+42
+00:01:35.043 --> 00:01:37.058
+Nainstalujte ho jedním řádkem
+
+43
+00:01:37.681 --> 00:01:39.555
+Inicializujte repozitář
+
+44
+00:01:40.158 --> 00:01:42.586
+Pak spusťte úkol s rozsahem a nechte své
+
+45
+00:01:42.198 --> 00:01:43.435
+agenty pracovat

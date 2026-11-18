@@ -1,0 +1,217 @@
+WEBVTT
+
+1
+00:00:00.347 --> 00:00:01.902
+Paralelní pracovníci
+
+2
+00:00:02.443 --> 00:00:04.223
+Více agentů nebo lidí v jednom
+
+3
+00:00:03.823 --> 00:00:06.675
+repozitáři nárokované rozsahy překryvy a
+
+4
+00:00:06.311 --> 00:00:07.466
+kdo na co sáhl
+
+5
+00:00:09.295 --> 00:00:11.959
+Práce začíná od záměru co musí platit a
+
+6
+00:00:11.594 --> 00:00:13.539
+kritérií která to dokážou
+
+7
+00:00:14.162 --> 00:00:16.685
+Ze záměrů vznikají milníky z milníků
+
+8
+00:00:16.308 --> 00:00:18.642
+issues a plan next určí jedno issue
+
+9
+00:00:18.290 --> 00:00:19.421
+které vzít teď
+
+10
+00:00:22.295 --> 00:00:24.723
+Než práce začne každý pracovník napíše
+
+11
+00:00:24.323 --> 00:00:26.810
+na tabuli co zamýšlí a cesty kterých se
+
+12
+00:00:26.410 --> 00:00:27.471
+chce dotknout
+
+13
+00:00:27.999 --> 00:00:29.449
+Nárok ne zámek
+
+14
+00:00:29.945 --> 00:00:32.267
+Překryvy se ukážou ve chvíli kdy jsou
+
+15
+00:00:31.915 --> 00:00:32.786
+napsány
+
+16
+00:00:34.579 --> 00:00:36.795
+Claude Codex a Gemini sdílejí jednu
+
+17
+00:00:36.395 --> 00:00:37.160
+tabuli
+
+18
+00:00:37.772 --> 00:00:39.716
+Když dva sáhnou po stejném souboru
+
+19
+00:00:39.540 --> 00:00:41.591
+dozvíte se to ještě před sloučením
+
+20
+00:00:43.431 --> 00:00:45.482
+Tabule říká kdo právě pracuje
+
+21
+00:00:46.069 --> 00:00:47.767
+Git říká co už vzniklo
+
+22
+00:00:48.345 --> 00:00:50.644
+Než se napíše nový modul zeptá se každé
+
+23
+00:00:50.256 --> 00:00:52.755
+větve lokální i vzdálené co si už
+
+24
+00:00:52.355 --> 00:00:53.769
+nárokuje jeho cesty
+
+25
+00:00:54.359 --> 00:00:56.729
+A číslo rozhodnutí které už nese jiná
+
+26
+00:00:56.341 --> 00:00:58.333
+větev je při commitu odmítnuto
+
+27
+00:01:00.131 --> 00:01:02.016
+Když se práce napříč stroji nesmí
+
+28
+00:01:01.640 --> 00:01:03.750
+překrývat nárokuje se výhradně
+
+29
+00:01:04.350 --> 00:01:07.073
+Druhá relace je odmítnuta a dozví se na
+
+30
+00:01:06.673 --> 00:01:08.028
+jaký nárok narazila
+
+31
+00:01:08.666 --> 00:01:10.799
+Když dva stroje vznesou nárok ve stejném
+
+32
+00:01:10.399 --> 00:01:13.181
+tepu každá instance určí stejného vítěze
+
+33
+00:01:12.993 --> 00:01:14.643
+nikdy ne poslední paket
+
+34
+00:01:15.140 --> 00:01:17.533
+Držitel který přestane tepat svůj nárok
+
+35
+00:01:17.133 --> 00:01:17.957
+ztratí
+
+36
+00:01:19.783 --> 00:01:21.975
+Paralelní práce potřebuje paralelní
+
+37
+00:01:21.587 --> 00:01:22.341
+stromy
+
+38
+00:01:22.952 --> 00:01:25.168
+Každá větev má právě jeden worktree
+
+39
+00:01:24.792 --> 00:01:27.149
+odvozený z gitu primární checkout drží
+
+40
+00:01:26.761 --> 00:01:29.201
+hlavní větev každá další žije vedle něj
+
+41
+00:01:29.780 --> 00:01:32.031
+Commit ze špatného místa je odmítnut
+
+42
+00:01:33.795 --> 00:01:35.551
+Práce putuje přes pozice
+
+43
+00:01:36.127 --> 00:01:38.425
+Jedna pozice slučuje zelenou práci do
+
+44
+00:01:38.025 --> 00:01:39.286
+společného vrcholu
+
+45
+00:01:39.900 --> 00:01:42.175
+Druhá vydává kdykoli je master před
+
+46
+00:01:41.775 --> 00:01:43.013
+posledním tagem
+
+47
+00:01:43.627 --> 00:01:46.161
+Opravné dráhy dotahují zastaralé větve a
+
+48
+00:01:45.820 --> 00:01:47.824
+každý pracovník drží jedno issue
+
+49
+00:01:48.438 --> 00:01:50.961
+Pozice je nárok a tak se uvolní jakmile
+
+50
+00:01:50.561 --> 00:01:52.305
+její držitel přestane tepat
+
+51
+00:01:54.023 --> 00:01:56.038
+Nainstalujte ho jedním řádkem
+
+52
+00:01:56.661 --> 00:01:58.535
+Inicializujte repozitář
+
+53
+00:01:59.138 --> 00:02:01.566
+Pak spusťte úkol s rozsahem a nechte své
+
+54
+00:02:01.178 --> 00:02:02.415
+agenty pracovat

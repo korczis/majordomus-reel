@@ -1,0 +1,237 @@
+WEBVTT
+
+1
+00:00:06.341 --> 00:00:09.475
+In real repositories agents drift
+
+2
+00:00:09.492 --> 00:00:12.040
+Rule files that share almost nothing
+
+3
+00:00:12.057 --> 00:00:14.748
+Seventeen checks nobody ran
+
+4
+00:00:14.830 --> 00:00:17.756
+Thirty-two hundred files changed at once
+
+5
+00:00:18.950 --> 00:00:20.678
+Meet Majordomus
+
+6
+00:00:20.708 --> 00:00:23.751
+The supervisory layer for your AI agents
+
+7
+00:00:24.946 --> 00:00:26.713
+When an agent says it's finished
+
+8
+00:00:26.586 --> 00:00:29.525
+Majordomus checks the scope the state
+
+9
+00:00:29.399 --> 00:00:30.528
+and the tests
+
+10
+00:00:30.545 --> 00:00:33.757
+And when anything fails it refuses
+
+11
+00:00:34.950 --> 00:00:37.212
+And every proof leaves a record
+
+12
+00:00:37.254 --> 00:00:40.818
+The test the commit the tree the time
+
+13
+00:00:40.653 --> 00:00:42.160
+and the exact command
+
+14
+00:00:42.189 --> 00:00:44.269
+Provenance not promises
+
+15
+00:00:45.458 --> 00:00:47.290
+Install it with one line
+
+16
+00:00:47.307 --> 00:00:49.464
+Initialise your repository
+
+17
+00:00:49.494 --> 00:00:51.457
+Then start a task with a scope
+
+18
+00:00:51.512 --> 00:00:53.032
+and let your agents work
+
+19
+00:00:54.225 --> 00:00:55.953
+Models are declared data
+
+20
+00:00:55.982 --> 00:00:57.125
+Anthropic
+
+21
+00:00:57.128 --> 00:00:59.247
+and OpenAI in the cloud
+
+22
+00:00:59.329 --> 00:01:02.359
+Ollama and LM Studio on your own machine
+
+23
+00:01:02.350 --> 00:01:04.117
+Routing picks one by need
+
+24
+00:01:04.134 --> 00:01:05.679
+Ask for local only
+
+25
+00:01:05.722 --> 00:01:06.955
+and it answers
+
+26
+00:01:07.037 --> 00:01:08.674
+nothing qualifies
+
+27
+00:01:08.678 --> 00:01:09.859
+Never a guess
+
+28
+00:01:11.034 --> 00:01:14.598
+Claude Codex and Gemini share one board
+
+29
+00:01:14.601 --> 00:01:16.486
+When two reach for the same file
+
+30
+00:01:16.555 --> 00:01:18.751
+you hear about it before the merge
+
+31
+00:01:19.934 --> 00:01:21.636
+Work moves through seats
+
+32
+00:01:21.652 --> 00:01:24.123
+One seat lands green work in combined
+
+33
+00:01:23.736 --> 00:01:24.696
+tops
+
+34
+00:01:24.712 --> 00:01:27.443
+One releases whenever master is ahead of
+
+35
+00:01:27.043 --> 00:01:28.355
+the last tag
+
+36
+00:01:28.371 --> 00:01:30.841
+Repair lanes bring stale branches
+
+37
+00:01:30.455 --> 00:01:31.232
+current
+
+38
+00:01:31.236 --> 00:01:33.550
+and each worker holds one issue
+
+39
+00:01:33.580 --> 00:01:35.177
+A seat is a claim
+
+40
+00:01:35.181 --> 00:01:37.651
+so it falls vacant when its holder stops
+
+41
+00:01:37.264 --> 00:01:38.081
+beating
+
+42
+00:01:39.287 --> 00:01:41.978
+The mesh spans every machine you work on
+
+43
+00:01:42.008 --> 00:01:43.385
+The desktop at home
+
+44
+00:01:43.427 --> 00:01:46.392
+The rack in the datacenter behind a TLS
+
+45
+00:01:45.992 --> 00:01:46.705
+hub
+
+46
+00:01:46.748 --> 00:01:49.400
+The whole fleet across the company on a
+
+47
+00:01:49.013 --> 00:01:50.377
+private network
+
+48
+00:01:51.545 --> 00:01:53.416
+Every message is signed with the
+
+49
+00:01:53.016 --> 00:01:54.887
+machine's own key
+
+50
+00:01:54.904 --> 00:01:57.257
+No one is trusted until you list them
+
+51
+00:01:57.274 --> 00:02:00.838
+A public address is reached over HTTPS
+
+52
+00:02:00.568 --> 00:02:01.359
+only
+
+53
+00:02:01.375 --> 00:02:04.080
+And nothing a peer sends is ever
+
+54
+00:02:03.693 --> 00:02:04.796
+executed
+
+55
+00:02:05.978 --> 00:02:08.500
+Not your repository to change
+
+56
+00:02:08.543 --> 00:02:11.169
+Personal mode keeps the whole layer in
+
+57
+00:02:10.769 --> 00:02:11.729
+your clone
+
+58
+00:02:11.772 --> 00:02:14.086
+and the team's tree stays byte for byte
+
+59
+00:02:13.699 --> 00:02:14.867
+what they committed

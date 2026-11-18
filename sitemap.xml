@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://korczis.github.io/majordomus-reel/</loc>
+    <lastmod>2026-11-18</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://korczis.github.io/majordomus-reel/"/>
+    <xhtml:link rel="alternate" hreflang="cs" href="https://korczis.github.io/majordomus-reel/cs/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://korczis.github.io/majordomus-reel/"/>
+    <video:video>
+      <video:thumbnail_loc>https://korczis.github.io/majordomus-reel/og/film.jpg</video:thumbnail_loc>
+      <video:title>Majordomus reel: make your AI agent prove it</video:title>
+      <video:description>Majordomus, the supervisory layer for AI coding agents: 9 short stories, one per kind of work, and the whole film in 10 min, rendered from code.</video:description>
+      <video:content_loc>https://korczis.github.io/majordomus-reel/v/film-phone.mp4</video:content_loc>
+      <video:duration>614</video:duration>
+      <video:publication_date>2026-11-18T01:48:01+01:00</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://korczis.github.io/majordomus-reel/short/</loc>
+    <lastmod>2026-11-18</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://korczis.github.io/majordomus-reel/short/"/>
+    <xhtml:link rel="alternate" hreflang="cs" href="https://korczis.github.io/majordomus-reel/cs/short/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://korczis.github.io/majordomus-reel/short/"/>
+    <video:video>
+      <video:thumbnail_loc>https://korczis.github.io/majordomus-reel/og/short.jpg</video:thumbnail_loc>
+      <video:title>The short: Majordomus in 3 min</video:title>
+      <video:description>The whole argument, for a feed. 3 min, from the problem to the install line.</video:description>
+      <video:content_loc>https://korczis.github.io/majordomus-reel/v/short-phone.mp4</video:content_loc>
+      <video:duration>161</video:duration>
+      <video:publication_date>2026-11-18T01:48:01+01:00</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://korczis.github.io/majordomus-reel/story-adoption/</loc>
+    <lastmod>2026-11-18</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://korczis.github.io/majordomus-reel/story-adoption/"/>
+    <xhtml:link rel="alternate" hreflang="cs" href="https://korczis.github.io/majordomus-reel/cs/story-adoption/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://korczis.github.io/majordomus-reel/story-adoption/"/>
+    <video:video>
+      <video:thumbnail_loc>https://korczis.github.io/majordomus-reel/og/story-adoption.jpg</video:thumbnail_loc>
+      <video:title>Getting started and adoption: a Majordomus story</video:title>
+      <video:description>Bringing Majordomus into a repository, new or old, without losing what people already wrote. 36 s, from the problem to the install line.</video:description>
+      <video:content_loc>https://korczis.github.io/majordomus-reel/v/story-adoption-desktop.mp4</video:content_loc>
+      <video:duration>36</video:duration>
+      <video:publication_date>2026-11-18T01:48:01+01:00</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://korczis.github.io/majordomus-reel/story-continuity/</loc>
+    <lastmod>2026-11-18</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://korczis.github.io/majordomus-reel/story-continuity/"/>
+    <xhtml:link rel="alternate" hreflang="cs" href="https://korczis.github.io/majordomus-reel/cs/story-continuity/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://korczis.github.io/majordomus-reel/story-continuity/"/>
+    <video:video>
+      <video:thumbnail_loc>https://korczis.github.io/majordomus-reel/og/story-continuity.jpg</video:thumbnail_loc>
+      <video:title>Sessions and handover: a Majordomus story</video:title>
+      <video:description>Stopping and resuming work across sessions and workers from durable state, never a transcript. 2 min, from the problem to the install line.</video:description>
+      <video:content_loc>https://korczis.github.io/majordomus-reel/v/story-continuity-desktop.mp4</video:content_loc>
+      <video:duration>124</video:duration>
+      <video:publication_date>2026-11-18T01:48:01+01:00</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://korczis.github.io/majordomus-reel/story-workers/</loc>
+    <lastmod>2026-11-18</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://korczis.github.io/majordomus-reel/story-workers/"/>
+    <xhtml:link rel="alternate" hreflang="cs" href="https://korczis.github.io/majordomus-reel/cs/story-workers/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://korczis.github.io/majordomus-reel/story-workers/"/>
+    <video:video>
+      <video:thumbnail_loc>https://korczis.github.io/majordomus-reel/og/story-workers.jpg</video:thumbnail_loc>
+      <video:title>Parallel workers: a Majordomus story</video:title>
+      <video:description>Several agents or people on one repository: claimed scopes, overlap, and who touched what. 2 min, from the problem to the install line.</video:description>
+      <video:content_loc>https://korczis.github.io/majordomus-reel/v/story-workers-desktop.mp4</video:content_loc>
+      <video:duration>135</video:duration>
+      <video:publication_date>2026-11-18T01:48:01+01:00</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://korczis.github.io/majordomus-reel/story-policy/</loc>
+    <lastmod>2026-11-18</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://korczis.github.io/majordomus-reel/story-policy/"/>
+    <xhtml:link rel="alternate" hreflang="cs" href="https://korczis.github.io/majordomus-reel/cs/story-policy/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://korczis.github.io/majordomus-reel/story-policy/"/>
+    <video:video>
+      <video:thumbnail_loc>https://korczis.github.io/majordomus-reel/og/story-policy.jpg</video:thumbnail_loc>
+      <video:title>Policy and enforcement: a Majordomus story</video:title>
+      <video:description>Declaring rules, proving they are wired, and reproducing a finding. 71 s, from the problem to the install line.</video:description>
+      <video:content_loc>https://korczis.github.io/majordomus-reel/v/story-policy-phone.mp4</video:content_loc>
+      <video:duration>71</video:duration>
+      <video:publication_date>2026-11-18T01:48:01+01:00</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://korczis.github.io/majordomus-reel/story-completion/</loc>
+    <lastmod>2026-11-18</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://korczis.github.io/majordomus-reel/story-completion/"/>
+    <xhtml:link rel="alternate" hreflang="cs" href="https://korczis.github.io/majordomus-reel/cs/story-completion/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://korczis.github.io/majordomus-reel/story-completion/"/>
+    <video:video>
+      <video:thumbnail_loc>https://korczis.github.io/majordomus-reel/og/story-completion.jpg</video:thumbnail_loc>
+      <video:title>Completion and quality gates: a Majordomus story</video:title>
+      <video:description>Deciding whether work is finished, with a contract every line of which passes or fails. 80 s, from the problem to the install line.</video:description>
+      <video:content_loc>https://korczis.github.io/majordomus-reel/v/story-completion-phone.mp4</video:content_loc>
+      <video:duration>80</video:duration>
+      <video:publication_date>2026-11-18T01:48:01+01:00</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://korczis.github.io/majordomus-reel/story-drift/</loc>
+    <lastmod>2026-11-18</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://korczis.github.io/majordomus-reel/story-drift/"/>
+    <xhtml:link rel="alternate" hreflang="cs" href="https://korczis.github.io/majordomus-reel/cs/story-drift/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://korczis.github.io/majordomus-reel/story-drift/"/>
+    <video:video>
+      <video:thumbnail_loc>https://korczis.github.io/majordomus-reel/og/story-drift.jpg</video:thumbnail_loc>
+      <video:title>Drift and reconciliation: a Majordomus story</video:title>
+      <video:description>Detecting that policy, projections, state and git disagree, and putting them back in step. 61 s, from the problem to the install line.</video:description>
+      <video:content_loc>https://korczis.github.io/majordomus-reel/v/story-drift-phone.mp4</video:content_loc>
+      <video:duration>61</video:duration>
+      <video:publication_date>2026-11-18T01:48:01+01:00</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://korczis.github.io/majordomus-reel/story-knowledge/</loc>
+    <lastmod>2026-11-18</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://korczis.github.io/majordomus-reel/story-knowledge/"/>
+    <xhtml:link rel="alternate" hreflang="cs" href="https://korczis.github.io/majordomus-reel/cs/story-knowledge/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://korczis.github.io/majordomus-reel/story-knowledge/"/>
+    <video:video>
+      <video:thumbnail_loc>https://korczis.github.io/majordomus-reel/og/story-knowledge.jpg</video:thumbnail_loc>
+      <video:title>Repository knowledge: a Majordomus story</video:title>
+      <video:description>What the repository declares about itself: sources, nodes, edges, the plan, and searching them. 2 min, from the problem to the install line.</video:description>
+      <video:content_loc>https://korczis.github.io/majordomus-reel/v/story-knowledge-phone.mp4</video:content_loc>
+      <video:duration>123</video:duration>
+      <video:publication_date>2026-11-18T01:48:01+01:00</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://korczis.github.io/majordomus-reel/story-mcp/</loc>
+    <lastmod>2026-11-18</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://korczis.github.io/majordomus-reel/story-mcp/"/>
+    <xhtml:link rel="alternate" hreflang="cs" href="https://korczis.github.io/majordomus-reel/cs/story-mcp/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://korczis.github.io/majordomus-reel/story-mcp/"/>
+    <video:video>
+      <video:thumbnail_loc>https://korczis.github.io/majordomus-reel/og/story-mcp.jpg</video:thumbnail_loc>
+      <video:title>Serving the layer to AI clients: a Majordomus story</video:title>
+      <video:description>One shared server per repository, every client a peer, the same layer over MCP, HTTP and the command line. 81 s, from the problem to the install line.</video:description>
+      <video:content_loc>https://korczis.github.io/majordomus-reel/v/story-mcp-phone.mp4</video:content_loc>
+      <video:duration>81</video:duration>
+      <video:publication_date>2026-11-18T01:48:01+01:00</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://korczis.github.io/majordomus-reel/story-extension/</loc>
+    <lastmod>2026-11-18</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://korczis.github.io/majordomus-reel/story-extension/"/>
+    <xhtml:link rel="alternate" hreflang="cs" href="https://korczis.github.io/majordomus-reel/cs/story-extension/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://korczis.github.io/majordomus-reel/story-extension/"/>
+    <video:video>
+      <video:thumbnail_loc>https://korczis.github.io/majordomus-reel/og/story-extension.jpg</video:thumbnail_loc>
+      <video:title>Extension: a Majordomus story</video:title>
+      <video:description>Adding a kind, a rule, a command or a use case as data, with the checks that follow from it. 40 s, from the problem to the install line.</video:description>
+      <video:content_loc>https://korczis.github.io/majordomus-reel/v/story-extension-phone.mp4</video:content_loc>
+      <video:duration>40</video:duration>
+      <video:publication_date>2026-11-18T01:48:01+01:00</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://korczis.github.io/majordomus-reel/cs/</loc>
+    <lastmod>2026-11-18</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://korczis.github.io/majordomus-reel/"/>
+    <xhtml:link rel="alternate" hreflang="cs" href="https://korczis.github.io/majordomus-reel/cs/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://korczis.github.io/majordomus-reel/"/>
+    <video:video>
+      <video:thumbnail_loc>https://korczis.github.io/majordomus-reel/og/film.cs.jpg</video:thumbnail_loc>
+      <video:title>Majordomus reel: ať váš AI agent dokáže, že je hotovo</video:title>
+      <video:description>Majordomus, dohledová vrstva pro AI agenty, kteří píší kód: 9 krátkých příběhů, jeden na každý druh práce, a celý film za 10 min, vyrenderovaný z kódu.</video:description>
+      <video:content_loc>https://korczis.github.io/majordomus-reel/v/film-desktop.cs.mp4</video:content_loc>
+      <video:duration>584</video:duration>
+      <video:publication_date>2026-11-18T02:39:47+01:00</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://korczis.github.io/majordomus-reel/cs/short/</loc>
+    <lastmod>2026-11-18</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://korczis.github.io/majordomus-reel/short/"/>
+    <xhtml:link rel="alternate" hreflang="cs" href="https://korczis.github.io/majordomus-reel/cs/short/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://korczis.github.io/majordomus-reel/short/"/>
+    <video:video>
+      <video:thumbnail_loc>https://korczis.github.io/majordomus-reel/og/short.cs.jpg</video:thumbnail_loc>
+      <video:title>Krátká verze: Majordomus za 3 min</video:title>
+      <video:description>Celý argument v kostce, pro sociální sítě. 3 min, od problému po instalační příkaz.</video:description>
+      <video:content_loc>https://korczis.github.io/majordomus-reel/v/short-phone.cs.mp4</video:content_loc>
+      <video:duration>165</video:duration>
+      <video:publication_date>2026-11-18T02:39:47+01:00</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://korczis.github.io/majordomus-reel/cs/story-adoption/</loc>
+    <lastmod>2026-11-18</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://korczis.github.io/majordomus-reel/story-adoption/"/>
+    <xhtml:link rel="alternate" hreflang="cs" href="https://korczis.github.io/majordomus-reel/cs/story-adoption/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://korczis.github.io/majordomus-reel/story-adoption/"/>
+    <video:video>
+      <video:thumbnail_loc>https://korczis.github.io/majordomus-reel/og/story-adoption.cs.jpg</video:thumbnail_loc>
+      <video:title>Začátek a zavedení: Majordomus v praxi</video:title>
+      <video:description>Jak dostat Majordomus do repozitáře, nového i starého, aniž by se ztratilo, co už lidé napsali. 38 s, od problému po instalační příkaz.</video:description>
+      <video:content_loc>https://korczis.github.io/majordomus-reel/v/story-adoption-desktop.cs.mp4</video:content_loc>
+      <video:duration>38</video:duration>
+      <video:publication_date>2026-11-18T02:39:47+01:00</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://korczis.github.io/majordomus-reel/cs/story-continuity/</loc>
+    <lastmod>2026-11-18</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://korczis.github.io/majordomus-reel/story-continuity/"/>
+    <xhtml:link rel="alternate" hreflang="cs" href="https://korczis.github.io/majordomus-reel/cs/story-continuity/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://korczis.github.io/majordomus-reel/story-continuity/"/>
+    <video:video>
+      <video:thumbnail_loc>https://korczis.github.io/majordomus-reel/og/story-continuity.cs.jpg</video:thumbnail_loc>
+      <video:title>Relace a předávání: Majordomus v praxi</video:title>
+      <video:description>Zastavení a obnovení práce napříč relacemi a pracovníky z trvalého stavu, nikdy z přepisu konverzace. 2 min, od problému po instalační příkaz.</video:description>
+      <video:content_loc>https://korczis.github.io/majordomus-reel/v/story-continuity-desktop.cs.mp4</video:content_loc>
+      <video:duration>120</video:duration>
+      <video:publication_date>2026-11-18T02:39:47+01:00</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://korczis.github.io/majordomus-reel/cs/story-workers/</loc>
+    <lastmod>2026-11-18</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://korczis.github.io/majordomus-reel/story-workers/"/>
+    <xhtml:link rel="alternate" hreflang="cs" href="https://korczis.github.io/majordomus-reel/cs/story-workers/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://korczis.github.io/majordomus-reel/story-workers/"/>
+    <video:video>
+      <video:thumbnail_loc>https://korczis.github.io/majordomus-reel/og/story-workers.cs.jpg</video:thumbnail_loc>
+      <video:title>Paralelní pracovníci: Majordomus v praxi</video:title>
+      <video:description>Více agentů nebo lidí v jednom repozitáři: nárokované rozsahy, překryvy a kdo na co sáhl. 2 min, od problému po instalační příkaz.</video:description>
+      <video:content_loc>https://korczis.github.io/majordomus-reel/v/story-workers-desktop.cs.mp4</video:content_loc>
+      <video:duration>133</video:duration>
+      <video:publication_date>2026-11-18T02:39:47+01:00</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://korczis.github.io/majordomus-reel/cs/story-policy/</loc>
+    <lastmod>2026-11-18</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://korczis.github.io/majordomus-reel/story-policy/"/>
+    <xhtml:link rel="alternate" hreflang="cs" href="https://korczis.github.io/majordomus-reel/cs/story-policy/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://korczis.github.io/majordomus-reel/story-policy/"/>
+    <video:video>
+      <video:thumbnail_loc>https://korczis.github.io/majordomus-reel/og/story-policy.cs.jpg</video:thumbnail_loc>
+      <video:title>Pravidla a jejich vynucení: Majordomus v praxi</video:title>
+      <video:description>Deklarace pravidel, důkaz, že jsou zapojená, a zopakování každého nálezu. 71 s, od problému po instalační příkaz.</video:description>
+      <video:content_loc>https://korczis.github.io/majordomus-reel/v/story-policy-phone.cs.mp4</video:content_loc>
+      <video:duration>71</video:duration>
+      <video:publication_date>2026-11-18T02:39:47+01:00</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://korczis.github.io/majordomus-reel/cs/story-completion/</loc>
+    <lastmod>2026-11-18</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://korczis.github.io/majordomus-reel/story-completion/"/>
+    <xhtml:link rel="alternate" hreflang="cs" href="https://korczis.github.io/majordomus-reel/cs/story-completion/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://korczis.github.io/majordomus-reel/story-completion/"/>
+    <video:video>
+      <video:thumbnail_loc>https://korczis.github.io/majordomus-reel/og/story-completion.cs.jpg</video:thumbnail_loc>
+      <video:title>Dokončení a kontroly kvality: Majordomus v praxi</video:title>
+      <video:description>Rozhodnutí, zda je práce hotová, podle smlouvy, jejíž každý řádek projde, nebo selže. 77 s, od problému po instalační příkaz.</video:description>
+      <video:content_loc>https://korczis.github.io/majordomus-reel/v/story-completion-phone.cs.mp4</video:content_loc>
+      <video:duration>77</video:duration>
+      <video:publication_date>2026-11-18T02:39:47+01:00</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://korczis.github.io/majordomus-reel/cs/story-drift/</loc>
+    <lastmod>2026-11-18</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://korczis.github.io/majordomus-reel/story-drift/"/>
+    <xhtml:link rel="alternate" hreflang="cs" href="https://korczis.github.io/majordomus-reel/cs/story-drift/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://korczis.github.io/majordomus-reel/story-drift/"/>
+    <video:video>
+      <video:thumbnail_loc>https://korczis.github.io/majordomus-reel/og/story-drift.cs.jpg</video:thumbnail_loc>
+      <video:title>Rozjetí a srovnání: Majordomus v praxi</video:title>
+      <video:description>Zjištění, že se politika, projekce, stav a git rozcházejí, a jejich opětovné srovnání. 58 s, od problému po instalační příkaz.</video:description>
+      <video:content_loc>https://korczis.github.io/majordomus-reel/v/story-drift-phone.cs.mp4</video:content_loc>
+      <video:duration>58</video:duration>
+      <video:publication_date>2026-11-18T02:39:47+01:00</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://korczis.github.io/majordomus-reel/cs/story-knowledge/</loc>
+    <lastmod>2026-11-18</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://korczis.github.io/majordomus-reel/story-knowledge/"/>
+    <xhtml:link rel="alternate" hreflang="cs" href="https://korczis.github.io/majordomus-reel/cs/story-knowledge/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://korczis.github.io/majordomus-reel/story-knowledge/"/>
+    <video:video>
+      <video:thumbnail_loc>https://korczis.github.io/majordomus-reel/og/story-knowledge.cs.jpg</video:thumbnail_loc>
+      <video:title>Znalosti repozitáře: Majordomus v praxi</video:title>
+      <video:description>Co repozitář deklaruje sám o sobě: zdroje, uzly, hrany, plán a hledání v nich. 2 min, od problému po instalační příkaz.</video:description>
+      <video:content_loc>https://korczis.github.io/majordomus-reel/v/story-knowledge-phone.cs.mp4</video:content_loc>
+      <video:duration>114</video:duration>
+      <video:publication_date>2026-11-18T02:39:47+01:00</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://korczis.github.io/majordomus-reel/cs/story-mcp/</loc>
+    <lastmod>2026-11-18</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://korczis.github.io/majordomus-reel/story-mcp/"/>
+    <xhtml:link rel="alternate" hreflang="cs" href="https://korczis.github.io/majordomus-reel/cs/story-mcp/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://korczis.github.io/majordomus-reel/story-mcp/"/>
+    <video:video>
+      <video:thumbnail_loc>https://korczis.github.io/majordomus-reel/og/story-mcp.cs.jpg</video:thumbnail_loc>
+      <video:title>Vrstva pro AI klienty: Majordomus v praxi</video:title>
+      <video:description>Jeden sdílený server na repozitář, každý klient je peer, táž vrstva přes MCP, HTTP i příkazovou řádku. 77 s, od problému po instalační příkaz.</video:description>
+      <video:content_loc>https://korczis.github.io/majordomus-reel/v/story-mcp-phone.cs.mp4</video:content_loc>
+      <video:duration>77</video:duration>
+      <video:publication_date>2026-11-18T02:39:47+01:00</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://korczis.github.io/majordomus-reel/cs/story-extension/</loc>
+    <lastmod>2026-11-18</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://korczis.github.io/majordomus-reel/story-extension/"/>
+    <xhtml:link rel="alternate" hreflang="cs" href="https://korczis.github.io/majordomus-reel/cs/story-extension/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://korczis.github.io/majordomus-reel/story-extension/"/>
+    <video:video>
+      <video:thumbnail_loc>https://korczis.github.io/majordomus-reel/og/story-extension.cs.jpg</video:thumbnail_loc>
+      <video:title>Rozšiřování: Majordomus v praxi</video:title>
+      <video:description>Přidání druhu, pravidla, příkazu nebo případu užití jako dat, s kontrolami, které z toho plynou. 42 s, od problému po instalační příkaz.</video:description>
+      <video:content_loc>https://korczis.github.io/majordomus-reel/v/story-extension-phone.cs.mp4</video:content_loc>
+      <video:duration>42</video:duration>
+      <video:publication_date>2026-11-18T02:39:47+01:00</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+    </video:video>
+  </url>
+</urlset>

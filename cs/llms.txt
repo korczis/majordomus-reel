@@ -1,0 +1,120 @@
+# Majordomus reel
+
+> Majordomus reel: každá verze videa ve formátech, ve kterých je vyrenderovaná, její kapitoly a případy užití, které každá kapitola ukazuje, odvozené z renderů a z vydání, v tomto jazyce. Cesty jsou relativní ke kořeni webu. Stránky, sitemap.xml a llms.txt jsou projekcemi tohoto objektu.
+
+Majordomus 1.1.0 (https://github.com/korczis/prismatic-majordomus/releases/tag/v1.1.0): 61 standardních pravidel, 44 z 44 blokujících pravidel s validátorem, 169 rozhodnutí.
+
+Strojově čitelně: https://korczis.github.io/majordomus-reel/cs/data/reel.json
+
+## Verze
+
+- [Film](https://korczis.github.io/majordomus-reel/cs/): Celý Majordomus, kapitola po kapitole. 10 min; vyrenderováno pro telefon, tablet a desktop
+- [Krátká verze](https://korczis.github.io/majordomus-reel/cs/short/): Celý argument v kostce, pro sociální sítě. 3 min; vyrenderováno pro telefon; místo verze pro tablet hraje verze pro telefon a místo verze pro desktop hraje verze pro telefon
+- [Začátek a zavedení](https://korczis.github.io/majordomus-reel/cs/story-adoption/): Jak dostat Majordomus do repozitáře, nového i starého, aniž by se ztratilo, co už lidé napsali. 38 s; vyrenderováno pro telefon a desktop; místo verze pro tablet hraje verze pro desktop
+- [Relace a předávání](https://korczis.github.io/majordomus-reel/cs/story-continuity/): Zastavení a obnovení práce napříč relacemi a pracovníky z trvalého stavu, nikdy z přepisu konverzace. 2 min; vyrenderováno pro telefon a desktop; místo verze pro tablet hraje verze pro desktop
+- [Paralelní pracovníci](https://korczis.github.io/majordomus-reel/cs/story-workers/): Více agentů nebo lidí v jednom repozitáři: nárokované rozsahy, překryvy a kdo na co sáhl. 2 min; vyrenderováno pro telefon a desktop; místo verze pro tablet hraje verze pro desktop
+- [Pravidla a jejich vynucení](https://korczis.github.io/majordomus-reel/cs/story-policy/): Deklarace pravidel, důkaz, že jsou zapojená, a zopakování každého nálezu. 71 s; vyrenderováno pro telefon; místo verze pro tablet hraje verze pro telefon a místo verze pro desktop hraje verze pro telefon
+- [Dokončení a kontroly kvality](https://korczis.github.io/majordomus-reel/cs/story-completion/): Rozhodnutí, zda je práce hotová, podle smlouvy, jejíž každý řádek projde, nebo selže. 77 s; vyrenderováno pro telefon; místo verze pro tablet hraje verze pro telefon a místo verze pro desktop hraje verze pro telefon
+- [Rozjetí a srovnání](https://korczis.github.io/majordomus-reel/cs/story-drift/): Zjištění, že se politika, projekce, stav a git rozcházejí, a jejich opětovné srovnání. 58 s; vyrenderováno pro telefon; místo verze pro tablet hraje verze pro telefon a místo verze pro desktop hraje verze pro telefon
+- [Znalosti repozitáře](https://korczis.github.io/majordomus-reel/cs/story-knowledge/): Co repozitář deklaruje sám o sobě: zdroje, uzly, hrany, plán a hledání v nich. 2 min; vyrenderováno pro telefon; místo verze pro tablet hraje verze pro telefon a místo verze pro desktop hraje verze pro telefon
+- [Vrstva pro AI klienty](https://korczis.github.io/majordomus-reel/cs/story-mcp/): Jeden sdílený server na repozitář, každý klient je peer, táž vrstva přes MCP, HTTP i příkazovou řádku. 77 s; vyrenderováno pro telefon; místo verze pro tablet hraje verze pro telefon a místo verze pro desktop hraje verze pro telefon
+- [Rozšiřování](https://korczis.github.io/majordomus-reel/cs/story-extension/): Přidání druhu, pravidla, příkazu nebo případu užití jako dat, s kontrolami, které z toho plynou. 42 s; vyrenderováno pro telefon; místo verze pro tablet hraje verze pro telefon a místo verze pro desktop hraje verze pro telefon
+
+## Případy užití podle kategorií
+
+### Začátek a zavedení
+
+Příběh: https://korczis.github.io/majordomus-reel/cs/story-adoption/
+
+- [Převzít repozitář, který už má vlastní pravidla](https://majordomus.dev/use-cases/adopt-an-existing-repository/), ve filmu v 2:00: https://korczis.github.io/majordomus-reel/cs/?t=120
+- [Nainstalovat nástroj jedním příkazem na stroji bez toolchainu](https://majordomus.dev/use-cases/install-the-tool-in-one-command/), ve filmu v 2:00: https://korczis.github.io/majordomus-reel/cs/?t=120
+- [Ověřit verzi dřív, než uvěříte diagnóze](https://majordomus.dev/use-cases/know-which-tool-is-running/)
+- [Převést repozitář ze struktury před .ai do vrstvy](https://majordomus.dev/use-cases/migrate-from-the-old-layout/)
+- [Používat nástroj jen pro sebe ve sdíleném repozitáři a navrhnout ho týmu, až se osvědčí](https://majordomus.dev/use-cases/use-the-tool-as-your-own-in-a-shared-repository/), ve filmu v 9:00: https://korczis.github.io/majordomus-reel/cs/?t=540
+
+### Relace a předávání
+
+Příběh: https://korczis.github.io/majordomus-reel/cs/story-continuity/
+
+- [Uchovat prompty, kterými práce začala, pod modelem, ne kolem něj](https://majordomus.dev/use-cases/capture-the-prompts-that-started-the-work/)
+- [Předat práci s otevřenou otázkou a nechat ji blokovat](https://majordomus.dev/use-cases/carry-a-blocker-across-a-handover/), ve filmu v 8:22: https://korczis.github.io/majordomus-reel/cs/?t=502
+- [Ukládat průběh dlouhé práce, aby zastavení stálo minuty, ne celý den](https://majordomus.dev/use-cases/checkpoint-long-work/), ve filmu v 8:22: https://korczis.github.io/majordomus-reel/cs/?t=502
+- [Předat nedokončenou práci další relaci](https://majordomus.dev/use-cases/hand-work-between-sessions/), ve filmu v 2:40: https://korczis.github.io/majordomus-reel/cs/?t=160
+- [Zaznamenat rozhodnutí tak, aby ho další pracovník našel](https://majordomus.dev/use-cases/keep-decisions-out-of-the-transcript/), ve filmu v 8:30: https://korczis.github.io/majordomus-reel/cs/?t=510
+- [Nechat relaci otevřít a zavřít, aniž by na to musel kdokoli myslet](https://majordomus.dev/use-cases/let-the-provider-draw-the-episode-boundary/)
+- [Zaznamenat, co jeden pracovník udělal během jednoho sezení](https://majordomus.dev/use-cases/open-and-close-a-session/), ve filmu v 8:46: https://korczis.github.io/majordomus-reel/cs/?t=526
+- [Číst jen kontext, který se vejde do rozpočtu, a vědět, co vypadlo](https://majordomus.dev/use-cases/read-only-the-context-that-fits/), ve filmu v 2:40: https://korczis.github.io/majordomus-reel/cs/?t=160
+- [Uzavřít epizodu, jejíž klient se už nevrátil](https://majordomus.dev/use-cases/recover-an-episode-nobody-closed/), ve filmu v 8:46: https://korczis.github.io/majordomus-reel/cs/?t=526
+- [Začít relaci z vykresleného rámce, ne z vloženého přepisu](https://majordomus.dev/use-cases/resume-from-a-prompt-asset/)
+- [Pokračovat ve správném worktree, nikdy nad cizím úkolem](https://majordomus.dev/use-cases/resume-in-the-right-worktree/), ve filmu v 6:23: https://korczis.github.io/majordomus-reel/cs/?t=383
+
+### Paralelní pracovníci
+
+Příběh: https://korczis.github.io/majordomus-reel/cs/story-workers/
+
+- [Dodávat issues ve vlnách, které spočítá graf, a vzít to další](https://majordomus.dev/use-cases/deliver-issues-in-waves/), ve filmu v 2:10: https://korczis.github.io/majordomus-reel/cs/?t=130
+- [Pustit více pracovníků do jednoho repozitáře, aniž by se srazili](https://majordomus.dev/use-cases/run-several-workers-at-once/), ve filmu v 5:25: https://korczis.github.io/majordomus-reel/cs/?t=325
+- [Pracovat na větvi v jediném worktree, kam patří](https://majordomus.dev/use-cases/work-on-a-branch-in-its-canonical-worktree/), ve filmu v 6:23: https://korczis.github.io/majordomus-reel/cs/?t=383
+
+### Pravidla a jejich vynucení
+
+Příběh: https://korczis.github.io/majordomus-reel/cs/story-policy/
+
+- [Podmínit CI samotným nástrojem, s návratovým kódem jako smlouvou](https://majordomus.dev/use-cases/gate-ci-on-the-tool-itself/), ve filmu v 0:59: https://korczis.github.io/majordomus-reel/cs/?t=59
+- [Rozdělit pracovní strom do commitů a podřídit každou zprávu politice](https://majordomus.dev/use-cases/plan-a-commit-and-judge-its-message/)
+- [Dokázat, že pravidlo je opravdu vynucené, ne jen sepsané](https://majordomus.dev/use-cases/prove-a-rule-is-enforced/), ve filmu v 0:44: https://korczis.github.io/majordomus-reel/cs/?t=44
+- [Vidět, která pravidla tu platí a co je vynucuje](https://majordomus.dev/use-cases/read-the-rules-the-tool-applies/), ve filmu v 0:44: https://korczis.github.io/majordomus-reel/cs/?t=44
+- [Věřit politice a profilům, až když jsou ověřené](https://majordomus.dev/use-cases/trust-the-policy-before-reading-it/), ve filmu v 0:59: https://korczis.github.io/majordomus-reel/cs/?t=59
+
+### Dokončení a kontroly kvality
+
+Příběh: https://korczis.github.io/majordomus-reel/cs/story-completion/
+
+- [Rozhodnout, zda je hotová práce opravdu hotová](https://majordomus.dev/use-cases/accept-or-refuse-finished-work/), ve filmu v 0:27: https://korczis.github.io/majordomus-reel/cs/?t=27
+- [Blokovat přijetí kvůli otázce, na kterou nikdo neodpověděl](https://majordomus.dev/use-cases/block-acceptance-on-an-open-question/), ve filmu v 1:45: https://korczis.github.io/majordomus-reel/cs/?t=105
+- [Přistihnout agenta, který tvrdí, že je hotovo, i když není](https://majordomus.dev/use-cases/catch-an-agent-that-says-it-is-done/), ve filmu v 0:00: https://korczis.github.io/majordomus-reel/cs/?t=0
+- [Dokončit issue, jen když existují jeho důkazy](https://majordomus.dev/use-cases/complete-an-issue-only-with-its-evidence/), ve filmu v 2:23: https://korczis.github.io/majordomus-reel/cs/?t=143
+- [Vědět, zda je práce v tomto checkoutu hotová](https://majordomus.dev/use-cases/know-whether-this-work-is-finished/), ve filmu v 0:27: https://korczis.github.io/majordomus-reel/cs/?t=27
+- [Dokázat, co úkol dlužil, než se prohlásí za hotový](https://majordomus.dev/use-cases/prove-what-a-task-owed-before-calling-it-done/), ve filmu v 0:35: https://korczis.github.io/majordomus-reel/cs/?t=35
+- [Říct, co dorazilo na remote a co ne](https://majordomus.dev/use-cases/say-what-reached-the-remote-and-what-did-not/), ve filmu v 0:35: https://korczis.github.io/majordomus-reel/cs/?t=35
+
+### Rozjetí a srovnání
+
+Příběh: https://korczis.github.io/majordomus-reel/cs/story-drift/
+
+- [Zjistit, co se rozjelo od posledního pohledu](https://majordomus.dev/use-cases/find-out-what-drifted/), ve filmu v 8:10: https://korczis.github.io/majordomus-reel/cs/?t=490
+- [Udržet každý bootstrap poskytovatele tenký, generovaný a v rozpočtu](https://majordomus.dev/use-cases/keep-the-bootstrap-thin-and-within-budget/), ve filmu v 3:05: https://korczis.github.io/majordomus-reel/cs/?t=185
+
+### Znalosti repozitáře
+
+Příběh: https://korczis.github.io/majordomus-reel/cs/story-knowledge/
+
+- [Rozhodnout jako data, co patří do AI kontextu](https://majordomus.dev/use-cases/classify-what-belongs-in-the-context/)
+- [Odmítnout adresář vrstvy, který nic nedokumentuje](https://majordomus.dev/use-cases/document-every-directory-of-the-layer/), ve filmu v 2:52: https://korczis.github.io/majordomus-reel/cs/?t=172
+- [Předat repozitář někomu, kdo ho nemůže naklonovat](https://majordomus.dev/use-cases/hand-the-repository-to-a-reader/)
+- [Uchovat, co se epizoda naučila, bez modelu a bez konverzace](https://majordomus.dev/use-cases/keep-what-an-episode-learned/), ve filmu v 8:30: https://korczis.github.io/majordomus-reel/cs/?t=510
+- [Vést plán jako milníky a issues, které nástroj umí ověřit](https://majordomus.dev/use-cases/plan-the-work-as-data/), ve filmu v 2:10: https://korczis.github.io/majordomus-reel/cs/?t=130
+- [Zpětně přečíst, co se stalo, a udržet deník v limitu](https://majordomus.dev/use-cases/read-back-what-happened/), ve filmu v 8:10: https://korczis.github.io/majordomus-reel/cs/?t=490
+- [Zaznamenat rozhodnutí jako data a dokázat, že ho nástroj nemůže přijmout za vás](https://majordomus.dev/use-cases/record-a-decision-before-it-is-forgotten/), ve filmu v 1:45: https://korczis.github.io/majordomus-reel/cs/?t=105
+- [Dohledat, kterých kontextových dokumentů se změna týká](https://majordomus.dev/use-cases/trace-a-change-to-the-context-it-affects/), ve filmu v 2:52: https://korczis.github.io/majordomus-reel/cs/?t=172
+
+### Vrstva pro AI klienty
+
+Příběh: https://korczis.github.io/majordomus-reel/cs/story-mcp/
+
+- [Najít objekt vrstvy bez čtení všeho](https://majordomus.dev/use-cases/find-an-object-without-reading-everything/), ve filmu v 4:30: https://korczis.github.io/majordomus-reel/cs/?t=270
+- [Vidět, co repozitář obsahuje, a spustit jeho schopnost bez čtení souboru](https://majordomus.dev/use-cases/see-what-the-repository-holds-without-reading-it/), ve filmu v 3:41: https://korczis.github.io/majordomus-reel/cs/?t=221
+- [Poskytnout AI vrstvu repozitáře každému AI klientovi přes jeden sdílený server](https://majordomus.dev/use-cases/serve-the-layer-to-ai-clients/), ve filmu v 3:13: https://korczis.github.io/majordomus-reel/cs/?t=193
+
+### Výkon
+
+- [Dokázat, že je nástroj rychlý, nepředpokládat to, a odmítnout regresi](https://majordomus.dev/use-cases/prove-performance-with-benchmarks/)
+
+### Rozšiřování
+
+Příběh: https://korczis.github.io/majordomus-reel/cs/story-extension/
+
+- [Přidat případ užití a nechat nástroj ho dokázat](https://majordomus.dev/use-cases/add-a-use-case-and-prove-it/)
+- [Rozšířit, co program obsluhuje, přidáním souboru, nikdy novým sestavením](https://majordomus.dev/use-cases/extend-what-the-executable-serves/), ve filmu v 3:41: https://korczis.github.io/majordomus-reel/cs/?t=221
+- [Řídit se postupem, který repozitář definuje, a přidat další](https://majordomus.dev/use-cases/follow-a-skill-the-repository-defines/)
+- [Říct jednou, k čemu vaše práce je, a nechat to říkat každé rozhraní](https://majordomus.dev/use-cases/say-what-the-tool-is-for/)

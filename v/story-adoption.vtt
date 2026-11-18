@@ -1,0 +1,53 @@
+WEBVTT
+
+1
+00:00:00.341 --> 00:00:02.368
+Getting started and adoption
+
+2
+00:00:02.398 --> 00:00:05.467
+Bringing Majordomus into a repository
+
+3
+00:00:05.575 --> 00:00:07.225
+new or old
+
+4
+00:00:07.229 --> 00:00:09.738
+without losing what people already wrote
+
+5
+00:00:10.934 --> 00:00:13.456
+Not your repository to change
+
+6
+00:00:13.499 --> 00:00:16.125
+Personal mode keeps the whole layer in
+
+7
+00:00:15.725 --> 00:00:16.685
+your clone
+
+8
+00:00:16.728 --> 00:00:19.042
+and the team's tree stays byte for byte
+
+9
+00:00:18.655 --> 00:00:19.823
+what they committed
+
+10
+00:00:21.010 --> 00:00:22.842
+Install it with one line
+
+11
+00:00:22.859 --> 00:00:25.016
+Initialise your repository
+
+12
+00:00:25.046 --> 00:00:27.009
+Then start a task with a scope
+
+13
+00:00:27.064 --> 00:00:28.584
+and let your agents work

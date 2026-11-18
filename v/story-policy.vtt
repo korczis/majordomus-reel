@@ -1,0 +1,113 @@
+WEBVTT
+
+1
+00:00:00.354 --> 00:00:02.277
+Policy and enforcement
+
+2
+00:00:02.294 --> 00:00:05.311
+Declaring rules proving they are wired
+
+3
+00:00:05.341 --> 00:00:07.108
+and reproducing a finding
+
+4
+00:00:08.294 --> 00:00:11.181
+A rule is not enforced because it is
+
+5
+00:00:10.781 --> 00:00:11.910
+written down
+
+6
+00:00:11.940 --> 00:00:14.019
+It is enforced when it is declared
+
+7
+00:00:13.854 --> 00:00:14.944
+validated
+
+8
+00:00:14.999 --> 00:00:16.662
+wired into a command
+
+9
+00:00:16.653 --> 00:00:18.082
+fails that command
+
+10
+00:00:18.137 --> 00:00:21.675
+is tested blocks CI and backs a claim
+
+11
+00:00:21.679 --> 00:00:24.188
+Anything less is documentation
+
+12
+00:00:25.378 --> 00:00:27.848
+And the repository checks itself
+
+13
+00:00:27.852 --> 00:00:31.611
+Majordomus doctor reads every rule every
+
+14
+00:00:31.211 --> 00:00:33.382
+projection and every hook
+
+15
+00:00:33.451 --> 00:00:35.088
+on every commit
+
+16
+00:00:35.156 --> 00:00:36.989
+Forty-four blocking rules
+
+17
+00:00:37.018 --> 00:00:38.655
+each with a validator
+
+18
+00:00:38.685 --> 00:00:40.205
+Zero failures
+
+19
+00:00:41.406 --> 00:00:42.834
+Two hooks hold the line
+
+20
+00:00:42.851 --> 00:00:45.100
+Every commit runs doctor
+
+21
+00:00:45.117 --> 00:00:48.030
+Every push runs the finish contract and
+
+22
+00:00:47.890 --> 00:00:50.451
+an unmet one stops the push
+
+23
+00:00:50.455 --> 00:00:53.290
+Until the first task starts both stay
+
+24
+00:00:52.903 --> 00:00:53.876
+quiet
+
+25
+00:00:55.058 --> 00:00:56.890
+Install it with one line
+
+26
+00:00:56.907 --> 00:00:59.064
+Initialise your repository
+
+27
+00:00:59.094 --> 00:01:01.057
+Then start a task with a scope
+
+28
+00:01:01.112 --> 00:01:02.632
+and let your agents work

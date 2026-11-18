@@ -1,0 +1,129 @@
+WEBVTT
+
+1
+00:00:00.328 --> 00:00:02.603
+Completion and quality gates
+
+2
+00:00:02.619 --> 00:00:05.597
+Deciding whether work is finished with a
+
+3
+00:00:05.197 --> 00:00:08.579
+contract every line of which passes or
+
+4
+00:00:08.179 --> 00:00:09.347
+fails
+
+5
+00:00:10.550 --> 00:00:12.317
+When an agent says it's finished
+
+6
+00:00:12.190 --> 00:00:15.129
+Majordomus checks the scope the state
+
+7
+00:00:15.003 --> 00:00:16.132
+and the tests
+
+8
+00:00:16.149 --> 00:00:19.361
+And when anything fails it refuses
+
+9
+00:00:20.554 --> 00:00:22.816
+And every proof leaves a record
+
+10
+00:00:22.858 --> 00:00:26.422
+The test the commit the tree the time
+
+11
+00:00:26.257 --> 00:00:27.764
+and the exact command
+
+12
+00:00:27.793 --> 00:00:29.873
+Provenance not promises
+
+13
+00:00:31.062 --> 00:00:33.272
+When a decision is uncertain
+
+14
+00:00:33.353 --> 00:00:35.238
+it is reasoned on the record
+
+15
+00:00:35.267 --> 00:00:36.566
+Evidence first
+
+16
+00:00:36.583 --> 00:00:39.261
+Advisors if any are present
+
+17
+00:00:39.265 --> 00:00:41.813
+and their answers are evidence never
+
+18
+00:00:41.413 --> 00:00:42.438
+verdicts
+
+19
+00:00:42.468 --> 00:00:44.665
+The conclusion stays for the next
+
+20
+00:00:44.278 --> 00:00:45.719
+session to read
+
+21
+00:00:46.898 --> 00:00:49.016
+No issue stores its status
+
+22
+00:00:49.007 --> 00:00:51.204
+It is derived from what happened to it
+
+23
+00:00:51.182 --> 00:00:54.016
+started verified completed
+
+24
+00:00:54.163 --> 00:00:56.608
+and the evidence each step carries
+
+25
+00:00:56.624 --> 00:00:59.329
+Done is refused while a required proof
+
+26
+00:00:59.137 --> 00:01:00.279
+is missing
+
+27
+00:01:00.296 --> 00:01:02.845
+and plan next recomputes the one issue
+
+28
+00:01:02.445 --> 00:01:03.391
+to take
+
+29
+00:01:04.582 --> 00:01:06.414
+Install it with one line
+
+30
+00:01:06.431 --> 00:01:08.588
+Initialise your repository
+
+31
+00:01:08.618 --> 00:01:10.581
+Then start a task with a scope
+
+32
+00:01:10.636 --> 00:01:12.156
+and let your agents work

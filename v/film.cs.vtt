@@ -1,0 +1,929 @@
+WEBVTT
+
+1
+00:00:06.347 --> 00:00:08.433
+V reálných repozitářích se agenti
+
+2
+00:00:08.033 --> 00:00:08.999
+rozjíždějí
+
+3
+00:00:09.610 --> 00:00:11.874
+Soubory pravidel které nemají skoro nic
+
+4
+00:00:11.474 --> 00:00:12.510
+společného
+
+5
+00:00:13.077 --> 00:00:15.624
+Sedmnáct kontrol které nikdo nespustil
+
+6
+00:00:16.238 --> 00:00:18.690
+Tři tisíce dvě stě souborů změněných
+
+7
+00:00:18.290 --> 00:00:19.102
+najednou
+
+8
+00:00:20.935 --> 00:00:22.856
+Seznamte se Majordomus
+
+9
+00:00:23.455 --> 00:00:25.931
+Dohledová vrstva pro vaše AI agenty
+
+10
+00:00:27.723 --> 00:00:29.998
+Když agent tvrdí že skončil Majordomus
+
+11
+00:00:29.598 --> 00:00:31.601
+zkontroluje rozsah stav i testy
+
+12
+00:00:32.154 --> 00:00:34.193
+A když cokoli selže odmítne
+
+13
+00:00:35.999 --> 00:00:38.132
+A každý důkaz zanechá záznam
+
+14
+00:00:38.732 --> 00:00:41.219
+Test commit strom čas a přesný příkaz
+
+15
+00:00:41.821 --> 00:00:43.224
+Důkazy ne sliby
+
+16
+00:00:45.019 --> 00:00:47.447
+Pravidlo není vynucené jen proto že je
+
+17
+00:00:47.047 --> 00:00:47.954
+sepsané
+
+18
+00:00:48.565 --> 00:00:51.147
+Vynucené je když je deklarované ověřené
+
+19
+00:00:50.794 --> 00:00:53.376
+zapojené do příkazu ten příkaz shodí je
+
+20
+00:00:53.011 --> 00:00:55.616
+otestované blokuje CI a podloží tvrzení
+
+21
+00:00:56.207 --> 00:00:58.281
+Cokoli méně je jen dokumentace
+
+22
+00:01:00.063 --> 00:01:02.231
+A repozitář kontroluje sám sebe
+
+23
+00:01:02.831 --> 00:01:04.988
+Majordomus doctor při každém commitu
+
+24
+00:01:04.588 --> 00:01:06.993
+přečte každé pravidlo každou projekci i
+
+25
+00:01:06.593 --> 00:01:07.535
+každý hook
+
+26
+00:01:08.102 --> 00:01:10.578
+Čtyřicet čtyři blokující pravidla každé
+
+27
+00:01:10.178 --> 00:01:11.297
+s validátorem
+
+28
+00:01:11.888 --> 00:01:13.054
+Nula selhání
+
+29
+00:01:14.843 --> 00:01:16.717
+Dva hooky stojí na stráži
+
+30
+00:01:17.293 --> 00:01:19.049
+Každý commit spustí doctor
+
+31
+00:01:19.675 --> 00:01:21.997
+Každý push spustí smlouvu finish a když
+
+32
+00:01:21.597 --> 00:01:23.306
+není splněná push zastaví
+
+33
+00:01:23.908 --> 00:01:26.419
+Dokud nezačne první úkol oba mlčí
+
+34
+00:01:28.231 --> 00:01:30.836
+Neprodá vám číslo které nikdy nezměřil
+
+35
+00:01:31.459 --> 00:01:33.640
+Úspora vzniká jen ze zaznamenaných
+
+36
+00:01:33.240 --> 00:01:35.373
+dvojic běhů s ním i bez něj na
+
+37
+00:01:34.973 --> 00:01:37.295
+stejném úkolu a oba musí projít
+
+38
+00:01:37.815 --> 00:01:40.255
+Běh který ušetří tokeny tím že selže
+
+39
+00:01:40.020 --> 00:01:41.069
+není úspora
+
+40
+00:01:41.695 --> 00:01:44.229
+A číslo napsané do textu je odmítnuto
+
+41
+00:01:46.059 --> 00:01:48.228
+Když je rozhodnutí nejisté zdůvodní se
+
+42
+00:01:47.828 --> 00:01:48.770
+do záznamu
+
+43
+00:01:49.358 --> 00:01:50.737
+Nejdřív důkazy
+
+44
+00:01:51.292 --> 00:01:53.649
+Pak poradci pokud nějací jsou a jejich
+
+45
+00:01:53.261 --> 00:01:55.571
+odpovědi jsou důkazy nikdy verdikty
+
+46
+00:01:56.127 --> 00:01:58.649
+Závěr zůstane aby si ho přečetla další
+
+47
+00:01:58.285 --> 00:01:59.062
+relace
+
+48
+00:02:00.863 --> 00:02:02.878
+Nainstalujte ho jedním řádkem
+
+49
+00:02:03.501 --> 00:02:05.375
+Inicializujte repozitář
+
+50
+00:02:05.978 --> 00:02:08.406
+Pak spusťte úkol s rozsahem a nechte své
+
+51
+00:02:08.018 --> 00:02:09.255
+agenty pracovat
+
+52
+00:02:10.963 --> 00:02:13.627
+Práce začíná od záměru co musí platit a
+
+53
+00:02:13.262 --> 00:02:15.207
+kritérií která to dokážou
+
+54
+00:02:15.830 --> 00:02:18.353
+Ze záměrů vznikají milníky z milníků
+
+55
+00:02:17.976 --> 00:02:20.310
+issues a plan next určí jedno issue
+
+56
+00:02:19.958 --> 00:02:21.089
+které vzít teď
+
+57
+00:02:23.963 --> 00:02:26.415
+Žádné issue si neukládá svůj stav
+
+58
+00:02:26.884 --> 00:02:28.747
+Ten se odvozuje z toho co se s
+
+59
+00:02:28.347 --> 00:02:31.235
+ním stalo zahájeno ověřeno dokončeno a z
+
+60
+00:02:30.835 --> 00:02:32.650
+důkazů které každý krok nese
+
+61
+00:02:33.241 --> 00:02:35.209
+Hotovo je odmítnuto dokud chybí
+
+62
+00:02:34.833 --> 00:02:37.402
+požadovaný důkaz a plan next přepočítá
+
+63
+00:02:37.002 --> 00:02:38.688
+to jedno issue které vzít
+
+64
+00:02:40.423 --> 00:02:42.521
+Každá relace začíná s přehledem
+
+65
+00:02:43.132 --> 00:02:45.525
+Úkol jeho rozsah další krok z posledního
+
+66
+00:02:45.125 --> 00:02:47.600
+předání kdo další pracuje a co vydání
+
+67
+00:02:47.201 --> 00:02:48.202
+ještě dluží
+
+68
+00:02:48.816 --> 00:02:50.714
+Nic není třeba znovu hledat
+
+69
+00:02:52.443 --> 00:02:53.798
+Kontext je strom
+
+70
+00:02:54.397 --> 00:02:56.755
+Každý agent čte dokumenty od kořene až k
+
+71
+00:02:56.355 --> 00:02:58.040
+cestě na které pracuje
+
+72
+00:02:58.619 --> 00:03:00.658
+Nejbližší doplňuje své předky a
+
+73
+00:03:00.282 --> 00:03:02.038
+sourozenci se nikdy nevidí
+
+74
+00:03:02.652 --> 00:03:04.302
+Nic víc a nic míň
+
+75
+00:03:06.119 --> 00:03:08.630
+Jedna politika zapíše instrukce každého
+
+76
+00:03:08.241 --> 00:03:09.054
+agenta
+
+77
+00:03:09.665 --> 00:03:12.212
+Úkoly žijí v repozitáři ne v okně chatu
+
+78
+00:03:14.035 --> 00:03:16.711
+Claude Code Codex Gemini Zed Antigravity
+
+79
+00:03:16.452 --> 00:03:19.234
+bb nebo jakýkoli klient který mluví MCP
+
+80
+00:03:19.846 --> 00:03:22.368
+Každý čte vlastní projekci téže politiky
+
+81
+00:03:24.159 --> 00:03:26.009
+Modely jsou deklarovaná data
+
+82
+00:03:26.609 --> 00:03:29.367
+Anthropic a OpenAI v cloudu Ollama a LM
+
+83
+00:03:28.967 --> 00:03:30.841
+Studio na vašem vlastním stroji
+
+84
+00:03:31.361 --> 00:03:33.577
+Směrování vybírá podle potřeby
+
+85
+00:03:34.168 --> 00:03:35.535
+Chcete jen lokální
+
+86
+00:03:36.125 --> 00:03:37.893
+Odpoví nic nevyhovuje
+
+87
+00:03:38.460 --> 00:03:39.756
+Nikdy nehádá
+
+88
+00:03:41.483 --> 00:03:43.710
+Každá operace je deklarovaná jednou
+
+89
+00:03:44.334 --> 00:03:47.965
+Příkazová řádka HTTP API nástroje MCP
+
+90
+00:03:47.718 --> 00:03:50.441
+dokument OpenAPI dokumentace i skills se
+
+91
+00:03:50.041 --> 00:03:52.517
+z ní generují a kontrola selže ve chvíli
+
+92
+00:03:52.176 --> 00:03:53.826
+kdy se jediná z nich rozejde
+
+93
+00:03:55.615 --> 00:03:57.548
+Verze se měří ne prohlašují
+
+94
+00:03:58.159 --> 00:04:00.469
+Každé vydání porovná veřejné rozhraní s
+
+95
+00:04:00.069 --> 00:04:01.083
+tím minulým
+
+96
+00:04:01.720 --> 00:04:04.090
+Co zmizelo je major co přibylo je minor
+
+97
+00:04:03.796 --> 00:04:06.201
+a kde se nic nezměnilo nic se nedluží
+
+98
+00:04:06.803 --> 00:04:08.524
+Changelog se píše sám
+
+99
+00:04:10.323 --> 00:04:12.503
+Žádný běžný příkaz nesestavuje
+
+100
+00:04:13.091 --> 00:04:15.225
+Když je program zastaralý příkaz skončí
+
+101
+00:04:14.836 --> 00:04:17.394
+kódem dvanáct a jmenuje jediné sestavení
+
+102
+00:04:17.218 --> 00:04:19.611
+které spustit nebo za něj odpoví vydání
+
+103
+00:04:19.235 --> 00:04:20.390
+stejné generace
+
+104
+00:04:20.980 --> 00:04:23.043
+Řetězec verze není sestavení
+
+105
+00:04:23.657 --> 00:04:26.062
+Hooky a brány volají sestavený nástroj
+
+106
+00:04:25.839 --> 00:04:28.137
+nikdy cargo takže push ve svých branách
+
+107
+00:04:27.737 --> 00:04:28.868
+už nekompiluje
+
+108
+00:04:30.671 --> 00:04:32.840
+Jeden sdílený server na repozitář
+
+109
+00:04:33.427 --> 00:04:35.761
+První klient ho spustí každý další se
+
+110
+00:04:35.361 --> 00:04:37.389
+připojí a každý vidí ostatní
+
+111
+00:04:37.991 --> 00:04:40.655
+Tentýž server odpovídá přes HTTP se
+
+112
+00:04:40.255 --> 00:04:41.787
+Swaggerem a Cockpitem
+
+113
+00:04:43.627 --> 00:04:45.807
+A v Cockpitu to všechno vidí člověk
+
+114
+00:04:46.313 --> 00:04:48.859
+Tentýž server tentýž registr vykreslený
+
+115
+00:04:48.482 --> 00:04:50.981
+pro lidi bez ničeho vlastního co by se
+
+116
+00:04:50.581 --> 00:04:51.642
+mohlo rozejít
+
+117
+00:04:53.627 --> 00:04:55.678
+Nasazení je deklarované jednou
+
+118
+00:04:56.301 --> 00:04:58.529
+Jmenuje svého poskytovatele a každý
+
+119
+00:04:58.140 --> 00:05:00.498
+soubor který poskytovatel čte se z něj
+
+120
+00:05:00.098 --> 00:05:00.993
+odvozuje
+
+121
+00:05:01.537 --> 00:05:04.059
+Co se dodává se skládá z jednoho commitu
+
+122
+00:05:03.919 --> 00:05:06.394
+nikdy z repozitáře vstupy program tam
+
+123
+00:05:05.994 --> 00:05:07.809
+sestavený i web tam sestavený
+
+124
+00:05:08.423 --> 00:05:10.439
+Web z jakéhokoli jiného commitu je
+
+125
+00:05:10.074 --> 00:05:10.993
+odmítnut
+
+126
+00:05:12.751 --> 00:05:15.179
+Než začnou sdílet tabuli instance se
+
+127
+00:05:14.779 --> 00:05:15.945
+navzájem najdou
+
+128
+00:05:16.557 --> 00:05:18.667
+Podepsaný maják v lokální síti
+
+129
+00:05:18.467 --> 00:05:19.940
+rendezvous hub dál venku
+
+130
+00:05:20.543 --> 00:05:22.959
+Každý je ověřen dřív než je vyslyšen a
+
+131
+00:05:22.583 --> 00:05:24.138
+žádný nenese tajemství
+
+132
+00:05:25.947 --> 00:05:28.375
+Než práce začne každý pracovník napíše
+
+133
+00:05:27.975 --> 00:05:30.462
+na tabuli co zamýšlí a cesty kterých se
+
+134
+00:05:30.062 --> 00:05:31.123
+chce dotknout
+
+135
+00:05:31.651 --> 00:05:33.101
+Nárok ne zámek
+
+136
+00:05:33.597 --> 00:05:35.919
+Překryvy se ukážou ve chvíli kdy jsou
+
+137
+00:05:35.567 --> 00:05:36.438
+napsány
+
+138
+00:05:38.231 --> 00:05:40.447
+Claude Codex a Gemini sdílejí jednu
+
+139
+00:05:40.047 --> 00:05:40.812
+tabuli
+
+140
+00:05:41.424 --> 00:05:43.368
+Když dva sáhnou po stejném souboru
+
+141
+00:05:43.192 --> 00:05:45.243
+dozvíte se to ještě před sloučením
+
+142
+00:05:47.083 --> 00:05:49.134
+Tabule říká kdo právě pracuje
+
+143
+00:05:49.721 --> 00:05:51.419
+Git říká co už vzniklo
+
+144
+00:05:51.997 --> 00:05:54.296
+Než se napíše nový modul zeptá se každé
+
+145
+00:05:53.908 --> 00:05:56.407
+větve lokální i vzdálené co si už
+
+146
+00:05:56.007 --> 00:05:57.421
+nárokuje jeho cesty
+
+147
+00:05:58.011 --> 00:06:00.381
+A číslo rozhodnutí které už nese jiná
+
+148
+00:05:59.993 --> 00:06:01.985
+větev je při commitu odmítnuto
+
+149
+00:06:03.783 --> 00:06:05.668
+Když se práce napříč stroji nesmí
+
+150
+00:06:05.292 --> 00:06:07.402
+překrývat nárokuje se výhradně
+
+151
+00:06:08.002 --> 00:06:10.725
+Druhá relace je odmítnuta a dozví se na
+
+152
+00:06:10.325 --> 00:06:11.680
+jaký nárok narazila
+
+153
+00:06:12.318 --> 00:06:14.451
+Když dva stroje vznesou nárok ve stejném
+
+154
+00:06:14.051 --> 00:06:16.833
+tepu každá instance určí stejného vítěze
+
+155
+00:06:16.645 --> 00:06:18.295
+nikdy ne poslední paket
+
+156
+00:06:18.792 --> 00:06:21.185
+Držitel který přestane tepat svůj nárok
+
+157
+00:06:20.785 --> 00:06:21.609
+ztratí
+
+158
+00:06:23.435 --> 00:06:25.627
+Paralelní práce potřebuje paralelní
+
+159
+00:06:25.239 --> 00:06:25.993
+stromy
+
+160
+00:06:26.604 --> 00:06:28.820
+Každá větev má právě jeden worktree
+
+161
+00:06:28.444 --> 00:06:30.801
+odvozený z gitu primární checkout drží
+
+162
+00:06:30.413 --> 00:06:32.853
+hlavní větev každá další žije vedle něj
+
+163
+00:06:33.432 --> 00:06:35.683
+Commit ze špatného místa je odmítnut
+
+164
+00:06:37.447 --> 00:06:39.203
+Práce putuje přes pozice
+
+165
+00:06:39.779 --> 00:06:42.077
+Jedna pozice slučuje zelenou práci do
+
+166
+00:06:41.677 --> 00:06:42.938
+společného vrcholu
+
+167
+00:06:43.552 --> 00:06:45.827
+Druhá vydává kdykoli je master před
+
+168
+00:06:45.427 --> 00:06:46.665
+posledním tagem
+
+169
+00:06:47.279 --> 00:06:49.813
+Opravné dráhy dotahují zastaralé větve a
+
+170
+00:06:49.472 --> 00:06:51.476
+každý pracovník drží jedno issue
+
+171
+00:06:52.090 --> 00:06:54.613
+Pozice je nárok a tak se uvolní jakmile
+
+172
+00:06:54.213 --> 00:06:55.957
+její držitel přestane tepat
+
+173
+00:06:57.675 --> 00:06:59.844
+Pull requesty se slučují jako vlak
+
+174
+00:07:00.361 --> 00:07:02.624
+Každý článek je naskládaný na tom pod
+
+175
+00:07:02.224 --> 00:07:04.204
+ním a kontroly všech článků běží
+
+176
+00:07:03.816 --> 00:07:04.723
+současně
+
+177
+00:07:05.325 --> 00:07:07.223
+Jeden běh zaplatí za několik
+
+178
+00:07:07.731 --> 00:07:10.159
+Článek se sloučí až po tom který jmenuje
+
+179
+00:07:09.912 --> 00:07:12.435
+a o bezpečí rozhoduje git nikdy vrstvení
+
+180
+00:07:14.255 --> 00:07:16.435
+Mesh pokrývá každý stroj na kterém
+
+181
+00:07:16.035 --> 00:07:16.942
+pracujete
+
+182
+00:07:17.530 --> 00:07:18.638
+Desktop doma
+
+183
+00:07:19.240 --> 00:07:21.515
+Rack v datacentru za TLS hubem
+
+184
+00:07:22.141 --> 00:07:24.357
+Celou flotilu napříč firmou v privátní
+
+185
+00:07:23.981 --> 00:07:24.746
+síti
+
+186
+00:07:26.515 --> 00:07:28.672
+Každé sestavení jde přes cache v mesh
+
+187
+00:07:29.271 --> 00:07:31.558
+Co jeden stroj zkompiloval další znovu
+
+188
+00:07:31.158 --> 00:07:33.516
+použije a nikdo nenastavuje žádnou
+
+189
+00:07:33.127 --> 00:07:33.987
+proměnnou
+
+190
+00:07:34.613 --> 00:07:36.947
+Když úložiště nejede sestavení zůstane
+
+191
+00:07:36.547 --> 00:07:38.091
+lokální a řekne proč
+
+192
+00:07:38.741 --> 00:07:41.322
+Skript který cache obchází odmítne brána
+
+193
+00:07:43.167 --> 00:07:45.312
+Každá zpráva je podepsaná vlastním
+
+194
+00:07:44.912 --> 00:07:45.984
+klíčem stroje
+
+195
+00:07:46.560 --> 00:07:48.906
+Nikomu se nevěří dokud ho neuvedete na
+
+196
+00:07:48.506 --> 00:07:49.307
+seznam
+
+197
+00:07:49.921 --> 00:07:52.467
+Veřejná adresa jen přes HTTPS
+
+198
+00:07:53.105 --> 00:07:55.628
+A nic co peer pošle se nikdy nespustí
+
+199
+00:07:57.467 --> 00:07:59.305
+Relace spolu mluví přes mesh
+
+200
+00:07:59.881 --> 00:08:02.416
+Jedna požádá o revizi jiná ji z jiného
+
+201
+00:08:02.016 --> 00:08:03.159
+stroje zodpoví
+
+202
+00:08:03.796 --> 00:08:06.236
+Předání zveřejněné dnes večer se zítra
+
+203
+00:08:05.837 --> 00:08:08.182
+převezme ať práce pokračuje kdekoli
+
+204
+00:08:10.467 --> 00:08:13.013
+Jeden proud sleduje každou relaci nárok
+
+205
+00:08:12.695 --> 00:08:14.864
+předání i revizi na každém propojeném
+
+206
+00:08:14.464 --> 00:08:17.022
+stroji a vedle nich sloučení a běhy na
+
+207
+00:08:16.622 --> 00:08:17.423
+GitHubu
+
+208
+00:08:18.011 --> 00:08:20.227
+Co se týká vás jde první a šum
+
+209
+00:08:19.827 --> 00:08:20.663
+se sbalí
+
+210
+00:08:22.511 --> 00:08:24.172
+Večer zavřete notebook
+
+211
+00:08:24.689 --> 00:08:27.177
+Zítra libovolný agent převezme předání
+
+212
+00:08:26.789 --> 00:08:28.698
+přesně tam kde práce skončila
+
+213
+00:08:30.547 --> 00:08:32.916
+A co se relace naučí ji také přežije
+
+214
+00:08:33.492 --> 00:08:36.121
+Rozhodnutí se stávají záznamy zatím sto
+
+215
+00:08:35.721 --> 00:08:37.677
+šedesát devět architektonických
+
+216
+00:08:37.301 --> 00:08:38.314
+rozhodnutí
+
+217
+00:08:38.940 --> 00:08:41.250
+Znalosti se odvozují na konci každé
+
+218
+00:08:40.850 --> 00:08:43.691
+relace bez modelu a člověk povýší to co
+
+219
+00:08:43.292 --> 00:08:44.706
+si zaslouží zůstat
+
+220
+00:08:46.407 --> 00:08:48.175
+Co je vaše zůstane vaše
+
+221
+00:08:48.751 --> 00:08:50.837
+Stav relací žije v lokální polovině
+
+222
+00:08:50.437 --> 00:08:52.228
+vrstvy kterou git ignoruje
+
+223
+00:08:52.819 --> 00:08:55.719
+Předání checkpointy a otevřené relace se
+
+224
+00:08:55.319 --> 00:08:57.405
+zapisují tak že je čte jen jejich
+
+225
+00:08:57.005 --> 00:08:58.997
+vlastník a nic z toho se nikdy
+
+226
+00:08:58.597 --> 00:08:59.469
+necommitne
+
+227
+00:09:01.283 --> 00:09:02.921
+Není to váš repozitář
+
+228
+00:09:03.497 --> 00:09:05.807
+Osobní režim drží celou vrstvu ve vašem
+
+229
+00:09:05.407 --> 00:09:07.659
+klonu a strom týmu zůstane bajt po bajtu
+
+230
+00:09:07.259 --> 00:09:09.015
+takový jak ho commitnul
+
+231
+00:09:11.283 --> 00:09:13.864
+Běží na vašem stroji nikdy nevolá model
+
+232
+00:09:13.476 --> 00:09:15.409
+a funguje s jakýmkoli agentem

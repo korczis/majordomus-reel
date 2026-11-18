@@ -1,0 +1,2566 @@
+{
+  "about": "Majordomus reel: každá verze videa ve formátech, ve kterých je vyrenderovaná, její kapitoly a případy užití, které každá kapitola ukazuje, odvozené z renderů a z vydání, v tomto jazyce. Cesty jsou relativní ke kořeni webu. Stránky, sitemap.xml a llms.txt jsou projekcemi tohoto objektu.",
+  "site": "https://korczis.github.io/majordomus-reel/",
+  "source": "https://github.com/korczis/majordomus-reel",
+  "lang": "cs",
+  "locale": "cs-CZ",
+  "languages": [
+    {
+      "id": "en",
+      "locale": "en-US",
+      "name": "English",
+      "home": "",
+      "data": "data/reel.json",
+      "llms": "llms.txt"
+    },
+    {
+      "id": "cs",
+      "locale": "cs-CZ",
+      "name": "Čeština",
+      "home": "cs/",
+      "data": "cs/data/reel.json",
+      "llms": "cs/llms.txt"
+    }
+  ],
+  "release": {
+    "version": "1.1.0",
+    "tag": "v1.1.0",
+    "commit": "ae13be1bd138be3139b4fd9a1a11de8c6b2f7c88",
+    "url": "https://github.com/korczis/prismatic-majordomus/releases/tag/v1.1.0",
+    "label": "1.1.0",
+    "pending": false,
+    "rules": 61,
+    "rules_validated": 51,
+    "blocking": 44,
+    "blocking_validated": 44,
+    "decisions": 169
+  },
+  "formats": [
+    {
+      "id": "phone",
+      "label": "Telefon",
+      "width": 1080,
+      "height": 1920,
+      "media": "(max-aspect-ratio: 4/5)",
+      "detail": 0
+    },
+    {
+      "id": "tablet",
+      "label": "Tablet",
+      "width": 1440,
+      "height": 1080,
+      "media": "(min-aspect-ratio: 4/5) and (max-aspect-ratio: 3/2)",
+      "detail": 1
+    },
+    {
+      "id": "desktop",
+      "label": "Desktop",
+      "width": 1920,
+      "height": 1080,
+      "media": "(min-aspect-ratio: 3/2)",
+      "detail": 2
+    }
+  ],
+  "cuts": [
+    {
+      "id": "film",
+      "kind": "film",
+      "title": "Film",
+      "summary": "Celý Majordomus, kapitola po kapitole.",
+      "duration": 584.4,
+      "path": "",
+      "page": "cs/",
+      "published": "2026-11-18T02:39:47+01:00",
+      "lang": "cs",
+      "chapters": [
+        {
+          "id": "hook",
+          "t": 0,
+          "title": "Manifest",
+          "act": "PROBLÉM",
+          "use_cases": [
+            "catch-an-agent-that-says-it-is-done"
+          ],
+          "narration": "Váš AI agent tvrdí, že práce je hotová… Opravdu?"
+        },
+        {
+          "id": "stats",
+          "t": 6,
+          "title": "Agenti se rozjíždějí",
+          "act": "PROBLÉM",
+          "use_cases": [],
+          "narration": "V reálných repozitářích se agenti rozjíždějí. Soubory pravidel, které nemají skoro nic společného. Sedmnáct kontrol, které nikdo nespustil. Tři tisíce dvě stě souborů, změněných najednou."
+        },
+        {
+          "id": "reveal",
+          "t": 20,
+          "title": "Seznamte se: Majordomus",
+          "act": "SMLOUVA",
+          "use_cases": [],
+          "narration": "Seznamte se: Majordomus. Dohledová vrstva pro vaše AI agenty."
+        },
+        {
+          "id": "terminal",
+          "t": 27,
+          "title": "Hotovo je smlouva",
+          "act": "SMLOUVA",
+          "use_cases": [
+            "catch-an-agent-that-says-it-is-done",
+            "accept-or-refuse-finished-work",
+            "know-whether-this-work-is-finished"
+          ],
+          "narration": "Když agent tvrdí, že skončil, Majordomus zkontroluje rozsah, stav i testy. A když cokoli selže, odmítne."
+        },
+        {
+          "id": "provenance",
+          "t": 35,
+          "title": "Důkazy, ne sliby",
+          "act": "SMLOUVA",
+          "use_cases": [
+            "prove-what-a-task-owed-before-calling-it-done",
+            "say-what-reached-the-remote-and-what-did-not"
+          ],
+          "narration": "A každý důkaz zanechá záznam. Test, commit, strom, čas a přesný příkaz. Důkazy, ne sliby."
+        },
+        {
+          "id": "doctrine",
+          "t": 44,
+          "title": "Sepsané není vynucené",
+          "act": "SMLOUVA",
+          "use_cases": [
+            "prove-a-rule-is-enforced",
+            "read-the-rules-the-tool-applies"
+          ],
+          "narration": "Pravidlo není vynucené jen proto, že je sepsané. Vynucené je, když je deklarované, ověřené, zapojené do příkazu, ten příkaz shodí, je otestované, blokuje CI a podloží tvrzení. Cokoli méně je jen dokumentace."
+        },
+        {
+          "id": "doctor",
+          "t": 59,
+          "title": "Repozitář kontroluje sám sebe",
+          "act": "SMLOUVA",
+          "use_cases": [
+            "gate-ci-on-the-tool-itself",
+            "trust-the-policy-before-reading-it"
+          ],
+          "narration": "A repozitář kontroluje sám sebe. Majordomus doctor při každém commitu přečte každé pravidlo, každou projekci i každý hook. Čtyřicet čtyři blokující pravidla, každé s validátorem. Nula selhání."
+        },
+        {
+          "id": "hooks",
+          "t": 74,
+          "title": "Dva hooky na stráži",
+          "act": "SMLOUVA",
+          "use_cases": [
+            "prove-a-rule-is-enforced",
+            "gate-ci-on-the-tool-itself"
+          ],
+          "narration": "Dva hooky stojí na stráži. Každý commit spustí doctor. Každý push spustí smlouvu finish, a když není splněná, push zastaví. Dokud nezačne první úkol, oba mlčí."
+        },
+        {
+          "id": "economics",
+          "t": 87,
+          "title": "Čísla změřená, nebo žádná",
+          "act": "SMLOUVA",
+          "use_cases": [],
+          "narration": "Neprodá vám číslo, které nikdy nezměřil. Úspora vzniká jen ze zaznamenaných dvojic běhů, s ním i bez něj, na stejném úkolu, a oba musí projít. Běh, který ušetří tokeny tím, že selže, není úspora. A číslo napsané do textu je odmítnuto."
+        },
+        {
+          "id": "reasoning",
+          "t": 105,
+          "title": "Nejistota, zdůvodněná v záznamu",
+          "act": "SMLOUVA",
+          "use_cases": [
+            "block-acceptance-on-an-open-question",
+            "record-a-decision-before-it-is-forgotten"
+          ],
+          "narration": "Když je rozhodnutí nejisté, zdůvodní se do záznamu. Nejdřív důkazy. Pak poradci, pokud nějací jsou, a jejich odpovědi jsou důkazy, nikdy verdikty. Závěr zůstane, aby si ho přečetla další relace."
+        },
+        {
+          "id": "setup",
+          "t": 120,
+          "title": "Tři příkazy",
+          "act": "POSTUP",
+          "use_cases": [
+            "install-the-tool-in-one-command",
+            "adopt-an-existing-repository"
+          ],
+          "narration": "Nainstalujte ho jedním řádkem. Inicializujte repozitář. Pak spusťte úkol s rozsahem a nechte své agenty pracovat."
+        },
+        {
+          "id": "intent",
+          "t": 130,
+          "title": "Práce začíná záměrem",
+          "act": "POSTUP",
+          "use_cases": [
+            "plan-the-work-as-data",
+            "deliver-issues-in-waves"
+          ],
+          "narration": "Práce začíná od záměru: co musí platit, a kritérií, která to dokážou. Ze záměrů vznikají milníky, z milníků issues, a plan next určí jedno issue, které vzít teď."
+        },
+        {
+          "id": "plan",
+          "t": 143,
+          "title": "Stav, odvozený",
+          "act": "POSTUP",
+          "use_cases": [
+            "complete-an-issue-only-with-its-evidence",
+            "plan-the-work-as-data"
+          ],
+          "narration": "Žádné issue si neukládá svůj stav. Ten se odvozuje z toho, co se s ním stalo: zahájeno, ověřeno, dokončeno, a z důkazů, které každý krok nese. Hotovo je odmítnuto, dokud chybí požadovaný důkaz, a plan next přepočítá to jedno issue, které vzít."
+        },
+        {
+          "id": "session",
+          "t": 160,
+          "title": "Každá relace začíná s přehledem",
+          "act": "POSTUP",
+          "use_cases": [
+            "hand-work-between-sessions",
+            "read-only-the-context-that-fits"
+          ],
+          "narration": "Každá relace začíná s přehledem. Úkol, jeho rozsah, další krok z posledního předání, kdo další pracuje a co vydání ještě dluží. Nic není třeba znovu hledat."
+        },
+        {
+          "id": "context",
+          "t": 172,
+          "title": "Hierarchický kontext",
+          "act": "POSTUP",
+          "use_cases": [
+            "read-only-the-context-that-fits",
+            "trace-a-change-to-the-context-it-affects",
+            "document-every-directory-of-the-layer"
+          ],
+          "narration": "Kontext je strom. Každý agent čte dokumenty od kořene až k cestě, na které pracuje. Nejbližší doplňuje své předky a sourozenci se nikdy nevidí. Nic víc a nic míň."
+        },
+        {
+          "id": "policy",
+          "t": 185,
+          "title": "Pravidla, sepsaná jednou",
+          "act": "POSTUP",
+          "use_cases": [
+            "keep-the-bootstrap-thin-and-within-budget"
+          ],
+          "narration": "Jedna politika zapíše instrukce každého agenta. Úkoly žijí v repozitáři, ne v okně chatu."
+        },
+        {
+          "id": "providers",
+          "t": 193,
+          "title": "Každý klient, jedna politika",
+          "act": "POSTUP",
+          "use_cases": [
+            "serve-the-layer-to-ai-clients",
+            "keep-the-bootstrap-thin-and-within-budget"
+          ],
+          "narration": "Claude Code, Codex, Gemini, Zed, Antigravity, bb nebo jakýkoli klient, který mluví MCP. Každý čte vlastní projekci téže politiky."
+        },
+        {
+          "id": "models",
+          "t": 203,
+          "title": "Modely, deklarované",
+          "act": "POSTUP",
+          "use_cases": [],
+          "narration": "Modely jsou deklarovaná data. Anthropic a OpenAI v cloudu, Ollama a LM Studio na vašem vlastním stroji. Směrování vybírá podle potřeby. Chcete jen lokální? Odpoví: nic nevyhovuje. Nikdy nehádá."
+        },
+        {
+          "id": "generate",
+          "t": 221,
+          "title": "Deklarováno jednou, promítnuto všude",
+          "act": "PLATFORMA",
+          "use_cases": [
+            "extend-what-the-executable-serves",
+            "see-what-the-repository-holds-without-reading-it"
+          ],
+          "narration": "Každá operace je deklarovaná jednou. Příkazová řádka, HTTP API, nástroje MCP, dokument OpenAPI, dokumentace i skills se z ní generují, a kontrola selže ve chvíli, kdy se jediná z nich rozejde."
+        },
+        {
+          "id": "release",
+          "t": 235,
+          "title": "Verze, změřené",
+          "act": "PLATFORMA",
+          "use_cases": [],
+          "narration": "Verze se měří, ne prohlašují. Každé vydání porovná veřejné rozhraní s tím minulým. Co zmizelo, je major, co přibylo, je minor, a kde se nic nezměnilo, nic se nedluží. Changelog se píše sám."
+        },
+        {
+          "id": "builds",
+          "t": 249,
+          "title": "Staví jen výslovné sestavení",
+          "act": "PLATFORMA",
+          "use_cases": [],
+          "narration": "Žádný běžný příkaz nesestavuje. Když je program zastaralý, příkaz skončí kódem dvanáct a jmenuje jediné sestavení, které spustit, nebo za něj odpoví vydání stejné generace. Řetězec verze není sestavení. Hooky a brány volají sestavený nástroj, nikdy cargo, takže push ve svých branách už nekompiluje."
+        },
+        {
+          "id": "mcp",
+          "t": 270,
+          "title": "Jeden sdílený MCP server",
+          "act": "PLATFORMA",
+          "use_cases": [
+            "serve-the-layer-to-ai-clients",
+            "find-an-object-without-reading-everything"
+          ],
+          "narration": "Jeden sdílený server na repozitář. První klient ho spustí, každý další se připojí a každý vidí ostatní. Tentýž server odpovídá přes HTTP, se Swaggerem a Cockpitem."
+        },
+        {
+          "id": "cockpit",
+          "t": 283,
+          "title": "Cockpit",
+          "act": "PLATFORMA",
+          "use_cases": [
+            "see-what-the-repository-holds-without-reading-it"
+          ],
+          "narration": "A v Cockpitu to všechno vidí člověk. Tentýž server, tentýž registr, vykreslený pro lidi, bez ničeho vlastního, co by se mohlo rozejít."
+        },
+        {
+          "id": "deploy",
+          "t": 293,
+          "title": "Nasazeno z jednoho commitu",
+          "act": "PLATFORMA",
+          "use_cases": [],
+          "narration": "Nasazení je deklarované jednou. Jmenuje svého poskytovatele a každý soubor, který poskytovatel čte, se z něj odvozuje. Co se dodává, se skládá z jednoho commitu, nikdy z repozitáře: vstupy, program tam sestavený i web tam sestavený. Web z jakéhokoli jiného commitu je odmítnut."
+        },
+        {
+          "id": "discovery",
+          "t": 312,
+          "title": "Hledání peerů",
+          "act": "MESH",
+          "use_cases": [],
+          "narration": "Než začnou sdílet tabuli, instance se navzájem najdou. Podepsaný maják v lokální síti, rendezvous hub dál venku. Každý je ověřen dřív, než je vyslyšen, a žádný nenese tajemství."
+        },
+        {
+          "id": "blackboard",
+          "t": 325,
+          "title": "Tabule",
+          "act": "MESH",
+          "use_cases": [
+            "run-several-workers-at-once"
+          ],
+          "narration": "Než práce začne, každý pracovník napíše na tabuli, co zamýšlí, a cesty, kterých se chce dotknout. Nárok, ne zámek. Překryvy se ukážou ve chvíli, kdy jsou napsány."
+        },
+        {
+          "id": "mesh",
+          "t": 337,
+          "title": "Jedna tabule, každý agent",
+          "act": "MESH",
+          "use_cases": [
+            "run-several-workers-at-once"
+          ],
+          "narration": "Claude, Codex a Gemini sdílejí jednu tabuli. Když dva sáhnou po stejném souboru, dozvíte se to ještě před sloučením."
+        },
+        {
+          "id": "collision",
+          "t": 346,
+          "title": "Ověřeno dřív, než vznikne",
+          "act": "MESH",
+          "use_cases": [
+            "run-several-workers-at-once"
+          ],
+          "narration": "Tabule říká, kdo právě pracuje. Git říká, co už vzniklo. Než se napíše nový modul, zeptá se každé větve, lokální i vzdálené, co si už nárokuje jeho cesty. A číslo rozhodnutí, které už nese jiná větev, je při commitu odmítnuto."
+        },
+        {
+          "id": "claims",
+          "t": 363,
+          "title": "Jeden nárok, jeden vítěz",
+          "act": "MESH",
+          "use_cases": [
+            "run-several-workers-at-once"
+          ],
+          "narration": "Když se práce napříč stroji nesmí překrývat, nárokuje se výhradně. Druhá relace je odmítnuta a dozví se, na jaký nárok narazila. Když dva stroje vznesou nárok ve stejném tepu, každá instance určí stejného vítěze, nikdy ne poslední paket. Držitel, který přestane tepat, svůj nárok ztratí."
+        },
+        {
+          "id": "worktrees",
+          "t": 383,
+          "title": "Jedna větev, jeden worktree",
+          "act": "MESH",
+          "use_cases": [
+            "work-on-a-branch-in-its-canonical-worktree",
+            "resume-in-the-right-worktree"
+          ],
+          "narration": "Paralelní práce potřebuje paralelní stromy. Každá větev má právě jeden worktree, odvozený z gitu: primární checkout drží hlavní větev, každá další žije vedle něj. Commit ze špatného místa je odmítnut."
+        },
+        {
+          "id": "seats",
+          "t": 397,
+          "title": "Práce putuje přes pozice",
+          "act": "MESH",
+          "use_cases": [
+            "deliver-issues-in-waves"
+          ],
+          "narration": "Práce putuje přes pozice. Jedna pozice slučuje zelenou práci do společného vrcholu. Druhá vydává, kdykoli je master před posledním tagem. Opravné dráhy dotahují zastaralé větve a každý pracovník drží jedno issue. Pozice je nárok, a tak se uvolní, jakmile její držitel přestane tepat."
+        },
+        {
+          "id": "trains",
+          "t": 417,
+          "title": "Mnoho pull requestů, jeden běh",
+          "act": "MESH",
+          "use_cases": [],
+          "narration": "Pull requesty se slučují jako vlak. Každý článek je naskládaný na tom pod ním a kontroly všech článků běží současně. Jeden běh zaplatí za několik. Článek se sloučí až po tom, který jmenuje, a o bezpečí rozhoduje git, nikdy vrstvení."
+        },
+        {
+          "id": "machines",
+          "t": 433,
+          "title": "Domov, datacentrum, firma",
+          "act": "MESH",
+          "use_cases": [],
+          "narration": "Mesh pokrývá každý stroj, na kterém pracujete. Desktop doma. Rack v datacentru, za TLS hubem. Celou flotilu napříč firmou, v privátní síti."
+        },
+        {
+          "id": "cache",
+          "t": 446,
+          "title": "Sestaveno jednou, použito všude",
+          "act": "MESH",
+          "use_cases": [],
+          "narration": "Každé sestavení jde přes cache v mesh. Co jeden stroj zkompiloval, další znovu použije, a nikdo nenastavuje žádnou proměnnou. Když úložiště nejede, sestavení zůstane lokální a řekne proč. Skript, který cache obchází, odmítne brána."
+        },
+        {
+          "id": "security",
+          "t": 462,
+          "title": "Podepsané, uvedené, netečné",
+          "act": "MESH",
+          "use_cases": [],
+          "narration": "Každá zpráva je podepsaná vlastním klíčem stroje. Nikomu se nevěří, dokud ho neuvedete na seznam. Veřejná adresa jen přes HTTPS. A nic, co peer pošle, se nikdy nespustí."
+        },
+        {
+          "id": "crosstalk",
+          "t": 477,
+          "title": "Relace spolu mluví",
+          "act": "MESH",
+          "use_cases": [
+            "hand-work-between-sessions"
+          ],
+          "narration": "Relace spolu mluví přes mesh. Jedna požádá o revizi, jiná ji z jiného stroje zodpoví. Předání zveřejněné dnes večer se zítra převezme, ať práce pokračuje kdekoli."
+        },
+        {
+          "id": "monitor",
+          "t": 490,
+          "title": "Jeden proud",
+          "act": "MESH",
+          "use_cases": [
+            "read-back-what-happened",
+            "find-out-what-drifted"
+          ],
+          "narration": "Jeden proud sleduje každou relaci, nárok, předání i revizi na každém propojeném stroji, a vedle nich sloučení a běhy na GitHubu. Co se týká vás, jde první, a šum se sbalí."
+        },
+        {
+          "id": "continuity",
+          "t": 502,
+          "title": "Práce, která přežije chat",
+          "act": "PAMĚŤ",
+          "use_cases": [
+            "hand-work-between-sessions",
+            "checkpoint-long-work",
+            "carry-a-blocker-across-a-handover"
+          ],
+          "narration": "Večer zavřete notebook. Zítra libovolný agent převezme předání přesně tam, kde práce skončila."
+        },
+        {
+          "id": "knowledge",
+          "t": 510,
+          "title": "Co se naučí, zůstane",
+          "act": "PAMĚŤ",
+          "use_cases": [
+            "keep-what-an-episode-learned",
+            "record-a-decision-before-it-is-forgotten",
+            "keep-decisions-out-of-the-transcript"
+          ],
+          "narration": "A co se relace naučí, ji také přežije. Rozhodnutí se stávají záznamy: zatím sto šedesát devět architektonických rozhodnutí. Znalosti se odvozují na konci každé relace, bez modelu, a člověk povýší to, co si zaslouží zůstat."
+        },
+        {
+          "id": "privacy",
+          "t": 526,
+          "title": "Co je vaše, zůstane vaše",
+          "act": "PAMĚŤ",
+          "use_cases": [
+            "open-and-close-a-session",
+            "recover-an-episode-nobody-closed"
+          ],
+          "narration": "Co je vaše, zůstane vaše. Stav relací žije v lokální polovině vrstvy, kterou git ignoruje. Předání, checkpointy a otevřené relace se zapisují tak, že je čte jen jejich vlastník, a nic z toho se nikdy necommitne."
+        },
+        {
+          "id": "personal",
+          "t": 540,
+          "title": "Osobní režim",
+          "act": "PAMĚŤ",
+          "use_cases": [
+            "use-the-tool-as-your-own-in-a-shared-repository"
+          ],
+          "narration": "Není to váš repozitář? Osobní režim drží celou vrstvu ve vašem klonu a strom týmu zůstane bajt po bajtu takový, jak ho commitnul."
+        },
+        {
+          "id": "local",
+          "t": 550,
+          "title": "Zcela vaše",
+          "act": "PAMĚŤ",
+          "use_cases": [],
+          "narration": "Běží na vašem stroji, nikdy nevolá model a funguje s jakýmkoli agentem."
+        },
+        {
+          "id": "beliefs",
+          "t": 556,
+          "title": "Manifest, č. 02",
+          "act": "MANIFEST",
+          "use_cases": [],
+          "narration": "Věříme, že hotovo je smlouva, ne pocit. Že agenti mají dokazovat, ne slibovat. Že repozitář si pamatuje, co chat zapomene… AI agenti byli skokem vpřed. Důvěra je ten další."
+        },
+        {
+          "id": "cta",
+          "t": 572,
+          "title": "Ať to dokážou",
+          "act": "MANIFEST",
+          "use_cases": [],
+          "narration": "Vaši agenti tvrdí, že je hotovo. Majordomus je donutí to dokázat. Majordomus tečka dev."
+        }
+      ],
+      "captions": "v/film.cs.vtt",
+      "og": "og/film.cs.jpg",
+      "og_from": "desktop",
+      "formats": {
+        "phone": {
+          "video": "v/film-phone.cs.mp4",
+          "poster": "v/film-phone.cs.jpg",
+          "poster_t": 26.78,
+          "width": 720,
+          "height": 1280,
+          "bytes": 32222106
+        },
+        "tablet": {
+          "video": "v/film-tablet.cs.mp4",
+          "poster": "v/film-tablet.cs.jpg",
+          "poster_t": 4.5,
+          "width": 1440,
+          "height": 1080,
+          "bytes": 46907076
+        },
+        "desktop": {
+          "video": "v/film-desktop.cs.mp4",
+          "poster": "v/film-desktop.cs.jpg",
+          "poster_t": 4.5,
+          "width": 1920,
+          "height": 1080,
+          "bytes": 56041151
+        }
+      },
+      "fallback": {}
+    },
+    {
+      "id": "short",
+      "kind": "short",
+      "title": "Krátká verze",
+      "summary": "Celý argument v kostce, pro sociální sítě.",
+      "duration": 165.2,
+      "path": "short/",
+      "page": "cs/short/",
+      "published": "2026-11-18T02:39:47+01:00",
+      "lang": "cs",
+      "chapters": [
+        {
+          "id": "hook",
+          "t": 0,
+          "title": "Manifest",
+          "act": "PROBLÉM",
+          "use_cases": [
+            "catch-an-agent-that-says-it-is-done"
+          ],
+          "narration": "Váš AI agent tvrdí, že práce je hotová… Opravdu?"
+        },
+        {
+          "id": "stats",
+          "t": 6,
+          "title": "Agenti se rozjíždějí",
+          "act": "PROBLÉM",
+          "use_cases": [],
+          "narration": "V reálných repozitářích se agenti rozjíždějí. Soubory pravidel, které nemají skoro nic společného. Sedmnáct kontrol, které nikdo nespustil. Tři tisíce dvě stě souborů, změněných najednou."
+        },
+        {
+          "id": "reveal",
+          "t": 20,
+          "title": "Seznamte se: Majordomus",
+          "act": "SMLOUVA",
+          "use_cases": [],
+          "narration": "Seznamte se: Majordomus. Dohledová vrstva pro vaše AI agenty."
+        },
+        {
+          "id": "terminal",
+          "t": 27,
+          "title": "Hotovo je smlouva",
+          "act": "SMLOUVA",
+          "use_cases": [
+            "catch-an-agent-that-says-it-is-done",
+            "accept-or-refuse-finished-work",
+            "know-whether-this-work-is-finished"
+          ],
+          "narration": "Když agent tvrdí, že skončil, Majordomus zkontroluje rozsah, stav i testy. A když cokoli selže, odmítne."
+        },
+        {
+          "id": "provenance",
+          "t": 35,
+          "title": "Důkazy, ne sliby",
+          "act": "SMLOUVA",
+          "use_cases": [
+            "prove-what-a-task-owed-before-calling-it-done",
+            "say-what-reached-the-remote-and-what-did-not"
+          ],
+          "narration": "A každý důkaz zanechá záznam. Test, commit, strom, čas a přesný příkaz. Důkazy, ne sliby."
+        },
+        {
+          "id": "setup",
+          "t": 44,
+          "title": "Tři příkazy",
+          "act": "POSTUP",
+          "use_cases": [
+            "install-the-tool-in-one-command",
+            "adopt-an-existing-repository"
+          ],
+          "narration": "Nainstalujte ho jedním řádkem. Inicializujte repozitář. Pak spusťte úkol s rozsahem a nechte své agenty pracovat."
+        },
+        {
+          "id": "models",
+          "t": 54,
+          "title": "Modely, deklarované",
+          "act": "POSTUP",
+          "use_cases": [],
+          "narration": "Modely jsou deklarovaná data. Anthropic a OpenAI v cloudu, Ollama a LM Studio na vašem vlastním stroji. Směrování vybírá podle potřeby. Chcete jen lokální? Odpoví: nic nevyhovuje. Nikdy nehádá."
+        },
+        {
+          "id": "mesh",
+          "t": 72,
+          "title": "Jedna tabule, každý agent",
+          "act": "MESH",
+          "use_cases": [
+            "run-several-workers-at-once"
+          ],
+          "narration": "Claude, Codex a Gemini sdílejí jednu tabuli. Když dva sáhnou po stejném souboru, dozvíte se to ještě před sloučením."
+        },
+        {
+          "id": "seats",
+          "t": 80,
+          "title": "Práce putuje přes pozice",
+          "act": "MESH",
+          "use_cases": [
+            "deliver-issues-in-waves"
+          ],
+          "narration": "Práce putuje přes pozice. Jedna pozice slučuje zelenou práci do společného vrcholu. Druhá vydává, kdykoli je master před posledním tagem. Opravné dráhy dotahují zastaralé větve a každý pracovník drží jedno issue. Pozice je nárok, a tak se uvolní, jakmile její držitel přestane tepat."
+        },
+        {
+          "id": "machines",
+          "t": 101,
+          "title": "Domov, datacentrum, firma",
+          "act": "MESH",
+          "use_cases": [],
+          "narration": "Mesh pokrývá každý stroj, na kterém pracujete. Desktop doma. Rack v datacentru, za TLS hubem. Celou flotilu napříč firmou, v privátní síti."
+        },
+        {
+          "id": "security",
+          "t": 113,
+          "title": "Podepsané, uvedené, netečné",
+          "act": "MESH",
+          "use_cases": [],
+          "narration": "Každá zpráva je podepsaná vlastním klíčem stroje. Nikomu se nevěří, dokud ho neuvedete na seznam. Veřejná adresa jen přes HTTPS. A nic, co peer pošle, se nikdy nespustí."
+        },
+        {
+          "id": "personal",
+          "t": 127,
+          "title": "Osobní režim",
+          "act": "PAMĚŤ",
+          "use_cases": [
+            "use-the-tool-as-your-own-in-a-shared-repository"
+          ],
+          "narration": "Není to váš repozitář? Osobní režim drží celou vrstvu ve vašem klonu a strom týmu zůstane bajt po bajtu takový, jak ho commitnul."
+        },
+        {
+          "id": "beliefs",
+          "t": 137,
+          "title": "Manifest, č. 02",
+          "act": "MANIFEST",
+          "use_cases": [],
+          "narration": "Věříme, že hotovo je smlouva, ne pocit. Že agenti mají dokazovat, ne slibovat. Že repozitář si pamatuje, co chat zapomene… AI agenti byli skokem vpřed. Důvěra je ten další."
+        },
+        {
+          "id": "cta",
+          "t": 153,
+          "title": "Ať to dokážou",
+          "act": "MANIFEST",
+          "use_cases": [],
+          "narration": "Vaši agenti tvrdí, že je hotovo. Majordomus je donutí to dokázat. Majordomus tečka dev."
+        }
+      ],
+      "captions": "v/short.cs.vtt",
+      "og": "og/short.cs.jpg",
+      "og_from": "phone",
+      "formats": {
+        "phone": {
+          "video": "v/short-phone.cs.mp4",
+          "poster": "v/short-phone.cs.jpg",
+          "poster_t": 26.78,
+          "width": 720,
+          "height": 1280,
+          "bytes": 11472771
+        }
+      },
+      "fallback": {
+        "tablet": "phone",
+        "desktop": "phone"
+      }
+    },
+    {
+      "id": "story-adoption",
+      "kind": "story",
+      "title": "Začátek a zavedení",
+      "summary": "Jak dostat Majordomus do repozitáře, nového i starého, aniž by se ztratilo, co už lidé napsali.",
+      "duration": 38.4,
+      "path": "story-adoption/",
+      "page": "cs/story-adoption/",
+      "published": "2026-11-18T02:39:47+01:00",
+      "lang": "cs",
+      "chapters": [
+        {
+          "id": "story",
+          "t": 0,
+          "title": "Začátek a zavedení",
+          "act": "PŘÍBĚH",
+          "use_cases": [],
+          "narration": "Začátek a zavedení. Jak dostat Majordomus do repozitáře, nového i starého, aniž by se ztratilo, co už lidé napsali."
+        },
+        {
+          "id": "personal",
+          "t": 9,
+          "title": "Osobní režim",
+          "act": "PAMĚŤ",
+          "use_cases": [
+            "use-the-tool-as-your-own-in-a-shared-repository"
+          ],
+          "narration": "Není to váš repozitář? Osobní režim drží celou vrstvu ve vašem klonu a strom týmu zůstane bajt po bajtu takový, jak ho commitnul."
+        },
+        {
+          "id": "setup",
+          "t": 19,
+          "title": "Tři příkazy",
+          "act": "START",
+          "use_cases": [
+            "install-the-tool-in-one-command",
+            "adopt-an-existing-repository"
+          ],
+          "narration": "Nainstalujte ho jedním řádkem. Inicializujte repozitář. Pak spusťte úkol s rozsahem a nechte své agenty pracovat."
+        },
+        {
+          "id": "cta",
+          "t": 29,
+          "title": "Ať to dokážou",
+          "act": "START",
+          "use_cases": [],
+          "narration": "Vaši agenti tvrdí, že je hotovo. Majordomus je donutí to dokázat. Majordomus tečka dev."
+        }
+      ],
+      "captions": "v/story-adoption.cs.vtt",
+      "og": "og/story-adoption.cs.jpg",
+      "og_from": "desktop",
+      "formats": {
+        "phone": {
+          "video": "v/story-adoption-phone.cs.mp4",
+          "poster": "v/story-adoption-phone.cs.jpg",
+          "poster_t": 8.92,
+          "width": 720,
+          "height": 1280,
+          "bytes": 2809665
+        },
+        "desktop": {
+          "video": "v/story-adoption-desktop.cs.mp4",
+          "poster": "v/story-adoption-desktop.cs.jpg",
+          "poster_t": 8.92,
+          "width": 1920,
+          "height": 1080,
+          "bytes": 4367807
+        }
+      },
+      "fallback": {
+        "tablet": "desktop"
+      },
+      "category": "adoption",
+      "category_url": "https://majordomus.dev/use-cases/adoption/",
+      "use_cases": [
+        "use-the-tool-as-your-own-in-a-shared-repository"
+      ]
+    },
+    {
+      "id": "story-continuity",
+      "kind": "story",
+      "title": "Relace a předávání",
+      "summary": "Zastavení a obnovení práce napříč relacemi a pracovníky z trvalého stavu, nikdy z přepisu konverzace.",
+      "duration": 120.1,
+      "path": "story-continuity/",
+      "page": "cs/story-continuity/",
+      "published": "2026-11-18T02:39:47+01:00",
+      "lang": "cs",
+      "chapters": [
+        {
+          "id": "story",
+          "t": 0,
+          "title": "Relace a předávání",
+          "act": "PŘÍBĚH",
+          "use_cases": [],
+          "narration": "Relace a předávání. Zastavení a obnovení práce napříč relacemi a pracovníky z trvalého stavu, nikdy z přepisu konverzace."
+        },
+        {
+          "id": "session",
+          "t": 9,
+          "title": "Každá relace začíná s přehledem",
+          "act": "POSTUP",
+          "use_cases": [
+            "hand-work-between-sessions",
+            "read-only-the-context-that-fits"
+          ],
+          "narration": "Každá relace začíná s přehledem. Úkol, jeho rozsah, další krok z posledního předání, kdo další pracuje a co vydání ještě dluží. Nic není třeba znovu hledat."
+        },
+        {
+          "id": "context",
+          "t": 21,
+          "title": "Hierarchický kontext",
+          "act": "POSTUP",
+          "use_cases": [
+            "read-only-the-context-that-fits",
+            "trace-a-change-to-the-context-it-affects",
+            "document-every-directory-of-the-layer"
+          ],
+          "narration": "Kontext je strom. Každý agent čte dokumenty od kořene až k cestě, na které pracuje. Nejbližší doplňuje své předky a sourozenci se nikdy nevidí. Nic víc a nic míň."
+        },
+        {
+          "id": "worktrees",
+          "t": 35,
+          "title": "Jedna větev, jeden worktree",
+          "act": "MESH",
+          "use_cases": [
+            "work-on-a-branch-in-its-canonical-worktree",
+            "resume-in-the-right-worktree"
+          ],
+          "narration": "Paralelní práce potřebuje paralelní stromy. Každá větev má právě jeden worktree, odvozený z gitu: primární checkout drží hlavní větev, každá další žije vedle něj. Commit ze špatného místa je odmítnut."
+        },
+        {
+          "id": "crosstalk",
+          "t": 49,
+          "title": "Relace spolu mluví",
+          "act": "MESH",
+          "use_cases": [
+            "hand-work-between-sessions"
+          ],
+          "narration": "Relace spolu mluví přes mesh. Jedna požádá o revizi, jiná ji z jiného stroje zodpoví. Předání zveřejněné dnes večer se zítra převezme, ať práce pokračuje kdekoli."
+        },
+        {
+          "id": "continuity",
+          "t": 62,
+          "title": "Práce, která přežije chat",
+          "act": "PAMĚŤ",
+          "use_cases": [
+            "hand-work-between-sessions",
+            "checkpoint-long-work",
+            "carry-a-blocker-across-a-handover"
+          ],
+          "narration": "Večer zavřete notebook. Zítra libovolný agent převezme předání přesně tam, kde práce skončila."
+        },
+        {
+          "id": "knowledge",
+          "t": 70,
+          "title": "Co se naučí, zůstane",
+          "act": "PAMĚŤ",
+          "use_cases": [
+            "keep-what-an-episode-learned",
+            "record-a-decision-before-it-is-forgotten",
+            "keep-decisions-out-of-the-transcript"
+          ],
+          "narration": "A co se relace naučí, ji také přežije. Rozhodnutí se stávají záznamy: zatím sto šedesát devět architektonických rozhodnutí. Znalosti se odvozují na konci každé relace, bez modelu, a člověk povýší to, co si zaslouží zůstat."
+        },
+        {
+          "id": "privacy",
+          "t": 86,
+          "title": "Co je vaše, zůstane vaše",
+          "act": "PAMĚŤ",
+          "use_cases": [
+            "open-and-close-a-session",
+            "recover-an-episode-nobody-closed"
+          ],
+          "narration": "Co je vaše, zůstane vaše. Stav relací žije v lokální polovině vrstvy, kterou git ignoruje. Předání, checkpointy a otevřené relace se zapisují tak, že je čte jen jejich vlastník, a nic z toho se nikdy necommitne."
+        },
+        {
+          "id": "setup",
+          "t": 101,
+          "title": "Tři příkazy",
+          "act": "START",
+          "use_cases": [
+            "install-the-tool-in-one-command",
+            "adopt-an-existing-repository"
+          ],
+          "narration": "Nainstalujte ho jedním řádkem. Inicializujte repozitář. Pak spusťte úkol s rozsahem a nechte své agenty pracovat."
+        },
+        {
+          "id": "cta",
+          "t": 111,
+          "title": "Ať to dokážou",
+          "act": "START",
+          "use_cases": [],
+          "narration": "Vaši agenti tvrdí, že je hotovo. Majordomus je donutí to dokázat. Majordomus tečka dev."
+        }
+      ],
+      "captions": "v/story-continuity.cs.vtt",
+      "og": "og/story-continuity.cs.jpg",
+      "og_from": "desktop",
+      "formats": {
+        "phone": {
+          "video": "v/story-continuity-phone.cs.mp4",
+          "poster": "v/story-continuity-phone.cs.jpg",
+          "poster_t": 9.14,
+          "width": 720,
+          "height": 1280,
+          "bytes": 7063873
+        },
+        "desktop": {
+          "video": "v/story-continuity-desktop.cs.mp4",
+          "poster": "v/story-continuity-desktop.cs.jpg",
+          "poster_t": 9.14,
+          "width": 1920,
+          "height": 1080,
+          "bytes": 12290502
+        }
+      },
+      "fallback": {
+        "tablet": "desktop"
+      },
+      "category": "continuity",
+      "category_url": "https://majordomus.dev/use-cases/continuity/",
+      "use_cases": [
+        "hand-work-between-sessions",
+        "read-only-the-context-that-fits",
+        "resume-in-the-right-worktree",
+        "checkpoint-long-work",
+        "carry-a-blocker-across-a-handover",
+        "keep-decisions-out-of-the-transcript",
+        "open-and-close-a-session",
+        "recover-an-episode-nobody-closed"
+      ]
+    },
+    {
+      "id": "story-workers",
+      "kind": "story",
+      "title": "Paralelní pracovníci",
+      "summary": "Více agentů nebo lidí v jednom repozitáři: nárokované rozsahy, překryvy a kdo na co sáhl.",
+      "duration": 132.6,
+      "path": "story-workers/",
+      "page": "cs/story-workers/",
+      "published": "2026-11-18T02:39:47+01:00",
+      "lang": "cs",
+      "chapters": [
+        {
+          "id": "story",
+          "t": 0,
+          "title": "Paralelní pracovníci",
+          "act": "PŘÍBĚH",
+          "use_cases": [],
+          "narration": "Paralelní pracovníci. Více agentů nebo lidí v jednom repozitáři: nárokované rozsahy, překryvy a kdo na co sáhl."
+        },
+        {
+          "id": "intent",
+          "t": 8,
+          "title": "Práce začíná záměrem",
+          "act": "POSTUP",
+          "use_cases": [
+            "plan-the-work-as-data",
+            "deliver-issues-in-waves"
+          ],
+          "narration": "Práce začíná od záměru: co musí platit, a kritérií, která to dokážou. Ze záměrů vznikají milníky, z milníků issues, a plan next určí jedno issue, které vzít teď."
+        },
+        {
+          "id": "blackboard",
+          "t": 21,
+          "title": "Tabule",
+          "act": "MESH",
+          "use_cases": [
+            "run-several-workers-at-once"
+          ],
+          "narration": "Než práce začne, každý pracovník napíše na tabuli, co zamýšlí, a cesty, kterých se chce dotknout. Nárok, ne zámek. Překryvy se ukážou ve chvíli, kdy jsou napsány."
+        },
+        {
+          "id": "mesh",
+          "t": 34,
+          "title": "Jedna tabule, každý agent",
+          "act": "MESH",
+          "use_cases": [
+            "run-several-workers-at-once"
+          ],
+          "narration": "Claude, Codex a Gemini sdílejí jednu tabuli. Když dva sáhnou po stejném souboru, dozvíte se to ještě před sloučením."
+        },
+        {
+          "id": "collision",
+          "t": 43,
+          "title": "Ověřeno dřív, než vznikne",
+          "act": "MESH",
+          "use_cases": [
+            "run-several-workers-at-once"
+          ],
+          "narration": "Tabule říká, kdo právě pracuje. Git říká, co už vzniklo. Než se napíše nový modul, zeptá se každé větve, lokální i vzdálené, co si už nárokuje jeho cesty. A číslo rozhodnutí, které už nese jiná větev, je při commitu odmítnuto."
+        },
+        {
+          "id": "claims",
+          "t": 59,
+          "title": "Jeden nárok, jeden vítěz",
+          "act": "MESH",
+          "use_cases": [
+            "run-several-workers-at-once"
+          ],
+          "narration": "Když se práce napříč stroji nesmí překrývat, nárokuje se výhradně. Druhá relace je odmítnuta a dozví se, na jaký nárok narazila. Když dva stroje vznesou nárok ve stejném tepu, každá instance určí stejného vítěze, nikdy ne poslední paket. Držitel, který přestane tepat, svůj nárok ztratí."
+        },
+        {
+          "id": "worktrees",
+          "t": 79,
+          "title": "Jedna větev, jeden worktree",
+          "act": "MESH",
+          "use_cases": [
+            "work-on-a-branch-in-its-canonical-worktree",
+            "resume-in-the-right-worktree"
+          ],
+          "narration": "Paralelní práce potřebuje paralelní stromy. Každá větev má právě jeden worktree, odvozený z gitu: primární checkout drží hlavní větev, každá další žije vedle něj. Commit ze špatného místa je odmítnut."
+        },
+        {
+          "id": "seats",
+          "t": 93,
+          "title": "Práce putuje přes pozice",
+          "act": "MESH",
+          "use_cases": [
+            "deliver-issues-in-waves"
+          ],
+          "narration": "Práce putuje přes pozice. Jedna pozice slučuje zelenou práci do společného vrcholu. Druhá vydává, kdykoli je master před posledním tagem. Opravné dráhy dotahují zastaralé větve a každý pracovník drží jedno issue. Pozice je nárok, a tak se uvolní, jakmile její držitel přestane tepat."
+        },
+        {
+          "id": "setup",
+          "t": 113,
+          "title": "Tři příkazy",
+          "act": "START",
+          "use_cases": [
+            "install-the-tool-in-one-command",
+            "adopt-an-existing-repository"
+          ],
+          "narration": "Nainstalujte ho jedním řádkem. Inicializujte repozitář. Pak spusťte úkol s rozsahem a nechte své agenty pracovat."
+        },
+        {
+          "id": "cta",
+          "t": 123,
+          "title": "Ať to dokážou",
+          "act": "START",
+          "use_cases": [],
+          "narration": "Vaši agenti tvrdí, že je hotovo. Majordomus je donutí to dokázat. Majordomus tečka dev."
+        }
+      ],
+      "captions": "v/story-workers.cs.vtt",
+      "og": "og/story-workers.cs.jpg",
+      "og_from": "desktop",
+      "formats": {
+        "phone": {
+          "video": "v/story-workers-phone.cs.mp4",
+          "poster": "v/story-workers-phone.cs.jpg",
+          "poster_t": 8.35,
+          "width": 720,
+          "height": 1280,
+          "bytes": 7564676
+        },
+        "desktop": {
+          "video": "v/story-workers-desktop.cs.mp4",
+          "poster": "v/story-workers-desktop.cs.jpg",
+          "poster_t": 8.35,
+          "width": 1920,
+          "height": 1080,
+          "bytes": 12956051
+        }
+      },
+      "fallback": {
+        "tablet": "desktop"
+      },
+      "category": "workers",
+      "category_url": "https://majordomus.dev/use-cases/workers/",
+      "use_cases": [
+        "deliver-issues-in-waves",
+        "run-several-workers-at-once",
+        "work-on-a-branch-in-its-canonical-worktree"
+      ]
+    },
+    {
+      "id": "story-policy",
+      "kind": "story",
+      "title": "Pravidla a jejich vynucení",
+      "summary": "Deklarace pravidel, důkaz, že jsou zapojená, a zopakování každého nálezu.",
+      "duration": 70.6,
+      "path": "story-policy/",
+      "page": "cs/story-policy/",
+      "published": "2026-11-18T02:39:47+01:00",
+      "lang": "cs",
+      "chapters": [
+        {
+          "id": "story",
+          "t": 0,
+          "title": "Pravidla a jejich vynucení",
+          "act": "PŘÍBĚH",
+          "use_cases": [],
+          "narration": "Pravidla a jejich vynucení. Deklarace pravidel, důkaz, že jsou zapojená, a zopakování každého nálezu."
+        },
+        {
+          "id": "doctrine",
+          "t": 8,
+          "title": "Sepsané není vynucené",
+          "act": "SMLOUVA",
+          "use_cases": [
+            "prove-a-rule-is-enforced",
+            "read-the-rules-the-tool-applies"
+          ],
+          "narration": "Pravidlo není vynucené jen proto, že je sepsané. Vynucené je, když je deklarované, ověřené, zapojené do příkazu, ten příkaz shodí, je otestované, blokuje CI a podloží tvrzení. Cokoli méně je jen dokumentace."
+        },
+        {
+          "id": "doctor",
+          "t": 23,
+          "title": "Repozitář kontroluje sám sebe",
+          "act": "SMLOUVA",
+          "use_cases": [
+            "gate-ci-on-the-tool-itself",
+            "trust-the-policy-before-reading-it"
+          ],
+          "narration": "A repozitář kontroluje sám sebe. Majordomus doctor při každém commitu přečte každé pravidlo, každou projekci i každý hook. Čtyřicet čtyři blokující pravidla, každé s validátorem. Nula selhání."
+        },
+        {
+          "id": "hooks",
+          "t": 38,
+          "title": "Dva hooky na stráži",
+          "act": "SMLOUVA",
+          "use_cases": [
+            "prove-a-rule-is-enforced",
+            "gate-ci-on-the-tool-itself"
+          ],
+          "narration": "Dva hooky stojí na stráži. Každý commit spustí doctor. Každý push spustí smlouvu finish, a když není splněná, push zastaví. Dokud nezačne první úkol, oba mlčí."
+        },
+        {
+          "id": "setup",
+          "t": 51,
+          "title": "Tři příkazy",
+          "act": "START",
+          "use_cases": [
+            "install-the-tool-in-one-command",
+            "adopt-an-existing-repository"
+          ],
+          "narration": "Nainstalujte ho jedním řádkem. Inicializujte repozitář. Pak spusťte úkol s rozsahem a nechte své agenty pracovat."
+        },
+        {
+          "id": "cta",
+          "t": 61,
+          "title": "Ať to dokážou",
+          "act": "START",
+          "use_cases": [],
+          "narration": "Vaši agenti tvrdí, že je hotovo. Majordomus je donutí to dokázat. Majordomus tečka dev."
+        }
+      ],
+      "captions": "v/story-policy.cs.vtt",
+      "og": "og/story-policy.cs.jpg",
+      "og_from": "phone",
+      "formats": {
+        "phone": {
+          "video": "v/story-policy-phone.cs.mp4",
+          "poster": "v/story-policy-phone.cs.jpg",
+          "poster_t": 7.87,
+          "width": 720,
+          "height": 1280,
+          "bytes": 4081945
+        }
+      },
+      "fallback": {
+        "tablet": "phone",
+        "desktop": "phone"
+      },
+      "category": "policy",
+      "category_url": "https://majordomus.dev/use-cases/policy/",
+      "use_cases": [
+        "prove-a-rule-is-enforced",
+        "read-the-rules-the-tool-applies",
+        "gate-ci-on-the-tool-itself",
+        "trust-the-policy-before-reading-it"
+      ]
+    },
+    {
+      "id": "story-completion",
+      "kind": "story",
+      "title": "Dokončení a kontroly kvality",
+      "summary": "Rozhodnutí, zda je práce hotová, podle smlouvy, jejíž každý řádek projde, nebo selže.",
+      "duration": 76.8,
+      "path": "story-completion/",
+      "page": "cs/story-completion/",
+      "published": "2026-11-18T02:39:47+01:00",
+      "lang": "cs",
+      "chapters": [
+        {
+          "id": "story",
+          "t": 0,
+          "title": "Dokončení a kontroly kvality",
+          "act": "PŘÍBĚH",
+          "use_cases": [],
+          "narration": "Dokončení a kontroly kvality. Rozhodnutí, zda je práce hotová, podle smlouvy, jejíž každý řádek projde, nebo selže."
+        },
+        {
+          "id": "terminal",
+          "t": 9,
+          "title": "Hotovo je smlouva",
+          "act": "SMLOUVA",
+          "use_cases": [
+            "catch-an-agent-that-says-it-is-done",
+            "accept-or-refuse-finished-work",
+            "know-whether-this-work-is-finished"
+          ],
+          "narration": "Když agent tvrdí, že skončil, Majordomus zkontroluje rozsah, stav i testy. A když cokoli selže, odmítne."
+        },
+        {
+          "id": "provenance",
+          "t": 17,
+          "title": "Důkazy, ne sliby",
+          "act": "SMLOUVA",
+          "use_cases": [
+            "prove-what-a-task-owed-before-calling-it-done",
+            "say-what-reached-the-remote-and-what-did-not"
+          ],
+          "narration": "A každý důkaz zanechá záznam. Test, commit, strom, čas a přesný příkaz. Důkazy, ne sliby."
+        },
+        {
+          "id": "reasoning",
+          "t": 26,
+          "title": "Nejistota, zdůvodněná v záznamu",
+          "act": "SMLOUVA",
+          "use_cases": [
+            "block-acceptance-on-an-open-question",
+            "record-a-decision-before-it-is-forgotten"
+          ],
+          "narration": "Když je rozhodnutí nejisté, zdůvodní se do záznamu. Nejdřív důkazy. Pak poradci, pokud nějací jsou, a jejich odpovědi jsou důkazy, nikdy verdikty. Závěr zůstane, aby si ho přečetla další relace."
+        },
+        {
+          "id": "plan",
+          "t": 41,
+          "title": "Stav, odvozený",
+          "act": "POSTUP",
+          "use_cases": [
+            "complete-an-issue-only-with-its-evidence",
+            "plan-the-work-as-data"
+          ],
+          "narration": "Žádné issue si neukládá svůj stav. Ten se odvozuje z toho, co se s ním stalo: zahájeno, ověřeno, dokončeno, a z důkazů, které každý krok nese. Hotovo je odmítnuto, dokud chybí požadovaný důkaz, a plan next přepočítá to jedno issue, které vzít."
+        },
+        {
+          "id": "setup",
+          "t": 57,
+          "title": "Tři příkazy",
+          "act": "START",
+          "use_cases": [
+            "install-the-tool-in-one-command",
+            "adopt-an-existing-repository"
+          ],
+          "narration": "Nainstalujte ho jedním řádkem. Inicializujte repozitář. Pak spusťte úkol s rozsahem a nechte své agenty pracovat."
+        },
+        {
+          "id": "cta",
+          "t": 68,
+          "title": "Ať to dokážou",
+          "act": "START",
+          "use_cases": [],
+          "narration": "Vaši agenti tvrdí, že je hotovo. Majordomus je donutí to dokázat. Majordomus tečka dev."
+        }
+      ],
+      "captions": "v/story-completion.cs.vtt",
+      "og": "og/story-completion.cs.jpg",
+      "og_from": "phone",
+      "formats": {
+        "phone": {
+          "video": "v/story-completion-phone.cs.mp4",
+          "poster": "v/story-completion-phone.cs.jpg",
+          "poster_t": 8.78,
+          "width": 720,
+          "height": 1280,
+          "bytes": 4930507
+        }
+      },
+      "fallback": {
+        "tablet": "phone",
+        "desktop": "phone"
+      },
+      "category": "completion",
+      "category_url": "https://majordomus.dev/use-cases/completion/",
+      "use_cases": [
+        "catch-an-agent-that-says-it-is-done",
+        "accept-or-refuse-finished-work",
+        "know-whether-this-work-is-finished",
+        "prove-what-a-task-owed-before-calling-it-done",
+        "say-what-reached-the-remote-and-what-did-not",
+        "block-acceptance-on-an-open-question",
+        "complete-an-issue-only-with-its-evidence"
+      ]
+    },
+    {
+      "id": "story-drift",
+      "kind": "story",
+      "title": "Rozjetí a srovnání",
+      "summary": "Zjištění, že se politika, projekce, stav a git rozcházejí, a jejich opětovné srovnání.",
+      "duration": 58,
+      "path": "story-drift/",
+      "page": "cs/story-drift/",
+      "published": "2026-11-18T02:39:47+01:00",
+      "lang": "cs",
+      "chapters": [
+        {
+          "id": "story",
+          "t": 0,
+          "title": "Rozjetí a srovnání",
+          "act": "PŘÍBĚH",
+          "use_cases": [],
+          "narration": "Rozjetí a srovnání. Zjištění, že se politika, projekce, stav a git rozcházejí, a jejich opětovné srovnání."
+        },
+        {
+          "id": "policy",
+          "t": 9,
+          "title": "Pravidla, sepsaná jednou",
+          "act": "POSTUP",
+          "use_cases": [
+            "keep-the-bootstrap-thin-and-within-budget"
+          ],
+          "narration": "Jedna politika zapíše instrukce každého agenta. Úkoly žijí v repozitáři, ne v okně chatu."
+        },
+        {
+          "id": "providers",
+          "t": 16,
+          "title": "Každý klient, jedna politika",
+          "act": "POSTUP",
+          "use_cases": [
+            "serve-the-layer-to-ai-clients",
+            "keep-the-bootstrap-thin-and-within-budget"
+          ],
+          "narration": "Claude Code, Codex, Gemini, Zed, Antigravity, bb nebo jakýkoli klient, který mluví MCP. Každý čte vlastní projekci téže politiky."
+        },
+        {
+          "id": "monitor",
+          "t": 27,
+          "title": "Jeden proud",
+          "act": "MESH",
+          "use_cases": [
+            "read-back-what-happened",
+            "find-out-what-drifted"
+          ],
+          "narration": "Jeden proud sleduje každou relaci, nárok, předání i revizi na každém propojeném stroji, a vedle nich sloučení a běhy na GitHubu. Co se týká vás, jde první, a šum se sbalí."
+        },
+        {
+          "id": "setup",
+          "t": 39,
+          "title": "Tři příkazy",
+          "act": "START",
+          "use_cases": [
+            "install-the-tool-in-one-command",
+            "adopt-an-existing-repository"
+          ],
+          "narration": "Nainstalujte ho jedním řádkem. Inicializujte repozitář. Pak spusťte úkol s rozsahem a nechte své agenty pracovat."
+        },
+        {
+          "id": "cta",
+          "t": 49,
+          "title": "Ať to dokážou",
+          "act": "START",
+          "use_cases": [],
+          "narration": "Vaši agenti tvrdí, že je hotovo. Majordomus je donutí to dokázat. Majordomus tečka dev."
+        }
+      ],
+      "captions": "v/story-drift.cs.vtt",
+      "og": "og/story-drift.cs.jpg",
+      "og_from": "phone",
+      "formats": {
+        "phone": {
+          "video": "v/story-drift-phone.cs.mp4",
+          "poster": "v/story-drift-phone.cs.jpg",
+          "poster_t": 8.42,
+          "width": 720,
+          "height": 1280,
+          "bytes": 4314261
+        }
+      },
+      "fallback": {
+        "tablet": "phone",
+        "desktop": "phone"
+      },
+      "category": "drift",
+      "category_url": "https://majordomus.dev/use-cases/drift/",
+      "use_cases": [
+        "keep-the-bootstrap-thin-and-within-budget",
+        "find-out-what-drifted"
+      ]
+    },
+    {
+      "id": "story-knowledge",
+      "kind": "story",
+      "title": "Znalosti repozitáře",
+      "summary": "Co repozitář deklaruje sám o sobě: zdroje, uzly, hrany, plán a hledání v nich.",
+      "duration": 113.6,
+      "path": "story-knowledge/",
+      "page": "cs/story-knowledge/",
+      "published": "2026-11-18T02:39:47+01:00",
+      "lang": "cs",
+      "chapters": [
+        {
+          "id": "story",
+          "t": 0,
+          "title": "Znalosti repozitáře",
+          "act": "PŘÍBĚH",
+          "use_cases": [],
+          "narration": "Znalosti repozitáře. Co repozitář deklaruje sám o sobě: zdroje, uzly, hrany, plán a hledání v nich."
+        },
+        {
+          "id": "reasoning",
+          "t": 8,
+          "title": "Nejistota, zdůvodněná v záznamu",
+          "act": "SMLOUVA",
+          "use_cases": [
+            "block-acceptance-on-an-open-question",
+            "record-a-decision-before-it-is-forgotten"
+          ],
+          "narration": "Když je rozhodnutí nejisté, zdůvodní se do záznamu. Nejdřív důkazy. Pak poradci, pokud nějací jsou, a jejich odpovědi jsou důkazy, nikdy verdikty. Závěr zůstane, aby si ho přečetla další relace."
+        },
+        {
+          "id": "intent",
+          "t": 23,
+          "title": "Práce začíná záměrem",
+          "act": "POSTUP",
+          "use_cases": [
+            "plan-the-work-as-data",
+            "deliver-issues-in-waves"
+          ],
+          "narration": "Práce začíná od záměru: co musí platit, a kritérií, která to dokážou. Ze záměrů vznikají milníky, z milníků issues, a plan next určí jedno issue, které vzít teď."
+        },
+        {
+          "id": "plan",
+          "t": 36,
+          "title": "Stav, odvozený",
+          "act": "POSTUP",
+          "use_cases": [
+            "complete-an-issue-only-with-its-evidence",
+            "plan-the-work-as-data"
+          ],
+          "narration": "Žádné issue si neukládá svůj stav. Ten se odvozuje z toho, co se s ním stalo: zahájeno, ověřeno, dokončeno, a z důkazů, které každý krok nese. Hotovo je odmítnuto, dokud chybí požadovaný důkaz, a plan next přepočítá to jedno issue, které vzít."
+        },
+        {
+          "id": "context",
+          "t": 53,
+          "title": "Hierarchický kontext",
+          "act": "POSTUP",
+          "use_cases": [
+            "read-only-the-context-that-fits",
+            "trace-a-change-to-the-context-it-affects",
+            "document-every-directory-of-the-layer"
+          ],
+          "narration": "Kontext je strom. Každý agent čte dokumenty od kořene až k cestě, na které pracuje. Nejbližší doplňuje své předky a sourozenci se nikdy nevidí. Nic víc a nic míň."
+        },
+        {
+          "id": "monitor",
+          "t": 66,
+          "title": "Jeden proud",
+          "act": "MESH",
+          "use_cases": [
+            "read-back-what-happened",
+            "find-out-what-drifted"
+          ],
+          "narration": "Jeden proud sleduje každou relaci, nárok, předání i revizi na každém propojeném stroji, a vedle nich sloučení a běhy na GitHubu. Co se týká vás, jde první, a šum se sbalí."
+        },
+        {
+          "id": "knowledge",
+          "t": 78,
+          "title": "Co se naučí, zůstane",
+          "act": "PAMĚŤ",
+          "use_cases": [
+            "keep-what-an-episode-learned",
+            "record-a-decision-before-it-is-forgotten",
+            "keep-decisions-out-of-the-transcript"
+          ],
+          "narration": "A co se relace naučí, ji také přežije. Rozhodnutí se stávají záznamy: zatím sto šedesát devět architektonických rozhodnutí. Znalosti se odvozují na konci každé relace, bez modelu, a člověk povýší to, co si zaslouží zůstat."
+        },
+        {
+          "id": "setup",
+          "t": 94,
+          "title": "Tři příkazy",
+          "act": "START",
+          "use_cases": [
+            "install-the-tool-in-one-command",
+            "adopt-an-existing-repository"
+          ],
+          "narration": "Nainstalujte ho jedním řádkem. Inicializujte repozitář. Pak spusťte úkol s rozsahem a nechte své agenty pracovat."
+        },
+        {
+          "id": "cta",
+          "t": 104,
+          "title": "Ať to dokážou",
+          "act": "START",
+          "use_cases": [],
+          "narration": "Vaši agenti tvrdí, že je hotovo. Majordomus je donutí to dokázat. Majordomus tečka dev."
+        }
+      ],
+      "captions": "v/story-knowledge.cs.vtt",
+      "og": "og/story-knowledge.cs.jpg",
+      "og_from": "phone",
+      "formats": {
+        "phone": {
+          "video": "v/story-knowledge-phone.cs.mp4",
+          "poster": "v/story-knowledge-phone.cs.jpg",
+          "poster_t": 8.25,
+          "width": 720,
+          "height": 1280,
+          "bytes": 6539578
+        }
+      },
+      "fallback": {
+        "tablet": "phone",
+        "desktop": "phone"
+      },
+      "category": "knowledge",
+      "category_url": "https://majordomus.dev/use-cases/knowledge/",
+      "use_cases": [
+        "record-a-decision-before-it-is-forgotten",
+        "plan-the-work-as-data",
+        "trace-a-change-to-the-context-it-affects",
+        "document-every-directory-of-the-layer",
+        "read-back-what-happened",
+        "keep-what-an-episode-learned"
+      ]
+    },
+    {
+      "id": "story-mcp",
+      "kind": "story",
+      "title": "Vrstva pro AI klienty",
+      "summary": "Jeden sdílený server na repozitář, každý klient je peer, táž vrstva přes MCP, HTTP i příkazovou řádku.",
+      "duration": 76.6,
+      "path": "story-mcp/",
+      "page": "cs/story-mcp/",
+      "published": "2026-11-18T02:39:47+01:00",
+      "lang": "cs",
+      "chapters": [
+        {
+          "id": "story",
+          "t": 0,
+          "title": "Vrstva pro AI klienty",
+          "act": "PŘÍBĚH",
+          "use_cases": [],
+          "narration": "Vrstva pro AI klienty. Jeden sdílený server na repozitář, každý klient je peer, táž vrstva přes MCP, HTTP i příkazovou řádku."
+        },
+        {
+          "id": "providers",
+          "t": 10,
+          "title": "Každý klient, jedna politika",
+          "act": "POSTUP",
+          "use_cases": [
+            "serve-the-layer-to-ai-clients",
+            "keep-the-bootstrap-thin-and-within-budget"
+          ],
+          "narration": "Claude Code, Codex, Gemini, Zed, Antigravity, bb nebo jakýkoli klient, který mluví MCP. Každý čte vlastní projekci téže politiky."
+        },
+        {
+          "id": "generate",
+          "t": 20,
+          "title": "Deklarováno jednou, promítnuto všude",
+          "act": "PLATFORMA",
+          "use_cases": [
+            "extend-what-the-executable-serves",
+            "see-what-the-repository-holds-without-reading-it"
+          ],
+          "narration": "Každá operace je deklarovaná jednou. Příkazová řádka, HTTP API, nástroje MCP, dokument OpenAPI, dokumentace i skills se z ní generují, a kontrola selže ve chvíli, kdy se jediná z nich rozejde."
+        },
+        {
+          "id": "mcp",
+          "t": 34,
+          "title": "Jeden sdílený MCP server",
+          "act": "PLATFORMA",
+          "use_cases": [
+            "serve-the-layer-to-ai-clients",
+            "find-an-object-without-reading-everything"
+          ],
+          "narration": "Jeden sdílený server na repozitář. První klient ho spustí, každý další se připojí a každý vidí ostatní. Tentýž server odpovídá přes HTTP, se Swaggerem a Cockpitem."
+        },
+        {
+          "id": "cockpit",
+          "t": 47,
+          "title": "Cockpit",
+          "act": "PLATFORMA",
+          "use_cases": [
+            "see-what-the-repository-holds-without-reading-it"
+          ],
+          "narration": "A v Cockpitu to všechno vidí člověk. Tentýž server, tentýž registr, vykreslený pro lidi, bez ničeho vlastního, co by se mohlo rozejít."
+        },
+        {
+          "id": "setup",
+          "t": 57,
+          "title": "Tři příkazy",
+          "act": "START",
+          "use_cases": [
+            "install-the-tool-in-one-command",
+            "adopt-an-existing-repository"
+          ],
+          "narration": "Nainstalujte ho jedním řádkem. Inicializujte repozitář. Pak spusťte úkol s rozsahem a nechte své agenty pracovat."
+        },
+        {
+          "id": "cta",
+          "t": 67,
+          "title": "Ať to dokážou",
+          "act": "START",
+          "use_cases": [],
+          "narration": "Vaši agenti tvrdí, že je hotovo. Majordomus je donutí to dokázat. Majordomus tečka dev."
+        }
+      ],
+      "captions": "v/story-mcp.cs.vtt",
+      "og": "og/story-mcp.cs.jpg",
+      "og_from": "phone",
+      "formats": {
+        "phone": {
+          "video": "v/story-mcp-phone.cs.mp4",
+          "poster": "v/story-mcp-phone.cs.jpg",
+          "poster_t": 9.93,
+          "width": 720,
+          "height": 1280,
+          "bytes": 4607648
+        }
+      },
+      "fallback": {
+        "tablet": "phone",
+        "desktop": "phone"
+      },
+      "category": "mcp",
+      "category_url": "https://majordomus.dev/use-cases/mcp/",
+      "use_cases": [
+        "serve-the-layer-to-ai-clients",
+        "see-what-the-repository-holds-without-reading-it",
+        "find-an-object-without-reading-everything"
+      ]
+    },
+    {
+      "id": "story-extension",
+      "kind": "story",
+      "title": "Rozšiřování",
+      "summary": "Přidání druhu, pravidla, příkazu nebo případu užití jako dat, s kontrolami, které z toho plynou.",
+      "duration": 41.8,
+      "path": "story-extension/",
+      "page": "cs/story-extension/",
+      "published": "2026-11-18T02:39:47+01:00",
+      "lang": "cs",
+      "chapters": [
+        {
+          "id": "story",
+          "t": 0,
+          "title": "Rozšiřování",
+          "act": "PŘÍBĚH",
+          "use_cases": [],
+          "narration": "Rozšiřování. Přidání druhu, pravidla, příkazu nebo případu užití jako dat, s kontrolami, které z toho plynou."
+        },
+        {
+          "id": "generate",
+          "t": 8,
+          "title": "Deklarováno jednou, promítnuto všude",
+          "act": "PLATFORMA",
+          "use_cases": [
+            "extend-what-the-executable-serves",
+            "see-what-the-repository-holds-without-reading-it"
+          ],
+          "narration": "Každá operace je deklarovaná jednou. Příkazová řádka, HTTP API, nástroje MCP, dokument OpenAPI, dokumentace i skills se z ní generují, a kontrola selže ve chvíli, kdy se jediná z nich rozejde."
+        },
+        {
+          "id": "setup",
+          "t": 22,
+          "title": "Tři příkazy",
+          "act": "START",
+          "use_cases": [
+            "install-the-tool-in-one-command",
+            "adopt-an-existing-repository"
+          ],
+          "narration": "Nainstalujte ho jedním řádkem. Inicializujte repozitář. Pak spusťte úkol s rozsahem a nechte své agenty pracovat."
+        },
+        {
+          "id": "cta",
+          "t": 33,
+          "title": "Ať to dokážou",
+          "act": "START",
+          "use_cases": [],
+          "narration": "Vaši agenti tvrdí, že je hotovo. Majordomus je donutí to dokázat. Majordomus tečka dev."
+        }
+      ],
+      "captions": "v/story-extension.cs.vtt",
+      "og": "og/story-extension.cs.jpg",
+      "og_from": "phone",
+      "formats": {
+        "phone": {
+          "video": "v/story-extension-phone.cs.mp4",
+          "poster": "v/story-extension-phone.cs.jpg",
+          "poster_t": 8.2,
+          "width": 720,
+          "height": 1280,
+          "bytes": 2941789
+        }
+      },
+      "fallback": {
+        "tablet": "phone",
+        "desktop": "phone"
+      },
+      "category": "extension",
+      "category_url": "https://majordomus.dev/use-cases/extension/",
+      "use_cases": [
+        "extend-what-the-executable-serves"
+      ]
+    }
+  ],
+  "categories": [
+    {
+      "id": "adoption",
+      "title": "Začátek a zavedení",
+      "summary": "Jak dostat Majordomus do repozitáře, nového i starého, aniž by se ztratilo, co už lidé napsali.",
+      "url": "https://majordomus.dev/use-cases/adoption/",
+      "story": "story-adoption",
+      "story_page": "cs/story-adoption/",
+      "use_cases": [
+        {
+          "id": "adopt-an-existing-repository",
+          "title": "Převzít repozitář, který už má vlastní pravidla",
+          "summary": "Nainstalovat dohledovou vrstvu do repozitáře s ručně psaným CLAUDE.md, aniž by si nástroj přivlastnil soubor, který napsal někdo jiný.",
+          "url": "https://majordomus.dev/use-cases/adopt-an-existing-repository/",
+          "seen": [
+            {
+              "cut": "film",
+              "chapter": "setup",
+              "title": "Tři příkazy",
+              "t": 120
+            }
+          ]
+        },
+        {
+          "id": "install-the-tool-in-one-command",
+          "title": "Nainstalovat nástroj jedním příkazem na stroji bez toolchainu",
+          "summary": "Vložit jeden řádek, dostat ověřenou binárku pro tento stroj a spustit majordomus init — bez gitu, Rustu, Node, Pythonu i roota a bez možnosti nainstalovat archiv, jehož otisk nesedí.",
+          "url": "https://majordomus.dev/use-cases/install-the-tool-in-one-command/",
+          "seen": [
+            {
+              "cut": "film",
+              "chapter": "setup",
+              "title": "Tři příkazy",
+              "t": 120
+            }
+          ]
+        },
+        {
+          "id": "know-which-tool-is-running",
+          "title": "Ověřit verzi dřív, než uvěříte diagnóze",
+          "summary": "Vypsat verzi, z níž se odvozuje každé další rozhraní, a vidět argument, který odmítá.",
+          "url": "https://majordomus.dev/use-cases/know-which-tool-is-running/",
+          "seen": []
+        },
+        {
+          "id": "migrate-from-the-old-layout",
+          "title": "Převést repozitář ze struktury před .ai do vrstvy",
+          "summary": "Vidět, co by migrace přesunula, přesunout to se zálohou a dokázat, že výsledek je vrstva, kterou nástroj čte.",
+          "url": "https://majordomus.dev/use-cases/migrate-from-the-old-layout/",
+          "seen": []
+        },
+        {
+          "id": "use-the-tool-as-your-own-in-a-shared-repository",
+          "title": "Používat nástroj jen pro sebe ve sdíleném repozitáři a navrhnout ho týmu, až se osvědčí",
+          "summary": "Jeden přepínač nainstaluje tutéž vrstvu jen pro vás: žádný sledovaný soubor se nezmění, do .gitignore se nic nepřidá, git status vypadá stejně — příkaz to ověří — a další příkaz předá vrstvu týmu.",
+          "url": "https://majordomus.dev/use-cases/use-the-tool-as-your-own-in-a-shared-repository/",
+          "seen": [
+            {
+              "cut": "film",
+              "chapter": "personal",
+              "title": "Osobní režim",
+              "t": 540
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "continuity",
+      "title": "Relace a předávání",
+      "summary": "Zastavení a obnovení práce napříč relacemi a pracovníky z trvalého stavu, nikdy z přepisu konverzace.",
+      "url": "https://majordomus.dev/use-cases/continuity/",
+      "story": "story-continuity",
+      "story_page": "cs/story-continuity/",
+      "use_cases": [
+        {
+          "id": "capture-the-prompts-that-started-the-work",
+          "title": "Uchovat prompty, kterými práce začala, pod modelem, ne kolem něj",
+          "summary": "Zapojit hook poskytovatele, dokázat ho průchodem testovacích dat a vidět, že prompt, který nástroj nedokázal zpracovat, je nahlášen, ne potichu zahozen.",
+          "url": "https://majordomus.dev/use-cases/capture-the-prompts-that-started-the-work/",
+          "seen": []
+        },
+        {
+          "id": "carry-a-blocker-across-a-handover",
+          "title": "Předat práci s otevřenou otázkou a nechat ji blokovat",
+          "summary": "Uzavřít úkol do předání, zatímco otázka není vyřešená, začít navazující úkol a vidět, že tatáž otázka tam dál odmítá přijetí.",
+          "url": "https://majordomus.dev/use-cases/carry-a-blocker-across-a-handover/",
+          "seen": [
+            {
+              "cut": "film",
+              "chapter": "continuity",
+              "title": "Práce, která přežije chat",
+              "t": 502
+            }
+          ]
+        },
+        {
+          "id": "checkpoint-long-work",
+          "title": "Ukládat průběh dlouhé práce, aby zastavení stálo minuty, ne celý den",
+          "summary": "Zaznamenávat stručný postup v aktivním úkolu v intervalu profilu, aby relace, která skončí bez varování, nechala další relaci místo, kde začít.",
+          "url": "https://majordomus.dev/use-cases/checkpoint-long-work/",
+          "seen": [
+            {
+              "cut": "film",
+              "chapter": "continuity",
+              "title": "Práce, která přežije chat",
+              "t": 502
+            }
+          ]
+        },
+        {
+          "id": "hand-work-between-sessions",
+          "title": "Předat nedokončenou práci další relaci",
+          "summary": "Zastavit uprostřed úkolu a nechat dalšímu pracovníkovi něco, podle čeho může jednat a co není přepis konverzace.",
+          "url": "https://majordomus.dev/use-cases/hand-work-between-sessions/",
+          "seen": [
+            {
+              "cut": "film",
+              "chapter": "session",
+              "title": "Každá relace začíná s přehledem",
+              "t": 160
+            },
+            {
+              "cut": "film",
+              "chapter": "crosstalk",
+              "title": "Relace spolu mluví",
+              "t": 477
+            },
+            {
+              "cut": "film",
+              "chapter": "continuity",
+              "title": "Práce, která přežije chat",
+              "t": 502
+            }
+          ]
+        },
+        {
+          "id": "keep-decisions-out-of-the-transcript",
+          "title": "Zaznamenat rozhodnutí tak, aby ho další pracovník našel",
+          "summary": "Zapsat jako stav, co se rozhodlo a proč, a pak to znovu najít bez čtení konverzace.",
+          "url": "https://majordomus.dev/use-cases/keep-decisions-out-of-the-transcript/",
+          "seen": [
+            {
+              "cut": "film",
+              "chapter": "knowledge",
+              "title": "Co se naučí, zůstane",
+              "t": 510
+            }
+          ]
+        },
+        {
+          "id": "let-the-provider-draw-the-episode-boundary",
+          "title": "Nechat relaci otevřít a zavřít, aniž by na to musel kdokoli myslet",
+          "summary": "Zapojit vlastní události relace poskytovatele: epizoda se otevře se začátkem sezení, předá pracovníkovi, co nechal ten minulý, zaznamená, co se kompakce chystá zahodit, a uzavře se s pokračovacím záznamem vedle své obálky.",
+          "url": "https://majordomus.dev/use-cases/let-the-provider-draw-the-episode-boundary/",
+          "seen": []
+        },
+        {
+          "id": "open-and-close-a-session",
+          "title": "Zaznamenat, co jeden pracovník udělal během jednoho sezení",
+          "summary": "Otevřít relaci, udělat práci v úkolech, kterých se týká, a uzavřít ji do obálky, která odkazuje na to, co vytvořila, a nic nekopíruje.",
+          "url": "https://majordomus.dev/use-cases/open-and-close-a-session/",
+          "seen": [
+            {
+              "cut": "film",
+              "chapter": "privacy",
+              "title": "Co je vaše, zůstane vaše",
+              "t": 526
+            }
+          ]
+        },
+        {
+          "id": "read-only-the-context-that-fits",
+          "title": "Číst jen kontext, který se vejde do rozpočtu, a vědět, co vypadlo",
+          "summary": "Sestavit kontext, který pracovník právě potřebuje, v pořadí autority, oříznout ho na rozpočet řádků a vidět každou vypuštěnou sekci jmenovitě i s důvodem.",
+          "url": "https://majordomus.dev/use-cases/read-only-the-context-that-fits/",
+          "seen": [
+            {
+              "cut": "film",
+              "chapter": "session",
+              "title": "Každá relace začíná s přehledem",
+              "t": 160
+            },
+            {
+              "cut": "film",
+              "chapter": "context",
+              "title": "Hierarchický kontext",
+              "t": 172
+            }
+          ]
+        },
+        {
+          "id": "recover-an-episode-nobody-closed",
+          "title": "Uzavřít epizodu, jejíž klient se už nevrátil",
+          "summary": "Zabitý poskytovatel nepošle žádnou událost konce. Uzavřít epizodu, kterou nechal otevřenou, podle důkazů, právě jednou a bez nárokování práce, kterou neudělal.",
+          "url": "https://majordomus.dev/use-cases/recover-an-episode-nobody-closed/",
+          "seen": [
+            {
+              "cut": "film",
+              "chapter": "privacy",
+              "title": "Co je vaše, zůstane vaše",
+              "t": 526
+            }
+          ]
+        },
+        {
+          "id": "resume-from-a-prompt-asset",
+          "title": "Začít relaci z vykresleného rámce, ne z vloženého přepisu",
+          "summary": "Vypsat prompty, které repozitář dodává, vykreslit kterýkoli proti trvalému stavu a přečíst kontext, který vkládá.",
+          "url": "https://majordomus.dev/use-cases/resume-from-a-prompt-asset/",
+          "seen": []
+        },
+        {
+          "id": "resume-in-the-right-worktree",
+          "title": "Pokračovat ve správném worktree, nikdy nad cizím úkolem",
+          "summary": "Najít předání, které patří k tomuto worktree a větvi, a vidět záznam úkolu z jiného checkoutu nahlášený jako cizí, místo aby se tu vynucoval.",
+          "url": "https://majordomus.dev/use-cases/resume-in-the-right-worktree/",
+          "seen": [
+            {
+              "cut": "film",
+              "chapter": "worktrees",
+              "title": "Jedna větev, jeden worktree",
+              "t": 383
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "workers",
+      "title": "Paralelní pracovníci",
+      "summary": "Více agentů nebo lidí v jednom repozitáři: nárokované rozsahy, překryvy a kdo na co sáhl.",
+      "url": "https://majordomus.dev/use-cases/workers/",
+      "story": "story-workers",
+      "story_page": "cs/story-workers/",
+      "use_cases": [
+        {
+          "id": "deliver-issues-in-waves",
+          "title": "Dodávat issues ve vlnách, které spočítá graf, a vzít to další",
+          "summary": "Ověřit plán, přečíst vlny provádění z grafu závislostí, vidět, která issues jsou připravená a co blokuje ostatní, a vzít to issue, které má pracovník dělat teď.",
+          "url": "https://majordomus.dev/use-cases/deliver-issues-in-waves/",
+          "seen": [
+            {
+              "cut": "film",
+              "chapter": "intent",
+              "title": "Práce začíná záměrem",
+              "t": 130
+            },
+            {
+              "cut": "film",
+              "chapter": "seats",
+              "title": "Práce putuje přes pozice",
+              "t": 397
+            }
+          ]
+        },
+        {
+          "id": "run-several-workers-at-once",
+          "title": "Pustit více pracovníků do jednoho repozitáře, aniž by se srazili",
+          "summary": "Dát každému pracovníkovi deklarovaný rozsah a okamžitě zjistit, když dva z nich nárokují stejné cesty.",
+          "url": "https://majordomus.dev/use-cases/run-several-workers-at-once/",
+          "seen": [
+            {
+              "cut": "film",
+              "chapter": "blackboard",
+              "title": "Tabule",
+              "t": 325
+            },
+            {
+              "cut": "film",
+              "chapter": "mesh",
+              "title": "Jedna tabule, každý agent",
+              "t": 337
+            },
+            {
+              "cut": "film",
+              "chapter": "collision",
+              "title": "Ověřeno dřív, než vznikne",
+              "t": 346
+            },
+            {
+              "cut": "film",
+              "chapter": "claims",
+              "title": "Jeden nárok, jeden vítěz",
+              "t": 363
+            }
+          ]
+        },
+        {
+          "id": "work-on-a-branch-in-its-canonical-worktree",
+          "title": "Pracovat na větvi v jediném worktree, kam patří",
+          "summary": "Založit větev bez volby cesty, najít každý checkout repozitáře z kteréhokoli z nich a přivést zatoulaný domů i s necommitnutou prací.",
+          "url": "https://majordomus.dev/use-cases/work-on-a-branch-in-its-canonical-worktree/",
+          "seen": [
+            {
+              "cut": "film",
+              "chapter": "worktrees",
+              "title": "Jedna větev, jeden worktree",
+              "t": 383
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "policy",
+      "title": "Pravidla a jejich vynucení",
+      "summary": "Deklarace pravidel, důkaz, že jsou zapojená, a zopakování každého nálezu.",
+      "url": "https://majordomus.dev/use-cases/policy/",
+      "story": "story-policy",
+      "story_page": "cs/story-policy/",
+      "use_cases": [
+        {
+          "id": "gate-ci-on-the-tool-itself",
+          "title": "Podmínit CI samotným nástrojem, s návratovým kódem jako smlouvou",
+          "summary": "Spustit kontroly, které spouští CI, přečíst každý nález s příkazem, který ho zopakuje, a spolehnout se na návratové kódy s jediným významem: žádný kód znamená varovat a pokračovat.",
+          "url": "https://majordomus.dev/use-cases/gate-ci-on-the-tool-itself/",
+          "seen": [
+            {
+              "cut": "film",
+              "chapter": "doctor",
+              "title": "Repozitář kontroluje sám sebe",
+              "t": 59
+            },
+            {
+              "cut": "film",
+              "chapter": "hooks",
+              "title": "Dva hooky na stráži",
+              "t": 74
+            }
+          ]
+        },
+        {
+          "id": "plan-a-commit-and-judge-its-message",
+          "title": "Rozdělit pracovní strom do commitů a podřídit každou zprávu politice",
+          "summary": "Zeptat se, co by tento strom commitnul a proč, naučit se slovník rozsahů z historie místo z tabulky a dostat verdikt k jedné zprávě nebo celé řadě commitů dřív, než ho musí vynést recenzent.",
+          "url": "https://majordomus.dev/use-cases/plan-a-commit-and-judge-its-message/",
+          "seen": []
+        },
+        {
+          "id": "prove-a-rule-is-enforced",
+          "title": "Dokázat, že pravidlo je opravdu vynucené, ne jen sepsané",
+          "summary": "Odpovědět na otázku „je tohle pravidlo skutečné?“ příkazem, ne čtením zdrojového kódu.",
+          "url": "https://majordomus.dev/use-cases/prove-a-rule-is-enforced/",
+          "seen": [
+            {
+              "cut": "film",
+              "chapter": "doctrine",
+              "title": "Sepsané není vynucené",
+              "t": 44
+            },
+            {
+              "cut": "film",
+              "chapter": "hooks",
+              "title": "Dva hooky na stráži",
+              "t": 74
+            }
+          ]
+        },
+        {
+          "id": "read-the-rules-the-tool-applies",
+          "title": "Vidět, která pravidla tu platí a co je vynucuje",
+          "summary": "Vypsat platnou sadu pravidel, přečíst kterékoli pravidlo tak, jak ho čte nástroj, a vidět, která z nich nástroj vynucuje a odkud.",
+          "url": "https://majordomus.dev/use-cases/read-the-rules-the-tool-applies/",
+          "seen": [
+            {
+              "cut": "film",
+              "chapter": "doctrine",
+              "title": "Sepsané není vynucené",
+              "t": 44
+            }
+          ]
+        },
+        {
+          "id": "trust-the-policy-before-reading-it",
+          "title": "Věřit politice a profilům, až když jsou ověřené",
+          "summary": "Dokázat, že se kanonická politika načte se všemi potřebnými deklarovanými klíči, že se načte každý profil a výchozí existuje a že to, co politika deklaruje jako vynucené, opravdu běží.",
+          "url": "https://majordomus.dev/use-cases/trust-the-policy-before-reading-it/",
+          "seen": [
+            {
+              "cut": "film",
+              "chapter": "doctor",
+              "title": "Repozitář kontroluje sám sebe",
+              "t": 59
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "completion",
+      "title": "Dokončení a kontroly kvality",
+      "summary": "Rozhodnutí, zda je práce hotová, podle smlouvy, jejíž každý řádek projde, nebo selže.",
+      "url": "https://majordomus.dev/use-cases/completion/",
+      "story": "story-completion",
+      "story_page": "cs/story-completion/",
+      "use_cases": [
+        {
+          "id": "accept-or-refuse-finished-work",
+          "title": "Rozhodnout, zda je hotová práce opravdu hotová",
+          "summary": "Vyhodnotit smlouvu řádek po řádku místo toho, aby se přijala věta, že práce je hotová.",
+          "url": "https://majordomus.dev/use-cases/accept-or-refuse-finished-work/",
+          "seen": [
+            {
+              "cut": "film",
+              "chapter": "terminal",
+              "title": "Hotovo je smlouva",
+              "t": 27
+            }
+          ]
+        },
+        {
+          "id": "block-acceptance-on-an-open-question",
+          "title": "Blokovat přijetí kvůli otázce, na kterou nikdo neodpověděl",
+          "summary": "Otevřít k úkolu otázku, sledovat, jak finish odmítá dokončení, dokud není vyřešená, vyřešit ji odpovědí a teprve pak dokončit.",
+          "url": "https://majordomus.dev/use-cases/block-acceptance-on-an-open-question/",
+          "seen": [
+            {
+              "cut": "film",
+              "chapter": "reasoning",
+              "title": "Nejistota, zdůvodněná v záznamu",
+              "t": 105
+            }
+          ]
+        },
+        {
+          "id": "catch-an-agent-that-says-it-is-done",
+          "title": "Přistihnout agenta, který tvrdí, že je hotovo, i když není",
+          "summary": "Jeden úkol od začátku do konce: pracovník vybočí ze svého rozsahu, tvrdí, že skončil, předá práci a je přijat, až když projde vlastní ověření repozitáře.",
+          "url": "https://majordomus.dev/use-cases/catch-an-agent-that-says-it-is-done/",
+          "seen": [
+            {
+              "cut": "film",
+              "chapter": "hook",
+              "title": "Manifest",
+              "t": 0
+            },
+            {
+              "cut": "film",
+              "chapter": "terminal",
+              "title": "Hotovo je smlouva",
+              "t": 27
+            }
+          ]
+        },
+        {
+          "id": "complete-an-issue-only-with-its-evidence",
+          "title": "Dokončit issue, jen když existují jeho důkazy",
+          "summary": "Vidět, jak issue odmítá dokončení, dokud chybí požadovaný důkaz, přečíst roadmapu odvozenou ze stavu milníků a nechat projekci na GitHub jen projekcí.",
+          "url": "https://majordomus.dev/use-cases/complete-an-issue-only-with-its-evidence/",
+          "seen": [
+            {
+              "cut": "film",
+              "chapter": "plan",
+              "title": "Stav, odvozený",
+              "t": 143
+            }
+          ]
+        },
+        {
+          "id": "know-whether-this-work-is-finished",
+          "title": "Vědět, zda je práce v tomto checkoutu hotová",
+          "summary": "Zeptat se repozitáře, ve kterém stojíte, a dozvědět se jmenovitě, co se ještě dluží.",
+          "url": "https://majordomus.dev/use-cases/know-whether-this-work-is-finished/",
+          "seen": [
+            {
+              "cut": "film",
+              "chapter": "terminal",
+              "title": "Hotovo je smlouva",
+              "t": 27
+            }
+          ]
+        },
+        {
+          "id": "prove-what-a-task-owed-before-calling-it-done",
+          "title": "Dokázat, co úkol dlužil, než se prohlásí za hotový",
+          "summary": "Úkol deklaruje, co dluží, ke každému závazku zaznamená důkaz a je odmítnut, když ten důkaz už nepopisuje strom, nad kterým vznikl.",
+          "url": "https://majordomus.dev/use-cases/prove-what-a-task-owed-before-calling-it-done/",
+          "seen": [
+            {
+              "cut": "film",
+              "chapter": "provenance",
+              "title": "Důkazy, ne sliby",
+              "t": 35
+            }
+          ]
+        },
+        {
+          "id": "say-what-reached-the-remote-and-what-did-not",
+          "title": "Říct, co dorazilo na remote a co ne",
+          "summary": "Závazky, které sahají za pracovní strom, se vyřeší dotazem na git a zveřejněný web, takže zpráva nemůže nazvat necommitnutou práci commitnutou ani nepushnutou pushnutou.",
+          "url": "https://majordomus.dev/use-cases/say-what-reached-the-remote-and-what-did-not/",
+          "seen": [
+            {
+              "cut": "film",
+              "chapter": "provenance",
+              "title": "Důkazy, ne sliby",
+              "t": 35
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "drift",
+      "title": "Rozjetí a srovnání",
+      "summary": "Zjištění, že se politika, projekce, stav a git rozcházejí, a jejich opětovné srovnání.",
+      "url": "https://majordomus.dev/use-cases/drift/",
+      "story": "story-drift",
+      "story_page": "cs/story-drift/",
+      "use_cases": [
+        {
+          "id": "find-out-what-drifted",
+          "title": "Zjistit, co se rozjelo od posledního pohledu",
+          "summary": "Ptát se, co se pohnulo, místo toho, zda je něco špatně.",
+          "url": "https://majordomus.dev/use-cases/find-out-what-drifted/",
+          "seen": [
+            {
+              "cut": "film",
+              "chapter": "monitor",
+              "title": "Jeden proud",
+              "t": 490
+            }
+          ]
+        },
+        {
+          "id": "keep-the-bootstrap-thin-and-within-budget",
+          "title": "Udržet každý bootstrap poskytovatele tenký, generovaný a v rozpočtu",
+          "summary": "Znovu vygenerovat AGENTS.md, CLAUDE.md a další soubory poskytovatelů z jedné politiky a dokázat, že jsou orazítkované, ukazují na vrstvu, nepřekročí rozpočet řádků a každý jejich odkaz se vyřeší.",
+          "url": "https://majordomus.dev/use-cases/keep-the-bootstrap-thin-and-within-budget/",
+          "seen": [
+            {
+              "cut": "film",
+              "chapter": "policy",
+              "title": "Pravidla, sepsaná jednou",
+              "t": 185
+            },
+            {
+              "cut": "film",
+              "chapter": "providers",
+              "title": "Každý klient, jedna politika",
+              "t": 193
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "knowledge",
+      "title": "Znalosti repozitáře",
+      "summary": "Co repozitář deklaruje sám o sobě: zdroje, uzly, hrany, plán a hledání v nich.",
+      "url": "https://majordomus.dev/use-cases/knowledge/",
+      "story": "story-knowledge",
+      "story_page": "cs/story-knowledge/",
+      "use_cases": [
+        {
+          "id": "classify-what-belongs-in-the-context",
+          "title": "Rozhodnout jako data, co patří do AI kontextu",
+          "summary": "Přečíst deklarovanou politiku rozsahu repozitáře, vidět, které cesty jsou v indexu a které ne, a nechat ji uplatnit doctor a index znalostí místo napevno daného seznamu.",
+          "url": "https://majordomus.dev/use-cases/classify-what-belongs-in-the-context/",
+          "seen": []
+        },
+        {
+          "id": "document-every-directory-of-the-layer",
+          "title": "Odmítnout adresář vrstvy, který nic nedokumentuje",
+          "summary": "Adresář přidaný do vrstvy bez kontextového dokumentu jmenovitě neprojde validací, nic se proti stromu nevyhodnotí, dokud neřekne, k čemu je, a táž hierarchie je čitelná přes MCP i API bez spuštění brány.",
+          "url": "https://majordomus.dev/use-cases/document-every-directory-of-the-layer/",
+          "seen": [
+            {
+              "cut": "film",
+              "chapter": "context",
+              "title": "Hierarchický kontext",
+              "t": 172
+            }
+          ]
+        },
+        {
+          "id": "hand-the-repository-to-a-reader",
+          "title": "Předat repozitář někomu, kdo ho nemůže naklonovat",
+          "summary": "Pořídit snímek, který model přečte nebo v němž poběží brána, bez odeslání čehokoli nesledovaného a bez ztráty práv souborů cestou.",
+          "url": "https://majordomus.dev/use-cases/hand-the-repository-to-a-reader/",
+          "seen": []
+        },
+        {
+          "id": "keep-what-an-episode-learned",
+          "title": "Uchovat, co se epizoda naučila, bez modelu a bez konverzace",
+          "summary": "Zaznamenat během epizody rozhodnutí, odvodit z deníku kandidátní záznam znalostí, přečíst důkaz, že odvození proběhlo, a sledovat, že druhé odvození nic nezmění.",
+          "url": "https://majordomus.dev/use-cases/keep-what-an-episode-learned/",
+          "seen": [
+            {
+              "cut": "film",
+              "chapter": "knowledge",
+              "title": "Co se naučí, zůstane",
+              "t": 510
+            }
+          ]
+        },
+        {
+          "id": "plan-the-work-as-data",
+          "title": "Vést plán jako milníky a issues, které nástroj umí ověřit",
+          "summary": "Deklarovat milníky jako výsledky a issues jako smlouvy o provedení a nechat nástroj říct, co je připravené a co blokované.",
+          "url": "https://majordomus.dev/use-cases/plan-the-work-as-data/",
+          "seen": [
+            {
+              "cut": "film",
+              "chapter": "intent",
+              "title": "Práce začíná záměrem",
+              "t": 130
+            },
+            {
+              "cut": "film",
+              "chapter": "plan",
+              "title": "Stav, odvozený",
+              "t": 143
+            }
+          ]
+        },
+        {
+          "id": "read-back-what-happened",
+          "title": "Zpětně přečíst, co se stalo, a udržet deník v limitu",
+          "summary": "Číst deník, do kterého se jen přidává, jako provozní historii filtrovanou podle úkolu a události, ověřit každý řádek a nejstarší řádky přesunout do archivu místo smazání.",
+          "url": "https://majordomus.dev/use-cases/read-back-what-happened/",
+          "seen": [
+            {
+              "cut": "film",
+              "chapter": "monitor",
+              "title": "Jeden proud",
+              "t": 490
+            }
+          ]
+        },
+        {
+          "id": "record-a-decision-before-it-is-forgotten",
+          "title": "Zaznamenat rozhodnutí jako data a dokázat, že ho nástroj nemůže přijmout za vás",
+          "summary": "Přečíst rozhodnutí, která repozitář drží, ověřit celou sadu jedním příkazem a sledovat, jak nástroj odmítne zapsat jediný stav, který smí zapsat jen člověk.",
+          "url": "https://majordomus.dev/use-cases/record-a-decision-before-it-is-forgotten/",
+          "seen": [
+            {
+              "cut": "film",
+              "chapter": "reasoning",
+              "title": "Nejistota, zdůvodněná v záznamu",
+              "t": 105
+            },
+            {
+              "cut": "film",
+              "chapter": "knowledge",
+              "title": "Co se naučí, zůstane",
+              "t": 510
+            }
+          ]
+        },
+        {
+          "id": "trace-a-change-to-the-context-it-affects",
+          "title": "Dohledat, kterých kontextových dokumentů se změna týká",
+          "summary": "Vypsat kontextové dokumenty s rozsahem, vyhodnotit, které platí pro cestu a proč, a zjistit, kterých dokumentů se sada změn dotkne, než se sloučí.",
+          "url": "https://majordomus.dev/use-cases/trace-a-change-to-the-context-it-affects/",
+          "seen": [
+            {
+              "cut": "film",
+              "chapter": "context",
+              "title": "Hierarchický kontext",
+              "t": 172
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mcp",
+      "title": "Vrstva pro AI klienty",
+      "summary": "Jeden sdílený server na repozitář, každý klient je peer, táž vrstva přes MCP, HTTP i příkazovou řádku.",
+      "url": "https://majordomus.dev/use-cases/mcp/",
+      "story": "story-mcp",
+      "story_page": "cs/story-mcp/",
+      "use_cases": [
+        {
+          "id": "find-an-object-without-reading-everything",
+          "title": "Najít objekt vrstvy bez čtení všeho",
+          "summary": "Hledat trvalé záznamy doslovně napříč druhy ze shellu a položit sdílenému serveru stejnou otázku přes MCP pomocí majordomus_search a majordomus_get.",
+          "url": "https://majordomus.dev/use-cases/find-an-object-without-reading-everything/",
+          "seen": [
+            {
+              "cut": "film",
+              "chapter": "mcp",
+              "title": "Jeden sdílený MCP server",
+              "t": 270
+            }
+          ]
+        },
+        {
+          "id": "see-what-the-repository-holds-without-reading-it",
+          "title": "Vidět, co repozitář obsahuje, a spustit jeho schopnost bez čtení souboru",
+          "summary": "Otevřít sdílený server v prohlížeči a dostat celou vrstvu jako stránky: co existuje, odkud co přišlo, co na čem závisí, co selhává, a formulář, který spustí jakoukoli schopnost.",
+          "url": "https://majordomus.dev/use-cases/see-what-the-repository-holds-without-reading-it/",
+          "seen": [
+            {
+              "cut": "film",
+              "chapter": "generate",
+              "title": "Deklarováno jednou, promítnuto všude",
+              "t": 221
+            },
+            {
+              "cut": "film",
+              "chapter": "cockpit",
+              "title": "Cockpit",
+              "t": 283
+            }
+          ]
+        },
+        {
+          "id": "serve-the-layer-to-ai-clients",
+          "title": "Poskytnout AI vrstvu repozitáře každému AI klientovi přes jeden sdílený server",
+          "summary": "Otevřít repozitář v jakémkoli klientovi, pro kterého nástroj deklaruje poskytovatele (docs/generated/providers.md), a nechat každého číst stejná pravidla, prompty a znalosti přes MCP z jednoho procesu, přičemž se navzájem vidí.",
+          "url": "https://majordomus.dev/use-cases/serve-the-layer-to-ai-clients/",
+          "seen": [
+            {
+              "cut": "film",
+              "chapter": "providers",
+              "title": "Každý klient, jedna politika",
+              "t": 193
+            },
+            {
+              "cut": "film",
+              "chapter": "mcp",
+              "title": "Jeden sdílený MCP server",
+              "t": 270
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "performance",
+      "title": "Výkon",
+      "summary": "Benchmarky odvozené z registru, výchozí měření jako data a rozpočty, proti nimž doctor hlásí.",
+      "url": "https://majordomus.dev/use-cases/performance/",
+      "story": null,
+      "story_page": null,
+      "use_cases": [
+        {
+          "id": "prove-performance-with-benchmarks",
+          "title": "Dokázat, že je nástroj rychlý, nepředpokládat to, a odmítnout regresi",
+          "summary": "Změřit každý veřejný příkaz a každou schopnost programu proti commitnutému výchozímu měření a nechat kontrolu selhat na regresi, místo aby si jí později všiml recenzent.",
+          "url": "https://majordomus.dev/use-cases/prove-performance-with-benchmarks/",
+          "seen": []
+        }
+      ]
+    },
+    {
+      "id": "extension",
+      "title": "Rozšiřování",
+      "summary": "Přidání druhu, pravidla, příkazu nebo případu užití jako dat, s kontrolami, které z toho plynou.",
+      "url": "https://majordomus.dev/use-cases/extension/",
+      "story": "story-extension",
+      "story_page": "cs/story-extension/",
+      "use_cases": [
+        {
+          "id": "add-a-use-case-and-prove-it",
+          "title": "Přidat případ užití a nechat nástroj ho dokázat",
+          "summary": "Připravit koncept pro nepokrytý příkaz, ověřit ho, spustit jeho scénář proti skutečnému nástroji a sledovat, jak se pokrytí posune.",
+          "url": "https://majordomus.dev/use-cases/add-a-use-case-and-prove-it/",
+          "seen": []
+        },
+        {
+          "id": "extend-what-the-executable-serves",
+          "title": "Rozšířit, co program obsluhuje, přidáním souboru, nikdy novým sestavením",
+          "summary": "Přidat do .ai/ pravidlo, prompt nebo uzel znalostí a uvidět ho jako MCP zdroj, HTTP cestu i referenční záznam, se stejnou binárkou.",
+          "url": "https://majordomus.dev/use-cases/extend-what-the-executable-serves/",
+          "seen": [
+            {
+              "cut": "film",
+              "chapter": "generate",
+              "title": "Deklarováno jednou, promítnuto všude",
+              "t": 221
+            }
+          ]
+        },
+        {
+          "id": "follow-a-skill-the-repository-defines",
+          "title": "Řídit se postupem, který repozitář definuje, a přidat další",
+          "summary": "Přečíst skills repozitáře, provést kterýkoli přesně podle zápisu a přidat nový napsáním jeho souboru — žádný registr, žádný kód a kontrola, která řekne, co prověřila.",
+          "url": "https://majordomus.dev/use-cases/follow-a-skill-the-repository-defines/",
+          "seen": []
+        },
+        {
+          "id": "say-what-the-tool-is-for",
+          "title": "Říct jednou, k čemu vaše práce je, a nechat to říkat každé rozhraní",
+          "summary": "Zaznamenat provozní selhání jako jeden soubor a nechat příkazovou řádku, API, MCP i web na něj odpovídat, aniž by se kdekoli registroval.",
+          "url": "https://majordomus.dev/use-cases/say-what-the-tool-is-for/",
+          "seen": []
+        }
+      ]
+    }
+  ],
+  "youtube": [
+    {
+      "url": "https://youtu.be/zcDgXorKhjs",
+      "title": "Every AI agent, every machine",
+      "cut": "The full film with chapters",
+      "duration": 536,
+      "lang": "en"
+    },
+    {
+      "url": "https://youtube.com/shorts/M250vmbZ1AI",
+      "title": "Make it prove it",
+      "cut": "The first cut",
+      "duration": 58,
+      "lang": "en"
+    },
+    {
+      "url": "https://youtube.com/shorts/oB-cRju2xrU",
+      "title": "Trust is the next one",
+      "cut": "The second cut",
+      "duration": 112,
+      "lang": "en"
+    }
+  ],
+  "gaps": [
+    "film has no tablet cut",
+    "film has no desktop cut",
+    "short has no tablet cut",
+    "short has no desktop cut",
+    "short has no cs tablet cut",
+    "short has no cs desktop cut",
+    "story-adoption has no tablet cut",
+    "story-adoption has no cs tablet cut",
+    "story-continuity has no tablet cut",
+    "story-continuity has no cs tablet cut",
+    "story-workers has no tablet cut",
+    "story-workers has no cs tablet cut",
+    "story-policy has no tablet cut",
+    "story-policy has no desktop cut",
+    "story-policy has no cs tablet cut",
+    "story-policy has no cs desktop cut",
+    "story-completion has no tablet cut",
+    "story-completion has no desktop cut",
+    "story-completion has no cs tablet cut",
+    "story-completion has no cs desktop cut",
+    "story-drift has no tablet cut",
+    "story-drift has no desktop cut",
+    "story-drift has no cs tablet cut",
+    "story-drift has no cs desktop cut",
+    "story-knowledge has no tablet cut",
+    "story-knowledge has no desktop cut",
+    "story-knowledge has no cs tablet cut",
+    "story-knowledge has no cs desktop cut",
+    "story-mcp has no tablet cut",
+    "story-mcp has no desktop cut",
+    "story-mcp has no cs tablet cut",
+    "story-mcp has no cs desktop cut",
+    "story-extension has no tablet cut",
+    "story-extension has no desktop cut",
+    "story-extension has no cs tablet cut",
+    "story-extension has no cs desktop cut"
+  ],
+  "requirements": "node, ffmpeg, uvx a Google Chrome",
+  "counts": {
+    "chapters": 44,
+    "stories": 9,
+    "use_cases": 49,
+    "use_cases_shown": 37,
+    "formats": 3,
+    "acts": 7,
+    "renders": 16,
+    "renders_declared": 33
+  }
+}

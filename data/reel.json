@@ -1,0 +1,2536 @@
+{
+  "about": "The Majordomus reel: every cut in the formats it is rendered in, its chapters and the Majordomus use cases each chapter shows, derived from the renders and the release, in this language. Paths are relative to the site's root. The pages, sitemap.xml and llms.txt are projections of this object.",
+  "site": "https://korczis.github.io/majordomus-reel/",
+  "source": "https://github.com/korczis/majordomus-reel",
+  "lang": "en",
+  "locale": "en-US",
+  "languages": [
+    {
+      "id": "en",
+      "locale": "en-US",
+      "name": "English",
+      "home": "",
+      "data": "data/reel.json",
+      "llms": "llms.txt"
+    },
+    {
+      "id": "cs",
+      "locale": "cs-CZ",
+      "name": "Čeština",
+      "home": "cs/",
+      "data": "cs/data/reel.json",
+      "llms": "cs/llms.txt"
+    }
+  ],
+  "release": {
+    "version": "1.1.0",
+    "tag": "v1.1.0",
+    "commit": "ae13be1bd138be3139b4fd9a1a11de8c6b2f7c88",
+    "url": "https://github.com/korczis/prismatic-majordomus/releases/tag/v1.1.0",
+    "label": "1.1.0",
+    "pending": false,
+    "rules": 61,
+    "rules_validated": 51,
+    "blocking": 44,
+    "blocking_validated": 44,
+    "decisions": 169
+  },
+  "formats": [
+    {
+      "id": "phone",
+      "label": "Phone",
+      "width": 1080,
+      "height": 1920,
+      "media": "(max-aspect-ratio: 4/5)",
+      "detail": 0
+    },
+    {
+      "id": "tablet",
+      "label": "Tablet",
+      "width": 1440,
+      "height": 1080,
+      "media": "(min-aspect-ratio: 4/5) and (max-aspect-ratio: 3/2)",
+      "detail": 1
+    },
+    {
+      "id": "desktop",
+      "label": "Desktop",
+      "width": 1920,
+      "height": 1080,
+      "media": "(min-aspect-ratio: 3/2)",
+      "detail": 2
+    }
+  ],
+  "cuts": [
+    {
+      "id": "film",
+      "kind": "film",
+      "title": "The film",
+      "summary": "Every chapter of Majordomus, end to end.",
+      "duration": 613.6,
+      "path": "",
+      "page": "",
+      "published": "2026-11-18T01:48:01+01:00",
+      "lang": "en",
+      "chapters": [
+        {
+          "id": "hook",
+          "t": 0,
+          "title": "The manifesto",
+          "act": "PROBLEM",
+          "use_cases": [
+            "catch-an-agent-that-says-it-is-done"
+          ],
+          "narration": "Your AI agent says the work is done… Is it?"
+        },
+        {
+          "id": "stats",
+          "t": 6,
+          "title": "Agents drift",
+          "act": "PROBLEM",
+          "use_cases": [],
+          "narration": "In real repositories, agents drift. Rule files that share almost nothing. Seventeen checks nobody ran. Thirty-two hundred files, changed at once."
+        },
+        {
+          "id": "reveal",
+          "t": 18,
+          "title": "Meet Majordomus",
+          "act": "CONTRACT",
+          "use_cases": [],
+          "narration": "Meet Majordomus. The supervisory layer for your AI agents."
+        },
+        {
+          "id": "terminal",
+          "t": 24,
+          "title": "Done is a contract",
+          "act": "CONTRACT",
+          "use_cases": [
+            "catch-an-agent-that-says-it-is-done",
+            "accept-or-refuse-finished-work",
+            "know-whether-this-work-is-finished"
+          ],
+          "narration": "When an agent says it's finished, Majordomus checks the scope, the state, and the tests. And when anything fails, it refuses."
+        },
+        {
+          "id": "provenance",
+          "t": 34,
+          "title": "Provenance, not promises",
+          "act": "CONTRACT",
+          "use_cases": [
+            "prove-what-a-task-owed-before-calling-it-done",
+            "say-what-reached-the-remote-and-what-did-not"
+          ],
+          "narration": "And every proof leaves a record. The test, the commit, the tree, the time, and the exact command. Provenance, not promises."
+        },
+        {
+          "id": "doctrine",
+          "t": 45,
+          "title": "Written down is not enforced",
+          "act": "CONTRACT",
+          "use_cases": [
+            "prove-a-rule-is-enforced",
+            "read-the-rules-the-tool-applies"
+          ],
+          "narration": "A rule is not enforced because it is written down. It is enforced when it is declared, validated, wired into a command, fails that command, is tested, blocks CI, and backs a claim. Anything less is documentation."
+        },
+        {
+          "id": "doctor",
+          "t": 62,
+          "title": "The repository checks itself",
+          "act": "CONTRACT",
+          "use_cases": [
+            "gate-ci-on-the-tool-itself",
+            "trust-the-policy-before-reading-it"
+          ],
+          "narration": "And the repository checks itself. Majordomus doctor reads every rule, every projection and every hook, on every commit. Forty-four blocking rules, each with a validator. Zero failures."
+        },
+        {
+          "id": "hooks",
+          "t": 78,
+          "title": "Two hooks hold the line",
+          "act": "CONTRACT",
+          "use_cases": [
+            "prove-a-rule-is-enforced",
+            "gate-ci-on-the-tool-itself"
+          ],
+          "narration": "Two hooks hold the line. Every commit runs doctor. Every push runs the finish contract, and an unmet one stops the push. Until the first task starts, both stay quiet."
+        },
+        {
+          "id": "economics",
+          "t": 91,
+          "title": "Numbers, measured or absent",
+          "act": "CONTRACT",
+          "use_cases": [],
+          "narration": "It will not sell you a number it never measured. Savings come only from recorded pairs of runs, with it and without it, on the same task, and both must pass. A run that saves tokens by failing is not a saving. And a number typed into prose is refused."
+        },
+        {
+          "id": "reasoning",
+          "t": 110,
+          "title": "Uncertainty, reasoned on the record",
+          "act": "CONTRACT",
+          "use_cases": [
+            "block-acceptance-on-an-open-question",
+            "record-a-decision-before-it-is-forgotten"
+          ],
+          "narration": "When a decision is uncertain, it is reasoned on the record. Evidence first. Advisors, if any are present, and their answers are evidence, never verdicts. The conclusion stays for the next session to read."
+        },
+        {
+          "id": "setup",
+          "t": 126,
+          "title": "Three commands",
+          "act": "WORKFLOW",
+          "use_cases": [
+            "install-the-tool-in-one-command",
+            "adopt-an-existing-repository"
+          ],
+          "narration": "Install it with one line. Initialise your repository. Then start a task with a scope, and let your agents work."
+        },
+        {
+          "id": "intent",
+          "t": 135,
+          "title": "Work starts from intent",
+          "act": "WORKFLOW",
+          "use_cases": [
+            "plan-the-work-as-data",
+            "deliver-issues-in-waves"
+          ],
+          "narration": "Work starts from intent: what must become true, and the criteria that prove it. Intents become milestones, milestones become issues, and plan next names the one issue to take now."
+        },
+        {
+          "id": "plan",
+          "t": 149,
+          "title": "Status, derived",
+          "act": "WORKFLOW",
+          "use_cases": [
+            "complete-an-issue-only-with-its-evidence",
+            "plan-the-work-as-data"
+          ],
+          "narration": "No issue stores its status. It is derived from what happened to it: started, verified, completed, and the evidence each step carries. Done is refused while a required proof is missing, and plan next recomputes the one issue to take."
+        },
+        {
+          "id": "session",
+          "t": 167,
+          "title": "Every session starts briefed",
+          "act": "WORKFLOW",
+          "use_cases": [
+            "hand-work-between-sessions",
+            "read-only-the-context-that-fits"
+          ],
+          "narration": "Every session starts briefed. The task, its scope, the last handover's next action, who else is working, and what the release still owes. Nothing to rediscover."
+        },
+        {
+          "id": "context",
+          "t": 180,
+          "title": "Hierarchical context",
+          "act": "WORKFLOW",
+          "use_cases": [
+            "read-only-the-context-that-fits",
+            "trace-a-change-to-the-context-it-affects",
+            "document-every-directory-of-the-layer"
+          ],
+          "narration": "Context is a tree. Each agent reads the documents from the root down to the path it works on. The nearest adds to its ancestors, and siblings never see each other. Nothing more, and nothing less."
+        },
+        {
+          "id": "policy",
+          "t": 195,
+          "title": "Rules, written once",
+          "act": "WORKFLOW",
+          "use_cases": [
+            "keep-the-bootstrap-thin-and-within-budget"
+          ],
+          "narration": "One policy writes every agent's instructions. Tasks live in the repository, not in a chat window."
+        },
+        {
+          "id": "providers",
+          "t": 203,
+          "title": "Every client, one policy",
+          "act": "WORKFLOW",
+          "use_cases": [
+            "serve-the-layer-to-ai-clients",
+            "keep-the-bootstrap-thin-and-within-budget"
+          ],
+          "narration": "Claude Code, Codex, Gemini, Zed, Antigravity, bb, or any client that speaks MCP. Each reads its own projection of the same policy."
+        },
+        {
+          "id": "models",
+          "t": 216,
+          "title": "Models, declared",
+          "act": "WORKFLOW",
+          "use_cases": [],
+          "narration": "Models are declared data. Anthropic and OpenAI in the cloud, Ollama and LM Studio on your own machine. Routing picks one by need. Ask for local only, and it answers: nothing qualifies. Never a guess."
+        },
+        {
+          "id": "generate",
+          "t": 233,
+          "title": "Declared once, projected everywhere",
+          "act": "PLATFORM",
+          "use_cases": [
+            "extend-what-the-executable-serves",
+            "see-what-the-repository-holds-without-reading-it"
+          ],
+          "narration": "Every operation is declared once. The command line, the HTTP API, the MCP tools, the OpenAPI document, the docs and the skills are generated from it, and a check fails the moment one drifts."
+        },
+        {
+          "id": "release",
+          "t": 248,
+          "title": "Versions, measured",
+          "act": "PLATFORM",
+          "use_cases": [],
+          "narration": "Versions are measured, not claimed. Every release compares the public surface with the last one. Something gone is a major, something new is a minor, and nothing changed owes nothing. The changelog writes itself."
+        },
+        {
+          "id": "builds",
+          "t": 264,
+          "title": "Only an explicit build builds",
+          "act": "PLATFORM",
+          "use_cases": [],
+          "narration": "No ordinary command builds. When the executable is stale, a command stops with exit twelve and names the one build to run, or a release of the same generation answers for it. A version string is not a build. Hooks and gates call the built tool, never cargo, so a push no longer compiles in its gates."
+        },
+        {
+          "id": "mcp",
+          "t": 286,
+          "title": "One shared MCP server",
+          "act": "PLATFORM",
+          "use_cases": [
+            "serve-the-layer-to-ai-clients",
+            "find-an-object-without-reading-everything"
+          ],
+          "narration": "One shared server per repository. The first client starts it, every next one attaches, and each sees the others. The same server answers over HTTP, with Swagger and the Cockpit."
+        },
+        {
+          "id": "cockpit",
+          "t": 301,
+          "title": "The Cockpit",
+          "act": "PLATFORM",
+          "use_cases": [
+            "see-what-the-repository-holds-without-reading-it"
+          ],
+          "narration": "And a person sees all of it in the Cockpit. The same server, the same registry, rendered for a person, with nothing of its own to drift."
+        },
+        {
+          "id": "deploy",
+          "t": 311,
+          "title": "Deployed from one commit",
+          "act": "PLATFORM",
+          "use_cases": [],
+          "narration": "A deployment is declared once. It names its provider, and every file the provider reads is derived from it. What ships is assembled at one commit, never the repository: the inputs, the executable built there, and the site built there too. A site from any other commit is refused."
+        },
+        {
+          "id": "discovery",
+          "t": 332,
+          "title": "Peer discovery",
+          "act": "MESH",
+          "use_cases": [],
+          "narration": "Before they share a board, runtimes find each other. A signed beacon on the local network, a rendezvous hub further out. Every one is checked before it is heard, and none carries a secret."
+        },
+        {
+          "id": "blackboard",
+          "t": 346,
+          "title": "The blackboard",
+          "act": "MESH",
+          "use_cases": [
+            "run-several-workers-at-once"
+          ],
+          "narration": "Before work starts, every worker writes on the blackboard what it intends, and the paths it expects to touch. A claim, not a lock. Overlaps surface the moment they are written."
+        },
+        {
+          "id": "mesh",
+          "t": 359,
+          "title": "One board, every agent",
+          "act": "MESH",
+          "use_cases": [
+            "run-several-workers-at-once"
+          ],
+          "narration": "Claude, Codex and Gemini share one board. When two reach for the same file, you hear about it before the merge."
+        },
+        {
+          "id": "collision",
+          "t": 368,
+          "title": "Checked before it is built",
+          "act": "MESH",
+          "use_cases": [
+            "run-several-workers-at-once"
+          ],
+          "narration": "The board says who is working now. Git says what was already built. Before a new module is written, every branch, local and remote, is asked what already claims its paths. And a decision number another branch already carries is refused at commit."
+        },
+        {
+          "id": "claims",
+          "t": 385,
+          "title": "One claim, one winner",
+          "act": "MESH",
+          "use_cases": [
+            "run-several-workers-at-once"
+          ],
+          "narration": "When work must not overlap across machines, it is claimed exclusively. A second session is refused, and told which claim it meets. When two machines claim in the same heartbeat, every runtime names the same winner, never the last packet. A holder that stops beating loses its claim."
+        },
+        {
+          "id": "worktrees",
+          "t": 406,
+          "title": "One branch, one worktree",
+          "act": "MESH",
+          "use_cases": [
+            "work-on-a-branch-in-its-canonical-worktree",
+            "resume-in-the-right-worktree"
+          ],
+          "narration": "Parallel work needs parallel trees. Every branch has exactly one worktree, derived from git: the primary checkout keeps the trunk, every other branch lives beside it. A commit from the wrong place is refused."
+        },
+        {
+          "id": "seats",
+          "t": 421,
+          "title": "Work moves through seats",
+          "act": "MESH",
+          "use_cases": [
+            "deliver-issues-in-waves"
+          ],
+          "narration": "Work moves through seats. One seat lands green work in combined tops. One releases whenever master is ahead of the last tag. Repair lanes bring stale branches current, and each worker holds one issue. A seat is a claim, so it falls vacant when its holder stops beating."
+        },
+        {
+          "id": "trains",
+          "t": 441,
+          "title": "Many pull requests, one run",
+          "act": "MESH",
+          "use_cases": [],
+          "narration": "Pull requests land as a train. Each link is stacked on the one below, and every link's checks run at the same time. One run pays for several. A link merges only after the one it names, and git decides it is safe, never the stacking."
+        },
+        {
+          "id": "machines",
+          "t": 458,
+          "title": "Home, datacenter, company",
+          "act": "MESH",
+          "use_cases": [],
+          "narration": "The mesh spans every machine you work on. The desktop at home. The rack in the datacenter, behind a TLS hub. The whole fleet across the company, on a private network."
+        },
+        {
+          "id": "cache",
+          "t": 471,
+          "title": "Built once, reused everywhere",
+          "act": "MESH",
+          "use_cases": [],
+          "narration": "Every build goes through the mesh cache. What one machine compiled, the next one reuses, and nobody sets a variable. When the store is down, the build stays local and says why. A script that goes around the cache is refused by a gate."
+        },
+        {
+          "id": "security",
+          "t": 489,
+          "title": "Signed, listed, inert",
+          "act": "MESH",
+          "use_cases": [],
+          "narration": "Every message is signed with the machine's own key. No one is trusted until you list them. A public address is reached over HTTPS only. And nothing a peer sends is ever executed."
+        },
+        {
+          "id": "crosstalk",
+          "t": 503,
+          "title": "Sessions talk to each other",
+          "act": "MESH",
+          "use_cases": [
+            "hand-work-between-sessions"
+          ],
+          "narration": "Sessions talk to each other through the mesh. One asks for a review, another answers it from a different machine. A handover published tonight is consumed tomorrow, wherever the work resumes."
+        },
+        {
+          "id": "monitor",
+          "t": 516,
+          "title": "One stream",
+          "act": "MESH",
+          "use_cases": [
+            "read-back-what-happened",
+            "find-out-what-drifted"
+          ],
+          "narration": "One stream follows every session, claim, handover and review on every linked machine, with the merges and the GitHub runs beside them. What names you comes first, and the noise is folded away."
+        },
+        {
+          "id": "continuity",
+          "t": 531,
+          "title": "Work that outlives the chat",
+          "act": "MEMORY",
+          "use_cases": [
+            "hand-work-between-sessions",
+            "checkpoint-long-work",
+            "carry-a-blocker-across-a-handover"
+          ],
+          "narration": "Close the laptop tonight. Tomorrow, any agent picks up the handover, exactly where the work stopped."
+        },
+        {
+          "id": "knowledge",
+          "t": 539,
+          "title": "What it learns stays learned",
+          "act": "MEMORY",
+          "use_cases": [
+            "keep-what-an-episode-learned",
+            "record-a-decision-before-it-is-forgotten",
+            "keep-decisions-out-of-the-transcript"
+          ],
+          "narration": "And what a session learns outlives it too. Decisions become records: a hundred and sixty-nine architecture decisions so far. Knowledge is derived at the end of every session, without a model, and a person promotes what deserves to stay."
+        },
+        {
+          "id": "privacy",
+          "t": 557,
+          "title": "What is yours stays yours",
+          "act": "MEMORY",
+          "use_cases": [
+            "open-and-close-a-session",
+            "recover-an-episode-nobody-closed"
+          ],
+          "narration": "What is yours stays yours. Session state lives in the local half of the layer, which git ignores. Handovers, checkpoints and open sessions are written readable by their owner only, and none of them is ever committed."
+        },
+        {
+          "id": "personal",
+          "t": 572,
+          "title": "Personal mode",
+          "act": "MEMORY",
+          "use_cases": [
+            "use-the-tool-as-your-own-in-a-shared-repository"
+          ],
+          "narration": "Not your repository to change? Personal mode keeps the whole layer in your clone, and the team's tree stays byte for byte what they committed."
+        },
+        {
+          "id": "local",
+          "t": 583,
+          "title": "Yours, entirely",
+          "act": "MEMORY",
+          "use_cases": [],
+          "narration": "It runs on your machine, never calls a model, and works with any agent."
+        },
+        {
+          "id": "beliefs",
+          "t": 588,
+          "title": "The manifesto, No. 02",
+          "act": "MANIFESTO",
+          "use_cases": [],
+          "narration": "We believe done is a contract, not a feeling. That agents should prove, not promise. That the repository remembers what the chat forgets… AI agents were a leap forward. Trust is the next one."
+        },
+        {
+          "id": "cta",
+          "t": 603,
+          "title": "Make them prove it",
+          "act": "MANIFESTO",
+          "use_cases": [],
+          "narration": "Your agents say it's done. Majordomus makes them prove it. Majordomus dot dev."
+        }
+      ],
+      "captions": "v/film.vtt",
+      "og": "og/film.jpg",
+      "og_from": "phone",
+      "formats": {
+        "phone": {
+          "video": "v/film-phone.mp4",
+          "poster": "v/film-phone.jpg",
+          "poster_t": 23.99,
+          "width": 720,
+          "height": 1280,
+          "bytes": 34380611
+        }
+      },
+      "fallback": {
+        "tablet": "phone",
+        "desktop": "phone"
+      }
+    },
+    {
+      "id": "short",
+      "kind": "short",
+      "title": "The short",
+      "summary": "The whole argument, for a feed.",
+      "duration": 160.6,
+      "path": "short/",
+      "page": "short/",
+      "published": "2026-11-18T01:48:01+01:00",
+      "lang": "en",
+      "chapters": [
+        {
+          "id": "hook",
+          "t": 0,
+          "title": "The manifesto",
+          "act": "PROBLEM",
+          "use_cases": [
+            "catch-an-agent-that-says-it-is-done"
+          ],
+          "narration": "Your AI agent says the work is done… Is it?"
+        },
+        {
+          "id": "stats",
+          "t": 6,
+          "title": "Agents drift",
+          "act": "PROBLEM",
+          "use_cases": [],
+          "narration": "In real repositories, agents drift. Rule files that share almost nothing. Seventeen checks nobody ran. Thirty-two hundred files, changed at once."
+        },
+        {
+          "id": "reveal",
+          "t": 18,
+          "title": "Meet Majordomus",
+          "act": "CONTRACT",
+          "use_cases": [],
+          "narration": "Meet Majordomus. The supervisory layer for your AI agents."
+        },
+        {
+          "id": "terminal",
+          "t": 24,
+          "title": "Done is a contract",
+          "act": "CONTRACT",
+          "use_cases": [
+            "catch-an-agent-that-says-it-is-done",
+            "accept-or-refuse-finished-work",
+            "know-whether-this-work-is-finished"
+          ],
+          "narration": "When an agent says it's finished, Majordomus checks the scope, the state, and the tests. And when anything fails, it refuses."
+        },
+        {
+          "id": "provenance",
+          "t": 34,
+          "title": "Provenance, not promises",
+          "act": "CONTRACT",
+          "use_cases": [
+            "prove-what-a-task-owed-before-calling-it-done",
+            "say-what-reached-the-remote-and-what-did-not"
+          ],
+          "narration": "And every proof leaves a record. The test, the commit, the tree, the time, and the exact command. Provenance, not promises."
+        },
+        {
+          "id": "setup",
+          "t": 45,
+          "title": "Three commands",
+          "act": "WORKFLOW",
+          "use_cases": [
+            "install-the-tool-in-one-command",
+            "adopt-an-existing-repository"
+          ],
+          "narration": "Install it with one line. Initialise your repository. Then start a task with a scope, and let your agents work."
+        },
+        {
+          "id": "models",
+          "t": 53,
+          "title": "Models, declared",
+          "act": "WORKFLOW",
+          "use_cases": [],
+          "narration": "Models are declared data. Anthropic and OpenAI in the cloud, Ollama and LM Studio on your own machine. Routing picks one by need. Ask for local only, and it answers: nothing qualifies. Never a guess."
+        },
+        {
+          "id": "mesh",
+          "t": 70,
+          "title": "One board, every agent",
+          "act": "MESH",
+          "use_cases": [
+            "run-several-workers-at-once"
+          ],
+          "narration": "Claude, Codex and Gemini share one board. When two reach for the same file, you hear about it before the merge."
+        },
+        {
+          "id": "seats",
+          "t": 79,
+          "title": "Work moves through seats",
+          "act": "MESH",
+          "use_cases": [
+            "deliver-issues-in-waves"
+          ],
+          "narration": "Work moves through seats. One seat lands green work in combined tops. One releases whenever master is ahead of the last tag. Repair lanes bring stale branches current, and each worker holds one issue. A seat is a claim, so it falls vacant when its holder stops beating."
+        },
+        {
+          "id": "machines",
+          "t": 98,
+          "title": "Home, datacenter, company",
+          "act": "MESH",
+          "use_cases": [],
+          "narration": "The mesh spans every machine you work on. The desktop at home. The rack in the datacenter, behind a TLS hub. The whole fleet across the company, on a private network."
+        },
+        {
+          "id": "security",
+          "t": 111,
+          "title": "Signed, listed, inert",
+          "act": "MESH",
+          "use_cases": [],
+          "narration": "Every message is signed with the machine's own key. No one is trusted until you list them. A public address is reached over HTTPS only. And nothing a peer sends is ever executed."
+        },
+        {
+          "id": "personal",
+          "t": 125,
+          "title": "Personal mode",
+          "act": "MEMORY",
+          "use_cases": [
+            "use-the-tool-as-your-own-in-a-shared-repository"
+          ],
+          "narration": "Not your repository to change? Personal mode keeps the whole layer in your clone, and the team's tree stays byte for byte what they committed."
+        },
+        {
+          "id": "beliefs",
+          "t": 135,
+          "title": "The manifesto, No. 02",
+          "act": "MANIFESTO",
+          "use_cases": [],
+          "narration": "We believe done is a contract, not a feeling. That agents should prove, not promise. That the repository remembers what the chat forgets… AI agents were a leap forward. Trust is the next one."
+        },
+        {
+          "id": "cta",
+          "t": 150,
+          "title": "Make them prove it",
+          "act": "MANIFESTO",
+          "use_cases": [],
+          "narration": "Your agents say it's done. Majordomus makes them prove it. Majordomus dot dev."
+        }
+      ],
+      "captions": "v/short.vtt",
+      "og": "og/short.jpg",
+      "og_from": "phone",
+      "formats": {
+        "phone": {
+          "video": "v/short-phone.mp4",
+          "poster": "v/short-phone.jpg",
+          "poster_t": 23.99,
+          "width": 720,
+          "height": 1280,
+          "bytes": 11239168
+        }
+      },
+      "fallback": {
+        "tablet": "phone",
+        "desktop": "phone"
+      }
+    },
+    {
+      "id": "story-adoption",
+      "kind": "story",
+      "title": "Getting started and adoption",
+      "summary": "Bringing Majordomus into a repository, new or old, without losing what people already wrote.",
+      "duration": 36.4,
+      "path": "story-adoption/",
+      "page": "story-adoption/",
+      "published": "2026-11-18T01:48:01+01:00",
+      "lang": "en",
+      "chapters": [
+        {
+          "id": "story",
+          "t": 0,
+          "title": "Getting started and adoption",
+          "act": "STORY",
+          "use_cases": [],
+          "narration": "Getting started and adoption. Bringing Majordomus into a repository, new or old, without losing what people already wrote."
+        },
+        {
+          "id": "personal",
+          "t": 10,
+          "title": "Personal mode",
+          "act": "MEMORY",
+          "use_cases": [
+            "use-the-tool-as-your-own-in-a-shared-repository"
+          ],
+          "narration": "Not your repository to change? Personal mode keeps the whole layer in your clone, and the team's tree stays byte for byte what they committed."
+        },
+        {
+          "id": "setup",
+          "t": 20,
+          "title": "Three commands",
+          "act": "START",
+          "use_cases": [
+            "install-the-tool-in-one-command",
+            "adopt-an-existing-repository"
+          ],
+          "narration": "Install it with one line. Initialise your repository. Then start a task with a scope, and let your agents work."
+        },
+        {
+          "id": "cta",
+          "t": 29,
+          "title": "Make them prove it",
+          "act": "START",
+          "use_cases": [],
+          "narration": "Your agents say it's done. Majordomus makes them prove it. Majordomus dot dev."
+        }
+      ],
+      "captions": "v/story-adoption.vtt",
+      "og": "og/story-adoption.jpg",
+      "og_from": "desktop",
+      "formats": {
+        "phone": {
+          "video": "v/story-adoption-phone.mp4",
+          "poster": "v/story-adoption-phone.jpg",
+          "poster_t": 9.98,
+          "width": 720,
+          "height": 1280,
+          "bytes": 2698999
+        },
+        "desktop": {
+          "video": "v/story-adoption-desktop.mp4",
+          "poster": "v/story-adoption-desktop.jpg",
+          "poster_t": 9.98,
+          "width": 1920,
+          "height": 1080,
+          "bytes": 4121294
+        }
+      },
+      "fallback": {
+        "tablet": "desktop"
+      },
+      "category": "adoption",
+      "category_url": "https://majordomus.dev/use-cases/adoption/",
+      "use_cases": [
+        "use-the-tool-as-your-own-in-a-shared-repository"
+      ]
+    },
+    {
+      "id": "story-continuity",
+      "kind": "story",
+      "title": "Sessions and handover",
+      "summary": "Stopping and resuming work across sessions and workers from durable state, never a transcript.",
+      "duration": 124,
+      "path": "story-continuity/",
+      "page": "story-continuity/",
+      "published": "2026-11-18T01:48:01+01:00",
+      "lang": "en",
+      "chapters": [
+        {
+          "id": "story",
+          "t": 0,
+          "title": "Sessions and handover",
+          "act": "STORY",
+          "use_cases": [],
+          "narration": "Sessions and handover. Stopping and resuming work across sessions and workers from durable state, never a transcript."
+        },
+        {
+          "id": "session",
+          "t": 9,
+          "title": "Every session starts briefed",
+          "act": "WORKFLOW",
+          "use_cases": [
+            "hand-work-between-sessions",
+            "read-only-the-context-that-fits"
+          ],
+          "narration": "Every session starts briefed. The task, its scope, the last handover's next action, who else is working, and what the release still owes. Nothing to rediscover."
+        },
+        {
+          "id": "context",
+          "t": 22,
+          "title": "Hierarchical context",
+          "act": "WORKFLOW",
+          "use_cases": [
+            "read-only-the-context-that-fits",
+            "trace-a-change-to-the-context-it-affects",
+            "document-every-directory-of-the-layer"
+          ],
+          "narration": "Context is a tree. Each agent reads the documents from the root down to the path it works on. The nearest adds to its ancestors, and siblings never see each other. Nothing more, and nothing less."
+        },
+        {
+          "id": "worktrees",
+          "t": 38,
+          "title": "One branch, one worktree",
+          "act": "MESH",
+          "use_cases": [
+            "work-on-a-branch-in-its-canonical-worktree",
+            "resume-in-the-right-worktree"
+          ],
+          "narration": "Parallel work needs parallel trees. Every branch has exactly one worktree, derived from git: the primary checkout keeps the trunk, every other branch lives beside it. A commit from the wrong place is refused."
+        },
+        {
+          "id": "crosstalk",
+          "t": 53,
+          "title": "Sessions talk to each other",
+          "act": "MESH",
+          "use_cases": [
+            "hand-work-between-sessions"
+          ],
+          "narration": "Sessions talk to each other through the mesh. One asks for a review, another answers it from a different machine. A handover published tonight is consumed tomorrow, wherever the work resumes."
+        },
+        {
+          "id": "continuity",
+          "t": 66,
+          "title": "Work that outlives the chat",
+          "act": "MEMORY",
+          "use_cases": [
+            "hand-work-between-sessions",
+            "checkpoint-long-work",
+            "carry-a-blocker-across-a-handover"
+          ],
+          "narration": "Close the laptop tonight. Tomorrow, any agent picks up the handover, exactly where the work stopped."
+        },
+        {
+          "id": "knowledge",
+          "t": 75,
+          "title": "What it learns stays learned",
+          "act": "MEMORY",
+          "use_cases": [
+            "keep-what-an-episode-learned",
+            "record-a-decision-before-it-is-forgotten",
+            "keep-decisions-out-of-the-transcript"
+          ],
+          "narration": "And what a session learns outlives it too. Decisions become records: a hundred and sixty-nine architecture decisions so far. Knowledge is derived at the end of every session, without a model, and a person promotes what deserves to stay."
+        },
+        {
+          "id": "privacy",
+          "t": 92,
+          "title": "What is yours stays yours",
+          "act": "MEMORY",
+          "use_cases": [
+            "open-and-close-a-session",
+            "recover-an-episode-nobody-closed"
+          ],
+          "narration": "What is yours stays yours. Session state lives in the local half of the layer, which git ignores. Handovers, checkpoints and open sessions are written readable by their owner only, and none of them is ever committed."
+        },
+        {
+          "id": "setup",
+          "t": 108,
+          "title": "Three commands",
+          "act": "START",
+          "use_cases": [
+            "install-the-tool-in-one-command",
+            "adopt-an-existing-repository"
+          ],
+          "narration": "Install it with one line. Initialise your repository. Then start a task with a scope, and let your agents work."
+        },
+        {
+          "id": "cta",
+          "t": 116,
+          "title": "Make them prove it",
+          "act": "START",
+          "use_cases": [],
+          "narration": "Your agents say it's done. Majordomus makes them prove it. Majordomus dot dev."
+        }
+      ],
+      "captions": "v/story-continuity.vtt",
+      "og": "og/story-continuity.jpg",
+      "og_from": "desktop",
+      "formats": {
+        "phone": {
+          "video": "v/story-continuity-phone.mp4",
+          "poster": "v/story-continuity-phone.jpg",
+          "poster_t": 9.21,
+          "width": 720,
+          "height": 1280,
+          "bytes": 7287979
+        },
+        "desktop": {
+          "video": "v/story-continuity-desktop.mp4",
+          "poster": "v/story-continuity-desktop.jpg",
+          "poster_t": 9.21,
+          "width": 1920,
+          "height": 1080,
+          "bytes": 13214927
+        }
+      },
+      "fallback": {
+        "tablet": "desktop"
+      },
+      "category": "continuity",
+      "category_url": "https://majordomus.dev/use-cases/continuity/",
+      "use_cases": [
+        "hand-work-between-sessions",
+        "read-only-the-context-that-fits",
+        "resume-in-the-right-worktree",
+        "checkpoint-long-work",
+        "carry-a-blocker-across-a-handover",
+        "keep-decisions-out-of-the-transcript",
+        "open-and-close-a-session",
+        "recover-an-episode-nobody-closed"
+      ]
+    },
+    {
+      "id": "story-workers",
+      "kind": "story",
+      "title": "Parallel workers",
+      "summary": "Several agents or people on one repository: claimed scopes, overlap, and who touched what.",
+      "duration": 135,
+      "path": "story-workers/",
+      "page": "story-workers/",
+      "published": "2026-11-18T01:48:01+01:00",
+      "lang": "en",
+      "chapters": [
+        {
+          "id": "story",
+          "t": 0,
+          "title": "Parallel workers",
+          "act": "STORY",
+          "use_cases": [],
+          "narration": "Parallel workers. Several agents or people on one repository: claimed scopes, overlap, and who touched what."
+        },
+        {
+          "id": "intent",
+          "t": 9,
+          "title": "Work starts from intent",
+          "act": "WORKFLOW",
+          "use_cases": [
+            "plan-the-work-as-data",
+            "deliver-issues-in-waves"
+          ],
+          "narration": "Work starts from intent: what must become true, and the criteria that prove it. Intents become milestones, milestones become issues, and plan next names the one issue to take now."
+        },
+        {
+          "id": "blackboard",
+          "t": 24,
+          "title": "The blackboard",
+          "act": "MESH",
+          "use_cases": [
+            "run-several-workers-at-once"
+          ],
+          "narration": "Before work starts, every worker writes on the blackboard what it intends, and the paths it expects to touch. A claim, not a lock. Overlaps surface the moment they are written."
+        },
+        {
+          "id": "mesh",
+          "t": 37,
+          "title": "One board, every agent",
+          "act": "MESH",
+          "use_cases": [
+            "run-several-workers-at-once"
+          ],
+          "narration": "Claude, Codex and Gemini share one board. When two reach for the same file, you hear about it before the merge."
+        },
+        {
+          "id": "collision",
+          "t": 46,
+          "title": "Checked before it is built",
+          "act": "MESH",
+          "use_cases": [
+            "run-several-workers-at-once"
+          ],
+          "narration": "The board says who is working now. Git says what was already built. Before a new module is written, every branch, local and remote, is asked what already claims its paths. And a decision number another branch already carries is refused at commit."
+        },
+        {
+          "id": "claims",
+          "t": 63,
+          "title": "One claim, one winner",
+          "act": "MESH",
+          "use_cases": [
+            "run-several-workers-at-once"
+          ],
+          "narration": "When work must not overlap across machines, it is claimed exclusively. A second session is refused, and told which claim it meets. When two machines claim in the same heartbeat, every runtime names the same winner, never the last packet. A holder that stops beating loses its claim."
+        },
+        {
+          "id": "worktrees",
+          "t": 84,
+          "title": "One branch, one worktree",
+          "act": "MESH",
+          "use_cases": [
+            "work-on-a-branch-in-its-canonical-worktree",
+            "resume-in-the-right-worktree"
+          ],
+          "narration": "Parallel work needs parallel trees. Every branch has exactly one worktree, derived from git: the primary checkout keeps the trunk, every other branch lives beside it. A commit from the wrong place is refused."
+        },
+        {
+          "id": "seats",
+          "t": 99,
+          "title": "Work moves through seats",
+          "act": "MESH",
+          "use_cases": [
+            "deliver-issues-in-waves"
+          ],
+          "narration": "Work moves through seats. One seat lands green work in combined tops. One releases whenever master is ahead of the last tag. Repair lanes bring stale branches current, and each worker holds one issue. A seat is a claim, so it falls vacant when its holder stops beating."
+        },
+        {
+          "id": "setup",
+          "t": 119,
+          "title": "Three commands",
+          "act": "START",
+          "use_cases": [
+            "install-the-tool-in-one-command",
+            "adopt-an-existing-repository"
+          ],
+          "narration": "Install it with one line. Initialise your repository. Then start a task with a scope, and let your agents work."
+        },
+        {
+          "id": "cta",
+          "t": 128,
+          "title": "Make them prove it",
+          "act": "START",
+          "use_cases": [],
+          "narration": "Your agents say it's done. Majordomus makes them prove it. Majordomus dot dev."
+        }
+      ],
+      "captions": "v/story-workers.vtt",
+      "og": "og/story-workers.jpg",
+      "og_from": "desktop",
+      "formats": {
+        "phone": {
+          "video": "v/story-workers-phone.mp4",
+          "poster": "v/story-workers-phone.jpg",
+          "poster_t": 9.09,
+          "width": 720,
+          "height": 1280,
+          "bytes": 7713078
+        },
+        "desktop": {
+          "video": "v/story-workers-desktop.mp4",
+          "poster": "v/story-workers-desktop.jpg",
+          "poster_t": 9.09,
+          "width": 1920,
+          "height": 1080,
+          "bytes": 13663734
+        }
+      },
+      "fallback": {
+        "tablet": "desktop"
+      },
+      "category": "workers",
+      "category_url": "https://majordomus.dev/use-cases/workers/",
+      "use_cases": [
+        "deliver-issues-in-waves",
+        "run-several-workers-at-once",
+        "work-on-a-branch-in-its-canonical-worktree"
+      ]
+    },
+    {
+      "id": "story-policy",
+      "kind": "story",
+      "title": "Policy and enforcement",
+      "summary": "Declaring rules, proving they are wired, and reproducing a finding.",
+      "duration": 70.5,
+      "path": "story-policy/",
+      "page": "story-policy/",
+      "published": "2026-11-18T01:48:01+01:00",
+      "lang": "en",
+      "chapters": [
+        {
+          "id": "story",
+          "t": 0,
+          "title": "Policy and enforcement",
+          "act": "STORY",
+          "use_cases": [],
+          "narration": "Policy and enforcement. Declaring rules, proving they are wired, and reproducing a finding."
+        },
+        {
+          "id": "doctrine",
+          "t": 7,
+          "title": "Written down is not enforced",
+          "act": "CONTRACT",
+          "use_cases": [
+            "prove-a-rule-is-enforced",
+            "read-the-rules-the-tool-applies"
+          ],
+          "narration": "A rule is not enforced because it is written down. It is enforced when it is declared, validated, wired into a command, fails that command, is tested, blocks CI, and backs a claim. Anything less is documentation."
+        },
+        {
+          "id": "doctor",
+          "t": 25,
+          "title": "The repository checks itself",
+          "act": "CONTRACT",
+          "use_cases": [
+            "gate-ci-on-the-tool-itself",
+            "trust-the-policy-before-reading-it"
+          ],
+          "narration": "And the repository checks itself. Majordomus doctor reads every rule, every projection and every hook, on every commit. Forty-four blocking rules, each with a validator. Zero failures."
+        },
+        {
+          "id": "hooks",
+          "t": 41,
+          "title": "Two hooks hold the line",
+          "act": "CONTRACT",
+          "use_cases": [
+            "prove-a-rule-is-enforced",
+            "gate-ci-on-the-tool-itself"
+          ],
+          "narration": "Two hooks hold the line. Every commit runs doctor. Every push runs the finish contract, and an unmet one stops the push. Until the first task starts, both stay quiet."
+        },
+        {
+          "id": "setup",
+          "t": 54,
+          "title": "Three commands",
+          "act": "START",
+          "use_cases": [
+            "install-the-tool-in-one-command",
+            "adopt-an-existing-repository"
+          ],
+          "narration": "Install it with one line. Initialise your repository. Then start a task with a scope, and let your agents work."
+        },
+        {
+          "id": "cta",
+          "t": 63,
+          "title": "Make them prove it",
+          "act": "START",
+          "use_cases": [],
+          "narration": "Your agents say it's done. Majordomus makes them prove it. Majordomus dot dev."
+        }
+      ],
+      "captions": "v/story-policy.vtt",
+      "og": "og/story-policy.jpg",
+      "og_from": "phone",
+      "formats": {
+        "phone": {
+          "video": "v/story-policy-phone.mp4",
+          "poster": "v/story-policy-phone.jpg",
+          "poster_t": 7.34,
+          "width": 720,
+          "height": 1280,
+          "bytes": 4003749
+        }
+      },
+      "fallback": {
+        "tablet": "phone",
+        "desktop": "phone"
+      },
+      "category": "policy",
+      "category_url": "https://majordomus.dev/use-cases/policy/",
+      "use_cases": [
+        "prove-a-rule-is-enforced",
+        "read-the-rules-the-tool-applies",
+        "gate-ci-on-the-tool-itself",
+        "trust-the-policy-before-reading-it"
+      ]
+    },
+    {
+      "id": "story-completion",
+      "kind": "story",
+      "title": "Completion and quality gates",
+      "summary": "Deciding whether work is finished, with a contract every line of which passes or fails.",
+      "duration": 80,
+      "path": "story-completion/",
+      "page": "story-completion/",
+      "published": "2026-11-18T01:48:01+01:00",
+      "lang": "en",
+      "chapters": [
+        {
+          "id": "story",
+          "t": 0,
+          "title": "Completion and quality gates",
+          "act": "STORY",
+          "use_cases": [],
+          "narration": "Completion and quality gates. Deciding whether work is finished, with a contract every line of which passes or fails."
+        },
+        {
+          "id": "terminal",
+          "t": 10,
+          "title": "Done is a contract",
+          "act": "CONTRACT",
+          "use_cases": [
+            "catch-an-agent-that-says-it-is-done",
+            "accept-or-refuse-finished-work",
+            "know-whether-this-work-is-finished"
+          ],
+          "narration": "When an agent says it's finished, Majordomus checks the scope, the state, and the tests. And when anything fails, it refuses."
+        },
+        {
+          "id": "provenance",
+          "t": 20,
+          "title": "Provenance, not promises",
+          "act": "CONTRACT",
+          "use_cases": [
+            "prove-what-a-task-owed-before-calling-it-done",
+            "say-what-reached-the-remote-and-what-did-not"
+          ],
+          "narration": "And every proof leaves a record. The test, the commit, the tree, the time, and the exact command. Provenance, not promises."
+        },
+        {
+          "id": "reasoning",
+          "t": 30,
+          "title": "Uncertainty, reasoned on the record",
+          "act": "CONTRACT",
+          "use_cases": [
+            "block-acceptance-on-an-open-question",
+            "record-a-decision-before-it-is-forgotten"
+          ],
+          "narration": "When a decision is uncertain, it is reasoned on the record. Evidence first. Advisors, if any are present, and their answers are evidence, never verdicts. The conclusion stays for the next session to read."
+        },
+        {
+          "id": "plan",
+          "t": 46,
+          "title": "Status, derived",
+          "act": "WORKFLOW",
+          "use_cases": [
+            "complete-an-issue-only-with-its-evidence",
+            "plan-the-work-as-data"
+          ],
+          "narration": "No issue stores its status. It is derived from what happened to it: started, verified, completed, and the evidence each step carries. Done is refused while a required proof is missing, and plan next recomputes the one issue to take."
+        },
+        {
+          "id": "setup",
+          "t": 64,
+          "title": "Three commands",
+          "act": "START",
+          "use_cases": [
+            "install-the-tool-in-one-command",
+            "adopt-an-existing-repository"
+          ],
+          "narration": "Install it with one line. Initialise your repository. Then start a task with a scope, and let your agents work."
+        },
+        {
+          "id": "cta",
+          "t": 73,
+          "title": "Make them prove it",
+          "act": "START",
+          "use_cases": [],
+          "narration": "Your agents say it's done. Majordomus makes them prove it. Majordomus dot dev."
+        }
+      ],
+      "captions": "v/story-completion.vtt",
+      "og": "og/story-completion.jpg",
+      "og_from": "phone",
+      "formats": {
+        "phone": {
+          "video": "v/story-completion-phone.mp4",
+          "poster": "v/story-completion-phone.jpg",
+          "poster_t": 9.6,
+          "width": 720,
+          "height": 1280,
+          "bytes": 5080157
+        }
+      },
+      "fallback": {
+        "tablet": "phone",
+        "desktop": "phone"
+      },
+      "category": "completion",
+      "category_url": "https://majordomus.dev/use-cases/completion/",
+      "use_cases": [
+        "catch-an-agent-that-says-it-is-done",
+        "accept-or-refuse-finished-work",
+        "know-whether-this-work-is-finished",
+        "prove-what-a-task-owed-before-calling-it-done",
+        "say-what-reached-the-remote-and-what-did-not",
+        "block-acceptance-on-an-open-question",
+        "complete-an-issue-only-with-its-evidence"
+      ]
+    },
+    {
+      "id": "story-drift",
+      "kind": "story",
+      "title": "Drift and reconciliation",
+      "summary": "Detecting that policy, projections, state and git disagree, and putting them back in step.",
+      "duration": 61.4,
+      "path": "story-drift/",
+      "page": "story-drift/",
+      "published": "2026-11-18T01:48:01+01:00",
+      "lang": "en",
+      "chapters": [
+        {
+          "id": "story",
+          "t": 0,
+          "title": "Drift and reconciliation",
+          "act": "STORY",
+          "use_cases": [],
+          "narration": "Drift and reconciliation. Detecting that policy, projections, state and git disagree, and putting them back in step."
+        },
+        {
+          "id": "policy",
+          "t": 9,
+          "title": "Rules, written once",
+          "act": "WORKFLOW",
+          "use_cases": [
+            "keep-the-bootstrap-thin-and-within-budget"
+          ],
+          "narration": "One policy writes every agent's instructions. Tasks live in the repository, not in a chat window."
+        },
+        {
+          "id": "providers",
+          "t": 18,
+          "title": "Every client, one policy",
+          "act": "WORKFLOW",
+          "use_cases": [
+            "serve-the-layer-to-ai-clients",
+            "keep-the-bootstrap-thin-and-within-budget"
+          ],
+          "narration": "Claude Code, Codex, Gemini, Zed, Antigravity, bb, or any client that speaks MCP. Each reads its own projection of the same policy."
+        },
+        {
+          "id": "monitor",
+          "t": 30,
+          "title": "One stream",
+          "act": "MESH",
+          "use_cases": [
+            "read-back-what-happened",
+            "find-out-what-drifted"
+          ],
+          "narration": "One stream follows every session, claim, handover and review on every linked machine, with the merges and the GitHub runs beside them. What names you comes first, and the noise is folded away."
+        },
+        {
+          "id": "setup",
+          "t": 45,
+          "title": "Three commands",
+          "act": "START",
+          "use_cases": [
+            "install-the-tool-in-one-command",
+            "adopt-an-existing-repository"
+          ],
+          "narration": "Install it with one line. Initialise your repository. Then start a task with a scope, and let your agents work."
+        },
+        {
+          "id": "cta",
+          "t": 54,
+          "title": "Make them prove it",
+          "act": "START",
+          "use_cases": [],
+          "narration": "Your agents say it's done. Majordomus makes them prove it. Majordomus dot dev."
+        }
+      ],
+      "captions": "v/story-drift.vtt",
+      "og": "og/story-drift.jpg",
+      "og_from": "phone",
+      "formats": {
+        "phone": {
+          "video": "v/story-drift-phone.mp4",
+          "poster": "v/story-drift-phone.jpg",
+          "poster_t": 9.12,
+          "width": 720,
+          "height": 1280,
+          "bytes": 4536164
+        }
+      },
+      "fallback": {
+        "tablet": "phone",
+        "desktop": "phone"
+      },
+      "category": "drift",
+      "category_url": "https://majordomus.dev/use-cases/drift/",
+      "use_cases": [
+        "keep-the-bootstrap-thin-and-within-budget",
+        "find-out-what-drifted"
+      ]
+    },
+    {
+      "id": "story-knowledge",
+      "kind": "story",
+      "title": "Repository knowledge",
+      "summary": "What the repository declares about itself: sources, nodes, edges, the plan, and searching them.",
+      "duration": 122.5,
+      "path": "story-knowledge/",
+      "page": "story-knowledge/",
+      "published": "2026-11-18T01:48:01+01:00",
+      "lang": "en",
+      "chapters": [
+        {
+          "id": "story",
+          "t": 0,
+          "title": "Repository knowledge",
+          "act": "STORY",
+          "use_cases": [],
+          "narration": "Repository knowledge. What the repository declares about itself: sources, nodes, edges, the plan, and searching them."
+        },
+        {
+          "id": "reasoning",
+          "t": 10,
+          "title": "Uncertainty, reasoned on the record",
+          "act": "CONTRACT",
+          "use_cases": [
+            "block-acceptance-on-an-open-question",
+            "record-a-decision-before-it-is-forgotten"
+          ],
+          "narration": "When a decision is uncertain, it is reasoned on the record. Evidence first. Advisors, if any are present, and their answers are evidence, never verdicts. The conclusion stays for the next session to read."
+        },
+        {
+          "id": "intent",
+          "t": 26,
+          "title": "Work starts from intent",
+          "act": "WORKFLOW",
+          "use_cases": [
+            "plan-the-work-as-data",
+            "deliver-issues-in-waves"
+          ],
+          "narration": "Work starts from intent: what must become true, and the criteria that prove it. Intents become milestones, milestones become issues, and plan next names the one issue to take now."
+        },
+        {
+          "id": "plan",
+          "t": 41,
+          "title": "Status, derived",
+          "act": "WORKFLOW",
+          "use_cases": [
+            "complete-an-issue-only-with-its-evidence",
+            "plan-the-work-as-data"
+          ],
+          "narration": "No issue stores its status. It is derived from what happened to it: started, verified, completed, and the evidence each step carries. Done is refused while a required proof is missing, and plan next recomputes the one issue to take."
+        },
+        {
+          "id": "context",
+          "t": 58,
+          "title": "Hierarchical context",
+          "act": "WORKFLOW",
+          "use_cases": [
+            "read-only-the-context-that-fits",
+            "trace-a-change-to-the-context-it-affects",
+            "document-every-directory-of-the-layer"
+          ],
+          "narration": "Context is a tree. Each agent reads the documents from the root down to the path it works on. The nearest adds to its ancestors, and siblings never see each other. Nothing more, and nothing less."
+        },
+        {
+          "id": "monitor",
+          "t": 74,
+          "title": "One stream",
+          "act": "MESH",
+          "use_cases": [
+            "read-back-what-happened",
+            "find-out-what-drifted"
+          ],
+          "narration": "One stream follows every session, claim, handover and review on every linked machine, with the merges and the GitHub runs beside them. What names you comes first, and the noise is folded away."
+        },
+        {
+          "id": "knowledge",
+          "t": 89,
+          "title": "What it learns stays learned",
+          "act": "MEMORY",
+          "use_cases": [
+            "keep-what-an-episode-learned",
+            "record-a-decision-before-it-is-forgotten",
+            "keep-decisions-out-of-the-transcript"
+          ],
+          "narration": "And what a session learns outlives it too. Decisions become records: a hundred and sixty-nine architecture decisions so far. Knowledge is derived at the end of every session, without a model, and a person promotes what deserves to stay."
+        },
+        {
+          "id": "setup",
+          "t": 106,
+          "title": "Three commands",
+          "act": "START",
+          "use_cases": [
+            "install-the-tool-in-one-command",
+            "adopt-an-existing-repository"
+          ],
+          "narration": "Install it with one line. Initialise your repository. Then start a task with a scope, and let your agents work."
+        },
+        {
+          "id": "cta",
+          "t": 115,
+          "title": "Make them prove it",
+          "act": "START",
+          "use_cases": [],
+          "narration": "Your agents say it's done. Majordomus makes them prove it. Majordomus dot dev."
+        }
+      ],
+      "captions": "v/story-knowledge.vtt",
+      "og": "og/story-knowledge.jpg",
+      "og_from": "phone",
+      "formats": {
+        "phone": {
+          "video": "v/story-knowledge-phone.mp4",
+          "poster": "v/story-knowledge-phone.jpg",
+          "poster_t": 10.24,
+          "width": 720,
+          "height": 1280,
+          "bytes": 7090307
+        }
+      },
+      "fallback": {
+        "tablet": "phone",
+        "desktop": "phone"
+      },
+      "category": "knowledge",
+      "category_url": "https://majordomus.dev/use-cases/knowledge/",
+      "use_cases": [
+        "record-a-decision-before-it-is-forgotten",
+        "plan-the-work-as-data",
+        "trace-a-change-to-the-context-it-affects",
+        "document-every-directory-of-the-layer",
+        "read-back-what-happened",
+        "keep-what-an-episode-learned"
+      ]
+    },
+    {
+      "id": "story-mcp",
+      "kind": "story",
+      "title": "Serving the layer to AI clients",
+      "summary": "One shared server per repository, every client a peer, the same layer over MCP, HTTP and the command line.",
+      "duration": 81.3,
+      "path": "story-mcp/",
+      "page": "story-mcp/",
+      "published": "2026-11-18T01:48:01+01:00",
+      "lang": "en",
+      "chapters": [
+        {
+          "id": "story",
+          "t": 0,
+          "title": "Serving the layer to AI clients",
+          "act": "STORY",
+          "use_cases": [],
+          "narration": "Serving the layer to AI clients. One shared server per repository, every client a peer, the same layer over MCP, HTTP and the command line."
+        },
+        {
+          "id": "providers",
+          "t": 12,
+          "title": "Every client, one policy",
+          "act": "WORKFLOW",
+          "use_cases": [
+            "serve-the-layer-to-ai-clients",
+            "keep-the-bootstrap-thin-and-within-budget"
+          ],
+          "narration": "Claude Code, Codex, Gemini, Zed, Antigravity, bb, or any client that speaks MCP. Each reads its own projection of the same policy."
+        },
+        {
+          "id": "generate",
+          "t": 25,
+          "title": "Declared once, projected everywhere",
+          "act": "PLATFORM",
+          "use_cases": [
+            "extend-what-the-executable-serves",
+            "see-what-the-repository-holds-without-reading-it"
+          ],
+          "narration": "Every operation is declared once. The command line, the HTTP API, the MCP tools, the OpenAPI document, the docs and the skills are generated from it, and a check fails the moment one drifts."
+        },
+        {
+          "id": "mcp",
+          "t": 40,
+          "title": "One shared MCP server",
+          "act": "PLATFORM",
+          "use_cases": [
+            "serve-the-layer-to-ai-clients",
+            "find-an-object-without-reading-everything"
+          ],
+          "narration": "One shared server per repository. The first client starts it, every next one attaches, and each sees the others. The same server answers over HTTP, with Swagger and the Cockpit."
+        },
+        {
+          "id": "cockpit",
+          "t": 54,
+          "title": "The Cockpit",
+          "act": "PLATFORM",
+          "use_cases": [
+            "see-what-the-repository-holds-without-reading-it"
+          ],
+          "narration": "And a person sees all of it in the Cockpit. The same server, the same registry, rendered for a person, with nothing of its own to drift."
+        },
+        {
+          "id": "setup",
+          "t": 65,
+          "title": "Three commands",
+          "act": "START",
+          "use_cases": [
+            "install-the-tool-in-one-command",
+            "adopt-an-existing-repository"
+          ],
+          "narration": "Install it with one line. Initialise your repository. Then start a task with a scope, and let your agents work."
+        },
+        {
+          "id": "cta",
+          "t": 74,
+          "title": "Make them prove it",
+          "act": "START",
+          "use_cases": [],
+          "narration": "Your agents say it's done. Majordomus makes them prove it. Majordomus dot dev."
+        }
+      ],
+      "captions": "v/story-mcp.vtt",
+      "og": "og/story-mcp.jpg",
+      "og_from": "phone",
+      "formats": {
+        "phone": {
+          "video": "v/story-mcp-phone.mp4",
+          "poster": "v/story-mcp-phone.jpg",
+          "poster_t": 12.14,
+          "width": 720,
+          "height": 1280,
+          "bytes": 4689975
+        }
+      },
+      "fallback": {
+        "tablet": "phone",
+        "desktop": "phone"
+      },
+      "category": "mcp",
+      "category_url": "https://majordomus.dev/use-cases/mcp/",
+      "use_cases": [
+        "serve-the-layer-to-ai-clients",
+        "see-what-the-repository-holds-without-reading-it",
+        "find-an-object-without-reading-everything"
+      ]
+    },
+    {
+      "id": "story-extension",
+      "kind": "story",
+      "title": "Extension",
+      "summary": "Adding a kind, a rule, a command or a use case as data, with the checks that follow from it.",
+      "duration": 40.1,
+      "path": "story-extension/",
+      "page": "story-extension/",
+      "published": "2026-11-18T01:48:01+01:00",
+      "lang": "en",
+      "chapters": [
+        {
+          "id": "story",
+          "t": 0,
+          "title": "Extension",
+          "act": "STORY",
+          "use_cases": [],
+          "narration": "Extension. Adding a kind, a rule, a command or a use case as data, with the checks that follow from it."
+        },
+        {
+          "id": "generate",
+          "t": 8,
+          "title": "Declared once, projected everywhere",
+          "act": "PLATFORM",
+          "use_cases": [
+            "extend-what-the-executable-serves",
+            "see-what-the-repository-holds-without-reading-it"
+          ],
+          "narration": "Every operation is declared once. The command line, the HTTP API, the MCP tools, the OpenAPI document, the docs and the skills are generated from it, and a check fails the moment one drifts."
+        },
+        {
+          "id": "setup",
+          "t": 24,
+          "title": "Three commands",
+          "act": "START",
+          "use_cases": [
+            "install-the-tool-in-one-command",
+            "adopt-an-existing-repository"
+          ],
+          "narration": "Install it with one line. Initialise your repository. Then start a task with a scope, and let your agents work."
+        },
+        {
+          "id": "cta",
+          "t": 33,
+          "title": "Make them prove it",
+          "act": "START",
+          "use_cases": [],
+          "narration": "Your agents say it's done. Majordomus makes them prove it. Majordomus dot dev."
+        }
+      ],
+      "captions": "v/story-extension.vtt",
+      "og": "og/story-extension.jpg",
+      "og_from": "phone",
+      "formats": {
+        "phone": {
+          "video": "v/story-extension-phone.mp4",
+          "poster": "v/story-extension-phone.jpg",
+          "poster_t": 8.37,
+          "width": 720,
+          "height": 1280,
+          "bytes": 2751914
+        }
+      },
+      "fallback": {
+        "tablet": "phone",
+        "desktop": "phone"
+      },
+      "category": "extension",
+      "category_url": "https://majordomus.dev/use-cases/extension/",
+      "use_cases": [
+        "extend-what-the-executable-serves"
+      ]
+    }
+  ],
+  "categories": [
+    {
+      "id": "adoption",
+      "title": "Getting started and adoption",
+      "summary": "Bringing Majordomus into a repository, new or old, without losing what people already wrote.",
+      "url": "https://majordomus.dev/use-cases/adoption/",
+      "story": "story-adoption",
+      "story_page": "story-adoption/",
+      "use_cases": [
+        {
+          "id": "adopt-an-existing-repository",
+          "title": "Adopt a repository that already has its own rules",
+          "summary": "Install the supervisory layer into a repository with a hand-written CLAUDE.md, without the tool taking ownership of a file somebody else wrote.",
+          "url": "https://majordomus.dev/use-cases/adopt-an-existing-repository/",
+          "seen": [
+            {
+              "cut": "film",
+              "chapter": "setup",
+              "title": "Three commands",
+              "t": 126
+            }
+          ]
+        },
+        {
+          "id": "install-the-tool-in-one-command",
+          "title": "Install the tool in one command, on a machine with no toolchain",
+          "summary": "Paste one line, get a verified binary for this machine, and run majordomus init — no git, no Rust, no Node, no Python, no root, and no way to install an archive whose digest does not match.",
+          "url": "https://majordomus.dev/use-cases/install-the-tool-in-one-command/",
+          "seen": [
+            {
+              "cut": "film",
+              "chapter": "setup",
+              "title": "Three commands",
+              "t": 126
+            }
+          ]
+        },
+        {
+          "id": "know-which-tool-is-running",
+          "title": "Check the version before trusting a diagnosis",
+          "summary": "Print the version every other surface derives from, and see the argument it refuses.",
+          "url": "https://majordomus.dev/use-cases/know-which-tool-is-running/",
+          "seen": []
+        },
+        {
+          "id": "migrate-from-the-old-layout",
+          "title": "Move a repository from the pre-.ai layout to the layer",
+          "summary": "See what a migration would move, move it with a backup, and prove the result is a layer the tool reads.",
+          "url": "https://majordomus.dev/use-cases/migrate-from-the-old-layout/",
+          "seen": []
+        },
+        {
+          "id": "use-the-tool-as-your-own-in-a-shared-repository",
+          "title": "Use the tool as your own in a shared repository, and propose it to the team when it has made its case",
+          "summary": "One flag installs the same layer as yours alone: no tracked file changes, nothing is added to .gitignore, git status reads the same — the command checks it — and one more command hands the layer to the team.",
+          "url": "https://majordomus.dev/use-cases/use-the-tool-as-your-own-in-a-shared-repository/",
+          "seen": [
+            {
+              "cut": "film",
+              "chapter": "personal",
+              "title": "Personal mode",
+              "t": 572
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "continuity",
+      "title": "Sessions and handover",
+      "summary": "Stopping and resuming work across sessions and workers from durable state, never a transcript.",
+      "url": "https://majordomus.dev/use-cases/continuity/",
+      "story": "story-continuity",
+      "story_page": "story-continuity/",
+      "use_cases": [
+        {
+          "id": "capture-the-prompts-that-started-the-work",
+          "title": "Keep the prompts that started the work, below the model rather than around it",
+          "summary": "Wire the provider hook, prove it by running a payload through it, and see that a prompt the tool could not parse is reported rather than silently dropped.",
+          "url": "https://majordomus.dev/use-cases/capture-the-prompts-that-started-the-work/",
+          "seen": []
+        },
+        {
+          "id": "carry-a-blocker-across-a-handover",
+          "title": "Hand work over with a question still open, and keep it blocking",
+          "summary": "Close a task into a handover while a question is unresolved, start the follow-up task, and see the same question still refuse acceptance there.",
+          "url": "https://majordomus.dev/use-cases/carry-a-blocker-across-a-handover/",
+          "seen": [
+            {
+              "cut": "film",
+              "chapter": "continuity",
+              "title": "Work that outlives the chat",
+              "t": 531
+            }
+          ]
+        },
+        {
+          "id": "checkpoint-long-work",
+          "title": "Checkpoint long work so a stop costs minutes, not the day",
+          "summary": "Record compact progress inside the active task at the profile interval, so a session that ends without warning leaves the next one a place to start.",
+          "url": "https://majordomus.dev/use-cases/checkpoint-long-work/",
+          "seen": [
+            {
+              "cut": "film",
+              "chapter": "continuity",
+              "title": "Work that outlives the chat",
+              "t": 531
+            }
+          ]
+        },
+        {
+          "id": "hand-work-between-sessions",
+          "title": "Hand unfinished work to the next session",
+          "summary": "Stop mid-task and leave the next worker something to act on that is not a transcript.",
+          "url": "https://majordomus.dev/use-cases/hand-work-between-sessions/",
+          "seen": [
+            {
+              "cut": "film",
+              "chapter": "session",
+              "title": "Every session starts briefed",
+              "t": 167
+            },
+            {
+              "cut": "film",
+              "chapter": "crosstalk",
+              "title": "Sessions talk to each other",
+              "t": 503
+            },
+            {
+              "cut": "film",
+              "chapter": "continuity",
+              "title": "Work that outlives the chat",
+              "t": 531
+            }
+          ]
+        },
+        {
+          "id": "keep-decisions-out-of-the-transcript",
+          "title": "Record a decision so the next worker can find it",
+          "summary": "Write down what was decided and why as state, then find it again without reading a conversation.",
+          "url": "https://majordomus.dev/use-cases/keep-decisions-out-of-the-transcript/",
+          "seen": [
+            {
+              "cut": "film",
+              "chapter": "knowledge",
+              "title": "What it learns stays learned",
+              "t": 539
+            }
+          ]
+        },
+        {
+          "id": "let-the-provider-draw-the-episode-boundary",
+          "title": "Have the session opened and closed without anybody remembering to",
+          "summary": "Wire the provider's own session events, and the episode opens when the sitting begins, hands the worker what the last one left, records what a compaction is about to discard, and closes with a continuation record beside its envelope.",
+          "url": "https://majordomus.dev/use-cases/let-the-provider-draw-the-episode-boundary/",
+          "seen": []
+        },
+        {
+          "id": "open-and-close-a-session",
+          "title": "Record what one worker did in one sitting",
+          "summary": "Open a session, do the work under whatever tasks it touches, and close it into an envelope that references what it produced and copies nothing.",
+          "url": "https://majordomus.dev/use-cases/open-and-close-a-session/",
+          "seen": [
+            {
+              "cut": "film",
+              "chapter": "privacy",
+              "title": "What is yours stays yours",
+              "t": 557
+            }
+          ]
+        },
+        {
+          "id": "read-only-the-context-that-fits",
+          "title": "Read only the context that fits the budget, and know what was dropped",
+          "summary": "Assemble the context a worker needs now in authority order, cut it to a line budget, and see every dropped section named with its reason.",
+          "url": "https://majordomus.dev/use-cases/read-only-the-context-that-fits/",
+          "seen": [
+            {
+              "cut": "film",
+              "chapter": "session",
+              "title": "Every session starts briefed",
+              "t": 167
+            },
+            {
+              "cut": "film",
+              "chapter": "context",
+              "title": "Hierarchical context",
+              "t": 180
+            }
+          ]
+        },
+        {
+          "id": "recover-an-episode-nobody-closed",
+          "title": "Close an episode whose client never came back",
+          "summary": "A killed provider sends no end event. Close the episode it left open by evidence, exactly once, without claiming work it did not do.",
+          "url": "https://majordomus.dev/use-cases/recover-an-episode-nobody-closed/",
+          "seen": [
+            {
+              "cut": "film",
+              "chapter": "privacy",
+              "title": "What is yours stays yours",
+              "t": 557
+            }
+          ]
+        },
+        {
+          "id": "resume-from-a-prompt-asset",
+          "title": "Start a session from a rendered framing, not a pasted transcript",
+          "summary": "List the prompt assets the repository ships, render one against the durable state, and read the context it embeds.",
+          "url": "https://majordomus.dev/use-cases/resume-from-a-prompt-asset/",
+          "seen": []
+        },
+        {
+          "id": "resume-in-the-right-worktree",
+          "title": "Resume in the right worktree, never against somebody else’s task",
+          "summary": "Find the handover that belongs to this worktree and branch, and see a task record from another checkout reported as foreign rather than enforced here.",
+          "url": "https://majordomus.dev/use-cases/resume-in-the-right-worktree/",
+          "seen": [
+            {
+              "cut": "film",
+              "chapter": "worktrees",
+              "title": "One branch, one worktree",
+              "t": 406
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "workers",
+      "title": "Parallel workers",
+      "summary": "Several agents or people on one repository: claimed scopes, overlap, and who touched what.",
+      "url": "https://majordomus.dev/use-cases/workers/",
+      "story": "story-workers",
+      "story_page": "story-workers/",
+      "use_cases": [
+        {
+          "id": "deliver-issues-in-waves",
+          "title": "Deliver issues in waves the graph computes, and take the next one",
+          "summary": "Validate the plan, read the execution waves the dependency graph yields, see which issues are ready and which are blocked on what, and take the one issue a worker should do now.",
+          "url": "https://majordomus.dev/use-cases/deliver-issues-in-waves/",
+          "seen": [
+            {
+              "cut": "film",
+              "chapter": "intent",
+              "title": "Work starts from intent",
+              "t": 135
+            },
+            {
+              "cut": "film",
+              "chapter": "seats",
+              "title": "Work moves through seats",
+              "t": 421
+            }
+          ]
+        },
+        {
+          "id": "run-several-workers-at-once",
+          "title": "Run several workers in one repository without them colliding",
+          "summary": "Give each worker a declared scope, and find out immediately when two of them claim the same paths.",
+          "url": "https://majordomus.dev/use-cases/run-several-workers-at-once/",
+          "seen": [
+            {
+              "cut": "film",
+              "chapter": "blackboard",
+              "title": "The blackboard",
+              "t": 346
+            },
+            {
+              "cut": "film",
+              "chapter": "mesh",
+              "title": "One board, every agent",
+              "t": 359
+            },
+            {
+              "cut": "film",
+              "chapter": "collision",
+              "title": "Checked before it is built",
+              "t": 368
+            },
+            {
+              "cut": "film",
+              "chapter": "claims",
+              "title": "One claim, one winner",
+              "t": 385
+            }
+          ]
+        },
+        {
+          "id": "work-on-a-branch-in-its-canonical-worktree",
+          "title": "Work on a branch in the one worktree it belongs to",
+          "summary": "Start a branch without choosing a path, find every checkout of the repository from any of them, and bring a stray one home with its uncommitted work intact.",
+          "url": "https://majordomus.dev/use-cases/work-on-a-branch-in-its-canonical-worktree/",
+          "seen": [
+            {
+              "cut": "film",
+              "chapter": "worktrees",
+              "title": "One branch, one worktree",
+              "t": 406
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "policy",
+      "title": "Policy and enforcement",
+      "summary": "Declaring rules, proving they are wired, and reproducing a finding.",
+      "url": "https://majordomus.dev/use-cases/policy/",
+      "story": "story-policy",
+      "story_page": "story-policy/",
+      "use_cases": [
+        {
+          "id": "gate-ci-on-the-tool-itself",
+          "title": "Gate CI on the tool itself, with an exit code that is a contract",
+          "summary": "Run the checks CI runs, read every finding with the command that reproduces it, and rely on exit codes that mean one thing each: no code means warn and continue.",
+          "url": "https://majordomus.dev/use-cases/gate-ci-on-the-tool-itself/",
+          "seen": [
+            {
+              "cut": "film",
+              "chapter": "doctor",
+              "title": "The repository checks itself",
+              "t": 62
+            },
+            {
+              "cut": "film",
+              "chapter": "hooks",
+              "title": "Two hooks hold the line",
+              "t": 78
+            }
+          ]
+        },
+        {
+          "id": "plan-a-commit-and-judge-its-message",
+          "title": "Divide a working tree into commits, and hold every message to a policy",
+          "summary": "Ask what this tree would commit and why, learn the scope vocabulary from the history rather than a table, and get a verdict on one message or on a whole range before a reviewer has to give one.",
+          "url": "https://majordomus.dev/use-cases/plan-a-commit-and-judge-its-message/",
+          "seen": []
+        },
+        {
+          "id": "prove-a-rule-is-enforced",
+          "title": "Prove a rule is actually enforced, not merely written down",
+          "summary": "Answer \"is this rule real?\" with a command rather than a reading of the source.",
+          "url": "https://majordomus.dev/use-cases/prove-a-rule-is-enforced/",
+          "seen": [
+            {
+              "cut": "film",
+              "chapter": "doctrine",
+              "title": "Written down is not enforced",
+              "t": 45
+            },
+            {
+              "cut": "film",
+              "chapter": "hooks",
+              "title": "Two hooks hold the line",
+              "t": 78
+            }
+          ]
+        },
+        {
+          "id": "read-the-rules-the-tool-applies",
+          "title": "See which rules apply here and what enforces them",
+          "summary": "List the effective rule set, read one rule as the tool reads it, and see which of them the tool enforces and from where.",
+          "url": "https://majordomus.dev/use-cases/read-the-rules-the-tool-applies/",
+          "seen": [
+            {
+              "cut": "film",
+              "chapter": "doctrine",
+              "title": "Written down is not enforced",
+              "t": 45
+            }
+          ]
+        },
+        {
+          "id": "trust-the-policy-before-reading-it",
+          "title": "Trust the policy and the profiles only after they are validated",
+          "summary": "Prove that the canonical policy parses with every key it needs declared, that every profile parses and the default exists, and that what the policy declares as enforced is what actually runs.",
+          "url": "https://majordomus.dev/use-cases/trust-the-policy-before-reading-it/",
+          "seen": [
+            {
+              "cut": "film",
+              "chapter": "doctor",
+              "title": "The repository checks itself",
+              "t": 62
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "completion",
+      "title": "Completion and quality gates",
+      "summary": "Deciding whether work is finished, with a contract every line of which passes or fails.",
+      "url": "https://majordomus.dev/use-cases/completion/",
+      "story": "story-completion",
+      "story_page": "story-completion/",
+      "use_cases": [
+        {
+          "id": "accept-or-refuse-finished-work",
+          "title": "Decide whether finished work is actually finished",
+          "summary": "Evaluate a contract line by line instead of accepting a sentence that says the work is done.",
+          "url": "https://majordomus.dev/use-cases/accept-or-refuse-finished-work/",
+          "seen": [
+            {
+              "cut": "film",
+              "chapter": "terminal",
+              "title": "Done is a contract",
+              "t": 24
+            }
+          ]
+        },
+        {
+          "id": "block-acceptance-on-an-open-question",
+          "title": "Block acceptance on a question nobody has answered",
+          "summary": "Open a question against the task, watch finish refuse completion while it is unresolved, resolve it with the answer, and only then complete.",
+          "url": "https://majordomus.dev/use-cases/block-acceptance-on-an-open-question/",
+          "seen": [
+            {
+              "cut": "film",
+              "chapter": "reasoning",
+              "title": "Uncertainty, reasoned on the record",
+              "t": 110
+            }
+          ]
+        },
+        {
+          "id": "catch-an-agent-that-says-it-is-done",
+          "title": "Catch an agent that says it is done when it is not",
+          "summary": "One task, start to finish: a worker strays outside its scope, claims it is finished, hands over, and is accepted only once the repository's own verification passes.",
+          "url": "https://majordomus.dev/use-cases/catch-an-agent-that-says-it-is-done/",
+          "seen": [
+            {
+              "cut": "film",
+              "chapter": "hook",
+              "title": "The manifesto",
+              "t": 0
+            },
+            {
+              "cut": "film",
+              "chapter": "terminal",
+              "title": "Done is a contract",
+              "t": 24
+            }
+          ]
+        },
+        {
+          "id": "complete-an-issue-only-with-its-evidence",
+          "title": "Complete an issue only when its evidence exists",
+          "summary": "See an issue refuse completion while a required piece of evidence is missing, read the roadmap the milestone state derives, and keep the GitHub projection a projection.",
+          "url": "https://majordomus.dev/use-cases/complete-an-issue-only-with-its-evidence/",
+          "seen": [
+            {
+              "cut": "film",
+              "chapter": "plan",
+              "title": "Status, derived",
+              "t": 149
+            }
+          ]
+        },
+        {
+          "id": "know-whether-this-work-is-finished",
+          "title": "Know whether the work in this checkout is finished",
+          "summary": "Ask the repository you are standing in, and be told what is still owed by name.",
+          "url": "https://majordomus.dev/use-cases/know-whether-this-work-is-finished/",
+          "seen": [
+            {
+              "cut": "film",
+              "chapter": "terminal",
+              "title": "Done is a contract",
+              "t": 24
+            }
+          ]
+        },
+        {
+          "id": "prove-what-a-task-owed-before-calling-it-done",
+          "title": "Prove what a task owed before calling it done",
+          "summary": "A task declares what it owes, records evidence against each obligation, and is refused when that evidence no longer describes the tree it was taken over.",
+          "url": "https://majordomus.dev/use-cases/prove-what-a-task-owed-before-calling-it-done/",
+          "seen": [
+            {
+              "cut": "film",
+              "chapter": "provenance",
+              "title": "Provenance, not promises",
+              "t": 34
+            }
+          ]
+        },
+        {
+          "id": "say-what-reached-the-remote-and-what-did-not",
+          "title": "Say what reached the remote and what did not",
+          "summary": "The obligations that reach past the working tree are settled by asking git and the published site, so a report cannot call uncommitted work committed or unpushed work pushed.",
+          "url": "https://majordomus.dev/use-cases/say-what-reached-the-remote-and-what-did-not/",
+          "seen": [
+            {
+              "cut": "film",
+              "chapter": "provenance",
+              "title": "Provenance, not promises",
+              "t": 34
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "drift",
+      "title": "Drift and reconciliation",
+      "summary": "Detecting that policy, projections, state and git disagree, and putting them back in step.",
+      "url": "https://majordomus.dev/use-cases/drift/",
+      "story": "story-drift",
+      "story_page": "story-drift/",
+      "use_cases": [
+        {
+          "id": "find-out-what-drifted",
+          "title": "Find out what has drifted since anyone last looked",
+          "summary": "Ask what has moved, rather than whether anything is wrong.",
+          "url": "https://majordomus.dev/use-cases/find-out-what-drifted/",
+          "seen": [
+            {
+              "cut": "film",
+              "chapter": "monitor",
+              "title": "One stream",
+              "t": 516
+            }
+          ]
+        },
+        {
+          "id": "keep-the-bootstrap-thin-and-within-budget",
+          "title": "Keep every provider bootstrap thin, generated and within budget",
+          "summary": "Regenerate AGENTS.md, CLAUDE.md and the other provider files from one policy and prove they are stamped, point at the layer, stay under the line budget and resolve every reference.",
+          "url": "https://majordomus.dev/use-cases/keep-the-bootstrap-thin-and-within-budget/",
+          "seen": [
+            {
+              "cut": "film",
+              "chapter": "policy",
+              "title": "Rules, written once",
+              "t": 195
+            },
+            {
+              "cut": "film",
+              "chapter": "providers",
+              "title": "Every client, one policy",
+              "t": 203
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "knowledge",
+      "title": "Repository knowledge",
+      "summary": "What the repository declares about itself: sources, nodes, edges, the plan, and searching them.",
+      "url": "https://majordomus.dev/use-cases/knowledge/",
+      "story": "story-knowledge",
+      "story_page": "story-knowledge/",
+      "use_cases": [
+        {
+          "id": "classify-what-belongs-in-the-context",
+          "title": "Decide what belongs in the AI context, as data",
+          "summary": "Read the repository’s declared scope policy, see which paths are in and out of the index, and let doctor and the knowledge index apply it rather than a hardcoded list.",
+          "url": "https://majordomus.dev/use-cases/classify-what-belongs-in-the-context/",
+          "seen": []
+        },
+        {
+          "id": "document-every-directory-of-the-layer",
+          "title": "Refuse a directory of the layer that documents nothing",
+          "summary": "A directory added under the layer without a context document fails validation by name, nothing resolves against the tree until it says what it is for, and the same hierarchy is readable over MCP and the API without running the gate.",
+          "url": "https://majordomus.dev/use-cases/document-every-directory-of-the-layer/",
+          "seen": [
+            {
+              "cut": "film",
+              "chapter": "context",
+              "title": "Hierarchical context",
+              "t": 180
+            }
+          ]
+        },
+        {
+          "id": "hand-the-repository-to-a-reader",
+          "title": "Hand the repository to someone who cannot clone it",
+          "summary": "Take a snapshot that a model can read or a gate can run in, without sending anything untracked and without losing the file modes on the way.",
+          "url": "https://majordomus.dev/use-cases/hand-the-repository-to-a-reader/",
+          "seen": []
+        },
+        {
+          "id": "keep-what-an-episode-learned",
+          "title": "Keep what an episode learned, without a model and without a conversation",
+          "summary": "Record a decision inside an episode, derive it into a candidate knowledge record from the ledger, read the evidence that the derivation ran, and watch a second derivation change nothing.",
+          "url": "https://majordomus.dev/use-cases/keep-what-an-episode-learned/",
+          "seen": [
+            {
+              "cut": "film",
+              "chapter": "knowledge",
+              "title": "What it learns stays learned",
+              "t": 539
+            }
+          ]
+        },
+        {
+          "id": "plan-the-work-as-data",
+          "title": "Keep the plan as milestones and issues the tool can validate",
+          "summary": "Declare milestones as outcomes and issues as execution contracts, and let the tool say what is ready and what is blocked.",
+          "url": "https://majordomus.dev/use-cases/plan-the-work-as-data/",
+          "seen": [
+            {
+              "cut": "film",
+              "chapter": "intent",
+              "title": "Work starts from intent",
+              "t": 135
+            },
+            {
+              "cut": "film",
+              "chapter": "plan",
+              "title": "Status, derived",
+              "t": 149
+            }
+          ]
+        },
+        {
+          "id": "read-back-what-happened",
+          "title": "Read back what happened, and keep the ledger within its cap",
+          "summary": "Read the append-only ledger as operational history, filtered by task and event, validate every line, and rotate the oldest lines into an archive rather than deleting them.",
+          "url": "https://majordomus.dev/use-cases/read-back-what-happened/",
+          "seen": [
+            {
+              "cut": "film",
+              "chapter": "monitor",
+              "title": "One stream",
+              "t": 516
+            }
+          ]
+        },
+        {
+          "id": "record-a-decision-before-it-is-forgotten",
+          "title": "Record a decision as data, and prove the tool cannot accept it for you",
+          "summary": "Read the decisions a repository holds, validate the whole set in one command, and watch the tool refuse to write the one status only a person may write.",
+          "url": "https://majordomus.dev/use-cases/record-a-decision-before-it-is-forgotten/",
+          "seen": [
+            {
+              "cut": "film",
+              "chapter": "reasoning",
+              "title": "Uncertainty, reasoned on the record",
+              "t": 110
+            },
+            {
+              "cut": "film",
+              "chapter": "knowledge",
+              "title": "What it learns stays learned",
+              "t": 539
+            }
+          ]
+        },
+        {
+          "id": "trace-a-change-to-the-context-it-affects",
+          "title": "Trace a change to the context documents it affects",
+          "summary": "List the scoped context documents, resolve which apply to a path and why, and find out which documents a change set touches before it lands.",
+          "url": "https://majordomus.dev/use-cases/trace-a-change-to-the-context-it-affects/",
+          "seen": [
+            {
+              "cut": "film",
+              "chapter": "context",
+              "title": "Hierarchical context",
+              "t": 180
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mcp",
+      "title": "Serving the layer to AI clients",
+      "summary": "One shared server per repository, every client a peer, the same layer over MCP, HTTP and the command line.",
+      "url": "https://majordomus.dev/use-cases/mcp/",
+      "story": "story-mcp",
+      "story_page": "story-mcp/",
+      "use_cases": [
+        {
+          "id": "find-an-object-without-reading-everything",
+          "title": "Find an object of the layer without reading everything",
+          "summary": "Search durable records literally across kinds from the shell, and ask the shared server the same question over MCP with majordomus_search and majordomus_get.",
+          "url": "https://majordomus.dev/use-cases/find-an-object-without-reading-everything/",
+          "seen": [
+            {
+              "cut": "film",
+              "chapter": "mcp",
+              "title": "One shared MCP server",
+              "t": 286
+            }
+          ]
+        },
+        {
+          "id": "see-what-the-repository-holds-without-reading-it",
+          "title": "See what the repository holds, and run one of its capabilities, without reading a file",
+          "summary": "Open the shared server in a browser and get the whole layer as pages: what exists, where each thing came from, what depends on what, what is failing, and a form that runs any capability.",
+          "url": "https://majordomus.dev/use-cases/see-what-the-repository-holds-without-reading-it/",
+          "seen": [
+            {
+              "cut": "film",
+              "chapter": "generate",
+              "title": "Declared once, projected everywhere",
+              "t": 233
+            },
+            {
+              "cut": "film",
+              "chapter": "cockpit",
+              "title": "The Cockpit",
+              "t": 301
+            }
+          ]
+        },
+        {
+          "id": "serve-the-layer-to-ai-clients",
+          "title": "Serve the repository's AI layer to every AI client through one shared server",
+          "summary": "Open the repository in any client the tool declares a provider for (docs/generated/providers.md) and have each of them read the same rules, prompts and knowledge over MCP from one process, seeing each other.",
+          "url": "https://majordomus.dev/use-cases/serve-the-layer-to-ai-clients/",
+          "seen": [
+            {
+              "cut": "film",
+              "chapter": "providers",
+              "title": "Every client, one policy",
+              "t": 203
+            },
+            {
+              "cut": "film",
+              "chapter": "mcp",
+              "title": "One shared MCP server",
+              "t": 286
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "performance",
+      "title": "Performance",
+      "summary": "Benchmarks derived from the registry, baselines that are data, and budgets doctor reports against.",
+      "url": "https://majordomus.dev/use-cases/performance/",
+      "story": null,
+      "story_page": null,
+      "use_cases": [
+        {
+          "id": "prove-performance-with-benchmarks",
+          "title": "Prove the tool is fast, not assume it, and refuse a regression",
+          "summary": "Measure every public command and every capability of the executable against a committed baseline, and let the check fail on a regression rather than a reviewer noticing later.",
+          "url": "https://majordomus.dev/use-cases/prove-performance-with-benchmarks/",
+          "seen": []
+        }
+      ]
+    },
+    {
+      "id": "extension",
+      "title": "Extension",
+      "summary": "Adding a kind, a rule, a command or a use case as data, with the checks that follow from it.",
+      "url": "https://majordomus.dev/use-cases/extension/",
+      "story": "story-extension",
+      "story_page": "story-extension/",
+      "use_cases": [
+        {
+          "id": "add-a-use-case-and-prove-it",
+          "title": "Add a use case and let the tool prove it",
+          "summary": "Scaffold a draft for an uncovered command, validate it, run its scenario against the real tool, and see the coverage move.",
+          "url": "https://majordomus.dev/use-cases/add-a-use-case-and-prove-it/",
+          "seen": []
+        },
+        {
+          "id": "extend-what-the-executable-serves",
+          "title": "Extend what the executable serves by adding a file, never by rebuilding it",
+          "summary": "Add a rule, a prompt or a knowledge node to .ai/ and have it appear as an MCP resource, an HTTP route and a reference entry, with the same binary.",
+          "url": "https://majordomus.dev/use-cases/extend-what-the-executable-serves/",
+          "seen": [
+            {
+              "cut": "film",
+              "chapter": "generate",
+              "title": "Declared once, projected everywhere",
+              "t": 233
+            }
+          ]
+        },
+        {
+          "id": "follow-a-skill-the-repository-defines",
+          "title": "Follow a procedure the repository defines, and add another one",
+          "summary": "Read the repository's skills, take one as it is written, and add a new one by writing its file — no registry, no code, and a check that says what it examined.",
+          "url": "https://majordomus.dev/use-cases/follow-a-skill-the-repository-defines/",
+          "seen": []
+        },
+        {
+          "id": "say-what-the-tool-is-for",
+          "title": "Say what your work is for, once, and have every surface say it",
+          "summary": "Record an operational failure mode as one file and have the command line, the API, MCP and the website answer it without registering it anywhere.",
+          "url": "https://majordomus.dev/use-cases/say-what-the-tool-is-for/",
+          "seen": []
+        }
+      ]
+    }
+  ],
+  "youtube": [
+    {
+      "url": "https://youtu.be/zcDgXorKhjs",
+      "title": "Every AI agent, every machine",
+      "cut": "The full film with chapters",
+      "duration": 536,
+      "lang": "en"
+    },
+    {
+      "url": "https://youtube.com/shorts/M250vmbZ1AI",
+      "title": "Make it prove it",
+      "cut": "The first cut",
+      "duration": 58,
+      "lang": "en"
+    },
+    {
+      "url": "https://youtube.com/shorts/oB-cRju2xrU",
+      "title": "Trust is the next one",
+      "cut": "The second cut",
+      "duration": 112,
+      "lang": "en"
+    }
+  ],
+  "gaps": [
+    "film has no tablet cut",
+    "film has no desktop cut",
+    "short has no tablet cut",
+    "short has no desktop cut",
+    "story-adoption has no tablet cut",
+    "story-continuity has no tablet cut",
+    "story-workers has no tablet cut",
+    "story-policy has no tablet cut",
+    "story-policy has no desktop cut",
+    "story-completion has no tablet cut",
+    "story-completion has no desktop cut",
+    "story-drift has no tablet cut",
+    "story-drift has no desktop cut",
+    "story-knowledge has no tablet cut",
+    "story-knowledge has no desktop cut",
+    "story-mcp has no tablet cut",
+    "story-mcp has no desktop cut",
+    "story-extension has no tablet cut",
+    "story-extension has no desktop cut"
+  ],
+  "requirements": "node, ffmpeg, uvx, and Google Chrome",
+  "counts": {
+    "chapters": 44,
+    "stories": 9,
+    "use_cases": 49,
+    "use_cases_shown": 37,
+    "formats": 3,
+    "acts": 7,
+    "renders": 14,
+    "renders_declared": 33
+  }
+}

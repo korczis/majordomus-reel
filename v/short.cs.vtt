@@ -1,0 +1,221 @@
+WEBVTT
+
+1
+00:00:06.347 --> 00:00:08.433
+V reálných repozitářích se agenti
+
+2
+00:00:08.033 --> 00:00:08.999
+rozjíždějí
+
+3
+00:00:09.610 --> 00:00:11.874
+Soubory pravidel které nemají skoro nic
+
+4
+00:00:11.474 --> 00:00:12.510
+společného
+
+5
+00:00:13.077 --> 00:00:15.624
+Sedmnáct kontrol které nikdo nespustil
+
+6
+00:00:16.238 --> 00:00:18.690
+Tři tisíce dvě stě souborů změněných
+
+7
+00:00:18.290 --> 00:00:19.102
+najednou
+
+8
+00:00:20.935 --> 00:00:22.856
+Seznamte se Majordomus
+
+9
+00:00:23.455 --> 00:00:25.931
+Dohledová vrstva pro vaše AI agenty
+
+10
+00:00:27.723 --> 00:00:29.998
+Když agent tvrdí že skončil Majordomus
+
+11
+00:00:29.598 --> 00:00:31.601
+zkontroluje rozsah stav i testy
+
+12
+00:00:32.154 --> 00:00:34.193
+A když cokoli selže odmítne
+
+13
+00:00:35.999 --> 00:00:38.132
+A každý důkaz zanechá záznam
+
+14
+00:00:38.732 --> 00:00:41.219
+Test commit strom čas a přesný příkaz
+
+15
+00:00:41.821 --> 00:00:43.224
+Důkazy ne sliby
+
+16
+00:00:45.019 --> 00:00:47.034
+Nainstalujte ho jedním řádkem
+
+17
+00:00:47.657 --> 00:00:49.531
+Inicializujte repozitář
+
+18
+00:00:50.134 --> 00:00:52.562
+Pak spusťte úkol s rozsahem a nechte své
+
+19
+00:00:52.174 --> 00:00:53.411
+agenty pracovat
+
+20
+00:00:55.119 --> 00:00:56.969
+Modely jsou deklarovaná data
+
+21
+00:00:57.569 --> 00:01:00.327
+Anthropic a OpenAI v cloudu Ollama a LM
+
+22
+00:00:59.927 --> 00:01:01.801
+Studio na vašem vlastním stroji
+
+23
+00:01:02.321 --> 00:01:04.537
+Směrování vybírá podle potřeby
+
+24
+00:01:05.128 --> 00:01:06.495
+Chcete jen lokální
+
+25
+00:01:07.085 --> 00:01:08.853
+Odpoví nic nevyhovuje
+
+26
+00:01:09.420 --> 00:01:10.716
+Nikdy nehádá
+
+27
+00:01:12.443 --> 00:01:14.659
+Claude Codex a Gemini sdílejí jednu
+
+28
+00:01:14.259 --> 00:01:15.024
+tabuli
+
+29
+00:01:15.636 --> 00:01:17.580
+Když dva sáhnou po stejném souboru
+
+30
+00:01:17.404 --> 00:01:19.455
+dozvíte se to ještě před sloučením
+
+31
+00:01:21.295 --> 00:01:23.051
+Práce putuje přes pozice
+
+32
+00:01:23.627 --> 00:01:25.925
+Jedna pozice slučuje zelenou práci do
+
+33
+00:01:25.525 --> 00:01:26.786
+společného vrcholu
+
+34
+00:01:27.400 --> 00:01:29.675
+Druhá vydává kdykoli je master před
+
+35
+00:01:29.275 --> 00:01:30.513
+posledním tagem
+
+36
+00:01:31.127 --> 00:01:33.661
+Opravné dráhy dotahují zastaralé větve a
+
+37
+00:01:33.320 --> 00:01:35.324
+každý pracovník drží jedno issue
+
+38
+00:01:35.938 --> 00:01:38.461
+Pozice je nárok a tak se uvolní jakmile
+
+39
+00:01:38.061 --> 00:01:39.805
+její držitel přestane tepat
+
+40
+00:01:41.523 --> 00:01:43.703
+Mesh pokrývá každý stroj na kterém
+
+41
+00:01:43.303 --> 00:01:44.210
+pracujete
+
+42
+00:01:44.798 --> 00:01:45.906
+Desktop doma
+
+43
+00:01:46.508 --> 00:01:48.783
+Rack v datacentru za TLS hubem
+
+44
+00:01:49.409 --> 00:01:51.625
+Celou flotilu napříč firmou v privátní
+
+45
+00:01:51.249 --> 00:01:52.014
+síti
+
+46
+00:01:53.783 --> 00:01:55.928
+Každá zpráva je podepsaná vlastním
+
+47
+00:01:55.528 --> 00:01:56.600
+klíčem stroje
+
+48
+00:01:57.176 --> 00:01:59.522
+Nikomu se nevěří dokud ho neuvedete na
+
+49
+00:01:59.122 --> 00:01:59.923
+seznam
+
+50
+00:02:00.537 --> 00:02:03.083
+Veřejná adresa jen přes HTTPS
+
+51
+00:02:03.721 --> 00:02:06.244
+A nic co peer pošle se nikdy nespustí
+
+52
+00:02:08.083 --> 00:02:09.721
+Není to váš repozitář
+
+53
+00:02:10.297 --> 00:02:12.607
+Osobní režim drží celou vrstvu ve vašem
+
+54
+00:02:12.207 --> 00:02:14.459
+klonu a strom týmu zůstane bajt po bajtu
+
+55
+00:02:14.059 --> 00:02:15.815
+takový jak ho commitnul
