@@ -16,6 +16,19 @@ const DIR = dirname(fileURLToPath(import.meta.url));
 export const OPEN = 'story';
 export const CLOSE = ['setup', 'cta'];
 
+// The moments a cut is best shown by, best first: the end of the reveal (the film, the short),
+// else of a story's title card (its name and every use case it shows, on screen at once), then
+// three quarters into every scene. render.mjs writes the first as `poster` in timeline.json;
+// site/build.mjs takes the first that has ink (a frame with no bright pixel is refused).
+export function posterMoments(timeline) {
+  const named = ['reveal', OPEN].map((id) => timeline.scenes.find((s) => s.id === id)).filter(Boolean)
+    .map((s) => s.start + s.duration - 0.6);
+  const rest = timeline.scenes.map((s) => s.start + s.duration * 0.75);
+  const own = Number.isFinite(timeline.poster) ? [timeline.poster] : [];
+  return [...new Set([...own, ...named, ...rest].map((t) => +t.toFixed(2)))]
+    .filter((t) => t > 0 && t < timeline.total);
+}
+
 export function stories(facts = derive(), cat = catalogue(facts)) {
   const film = JSON.parse(readFileSync(join(DIR, 'scenes.json'), 'utf8'));
   const byId = Object.fromEntries(cat.useCases.map((u) => [u.id, u]));

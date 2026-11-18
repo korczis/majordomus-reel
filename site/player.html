@@ -1,0 +1,38 @@
+  <section id="watch" class="max-w-screen-xl px-4 py-8 mx-auto scroll-mt-20" aria-labelledby="now-title">
+    {{watch_heading}}
+    <div class="grid gap-6 lg:grid-cols-[minmax(0,1fr)_22rem]">
+      <div class="min-w-0">
+        <div id="stage" class="relative mx-auto overflow-hidden bg-black border border-gray-800 rounded-lg">
+          <video id="player" class="block w-full h-full" controls playsinline preload="metadata" poster="{{film_poster}}">{{film_sources}}<track kind="captions" srclang="en" label="English" src="{{film_captions}}"></video>
+          <button type="button" id="theater-close" class="absolute hidden top-3 right-3 z-10 px-3 py-1.5 text-xs font-medium text-white bg-gray-900/90 border border-gray-700 rounded-lg hover:bg-gray-800" aria-label="Leave the full viewport (Escape)">Close &middot; Esc</button>
+        </div>
+        <p id="stage-note" class="hidden mt-3 {{ui_note}}" role="status"></p>
+        <div class="flex flex-wrap items-center justify-between gap-3 mt-4">
+          <div class="min-w-0">
+            <p class="text-xs font-medium tracking-widest uppercase text-gray-500" id="now-act">{{now_act}}</p>
+            <h2 class="text-xl font-semibold truncate" id="now-title">{{now_title}}</h2>
+          </div>
+          <div class="flex flex-wrap items-center gap-2">
+            <div class="inline-flex rounded-lg" role="group" aria-label="Cut">{{cut_buttons}}</div>
+            <div class="inline-flex rounded-lg" role="group" aria-label="Format">{{format_buttons}}</div>
+            <button type="button" id="theater" class="px-3 py-1.5 text-xs font-medium text-gray-300 bg-gray-900 border border-gray-700 rounded-lg hover:bg-gray-800 hover:text-white" title="Full viewport (T)">Full viewport</button>
+            <button type="button" id="share" class="px-3 py-1.5 text-xs font-medium text-gray-300 bg-gray-900 border border-gray-700 rounded-lg hover:bg-gray-800 hover:text-white" title="Copy a link to this moment">Copy link</button>
+          </div>
+        </div>
+        <div class="p-5 mt-4 {{ui_card}}">
+          <p class="text-gray-600 dark:text-gray-300 text-pretty" id="now-narration"></p>
+          <div class="flex flex-wrap gap-2 mt-3" id="now-use-cases"></div>
+        </div>
+        <p class="hidden mt-3 text-xs text-gray-500 sm:block"><kbd class="px-1.5 py-0.5 border border-gray-700 rounded">J</kbd> <kbd class="px-1.5 py-0.5 border border-gray-700 rounded">K</kbd> chapter back and forward &middot; <kbd class="px-1.5 py-0.5 border border-gray-700 rounded">T</kbd> full viewport &middot; <kbd class="px-1.5 py-0.5 border border-gray-700 rounded">F</kbd> full screen &middot; <kbd class="px-1.5 py-0.5 border border-gray-700 rounded">C</kbd> captions &middot; the address keeps the cut, the format and the moment.</p>
+      </div>
+      <aside class="min-w-0" aria-label="Chapters">
+        <div class="flex items-baseline justify-between mb-2">
+          <h2 class="text-sm font-semibold tracking-widest uppercase text-gray-400" id="chapters-title">Chapters</h2>
+          <span class="text-xs text-gray-500" id="chapters-count"></span>
+        </div>
+        <ol id="chapters" class="pe-1 overflow-y-auto max-h-[28rem] lg:max-h-[calc(100vh-9rem)]">
+            {{film_chapters}}
+        </ol>
+      </aside>
+    </div>
+  </section>

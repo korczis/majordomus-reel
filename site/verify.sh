@@ -1,36 +1,61 @@
 #!/usr/bin/env bash
-# Checks the published site: the page carries its chapters, and the video and poster are
-# served the way a <video> element needs them (200, the right type, byte ranges).
+# Checks the published site against its own data (project.reel-site-is-derived,
+# project.reel-tailored-per-device, project.reel-facts-are-derived): every cut's route answers with
+# its own canonical, every format it offers is served as video/mp4 with byte ranges (so chapters
+# can seek), every poster and share picture is a JPEG, every route's metadata passes the same gate
+# as the build (site/seo.mjs --live), and the release the page names is the latest Majordomus
+# release, not a pending one. A format a cut still lacks is listed on every run.
 set -euo pipefail
 URL="${URL:-https://korczis.github.io/majordomus-reel/}"
+cd "$(dirname "$0")/.."
 
+URL="$URL" node --input-type=module <<'JS'
+const base = process.env.URL;
+const fail = [];
+const get = async (u, init) => { const r = await fetch(u, init); return r; };
+const data = await (await get(new URL('data/reel.json', base))).json();
+let served = 0;
+for (const c of data.cuts) {
+  const route = new URL(c.page, base).href;
+  const r = await get(route);
+  const html = r.ok ? await r.text() : '';
+  if (!r.ok) fail.push(`${route}: ${r.status}`);
+  else if (!html.includes(`<link rel="canonical" href="${route}">`)) fail.push(`${route}: not its own canonical`);
+  for (const [id, f] of Object.entries(c.formats)) {
+    const v = new URL(f.video, base).href;
+    const head = await get(v, { method: 'HEAD' });
+    if (!/^video\/mp4/.test(head.headers.get('content-type') || '')) fail.push(`${v}: not video/mp4 (${head.status})`);
+    const range = await get(v, { headers: { Range: 'bytes=0-1023' } });
+    await range.body?.cancel();
+    if (range.status !== 206) fail.push(`${v}: ignores byte ranges (${range.status})`);
+    for (const img of [f.poster, c.og]) {
+      const i = await get(new URL(img, base).href, { method: 'HEAD' });
+      if (!/^image\/jpeg/.test(i.headers.get('content-type') || '')) fail.push(`${img}: not a JPEG (${i.status})`);
+    }
+    served++;
+  }
+}
+(data.gaps || []).forEach((g) => console.log(`gap  ${g}`));
+fail.forEach((f) => console.error(`FAIL ${f}`));
+console.log(`media: ${data.cuts.length} routes, ${served} cut formats served seekable`
+  + `${data.gaps?.length ? `, ${data.gaps.length} formats not rendered yet (played by their nearest)` : ''}`);
+process.exit(fail.length ? 1 : 0);
+JS
+
+node site/seo.mjs --live "$URL"
+
+# the reel states the newest release's facts: the version the page names is the latest release,
+# and a pre-rendered cut is not published while its release is pending
 page=$(curl -fsSL "$URL")
-chapters=$(printf '%s' "$page" | grep -c '<button data-t=' || true)
-[ "$chapters" -gt 0 ] || { echo "no chapters on $URL" >&2; exit 1; }
-printf '%s' "$page" | grep -q 'src="reel.mp4"' || { echo "no video on $URL" >&2; exit 1; }
-
-head=$(curl -fsSI "${URL}reel.mp4")
-printf '%s' "$head" | grep -qi '^content-type: video/mp4' || { echo "reel.mp4 is not video/mp4" >&2; exit 1; }
-range=$(curl -fsS -o /dev/null -w '%{http_code}' -r 0-1023 "${URL}reel.mp4")
-[ "$range" = 206 ] || { echo "reel.mp4 ignores byte ranges ($range)" >&2; exit 1; }
-curl -fsSI "${URL}poster.jpg" | grep -qi '^content-type: image/jpeg' || { echo "no poster" >&2; exit 1; }
-
-short=""
-if printf '%s' "$page" | grep -q 'src="short.mp4"'; then
-  curl -fsSI "${URL}short.mp4" | grep -qi '^content-type: video/mp4' || { echo "short.mp4 missing" >&2; exit 1; }
-  curl -fsSI "${URL}short-poster.jpg" | grep -qi '^content-type: image/jpeg' || { echo "no short poster" >&2; exit 1; }
-  short=", short cut served"
-fi
-
-# the film states the newest release's facts: the version the page names is the latest release
 shown=$(printf '%s' "$page" | sed -n 's/.*data-majordomus-version="\([^"]*\)".*/\1/p' | head -1)
+pending=$(printf '%s' "$page" | sed -n 's/.*data-majordomus-pending="\([^"]*\)".*/\1/p' | head -1)
 [ -n "$shown" ] || { echo "the page names no Majordomus release its facts come from" >&2; exit 1; }
+[ "$pending" != true ] || { echo "the page states Majordomus $shown, release pending: tag it, rebuild, deploy" >&2; exit 1; }
 latest=$(curl -fsSL https://api.github.com/repos/korczis/prismatic-majordomus/releases/latest \
   | sed -n 's/^  "tag_name": "v\{0,1\}\([^"]*\)".*/\1/p')
 [ -n "$latest" ] || { echo "cannot read the latest Majordomus release" >&2; exit 1; }
 [ "$shown" = "$latest" ] || {
-  echo "the film states Majordomus $shown; the latest release is $latest: re-render and deploy" >&2
+  echo "the reel states Majordomus $shown; the latest release is $latest: re-render and deploy" >&2
   exit 1
 }
-
-echo "ok: $URL, $chapters chapters, reel.mp4 seekable, poster served$short, facts of $shown (latest)"
+echo "ok: $URL, facts of $shown (latest)"

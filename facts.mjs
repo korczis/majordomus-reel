@@ -58,9 +58,11 @@ function preview(rev) {
   return { tag: `v${version}`, ref: git('rev-parse', rev).trim() };
 }
 
-export function derive() {
-  const pre = process.env.MAJORDOMUS_REV ? preview(process.env.MAJORDOMUS_REV) : null;
-  const tag = pre ? pre.ref : releaseTag();
+// opts.tag derives from that release tag, opts.rev from that commit (as MAJORDOMUS_REV does)
+export function derive(opts = {}) {
+  const rev = opts.tag ? null : (opts.rev || process.env.MAJORDOMUS_REV);
+  const pre = rev ? preview(rev) : null;
+  const tag = pre ? pre.ref : (opts.tag || releaseTag());
   const files = (path) => git('ls-tree', '-r', '--name-only', tag, path)
     .split('\n').filter(Boolean);
   const rules = files('.ai/repo/rules/vendor/majordomus')
@@ -83,6 +85,19 @@ export function derive() {
     blocking_validated: blocking.filter((r) => r.validated).length,
     adrs: adrs.length,
   };
+}
+
+// Whether a release tag is published: the clone's origin is asked (`git ls-remote`), never the
+// clone's own tag list, which a local tag or a stale fetch can make wrong. `known` is false when
+// the remote cannot be reached; a caller treats that as not released.
+export function released(tag) {
+  const r = spawnSync('git', ['-C', REPO, 'ls-remote', '--tags', 'origin', `refs/tags/${tag}`],
+    { encoding: 'utf8', timeout: 30000 });
+  if (r.status !== 0) return { released: false, known: false };
+  const remote = r.stdout.trim() !== '';
+  const local = spawnSync('git', ['-C', REPO, 'rev-parse', '-q', '--verify', `refs/tags/${tag}`],
+    { encoding: 'utf8' }).status === 0;
+  return { released: remote, known: true, local };
 }
 
 // The use cases the release ships (.ai/repo/use-cases/<id>.md) and the categories they are
@@ -168,7 +183,7 @@ export function fill(text, facts) {
 export function check(facts) {
   const findings = [];
   const sources = ['reel.html', 'viz.js', 'gen.js', 'scenes.json', 'scenes-short.json',
-    'site/index.html', 'README.md'];
+    'site/index.html', 'site/player.html', 'README.md'];
   const typed = [
     [/(?<![@\w.])\d+\.\d+\.\d+(?:-[a-z]+\.\d+)?\b/g, 'a version string'],
     [new RegExp('\\b(?:\\d+|[a-z]+-[a-z]+|a hundred[a-z -]*)\\s+(?:blocking\\s+)?'
@@ -185,13 +200,15 @@ export function check(facts) {
   const lengths = /(?<![\w.:-])\d{1,2}:\d\d(?![\w:])|\b\d+ s\b/g;
   for (const file of sources) {
     const text = readFileSync(join(DIR, file), 'utf8');
-    const pageOrReadme = file === 'site/index.html' || file === 'README.md';
+    const page = file.startsWith('site/') && file.endsWith('.html');
+    const pageOrReadme = page || file === 'README.md';
     text.split('\n').forEach((line, i) => {
       const rules = pageOrReadme ? [...typed, [lengths, 'a typed length of a cut']] : typed;
       for (const [re, what] of rules) {
         for (const m of line.matchAll(re)) findings.push(`${file}:${i + 1}: ${what}: "${m[0]}"`);
       }
-      for (const m of line.matchAll(PLACEHOLDER)) {
+      // the page's own {{names}} are site/build.mjs's to fill, and it refuses one it does not derive
+      for (const m of page ? [] : line.matchAll(PLACEHOLDER)) {
         if (!(m[1] in facts)) findings.push(`${file}:${i + 1}: unknown fact {{${m[1]}}}`);
       }
       for (const m of line.matchAll(/data-fact="([^"]+)"/g)) {

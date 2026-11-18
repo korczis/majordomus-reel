@@ -43,10 +43,14 @@ No validator of the Majordomus executable decides this, so the rule carries no
 `x-majordomus` block. This repository's own commands refuse:
 
 - `node site/build.mjs` (exit 1): a published cut (film, short or story) misses a format
-  `formats.json` declares, or a format's render has the wrong frame size;
+  `formats.json` declares, or a format's render has the wrong frame size. `FALLBACK=1` is the one
+  exception, for the owner's order of 2026-11-18 to publish the stories before the machine could
+  render their desktop and tablet cuts: the missing format plays the nearest one the cut has, the
+  page says so, `data/reel.json` records it (`fallback`, `gaps`) and the gap stays a finding
+  until it is rendered (`project.reel-site-is-derived`);
 - `node render.mjs` with `CHECK=1` (exit 1): text overlapping text, or ink outside the safe frame
   of the format being rendered;
-- `site/verify.sh` (exit 1): the live page does not offer every format of every cut, or a
-  format's video is not served seekable.
+- `site/verify.sh` (exit 1): a format the live page offers is not served seekable; it lists every
+  format a cut still lacks on every run, so a fallback deploy never reads as complete.
 
 A task's `--verify-command` runs `node facts.mjs --check` and `site/verify.sh`.

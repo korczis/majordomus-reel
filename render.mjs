@@ -9,7 +9,7 @@ import { cpus } from 'node:os';
 import puppeteer from 'puppeteer-core';
 import { synthesize, writeWav } from './synth.mjs';
 import { derive, check, fill, uses, catalogue } from './facts.mjs';
-import { stories, storyScenes } from './stories.mjs';
+import { stories, storyScenes, posterMoments } from './stories.mjs';
 
 const DIR = dirname(fileURLToPath(import.meta.url));
 const FPS = Number(process.env.FPS || 30);
@@ -140,10 +140,13 @@ const chunks = process.env.CAPTIONS ? phrases : [];
 const vttTime = (s) => new Date(Math.max(0, s) * 1000).toISOString().slice(11, 23);
 writeFileSync(join(BUILD, 'captions.vtt'), `WEBVTT\n\n${phrases.map((c, k) => `${k + 1}\n`
   + `${vttTime(c.start)} --> ${vttTime(c.end)}\n${c.words.map((w) => w.text).join(' ')}\n`).join('\n')}`);
-writeFileSync(join(BUILD, 'timeline.json'), JSON.stringify({ format: FORMAT.id,
-  ...(story ? { story: story.id } : {}), total, scenes: scenes.map((s, i) => ({ id: s.id,
-    title: s.title || s.id, act: s.act || '', start: +starts[i].toFixed(3),
-    duration: +durations[i].toFixed(3), use_cases: s.use_cases || [], vo: s.vo })) }, null, 2) + '\n');
+const timed = { format: FORMAT.id, ...(story ? { story: story.id } : {}), total,
+  scenes: scenes.map((s, i) => ({ id: s.id, title: s.title || s.id, act: s.act || '',
+    start: +starts[i].toFixed(3), duration: +durations[i].toFixed(3), use_cases: s.use_cases || [],
+    vo: s.vo })) };
+// the frame the cut's poster shows (stories.mjs posterMoments): the site's poster and preview
+writeFileSync(join(BUILD, 'timeline.json'), JSON.stringify({ ...timed,
+  poster: posterMoments(timed)[0] }, null, 2) + '\n');
 const words = clips.map((c) => c.words);
 
 console.log(`2/5 frames (${WORKERS} workers)`);

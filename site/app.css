@@ -1,0 +1,64 @@
+/* The reel site: Tailwind 4 with the Flowbite plugin (project.ui-uses-flowbite-pro), built by
+   site/build.mjs over the page template and its script. The theme is Flowbite Pro's: primary is
+   the Pro blue that majordomus.dev uses, gray the only neutral, dark by default like the film. */
+@import 'tailwindcss' source(none);
+
+@source './index.html';
+@source './player.html';
+@source './app.js';
+@source './view.mjs';
+@source './build.mjs';
+@source '../node_modules/flowbite/lib/esm/components';
+
+@plugin 'flowbite/plugin';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-primary-50: #eff6ff;
+  --color-primary-100: #dbeafe;
+  --color-primary-200: #bfdbfe;
+  --color-primary-300: #93c5fd;
+  --color-primary-400: #60a5fa;
+  --color-primary-500: #3b82f6;
+  --color-primary-600: #2563eb;
+  --color-primary-700: #1d4ed8;
+  --color-primary-800: #1e40af;
+  --color-primary-900: #1e3a8a;
+  --color-primary-950: #172554;
+  --color-brand: var(--color-primary-700);
+  --color-brand-strong: var(--color-primary-800);
+  --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-serif: Georgia, Cambria, 'Times New Roman', Times, serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+/* the stage takes the aspect of the format playing, at most the height of the screen */
+#stage { aspect-ratio: var(--ar, 16 / 9); max-height: calc(100dvh - 11rem); max-width: 100%; }
+#stage[data-format='phone'] { max-width: min(100%, calc((100dvh - 11rem) * 9 / 16)); }
+#stage video { object-fit: contain; }
+
+/* the full viewport: the stage fills it; Escape or the close button leaves it */
+body.theater { overflow: hidden; }
+body.theater #stage { position: fixed; inset: 0; z-index: 60; max-height: none; max-width: none;
+  width: 100%; height: 100%; aspect-ratio: auto; border: 0; border-radius: 0; }
+body.theater #theater-close { display: block; }
+
+kbd { font-family: var(--font-mono); font-size: .7rem; }
+
+/* the viewer (a Flowbite modal): the video takes the height the screen leaves; data-full fills the
+   viewport with it and hides the words below */
+#viewer-player { max-height: calc(100dvh - 15rem); width: auto; }
+#viewer[data-full] { padding: 0; }
+#viewer[data-full] #viewer-box { max-width: none; height: 100dvh; }
+#viewer[data-full] #viewer-box > div { border: 0; border-radius: 0; }
+#viewer[data-full] #viewer-player { max-height: 100%; height: 100%; }
+#viewer[data-full] #viewer-info { display: none; }
+
+/* the browser's chips scroll inside their row on a narrow screen, never the page */
+#filters { scrollbar-width: none; }
+#filters::-webkit-scrollbar { display: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
