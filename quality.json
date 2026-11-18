@@ -124,6 +124,31 @@
         "portability.worktree_gates",
         "renders.cs"
       ]
+    },
+    {
+      "at": "2026-11-18T05:17:48.232Z",
+      "head": "e518ba1a3cdf684eb3865926230a4ed3e2ce6844",
+      "note": "Czech renders: film in phone, tablet and desktop, the short, every story in phone and the adoption, continuity and workers stories in desktop (16 cut formats)",
+      "values": {
+        "facts.findings": 0,
+        "i18n.languages": 2,
+        "renders.formats": 3,
+        "portability.worktree_gates": 1,
+        "renders.en": 14,
+        "renders.cs": 16,
+        "i18n.cs.scenes": 45,
+        "i18n.cs.scenes_missing": 0,
+        "i18n.cs.cues_unsaid": 0,
+        "i18n.cs.text_untranslated": 0,
+        "i18n.cs.stale": 0,
+        "i18n.cs.typed": 0,
+        "i18n.cs.catalogue_missing": 0,
+        "site.cs.messages_missing": 0,
+        "site.cs.messages_stale": 0
+      },
+      "improved": [
+        "renders.cs"
+      ]
     }
   ],
   "measures": {
